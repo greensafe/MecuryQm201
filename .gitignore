@@ -1,2 +1,5 @@
 #ignore obj
 obj/
+
+#ignore visual studio generated file
+.vs/
