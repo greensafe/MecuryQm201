@@ -1,0 +1,33 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SerialPortLab"
+        xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="SerialPortLab.MainWindow"
+        mc:Ignorable="d"
+        Title="RS232调试程序" Height="450" Width="800" Loaded="Window_Loaded">
+    <Grid Loaded="Grid_Loaded">
+        <StackPanel HorizontalAlignment="Left" Height="419" VerticalAlignment="Top" Width="792">
+            <DockPanel Height="100" LastChildFill="False">
+                <ComboBox x:Name="comporCombo" Height="42" VerticalAlignment="Center" Width="128" SelectionChanged="ComboBox_SelectionChanged" Margin="20,0,0,0"/>
+                <ComboBox x:Name="rate" Height="42" VerticalAlignment="Center" Width="128" SelectionChanged="ComboBox_SelectionChanged" Margin="20,0,0,0"></ComboBox>
+                <ComboBox x:Name="cbbParity" Height="42" VerticalAlignment="Center" Width="128" SelectionChanged="ComboBox_SelectionChanged" Margin="20,0,0,0"></ComboBox>
+                <ComboBox x:Name="cbbDataBits" Height="42" VerticalAlignment="Center" Width="128" SelectionChanged="ComboBox_SelectionChanged" Margin="20,0,0,0"></ComboBox>
+                <ComboBox x:Name="cbbStopBits" Height="42" VerticalAlignment="Center" Width="128" SelectionChanged="ComboBox_SelectionChanged" Margin="20,0,0,0"></ComboBox>
+            </DockPanel>
+            <DockPanel HorizontalAlignment="Left" Height="155" LastChildFill="False" VerticalAlignment="Top" Width="792" Margin="0,0,0,0">
+                <TextBox x:Name="outputData" Height="155" TextWrapping="Wrap" Text="输出数据:" VerticalAlignment="Top" Width="793" BorderThickness="4" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True"/>
+            </DockPanel>
+            <DockPanel Height="100" LastChildFill="False" >
+                <Button x:Name="closeCom" Content="close" Height="40" Width="75" DockPanel.Dock="Right" Margin="40,0" Click="closeCom_Click"/>
+                <Button x:Name="sendCommand" Content="send" Height="40" Width="75" DockPanel.Dock="Right" Margin="0,0,30,0" Click="sendCommand_Click_1"/>
+                <Button x:Name="openPort" Content="open" Height="40" Width="75" DockPanel.Dock="Right" Margin="0,0,30,0" Click="openPort_Click"/>
+                <TextBox x:Name="wordcount" Height="50" DockPanel.Dock="Left" TextWrapping="Wrap" Text="number" VerticalAlignment="Center" Width="70"/>
+                <Button Content="clear" Height="40" VerticalAlignment="Center" Width="75" Margin="15,0" DockPanel.Dock="Left" Click="Button_Click"/>
+            </DockPanel>
+            <TextBox x:Name="txtSendData" Height="61" TextWrapping="Wrap" Text="发送命令"/>
+        </StackPanel>
+
+    </Grid>
+</Window>

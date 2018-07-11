@@ -1,0 +1,150 @@
+﻿<Window x:Name="window" x:Class="SilverTest.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d3="clr-namespace:InteractiveDataDisplay.WPF;assembly=InteractiveDataDisplay.WPF"
+        xmlns:local="clr-namespace:SilverTest"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="750" Width="1000" Loaded="window_Loaded" WindowStartupLocation="CenterScreen">
+    <Grid x:Name="grid">
+        <DockPanel x:Name="dockPanel" HorizontalAlignment="Left" Height="{Binding ActualHeight, ElementName=grid, Mode=OneWay}" LastChildFill="False" VerticalAlignment="Top" Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}">
+            <DockPanel.Background>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+            </DockPanel.Background>
+            <Menu Height="25" Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}" DockPanel.Dock="Top">
+                <MenuItem Header="文件">
+                    <MenuItem Header="新建"></MenuItem>
+                    <MenuItem Header="打开"></MenuItem>
+                    <MenuItem Header="关闭"></MenuItem>
+                    <MenuItem Header="保存"></MenuItem>
+                    <MenuItem Header="输出到excel"></MenuItem>
+                    <MenuItem Header="汞打印预览测试数据"></MenuItem>
+                    <MenuItem Header="汞打印测试数据"></MenuItem>
+                    <MenuItem Header="打印预览样品中汞含量"></MenuItem>
+                    <MenuItem Header="砷打印预览测试数据"></MenuItem>
+                    <MenuItem Header="砷打印测试数据"></MenuItem>
+                    <MenuItem Header="打印预览样品中砷含量"></MenuItem>
+                    <MenuItem Header="打印样品中砷含量"></MenuItem>
+                    <MenuItem Header="退出"></MenuItem>
+                </MenuItem>
+                <MenuItem Header="计算">
+                    <MenuItem Header="平均值"></MenuItem>
+                    <MenuItem Header="相关系数"></MenuItem>
+                    <MenuItem Header="汞浓度"></MenuItem>
+                    <MenuItem Header="样品中汞的含量"></MenuItem>
+                    <MenuItem Header="砷浓度"></MenuItem>
+                    <MenuItem Header="样品中砷的含量"></MenuItem>
+                </MenuItem>
+                <MenuItem Header="工具">
+                    <MenuItem Header="公司名"></MenuItem>
+                    <MenuItem Header="工具栏"></MenuItem>
+                    <MenuItem Header="状态栏"></MenuItem>
+                </MenuItem>
+                <MenuItem Header="测汞或砷">
+                    <MenuItem Header="测汞"></MenuItem>
+                    <MenuItem Header="测砷"></MenuItem>
+                </MenuItem>
+                <MenuItem Header="帮助"></MenuItem>
+            </Menu>
+            <Separator DockPanel.Dock="Top" Height="3" Margin="0" VerticalAlignment="Top" Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}"/>
+            <ToolBarTray x:Name="toolBarTray" Height="30" Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}" DockPanel.Dock="Top">
+                <ToolBarTray.Background>
+                    <SolidColorBrush Color="#FFF0F0F0"/>
+                </ToolBarTray.Background>
+                <ToolBar>
+                    <ToolBar.Background>
+                        <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+                    </ToolBar.Background>
+                    <Button VerticalAlignment="Top" Height="21" >
+                        <Image Source="images\Document-Blank-icon.png">
+
+                        </Image>
+                    </Button>
+                    <Button VerticalAlignment="Top" Height="21">
+                        <Image Source="images\open.png">
+
+                        </Image>
+                    </Button>
+                    <Button VerticalAlignment="Top" Height="21">
+                        <Image Source="images\save.png">
+
+                        </Image>
+                    </Button>
+                    <Button VerticalAlignment="Top" Height="21">
+                        <Image Source="images\print.png">
+
+                        </Image>
+                    </Button>
+                </ToolBar>
+            </ToolBarTray>
+            <d3:Chart Name="plotter" DockPanel.Dock="Top" Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}" Height="200">
+                <d3:Chart.Title>
+                    <TextBlock HorizontalAlignment="Center" FontSize="18" Margin="0,5,0,5">实时波形</TextBlock>
+                </d3:Chart.Title>
+                <d3:BarGraph Name="barChart" Color="Blue"/>
+            </d3:Chart>
+            <DataGrid x:Name="resultTable" Height="245" DockPanel.Dock="Top" Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}" Margin="0,0,0,0" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="序号" Width="80" Binding="{Binding no}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="样品名" Width="80" Binding="{Binding sampleName}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="响应值1" Width="80" Binding="{Binding responseTime}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="响应值2" Width="80"></DataGridTextColumn>
+                    <DataGridTextColumn Header="响应值3" Width="80"></DataGridTextColumn>
+                    <DataGridTextColumn Header="平均值" Width="80"></DataGridTextColumn>
+                    <DataGridTextColumn Header="汞浓度mg/L" Width="80"></DataGridTextColumn>
+                    <DataGridTextColumn Header="样品质量g" Width="80"></DataGridTextColumn>
+                    <DataGridTextColumn Header="样品消化液总体积ml" Width="80"></DataGridTextColumn>
+                    <DataGridTextColumn Header="样品中汞.." Width="80"></DataGridTextColumn>
+                    <DataGridTextColumn Header="..." Width="80"></DataGridTextColumn>
+                    <DataGridTextColumn Header="..." Width="80"></DataGridTextColumn>
+                    <DataGridTextColumn Header="..." Width="80"></DataGridTextColumn>
+                    <DataGridTextColumn Header="..." Width="80"></DataGridTextColumn>
+                    <DataGridTextColumn Header="..." Width="80"></DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            <GroupBox x:Name="groupBox" Header="y = ax + b" Height="100" DockPanel.Dock="Top" Margin="0,2,308,0">
+                <GroupBox.Background>
+                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+                </GroupBox.Background>
+                <DockPanel HorizontalAlignment="Left" Height="90" LastChildFill="False" Margin="0,0,-2,-12" VerticalAlignment="Top" Width="674">
+                    <Label Content="截距" HorizontalAlignment="Left" Margin="40,0,0,0" VerticalAlignment="Center"/>
+                    <TextBox Height="30" TextWrapping="Wrap" Text="" Margin="10,0,0,0" VerticalAlignment="Center" Width="120"/>
+                    <Label Content="斜率" HorizontalAlignment="Left" Margin="40,0,0,0" VerticalAlignment="Center"/>
+                    <TextBox Height="30" TextWrapping="Wrap" Text="" Margin="10,0,0,0" VerticalAlignment="Center" Width="120"/>
+                    <Label Content="相关系数" HorizontalAlignment="Left" Margin="40,0,0,0" VerticalAlignment="Center"/>
+                    <TextBox Height="30" TextWrapping="Wrap" Text="" Margin="10,0,0,0" VerticalAlignment="Center" Width="120"/>
+                </DockPanel>
+
+
+
+            </GroupBox>
+
+            <DockPanel DockPanel.Dock="Top" Height="82" LastChildFill="False" Width="{Binding ElementName=dockPanel, Mode=OneWay}">
+                <GroupBox x:Name="groupBox1" Header="" DockPanel.Dock="Left" Width="400">
+                    <GroupBox.Background>
+                        <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+                    </GroupBox.Background>
+                    <DockPanel Height="80" LastChildFill="False" Margin="0,0,0,-12" VerticalAlignment="Top" Width="{Binding ElementName=groupBox1, Mode=OneWay}">
+                        <Label Content="请输入标样的汞浓度" HorizontalAlignment="Left" Margin="40,0,0,0" VerticalAlignment="Center"/>
+                        <TextBox Height="30" TextWrapping="Wrap" Text="" Margin="10,0,0,0" VerticalAlignment="Center" Width="120"/>
+                    </DockPanel>
+                </GroupBox>
+                <Button Content="退出" Height="52" DockPanel.Dock="Right" Width="75" Margin="0,0,40,0" Click="Button_Click"/>
+            </DockPanel>
+            <StatusBar Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}" Height="35" DockPanel.Dock="Bottom">
+                <StatusBarItem>
+                    <TextBlock Text="状态"></TextBlock>
+                </StatusBarItem>
+                <Separator/>
+                <StatusBarItem>
+                    <TextBlock Text="2018-5-22"></TextBlock>
+                </StatusBarItem>
+                <Separator/>
+                <StatusBarItem>
+                    <TextBlock Text="11：30"></TextBlock>
+                </StatusBarItem>
+            </StatusBar>
+        </DockPanel>
+    </Grid>
+</Window>
