@@ -4,6 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d3="clr-namespace:InteractiveDataDisplay.WPF;assembly=InteractiveDataDisplay.WPF"
+        xmlns:col="clr-namespace:System.Collections;assembly=mscorlib"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:SilverTest"
         mc:Ignorable="d"
         Title="MainWindow" Height="750" Width="1000" Loaded="window_Loaded" WindowStartupLocation="CenterScreen">
@@ -96,7 +98,16 @@
                     <DataGridTextColumn Header="样品质量g" Width="80"></DataGridTextColumn>
                     <DataGridTextColumn Header="样品消化液总体积ml" Width="80"></DataGridTextColumn>
                     <DataGridTextColumn Header="样品中汞.." Width="80"></DataGridTextColumn>
-                    <DataGridTextColumn Header="..." Width="80"></DataGridTextColumn>
+                    <DataGridComboBoxColumn Header="选择标样" Width="80" SelectedItemBinding="{Binding Path=CategoryName}">
+                        <DataGridComboBoxColumn.ItemsSource>
+                            <col:ArrayList>
+                                <sys:String>标样一</sys:String>
+                                <sys:String>标样二</sys:String>
+                                <sys:String>标样三</sys:String>
+                                <sys:String>标样四</sys:String>
+                            </col:ArrayList>
+                        </DataGridComboBoxColumn.ItemsSource>
+                    </DataGridComboBoxColumn>
                     <DataGridTextColumn Header="..." Width="80"></DataGridTextColumn>
                     <DataGridTextColumn Header="..." Width="80"></DataGridTextColumn>
                     <DataGridTextColumn Header="..." Width="80"></DataGridTextColumn>
