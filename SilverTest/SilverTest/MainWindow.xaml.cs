@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
@@ -52,6 +53,8 @@ namespace SilverTest
             //初始化RS232驱动，注册回调函数
             ComDevice = new SerialPort();
             ComDevice.DataReceived += new SerialDataReceivedEventHandler(Com_DataReceived);
+
+            drawWave_simulate(1);
         }
 
         public void Com_DataReceived(object sender, SerialDataReceivedEventArgs e)
@@ -73,6 +76,15 @@ namespace SilverTest
 
             }));
 
+        }
+
+        //模拟数据，画波形
+        public void drawWave_simulate(int number)
+        {
+            
+            var x = Enumerable.Range(0, 1001).Select(i => i / 10.0).ToArray();
+            var y = x.Select(v => Math.Abs(v) < 1e-10 ? 1 : Math.Sin(v) / v).ToArray();
+            linegraph.Plot(x, y);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

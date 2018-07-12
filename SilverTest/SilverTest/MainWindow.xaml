@@ -84,7 +84,7 @@
                 <d3:Chart.Title>
                     <TextBlock HorizontalAlignment="Center" FontSize="18" Margin="0,5,0,5">实时波形</TextBlock>
                 </d3:Chart.Title>
-                <d3:BarGraph Name="barChart" Color="Blue"/>
+                <d3:LineGraph x:Name="linegraph" Description="Simple linegraph" Stroke="Blue" StrokeThickness="3"/>
             </d3:Chart>
             <DataGrid x:Name="resultTable" Height="245" DockPanel.Dock="Top" Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}" Margin="0,0,0,0" AutoGenerateColumns="False">
                 <DataGrid.Columns>
