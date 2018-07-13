@@ -86,34 +86,79 @@
                 </d3:Chart.Title>
                 <d3:LineGraph x:Name="linegraph" Description="Simple linegraph" Stroke="Blue" StrokeThickness="3"/>
             </d3:Chart>
-            <DataGrid x:Name="resultTable" Height="245" DockPanel.Dock="Top" Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}" Margin="0,0,0,0" AutoGenerateColumns="False">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="序号" Width="80" Binding="{Binding no}"></DataGridTextColumn>
-                    <DataGridTextColumn Header="样品名" Width="80" Binding="{Binding sampleName}"></DataGridTextColumn>
-                    <DataGridTextColumn Header="响应值1" Width="80" Binding="{Binding responseTime}"></DataGridTextColumn>
-                    <DataGridTextColumn Header="响应值2" Width="80"></DataGridTextColumn>
-                    <DataGridTextColumn Header="响应值3" Width="80"></DataGridTextColumn>
-                    <DataGridTextColumn Header="平均值" Width="80"></DataGridTextColumn>
-                    <DataGridTextColumn Header="汞浓度mg/L" Width="80"></DataGridTextColumn>
-                    <DataGridTextColumn Header="样品质量g" Width="80"></DataGridTextColumn>
-                    <DataGridTextColumn Header="样品消化液总体积ml" Width="80"></DataGridTextColumn>
-                    <DataGridTextColumn Header="样品中汞.." Width="80"></DataGridTextColumn>
-                    <DataGridComboBoxColumn Header="选择标样" Width="80" SelectedItemBinding="{Binding Path=CategoryName}">
-                        <DataGridComboBoxColumn.ItemsSource>
-                            <col:ArrayList>
-                                <sys:String>标样一</sys:String>
-                                <sys:String>标样二</sys:String>
-                                <sys:String>标样三</sys:String>
-                                <sys:String>标样四</sys:String>
-                            </col:ArrayList>
-                        </DataGridComboBoxColumn.ItemsSource>
-                    </DataGridComboBoxColumn>
-                    <DataGridTextColumn Header="..." Width="80"></DataGridTextColumn>
-                    <DataGridTextColumn Header="..." Width="80"></DataGridTextColumn>
-                    <DataGridTextColumn Header="..." Width="80"></DataGridTextColumn>
-                    <DataGridTextColumn Header="..." Width="80"></DataGridTextColumn>
-                </DataGrid.Columns>
-            </DataGrid>
+            <TabControl DockPanel.Dock="Top">
+                <TabItem>
+                    <TabItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <Ellipse Width="10" Height="10" Fill="DarkGray"/>
+                            <TextBlock>新样测试</TextBlock>
+                        </StackPanel>
+                    </TabItem.Header>
+                    <StackPanel>
+                        <DataGrid x:Name="resultTable" Height="245" DockPanel.Dock="Top" Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}" Margin="0,0,0,0" AutoGenerateColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="序号" Width="80" Binding="{Binding no}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="样品名" Width="80" Binding="{Binding sampleName}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="响应值1" Width="80" Binding="{Binding responseTime}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="响应值2" Width="80"></DataGridTextColumn>
+                                <DataGridTextColumn Header="响应值3" Width="80"></DataGridTextColumn>
+                                <DataGridTextColumn Header="平均值" Width="80"></DataGridTextColumn>
+                                <DataGridTextColumn Header="汞浓度mg/L" Width="80"></DataGridTextColumn>
+                                <DataGridTextColumn Header="样品质量g" Width="80"></DataGridTextColumn>
+                                <DataGridTextColumn Header="样品消化液总体积ml" Width="80"></DataGridTextColumn>
+                                <DataGridTextColumn Header="样品中汞.." Width="80"></DataGridTextColumn>
+                                <DataGridComboBoxColumn Header="选择标样" Width="80" SelectedItemBinding="{Binding Path=CategoryName}">
+                                    <DataGridComboBoxColumn.ItemsSource>
+                                        <col:ArrayList>
+                                            <sys:String>标样一</sys:String>
+                                            <sys:String>标样二</sys:String>
+                                            <sys:String>标样三</sys:String>
+                                            <sys:String>标样四</sys:String>
+                                        </col:ArrayList>
+                                    </DataGridComboBoxColumn.ItemsSource>
+                                </DataGridComboBoxColumn>
+                                <DataGridTextColumn Header="..." Width="80"></DataGridTextColumn>
+                                <DataGridTextColumn Header="..." Width="80"></DataGridTextColumn>
+                                <DataGridTextColumn Header="..." Width="80"></DataGridTextColumn>
+                                <DataGridTextColumn Header="..." Width="80"></DataGridTextColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </TabItem>
+                <TabItem Header="标样测试">
+                    <StackPanel>
+                        <DataGrid x:Name="standardSampleTable" Height="245" DockPanel.Dock="Top" Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}" Margin="0,0,0,0" AutoGenerateColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="序号" Width="80" Binding="{Binding no}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="样品名" Width="80" Binding="{Binding sampleName}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="响应值1" Width="80" Binding="{Binding responseTime}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="响应值2" Width="80"></DataGridTextColumn>
+                                <DataGridTextColumn Header="响应值3" Width="80"></DataGridTextColumn>
+                                <DataGridTextColumn Header="平均值" Width="80"></DataGridTextColumn>
+                                <DataGridTextColumn Header="汞浓度mg/L" Width="80"></DataGridTextColumn>
+                                <DataGridTextColumn Header="样品质量g" Width="80"></DataGridTextColumn>
+                                <DataGridTextColumn Header="样品消化液总体积ml" Width="80"></DataGridTextColumn>
+                                <DataGridTextColumn Header="样品中汞.." Width="80"></DataGridTextColumn>
+                                <DataGridComboBoxColumn Header="选择标样" Width="80" SelectedItemBinding="{Binding Path=CategoryName}">
+                                    <DataGridComboBoxColumn.ItemsSource>
+                                        <col:ArrayList>
+                                            <sys:String>标样一</sys:String>
+                                            <sys:String>标样二</sys:String>
+                                            <sys:String>标样三</sys:String>
+                                            <sys:String>标样四</sys:String>
+                                        </col:ArrayList>
+                                    </DataGridComboBoxColumn.ItemsSource>
+                                </DataGridComboBoxColumn>
+                                <DataGridTextColumn Header="..." Width="80"></DataGridTextColumn>
+                                <DataGridTextColumn Header="..." Width="80"></DataGridTextColumn>
+                                <DataGridTextColumn Header="..." Width="80"></DataGridTextColumn>
+                                <DataGridTextColumn Header="..." Width="80"></DataGridTextColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </TabItem>
+            </TabControl>
+
             <GroupBox x:Name="groupBox" Header="y = ax + b" Height="100" DockPanel.Dock="Top" Margin="0,2,308,0">
                 <GroupBox.Background>
                     <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
