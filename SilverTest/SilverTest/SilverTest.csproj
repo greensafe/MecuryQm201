@@ -73,6 +73,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DataDB.cs" />
     <Compile Include="Requirement.cs" />
     <Compile Include="WelcomeYou.xaml.cs">
       <DependentUpon>WelcomeYou.xaml</DependentUpon>
@@ -143,6 +144,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="images\print.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\NewTestTarget_Table.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\StandardSamples_Table.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

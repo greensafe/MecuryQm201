@@ -40,21 +40,20 @@ namespace SilverTest
 
         private void window_Loaded(object sender, RoutedEventArgs e)
         {
-            List<RowItem> myData = new List<RowItem>();
-            RowItem t1 = new RowItem(); t1.no = "1"; t1.sampleName = "工厂土"; t1.responseTime = "40";
-            RowItem t2 = new RowItem(); t2.no = "2"; t2.sampleName = "农药土"; t2.responseTime = "50";
-            RowItem t3 = new RowItem(); t3.no = "3"; t3.sampleName = "化工厂土"; t3.responseTime = "60";
-            myData.Add(t1);
-            myData.Add(t2);
-            myData.Add(t3);
-
-            resultTable.ItemsSource = myData;
-
             //初始化RS232驱动，注册回调函数
             ComDevice = new SerialPort();
             ComDevice.DataReceived += new SerialDataReceivedEventHandler(Com_DataReceived);
 
             drawWave_simulate(1);
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("delete");
         }
 
         public void Com_DataReceived(object sender, SerialDataReceivedEventArgs e)
@@ -154,5 +153,7 @@ namespace SilverTest
                 MessageBox.Show("发送数据错误");
             }
         }
+
+
     }
 }

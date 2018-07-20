@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<StandardSamples>
+  <StandardSample>
+    <SampleName comment="样品名称">昆山园区土</SampleName>
+    <Code comment="样品编码">x1001</Code>
+    <Density comment="汞浓度">30</Density>
+    <Weight comment="样品重量(g)">10</Weight>
+    <ProviderCompany comment="样品出厂商">快乐净土公司</ProviderCompany>
+    <Place comment="产地">昆山玉山镇</Place>
+    <BuyDate comment="样品购买日期">2018.6.1</BuyDate>
+    <A comment="斜率">3</A>
+    <B comment="截距">2.5</B>
+  </StandardSample>
+  <StandardSample>
+    <SampleName comment="样品名称">潘阳蟹土</SampleName>
+    <Code comment="样品编码">x1002</Code>
+    <Density comment="汞浓度">20</Density>
+    <Weight comment="样品重量(g)">10</Weight>
+    <ProviderCompany comment="样品出厂商">快乐蟹蟹公司</ProviderCompany>
+    <Place comment="产地">苏州潘阳湖</Place>
+    <BuyDate comment="样品购买日期">2018.6.3</BuyDate>
+    <A comment="斜率">4</A>
+    <B comment="截距">2.6</B>
+  </StandardSample>
+  <StandardSample>
+    <SampleName comment="样品名称">琉璃瓦土</SampleName>
+    <Code comment="样品编码">x1003</Code>
+    <Density comment="汞浓度">21</Density>
+    <Weight comment="样品重量(g)">10</Weight>
+    <ProviderCompany comment="样品出厂商">安安公司</ProviderCompany>
+    <Place comment="产地">北京</Place>
+    <BuyDate comment="样品购买日期">2018.6.4</BuyDate>
+    <A comment="斜率">3</A>
+    <B comment="截距">3.2</B>
+  </StandardSample>
+  <StandardSample>
+    <SampleName comment="样品名称">建材土</SampleName>
+    <Code comment="样品编码">x1004</Code>
+    <Density comment="汞浓度">22</Density>
+    <Weight comment="样品重量(g)">10</Weight>
+    <ProviderCompany comment="样品出厂商">安安公司</ProviderCompany>
+    <Place comment="产地">北京</Place>
+    <BuyDate comment="样品购买日期">2018.6.5</BuyDate>
+    <A comment="斜率">3.2</A>
+    <B comment="截距">6</B>
+  </StandardSample>
+</StandardSamples>

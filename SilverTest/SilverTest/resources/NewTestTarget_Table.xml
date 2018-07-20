@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<NewTestTargets>
+  <NewTestTarget>
+    <NewName comment="新样名称">烟厂土1</NewName>
+    <Code comment="样品编码">x1001</Code>
+    <Density comment="汞浓度">30</Density>
+    <Weight comment="样品重量(g)">10</Weight>
+    <Place comment="产地">昆山玉山镇</Place>
+    <ResponseValue1 comment="响应值1"></ResponseValue1>
+    <ResponseValue2 comment="响应值2"></ResponseValue2>
+    <ResponseValue3 comment="响应值3"></ResponseValue3>
+    <AverageValue comment="平均值"></AverageValue>
+  </NewTestTarget>
+</NewTestTargets>
