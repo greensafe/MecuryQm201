@@ -26,6 +26,8 @@ using System.Xml;
  * XDP = XmlDataProvider
  * Dgd = DataGrid 
  * Bbx = GroupBox
+ * Cmb = ComboBox
+ * Txb = TextBox
 */
 
 namespace SilverTest
@@ -68,7 +70,7 @@ namespace SilverTest
             ComDevice = new SerialPort();
             ComDevice.DataReceived += new SerialDataReceivedEventHandler(Com_DataReceived);
 
-            drawWave_simulate(1);
+            drawWave_simulate(1001);
         }
 
 
@@ -95,10 +97,11 @@ namespace SilverTest
         }
 
         //模拟数据，画波形
-        public void drawWave_simulate(int number)
+        //number = 1001 
+        private void drawWave_simulate(int number)
         {
             
-            var x = Enumerable.Range(0, 1001).Select(i => i / 10.0).ToArray();
+            var x = Enumerable.Range(0, number).Select(i => i / 10.0).ToArray();
             var y = x.Select(v => Math.Abs(v) < 1e-10 ? 1 : Math.Sin(v) / v).ToArray();
             linegraph.Plot(x, y);
         }
@@ -192,14 +195,19 @@ namespace SilverTest
 
         private void DelRowBtn_Click(object sender, RoutedEventArgs e)
         {
+
             switch (sampletab.SelectedIndex)
             {
                 //新样测试
                 case 0:
+                    if (NewTargetDgd.SelectedIndex < 0)
+                        return;
                     newTestClt.RemoveAt(NewTargetDgd.SelectedIndex);
                     break;
                 //标样测试
                 case 1:
+                    if (standardSampleDgd.SelectedIndex < 0)
+                        return;
                     standardSampleClt.RemoveAt(standardSampleDgd.SelectedIndex);
                     break;
                 default:
@@ -258,6 +266,56 @@ namespace SilverTest
         private void newItemHead_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void standardCmb_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            StandardSample asample = e.AddedItems[0] as StandardSample;
+            aTxb.Text = asample.A;
+            bTxb.Text = asample.B;
+
+            //如果有平均值则计算汞浓度
+            int rowNo = NewTargetDgd.SelectedIndex;
+            if (newTestClt[rowNo].AverageValue != "")
+            {
+
+                //newTestClt[rowNow].Density = "";
+                int t1 = int.Parse(newTestClt[rowNo].ResponseValue1);
+                double t2 = double.Parse(asample.A);
+                double t3 = double.Parse(asample.B);
+                double d = (t1 * t2 * t3/1000);
+                newTestClt[rowNo].Density = d.ToString();
+            }
+            NewTargetDgd.DataContext = null;
+            NewTargetDgd.DataContext = newTestClt;
+
+            //演示数据，模拟波形
+            switch (asample.Code)
+            {
+                case "s1001":
+                    drawWave_simulate(1001);
+                    break;
+                case "s1002":
+                    drawWave_simulate(150);
+                    break;
+                case "s1003":
+                    drawWave_simulate(2000);
+                    break;
+                case "s1004":
+                    drawWave_simulate(1500);
+                    break;
+                default:
+
+                    break;
+            }
+        }
+
+        private void modifyBtn_Click(object sender, RoutedEventArgs e)
+        {
+            newTestClt[1].Density = "0.333";
+            NewTargetDgd.DataContext = null;
+            NewTargetDgd.DataContext = newTestClt;
+            
         }
     }
 }
