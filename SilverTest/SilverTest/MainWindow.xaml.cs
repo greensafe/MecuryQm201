@@ -1,5 +1,9 @@
-﻿using System;
+﻿using SilverTest.libs;
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Data;
 using System.IO.Ports;
 using System.Linq;
@@ -14,13 +18,21 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml;
+
+/*
+ * 变量尾缀约定
+ * Clt = Collection
+ * XDP = XmlDataProvider
+ * Dgd = DataGrid 
+*/
 
 namespace SilverTest
 {
     /// <summary>
     /// MainWindow.xaml 的交互逻辑
     /// </summary>
-    
+
     //模拟数据
     public struct RowItem
     {
@@ -32,14 +44,25 @@ namespace SilverTest
     public partial class MainWindow : Window
     {
         private SerialPort ComDevice = null;
+        private ObservableCollection<NewTestTarget> newTestClt;
+        private ObservableCollection<StandardSample> standardSampleClt;
 
         public MainWindow()
         {
             InitializeComponent();
+
+            newTestClt =
+            Utility.getNewTestTargetDataFromXDP((DataSourceProvider)this.FindResource("newTargetData"));
+            NewTargetDgd.DataContext = newTestClt;
+
+            standardSampleClt = 
+            Utility.getStandardTargetDataFromXDP((DataSourceProvider)this.FindResource("standardSampleData"));
+            standardSampleDgd.DataContext = standardSampleClt;
         }
 
         private void window_Loaded(object sender, RoutedEventArgs e)
         {
+
             //初始化RS232驱动，注册回调函数
             ComDevice = new SerialPort();
             ComDevice.DataReceived += new SerialDataReceivedEventHandler(Com_DataReceived);
@@ -47,14 +70,7 @@ namespace SilverTest
             drawWave_simulate(1);
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-        }
 
-        private void Button_Click_2(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("delete");
-        }
 
         public void Com_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
@@ -154,6 +170,43 @@ namespace SilverTest
             }
         }
 
+        private void AddRowBtn_Click(object sender, RoutedEventArgs e)
+        {
+            switch (sampletab.SelectedIndex)
+            {
+                //新样测试
+                case 0:
+                    newTestClt.Add(new NewTestTarget());
+                    break;
+                //标样测试
+                case 1:
+                    standardSampleClt.Add(new StandardSample());
+                    break;
+                default:
 
+                    break;
+            }
+           
+        }
+
+        private void DelRowBtn_Click(object sender, RoutedEventArgs e)
+        {
+            switch (sampletab.SelectedIndex)
+            {
+                //新样测试
+                case 0:
+                    newTestClt.RemoveAt(NewTargetDgd.SelectedIndex);
+                    break;
+                //标样测试
+                case 1:
+                    standardSampleClt.RemoveAt(standardSampleDgd.SelectedIndex);
+                    break;
+                default:
+
+                    break;
+            }
+
+            
+        }
     }
 }

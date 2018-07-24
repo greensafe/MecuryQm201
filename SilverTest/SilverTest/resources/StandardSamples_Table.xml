@@ -2,7 +2,7 @@
 <StandardSamples>
   <StandardSample>
     <SampleName comment="样品名称">昆山园区土</SampleName>
-    <Code comment="样品编码">x1001</Code>
+    <Code comment="样品编码">s1001</Code>
     <Density comment="汞浓度">30</Density>
     <Weight comment="样品重量(g)">10</Weight>
     <ProviderCompany comment="样品出厂商">快乐净土公司</ProviderCompany>
@@ -13,7 +13,7 @@
   </StandardSample>
   <StandardSample>
     <SampleName comment="样品名称">潘阳蟹土</SampleName>
-    <Code comment="样品编码">x1002</Code>
+    <Code comment="样品编码">s1002</Code>
     <Density comment="汞浓度">20</Density>
     <Weight comment="样品重量(g)">10</Weight>
     <ProviderCompany comment="样品出厂商">快乐蟹蟹公司</ProviderCompany>
@@ -24,7 +24,7 @@
   </StandardSample>
   <StandardSample>
     <SampleName comment="样品名称">琉璃瓦土</SampleName>
-    <Code comment="样品编码">x1003</Code>
+    <Code comment="样品编码">s1003</Code>
     <Density comment="汞浓度">21</Density>
     <Weight comment="样品重量(g)">10</Weight>
     <ProviderCompany comment="样品出厂商">安安公司</ProviderCompany>
@@ -35,7 +35,7 @@
   </StandardSample>
   <StandardSample>
     <SampleName comment="样品名称">建材土</SampleName>
-    <Code comment="样品编码">x1004</Code>
+    <Code comment="样品编码">s1004</Code>
     <Density comment="汞浓度">22</Density>
     <Weight comment="样品重量(g)">10</Weight>
     <ProviderCompany comment="样品出厂商">安安公司</ProviderCompany>

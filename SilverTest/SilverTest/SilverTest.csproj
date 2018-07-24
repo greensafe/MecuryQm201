@@ -74,6 +74,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="DataDB.cs" />
+    <Compile Include="libs\Utility.cs" />
     <Compile Include="Requirement.cs" />
     <Compile Include="WelcomeYou.xaml.cs">
       <DependentUpon>WelcomeYou.xaml</DependentUpon>
@@ -146,7 +147,9 @@
     <Resource Include="images\print.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="resources\NewTestTarget_Table.xml" />
+    <Resource Include="resources\NewTestTarget_Table.xml">
+      <SubType>Designer</SubType>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="resources\StandardSamples_Table.xml" />
