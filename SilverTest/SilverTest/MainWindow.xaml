@@ -90,8 +90,8 @@
                 </d3:Chart.Title>
                 <d3:LineGraph x:Name="linegraph" Description="Simple linegraph" Stroke="Blue" StrokeThickness="3"/>
             </d3:Chart>
-            <TabControl x:Name="sampletab" DockPanel.Dock="Top">
-                <TabItem x:Name="newtabitem">
+            <TabControl x:Name="sampletab" DockPanel.Dock="Top" SelectionChanged="sampletab_SelectionChanged">
+                <TabItem x:Name="newtabitem" Selector.Selected="OnNewTabSelected">
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
                             <Ellipse Width="10" Height="10" Fill="DarkGray"/>
@@ -135,7 +135,7 @@
                         </DataGrid>
                     </StackPanel>
                 </TabItem>
-                <TabItem x:Name="standardtabitem" Header="标样测试">
+                <TabItem Selector.Selected="OnStandardTabSelected" x:Name="standardtabitem" Header="标样测试">
                     <StackPanel>
                         <DataGrid x:Name="standardSampleDgd" Height="245" DockPanel.Dock="Top" 
                                   Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}" 
@@ -161,7 +161,7 @@
                 <Button x:Name="AddRowBtn" Height="20" Padding="1" Margin="900,1,1,70" RenderTransformOrigin="0.643,-0.85" Content="增加" Click="AddRowBtn_Click" />
                 <Button x:Name="DelRowBtn" Height="20" Content="删除" Margin="20,1,0,70" Click="DelRowBtn_Click" />
             </StackPanel>
-            <GroupBox x:Name="groupBox" Header="y = ax + b" Height="100" DockPanel.Dock="Top" Margin="0,2,308,0">
+            <GroupBox x:Name="paramGbx" Header="y = ax + b" Height="100" DockPanel.Dock="Top" Margin="0,2,308,0">
                 <GroupBox.Background>
                     <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
                 </GroupBox.Background>

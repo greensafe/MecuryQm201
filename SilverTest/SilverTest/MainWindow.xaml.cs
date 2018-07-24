@@ -25,6 +25,7 @@ using System.Xml;
  * Clt = Collection
  * XDP = XmlDataProvider
  * Dgd = DataGrid 
+ * Bbx = GroupBox
 */
 
 namespace SilverTest
@@ -207,6 +208,56 @@ namespace SilverTest
             }
 
             
+        }
+
+        private void OnStandardTabSelected(object sender, RoutedEventArgs e)
+        {
+            if (window.IsLoaded)
+            {
+                /*
+                var tab = sender as TabItem;
+                */
+                paramGbx.Visibility = Visibility.Hidden;
+            }
+        }
+
+        private void OnNewTabSelected(object sender, RoutedEventArgs e)
+        {
+
+            if (window.IsLoaded)
+            {
+                /*
+                var tab = sender as TabItem;
+                */
+                paramGbx.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void sampletab_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+            /*
+            if (window.IsLoaded)
+            {
+                if (newtabitem.IsSelected)
+                {
+
+                }
+                else if (standardtabitem.IsSelected)
+                {
+                }
+                else
+                {
+                    //do nothing
+                    ;
+                }
+            }
+            */
+        }
+
+        private void newItemHead_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
