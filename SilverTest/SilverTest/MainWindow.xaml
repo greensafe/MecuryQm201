@@ -72,7 +72,7 @@
 
                         </Image>
                     </Button>
-                    <Button VerticalAlignment="Top" Height="21">
+                    <Button x:Name="saveall" VerticalAlignment="Top" Height="21" Click="saveall_Click">
                         <Image Source="images\save.png">
 
                         </Image>
@@ -180,7 +180,7 @@
                 </TabItem>
             </TabControl>
             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Height="100">
-                <Button x:Name="modifyBtn" Height="20" Content="修改" Margin="20,1,0,70" Click="modifyBtn_Click" />
+                <Button x:Name="modifyBtn" Height="20" Content="保存" Margin="20,1,0,70" Click="modifyBtn_Click" />
                 <Button x:Name="AddRowBtn" Height="20" Padding="1" Margin="800,1,1,70" RenderTransformOrigin="0.643,-0.85" Content="增加" Click="AddRowBtn_Click" />
                 <Button x:Name="DelRowBtn" Height="20" Content="删除" Margin="20,1,0,70" Click="DelRowBtn_Click" />
                 

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<NewTestTargets>
+<ArrayOfNewTestTarget xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <NewTestTarget>
-    <NewName comment="新样名称">烟厂土1</NewName>
+    <NewName comment="新样名称">烟厂土123567</NewName>
     <Code comment="样品编码">x1001</Code>
     <Density comment="汞浓度">30</Density>
     <Weight comment="样品重量(g)">10</Weight>
@@ -34,4 +34,4 @@
     <ResponseValue3 comment="响应值3"></ResponseValue3>
     <AverageValue comment="平均值"></AverageValue>
   </NewTestTarget>
-</NewTestTargets>
+</ArrayOfNewTestTarget>

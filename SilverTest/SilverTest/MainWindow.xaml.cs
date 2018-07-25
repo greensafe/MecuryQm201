@@ -54,6 +54,7 @@ namespace SilverTest
         {
             InitializeComponent();
 
+            /*
             newTestClt =
             Utility.getNewTestTargetDataFromXDP((DataSourceProvider)this.FindResource("newTargetData"));
             NewTargetDgd.DataContext = newTestClt;
@@ -61,6 +62,14 @@ namespace SilverTest
             standardSampleClt = 
             Utility.getStandardTargetDataFromXDP((DataSourceProvider)this.FindResource("standardSampleData"));
             standardSampleDgd.DataContext = standardSampleClt;
+            */
+            newTestClt =
+                    Utility.getNewTestTargetDataFromXml("resources\\NewTestTarget_Table.xml");
+            NewTargetDgd.DataContext = newTestClt;
+            standardSampleClt =
+                Utility.getStandardTargetDataFromXml("resources\\StandardSamples_Table.xml");
+            standardSampleDgd.DataContext = standardSampleClt;
+            ;
         }
 
         private void window_Loaded(object sender, RoutedEventArgs e)
@@ -276,6 +285,8 @@ namespace SilverTest
 
             //如果有平均值则计算汞浓度
             int rowNo = NewTargetDgd.SelectedIndex;
+            if (newTestClt[rowNo].AverageValue is null)
+                return;
             if (newTestClt[rowNo].AverageValue != "")
             {
 
@@ -312,10 +323,19 @@ namespace SilverTest
 
         private void modifyBtn_Click(object sender, RoutedEventArgs e)
         {
-            newTestClt[1].Density = "0.333";
+            //newTestClt[1].Density = "0.333";
+            //NewTargetDgd.DataContext = null;
+            //NewTargetDgd.DataContext = newTestClt;
+            Utility.SaveToNewXmlFileCls.SaveToNewXmlFile(newTestClt, "resources\\NewTestTarget_Table.xml");
+            Utility.SaveToStandardXmlFileCls.SaveToStandardXmlFile(standardSampleClt, "resources\\StandardSamples_Table.xml");
+        }
+
+        private void saveall_Click(object sender, RoutedEventArgs e)
+        {
             NewTargetDgd.DataContext = null;
             NewTargetDgd.DataContext = newTestClt;
-            
+            Utility.SaveToNewXmlFileCls.SaveToNewXmlFile(newTestClt, "resources\\NewTestTarget_Table.xml");
+            Utility.SaveToStandardXmlFileCls.SaveToStandardXmlFile(standardSampleClt, "resources\\StandardSamples_Table.xml");
         }
     }
 }

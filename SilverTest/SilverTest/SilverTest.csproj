@@ -147,12 +147,12 @@
     <Resource Include="images\print.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="resources\NewTestTarget_Table.xml">
+    <AdditionalFiles Include="resources\NewTestTarget_Table.xml">
       <SubType>Designer</SubType>
-    </Resource>
+    </AdditionalFiles>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="resources\StandardSamples_Table.xml" />
+    <AdditionalFiles Include="resources\StandardSamples_Table.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

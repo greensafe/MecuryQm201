@@ -3,20 +3,24 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
 using System.Xml;
+using System.Xml.Serialization;
 
 namespace SilverTest.libs
 {
     class Utility
     {
         //从资源中读取数据新样xml数据，转换为ObservableCollection
-        static public ObservableCollection<NewTestTarget> getNewTestTargetDataFromXDP(DataSourceProvider provider )
+        //param: provider - 数据源
+        static public ObservableCollection<NewTestTarget> getNewTestTargetDataFromXDP(DataSourceProvider provider)
         {
-            ObservableCollection<NewTestTarget>  newTargets = new ObservableCollection<NewTestTarget>();
+            ObservableCollection<NewTestTarget> newTargets = new ObservableCollection<NewTestTarget>();
             var data = provider.Data as IEnumerable;
             foreach (XmlElement item in data)
             {
@@ -68,6 +72,7 @@ namespace SilverTest.libs
         }
 
         //从资源中读取标样xml数据，转换为ObservableCollection
+        //param: provider - 数据源
         static public ObservableCollection<StandardSample> getStandardTargetDataFromXDP(DataSourceProvider provider)
         {
             ObservableCollection<StandardSample> standardSamples = new ObservableCollection<StandardSample>();
@@ -116,6 +121,97 @@ namespace SilverTest.libs
             return standardSamples;
 
         }
+
+        /* 从新样xml文件中读取数据，转换为ObservableCollection
+         * 
+         */
+        static public ObservableCollection<NewTestTarget> getNewTestTargetDataFromXml(string filename)
+        {
+            ObservableCollection<NewTestTarget> newTestTargetData = new ObservableCollection<NewTestTarget>();
+
+            XmlSerializer serializer = new XmlSerializer(typeof(ObservableCollection<NewTestTarget>));
+            using (FileStream stream = new FileStream(filename, FileMode.Open))
+            {
+                IEnumerable<NewTestTarget> xmldata = (IEnumerable<NewTestTarget>)serializer.Deserialize(stream);
+                foreach (NewTestTarget item in xmldata)
+                {
+                    newTestTargetData.Add(item);
+                }
+            }
+            return newTestTargetData;
+        }
+
+        /* 从标样xml文件中读取数据，转换为ObservableCollection
+         * 
+         */
+        static public ObservableCollection<StandardSample> getStandardTargetDataFromXml(string filename)
+        {
+            ObservableCollection<StandardSample> standData = new ObservableCollection<StandardSample>();
+
+            XmlSerializer serializer = new XmlSerializer(typeof(ObservableCollection<StandardSample>));
+            using (FileStream stream = new FileStream(filename, FileMode.Open))
+            {
+                IEnumerable<StandardSample> xmldata = (IEnumerable<StandardSample>)serializer.Deserialize(stream);
+                foreach (StandardSample item in xmldata)
+                {
+                    standData.Add(item);
+                }
+            }
+            return standData;
+        }
+
+        /*将新样标签保存到新样xml文件之中
+         *param: collections - 待保存数据 
+         *       filename - 文件名
+         */
+        static public class SaveToNewXmlFileCls
+        {
+            static public void SaveToNewXmlFile(ICollection collections, string filename)
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(ObservableCollection<NewTestTarget>));
+
+                using (FileStream stream = new FileStream(filename, FileMode.Create))
+                {
+                    serializer.Serialize(stream, collections);
+                }
+
+                /*
+                foreach (object item in collections)
+                {
+                    switch (type)
+                    {
+                        case 1: //表示 NewTestTarget
+                            NewTestTarget a = (item as NewTestTarget);
+                            break;
+                        case 2: //表示 StandardSample
+                            StandardSample b = (item as StandardSample);
+                            break;
+                        default:
+                            return;
+
+                    }
+                }
+                */
+            }
+        }
+
+        /*将标样标签数据保存到标样xml文件之中
+         *param: collections - 待保存数据 
+         *       filename - 文件名
+         */
+        static public class SaveToStandardXmlFileCls
+        {
+            static public void SaveToStandardXmlFile(ICollection collections, string filename)
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(ObservableCollection<StandardSample>));
+
+                using (FileStream stream = new FileStream(filename, FileMode.Create))
+                {
+                    serializer.Serialize(stream, collections);
+                }
+            }
+        }
+
 
 
         /*

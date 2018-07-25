@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<ArrayOfNewTestTarget xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <NewTestTarget>
+    <NewName>烟厂土123</NewName>
+    <Code>x1001</Code>
+    <Weight>10</Weight>
+    <Place>昆山玉山镇</Place>
+    <ResponseValue1 />
+    <ResponseValue2 />
+    <ResponseValue3 />
+    <AverageValue />
+    <Density>30</Density>
+    <LiquidSize />
+  </NewTestTarget>
+  <NewTestTarget>
+    <NewName>烟厂土2</NewName>
+    <Code>x1002</Code>
+    <Weight>20</Weight>
+    <Place>昆山玉山镇</Place>
+    <ResponseValue1>100</ResponseValue1>
+    <ResponseValue2>103</ResponseValue2>
+    <ResponseValue3>105</ResponseValue3>
+    <AverageValue>103</AverageValue>
+    <Density>0.96</Density>
+  </NewTestTarget>
+  <NewTestTarget>
+    <NewName>烟厂土3</NewName>
+    <Code>x1003</Code>
+    <Weight>22</Weight>
+    <Place>昆山玉山镇</Place>
+    <ResponseValue1 />
+    <ResponseValue2 />
+    <ResponseValue3 />
+    <AverageValue />
+    <Density>39</Density>
+  </NewTestTarget>
+  <NewTestTarget>
+    <NewName>天狼星土</NewName>
+    <Code>x1004</Code>
+  </NewTestTarget>
+  <NewTestTarget>
+    <NewName>unkown1</NewName>
+    <Code>x1005</Code>
+    <Place>666</Place>
+  </NewTestTarget>
+</ArrayOfNewTestTarget>

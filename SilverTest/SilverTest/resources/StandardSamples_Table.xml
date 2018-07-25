@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<StandardSamples>
+<ArrayOfStandardSample xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <StandardSample>
     <SampleName comment="样品名称">昆山园区土</SampleName>
     <Code comment="样品编码">s1001</Code>
@@ -44,4 +44,4 @@
     <A comment="斜率">3.2</A>
     <B comment="截距">6</B>
   </StandardSample>
-</StandardSamples>
+</ArrayOfStandardSample>
