@@ -44,9 +44,4 @@
     <A>3.2</A>
     <B>6</B>
   </StandardSample>
-  <StandardSample>
-    <SampleName>333</SampleName>
-    <Code>s</Code>
-    <Density>666</Density>
-  </StandardSample>
 </ArrayOfStandardSample>

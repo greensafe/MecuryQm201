@@ -337,5 +337,11 @@ namespace SilverTest
             Utility.SaveToNewXmlFileCls.SaveToNewXmlFile(newTestClt, "resources\\NewTestTarget_Table.xml");
             Utility.SaveToStandardXmlFileCls.SaveToStandardXmlFile(standardSampleClt, "resources\\StandardSamples_Table.xml");
         }
+
+        private void exportexelBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Utility.Save2excel(NewTargetDgd);
+            ;
+        }
     }
 }

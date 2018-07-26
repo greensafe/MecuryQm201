@@ -117,42 +117,18 @@
                                 <DataGridTextColumn Header="样品重量g" Width="80" Binding="{Binding Weight}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="样品消化液总体积ml" Width="80"></DataGridTextColumn>
                                 <DataGridTextColumn Header="样品中汞.." Width="80"></DataGridTextColumn>
-                                <!--
-                                <DataGridComboBoxColumn x:Name="standardCmb" Header="选择标样" Width="80" SelectedItemBinding="{Binding Path=CategoryName}">
-                                    <DataGridComboBoxColumn.ItemsSource>
-                                        <col:ArrayList>
-                                            <sys:String>s1001</sys:String>
-                                            <sys:String>s1002</sys:String>
-                                            <sys:String>s1003</sys:String>
-                                            <sys:String>s1004</sys:String>
-                                        </col:ArrayList>
-                                    </DataGridComboBoxColumn.ItemsSource>
-                                </DataGridComboBoxColumn>
-                                -->
+                                
                                 <DataGridTemplateColumn Header="选择标样">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <ComboBox x:Name="standardCmb" SelectionChanged="standardCmb_SelectionChanged" 
                                                       ItemsSource="{Binding ItemsSource, ElementName=standardSampleDgd}"
                                                       DisplayMemberPath="Code" SelectedValuePath="Code">
-                                                <!--
-                                                <ComboBox.ItemsSource>
-                                                    <col:ArrayList>
-                                                        <sys:String>s1001</sys:String>
-                                                        <sys:String>s1002</sys:String>
-                                                        <sys:String>s1003</sys:String>
-                                                        <sys:String>s1004</sys:String>
-                                                    </col:ArrayList>
-                                                </ComboBox.ItemsSource>
-                                                -->
                                             </ComboBox>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
-                                <DataGridTextColumn Header="..." Width="80"></DataGridTextColumn>
-                                <DataGridTextColumn Header="..." Width="80"></DataGridTextColumn>
-                                <DataGridTextColumn Header="..." Width="80"></DataGridTextColumn>
-                                <DataGridTextColumn Header="..." Width="80"></DataGridTextColumn>
+                                
                             </DataGrid.Columns>
                         </DataGrid>
                     </StackPanel>
@@ -181,8 +157,10 @@
             </TabControl>
             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Height="100">
                 <Button x:Name="modifyBtn" Height="20" Content="保存" Margin="20,1,0,70" Click="modifyBtn_Click" />
-                <Button x:Name="AddRowBtn" Height="20" Padding="1" Margin="800,1,1,70" RenderTransformOrigin="0.643,-0.85" Content="增加" Click="AddRowBtn_Click" />
+                <Button x:Name="exportexelBtn" Height="20" Content="输出excel" Margin="20,1,0,70" Click="exportexelBtn_Click" />
+                <Button x:Name="AddRowBtn" Height="20" Padding="1" Margin="750,1,1,70" RenderTransformOrigin="0.643,-0.85" Content="增加" Click="AddRowBtn_Click" />
                 <Button x:Name="DelRowBtn" Height="20" Content="删除" Margin="20,1,0,70" Click="DelRowBtn_Click" />
+                
                 
             </StackPanel>
             <GroupBox x:Name="paramGbx" Header="y = ax + b" Height="100" DockPanel.Dock="Top" Margin="0,2,308,0">

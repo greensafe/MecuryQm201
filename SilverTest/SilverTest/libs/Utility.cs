@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Xml;
 using System.Xml.Serialization;
@@ -212,6 +214,60 @@ namespace SilverTest.libs
             }
         }
 
+        static public void Save2excel(DataGrid dataGrid)
+        {
+            string fileName = "";
+            string saveFileName = "";
+            SaveFileDialog saveDialog = new SaveFileDialog();
+            saveDialog.DefaultExt = "xlsx";
+            saveDialog.Filter = "Excel 文件|*.xlsx";
+            saveDialog.FileName = fileName;
+            saveDialog.ShowDialog();
+            saveFileName = saveDialog.FileName;
+            if (saveFileName.IndexOf(":") < 0) return;  //被点了取消
+            Microsoft.Office.Interop.Excel.Application xlApp = new Microsoft.Office.Interop.Excel.Application();
+            if (xlApp == null)
+            {
+                System.Windows.MessageBox.Show("无法创建Excel对象，您可能未安装Excel");
+                return;
+            }
+            Microsoft.Office.Interop.Excel.Workbooks workbooks = xlApp.Workbooks;
+            Microsoft.Office.Interop.Excel.Workbook workbook = workbooks.Add(Microsoft.Office.Interop.Excel.XlWBATemplate.xlWBATWorksheet);
+            Microsoft.Office.Interop.Excel.Worksheet worksheet = (Microsoft.Office.Interop.Excel.Worksheet)workbook.Worksheets[1]; //取得sheet1
+
+            //写入行
+            for (int i = 0; i < dataGrid.Columns.Count; i++)
+            {
+                worksheet.Cells[1, i + 1] = dataGrid.Columns[i].Header;
+            }
+            for (int r = 0; r < dataGrid.Items.Count; r++)
+            {
+                
+                for (int i = 0; i < dataGrid.Columns.Count - 1; i++) //暂时不处理新样选择标样列，所以标样最后一列也不保存
+                {
+                    worksheet.Cells[r + 2, i + 1] = (dataGrid.Columns[i].GetCellContent(dataGrid.Items[r]) as TextBlock).Text;
+                }
+                
+            }
+            worksheet.Columns.EntireColumn.AutoFit();
+            MessageBox.Show(fileName + "保存成功");
+            if (saveFileName != "")
+            {
+                try
+                {
+                    workbook.Saved = true;
+                    workbook.SaveCopyAs(saveFileName);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("导出文件可能正在被打断!" + ex.Message);
+                }
+
+            }
+            xlApp.Quit();
+            GC.Collect();
+
+        }
 
 
         /*
