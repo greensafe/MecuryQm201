@@ -8,13 +8,13 @@
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:SilverTest"
         mc:Ignorable="d"
-        Title="MainWindow" Height="850" Width="1000" Loaded="window_Loaded" WindowStartupLocation="CenterScreen">
+        Title="MainWindow" Height="910" Width="1000" Loaded="window_Loaded" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <XmlDataProvider IsAsynchronous="False" x:Key="standardSampleData" Source="/resources/StandardSamples_Table.xml" XPath="/StandardSamples/StandardSample"/>
         <XmlDataProvider IsAsynchronous="False" x:Key="newTargetData" Source="/resources/NewTestTarget_Table.xml" XPath="/NewTestTargets/NewTestTarget"/>
     </Window.Resources>
     <Grid x:Name="grid">
-        <DockPanel x:Name="dockPanel" HorizontalAlignment="Left" Height="{Binding ActualHeight, ElementName=grid, Mode=OneWay}" LastChildFill="False" VerticalAlignment="Top" Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}">
+        <DockPanel x:Name="dockPanel" HorizontalAlignment="Left" Height="880" LastChildFill="False" VerticalAlignment="Top" Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}" Margin="0,0,0,-61">
             <DockPanel.Background>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
             </DockPanel.Background>
@@ -99,12 +99,12 @@
                         </StackPanel>
                     </TabItem.Header>
                     <StackPanel>
- 
+
                         <DataGrid x:Name="NewTargetDgd" Height="245" DockPanel.Dock="Top" 
                                   Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}" 
                                   CanUserAddRows="False"
                                   ItemsSource="{Binding}"                                  
-                                  Margin="0,0,0,0" AutoGenerateColumns="False">                            
+                                  Margin="0,0,0,0" AutoGenerateColumns="False">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="序号" Width="80" Binding="{Binding Code}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="样品名" Width="80" Binding="{Binding NewName}"></DataGridTextColumn>
@@ -117,7 +117,7 @@
                                 <DataGridTextColumn Header="样品重量g" Width="80" Binding="{Binding Weight}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="样品消化液总体积ml" Width="80"></DataGridTextColumn>
                                 <DataGridTextColumn Header="样品中汞.." Width="80"></DataGridTextColumn>
-                                
+
                                 <DataGridTemplateColumn Header="选择标样">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
@@ -128,7 +128,7 @@
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
-                                
+
                             </DataGrid.Columns>
                         </DataGrid>
                     </StackPanel>
@@ -155,14 +155,33 @@
                     </StackPanel>
                 </TabItem>
             </TabControl>
-            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Height="100">
-                <Button x:Name="modifyBtn" Height="20" Content="保存" Margin="20,1,0,70" Click="modifyBtn_Click" />
-                <Button x:Name="exportexelBtn" Height="20" Content="输出excel" Margin="20,1,0,70" Click="exportexelBtn_Click" />
-                <Button x:Name="AddRowBtn" Height="20" Padding="1" Margin="750,1,1,70" RenderTransformOrigin="0.643,-0.85" Content="增加" Click="AddRowBtn_Click" />
-                <Button x:Name="DelRowBtn" Height="20" Content="删除" Margin="20,1,0,70" Click="DelRowBtn_Click" />
-                
-                
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Height="50">
+                <Button x:Name="modifyBtn" Height="20" Content="保存" Margin="20,1,0,0" Click="modifyBtn_Click" />
+                <Button x:Name="exportexelBtn" Height="20" Content="输出excel" Margin="20,1,0,0" Click="exportexelBtn_Click" />
+                <Button x:Name="startTestBtn" Height="20" Content="开始测试" Margin="20,1,0,0" Click="startTestBtn_Click" />
+                <Button x:Name="AddRowBtn" Height="20" Padding="1" Margin="700,1,1,0" RenderTransformOrigin="0.643,-0.85" Content="增加" Click="AddRowBtn_Click" />
+                <Button x:Name="DelRowBtn" Height="20" Content="删除" Margin="20,1,0,0" Click="DelRowBtn_Click" />
             </StackPanel>
+            <StackPanel  DockPanel.Dock="Top" Height="50" Orientation="Vertical">
+                <Border x:Name="AnimatedColorButton" Width="48" Height="48" BorderThickness="2" BorderBrush="Red" CornerRadius="2" Visibility="Hidden">
+                    <Border.Triggers>
+                        <EventTrigger RoutedEvent="Border.Loaded">
+                            <BeginStoryboard>
+                                <Storyboard >
+                                    <DoubleAnimation Storyboard.TargetName="AnimatedColorButton"
+                                     Storyboard.TargetProperty="BorderBrush.Opacity"
+                                     RepeatBehavior="Forever"
+                                     AutoReverse="True"
+                                     To="0.0"
+                                     Duration="0:0:0.5" ></DoubleAnimation>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Border.Triggers>
+                    <Button x:Name="statusBtn" Visibility="Hidden">测试中</Button>
+                </Border>
+            </StackPanel>
+
             <GroupBox x:Name="paramGbx" Header="y = ax + b" Height="100" DockPanel.Dock="Top" Margin="0,2,308,0">
                 <GroupBox.Background>
                     <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
@@ -181,16 +200,7 @@
             </GroupBox>
 
             <DockPanel DockPanel.Dock="Top" Height="82" LastChildFill="False" Width="{Binding ElementName=dockPanel, Mode=OneWay}">
-                <GroupBox x:Name="groupBox1" Header="" DockPanel.Dock="Left" Width="400">
-                    <GroupBox.Background>
-                        <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
-                    </GroupBox.Background>
-                    <DockPanel Height="80" LastChildFill="False" Margin="0,0,0,-12" VerticalAlignment="Top" Width="{Binding ElementName=groupBox1, Mode=OneWay}">
-                        <Label Content="请输入标样的汞浓度" HorizontalAlignment="Left" Margin="40,0,0,0" VerticalAlignment="Center"/>
-                        <TextBox Height="30" TextWrapping="Wrap" Text="" Margin="10,0,0,0" VerticalAlignment="Center" Width="120"/>
-                    </DockPanel>
-                </GroupBox>
-                <Button Content="退出" Height="52" DockPanel.Dock="Right" Width="75" Margin="0,0,40,0" Click="Button_Click"/>
+                <Button Content="退出" Height="52" DockPanel.Dock="Right" Width="75" Margin="0,5,40,25" Click="Button_Click"/>
             </DockPanel>
             <StatusBar Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}" Height="35" DockPanel.Dock="Bottom">
                 <StatusBarItem>

@@ -109,7 +109,7 @@ namespace SilverTest
         //number = 1001 
         private void drawWave_simulate(int number)
         {
-            
+
             var x = Enumerable.Range(0, number).Select(i => i / 10.0).ToArray();
             var y = x.Select(v => Math.Abs(v) < 1e-10 ? 1 : Math.Sin(v) / v).ToArray();
             linegraph.Plot(x, y);
@@ -199,7 +199,7 @@ namespace SilverTest
 
                     break;
             }
-           
+
         }
 
         private void DelRowBtn_Click(object sender, RoutedEventArgs e)
@@ -224,7 +224,7 @@ namespace SilverTest
                     break;
             }
 
-            
+
         }
 
         private void OnStandardTabSelected(object sender, RoutedEventArgs e)
@@ -294,7 +294,7 @@ namespace SilverTest
                 int t1 = int.Parse(newTestClt[rowNo].ResponseValue1);
                 double t2 = double.Parse(asample.A);
                 double t3 = double.Parse(asample.B);
-                double d = (t1 * t2 * t3/1000);
+                double d = (t1 * t2 * t3 / 1000);
                 newTestClt[rowNo].Density = d.ToString();
             }
             NewTargetDgd.DataContext = null;
@@ -342,6 +342,31 @@ namespace SilverTest
         {
             Utility.Save2excel(NewTargetDgd);
             ;
+        }
+
+        private void startTestBtn_Click(object sender, RoutedEventArgs e)
+        {
+            switch(startTestBtn.Content as string)
+            {
+                case "开始测试":
+                    statusBtn.Visibility = Visibility.Visible;
+                    AnimatedColorButton.Visibility = Visibility.Visible;
+                    startTestBtn.Content = "停止测试";
+                    break;
+                case "停止测试":
+                    statusBtn.Visibility = Visibility.Hidden;
+                    AnimatedColorButton.Visibility = Visibility.Hidden;
+                    startTestBtn.Content = "开始测试";
+                    break;
+                default:
+
+                    break;
+            }
+            int selectedItem = NewTargetDgd.SelectedIndex;
+
+            NewTargetDgd.IsEnabled = true;
+
+            
         }
     }
 }
