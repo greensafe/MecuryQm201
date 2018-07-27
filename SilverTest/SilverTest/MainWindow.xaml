@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d3="clr-namespace:InteractiveDataDisplay.WPF;assembly=InteractiveDataDisplay.WPF"
+        xmlns:dw="http://research.microsoft.com/DynamicDataDisplay/1.0"
         xmlns:col="clr-namespace:System.Collections;assembly=mscorlib"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:SilverTest"
@@ -90,6 +91,7 @@
                 </d3:Chart.Title>
                 <d3:LineGraph x:Name="linegraph" Description="Simple linegraph" Stroke="Blue" StrokeThickness="3"/>
             </d3:Chart>
+            <dw:ChartPlotter x:Name="realCpt" Height="100" DockPanel.Dock="Top" Margin="10,10,20,10"></dw:ChartPlotter>
             <TabControl x:Name="sampletab" DockPanel.Dock="Top" SelectionChanged="sampletab_SelectionChanged">
                 <TabItem x:Name="newtabitem" Selector.Selected="OnNewTabSelected">
                     <TabItem.Header>

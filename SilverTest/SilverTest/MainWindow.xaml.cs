@@ -1,4 +1,6 @@
-﻿using SilverTest.libs;
+﻿using Microsoft.Research.DynamicDataDisplay;
+using Microsoft.Research.DynamicDataDisplay.DataSources;
+using SilverTest.libs;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,6 +20,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using System.Xml;
 
 /*
@@ -46,6 +49,21 @@ namespace SilverTest
 
     public partial class MainWindow : Window
     {
+        //演示代码
+        int seconds;
+        DispatcherTimer demoTimer = new DispatcherTimer();
+
+        //使用DynamicDataDisplay控件显示波形
+        private ObservableDataSource<Point> realCptDs = new ObservableDataSource<Point>();
+        private DispatcherTimer realCptTimer = new DispatcherTimer();
+        bool mode = true;
+        Random rd = new Random();
+        private int currentSecond = 0;
+        int xaxis = 0;
+        int yaxis = 0;
+        int group = 200;//组距
+        Queue<int> q = new Queue<int>();
+
         private SerialPort ComDevice = null;
         private ObservableCollection<NewTestTarget> newTestClt;
         private ObservableCollection<StandardSample> standardSampleClt;
@@ -53,6 +71,14 @@ namespace SilverTest
         public MainWindow()
         {
             InitializeComponent();
+
+            //初始化使用DynamicDataDisplay控件
+            realCpt.AddLineGraph(realCptDs, Colors.Red, 2, "百分比");
+            realCpt.LegendVisible = true;
+            realCpt.Viewport.FitToView();
+            realCptTimer.Interval = TimeSpan.FromSeconds(1);
+            realCptTimer.Tick += realTck;
+            //realCptTimer.IsEnabled = true;
 
             /*
             newTestClt =
@@ -70,7 +96,72 @@ namespace SilverTest
                 Utility.getStandardTargetDataFromXml("resources\\StandardSamples_Table.xml");
             standardSampleDgd.DataContext = standardSampleClt;
             ;
+
+            //演示代码
+            demoTimer.Interval =  new TimeSpan(0, 0, 0, 1);  //1 seconds
+            demoTimer.Tick += new EventHandler(timeCycle);
         }
+
+        //演示代码
+        public void timeCycle(object sender, EventArgs e)
+        {
+            seconds++;
+            if (seconds == 3)
+            {
+                newTestClt[2].ResponseValue1 = "30";
+                NewTargetDgd.DataContext = null;
+                NewTargetDgd.DataContext = newTestClt;
+            }
+            if(seconds == 5)
+            {
+                newTestClt[2].ResponseValue2 = "20";
+                NewTargetDgd.DataContext = null;
+                NewTargetDgd.DataContext = newTestClt;
+            }
+            if(seconds == 7)
+            {
+                newTestClt[2].ResponseValue3 = "25";
+                NewTargetDgd.DataContext = null;
+                NewTargetDgd.DataContext = newTestClt;
+            }
+            ;
+        }
+
+        private void realTck(object sender, EventArgs e)
+        {
+            //演示代码
+            double x = currentSecond;
+            double y = rd.Next(5, 30);
+            Point point = new Point(x, y);
+            realCptDs.AppendAsync(base.Dispatcher, point);
+            if (true)
+            {
+                if (q.Count < group)
+                {
+                    q.Enqueue((int)y);//入队
+                    yaxis = 0;
+                    foreach (int c in q)
+                        if (c > yaxis)
+                            yaxis = c;
+                }
+                else
+                {
+                    q.Dequeue();//出队
+                    q.Enqueue((int)y);//入队
+                    yaxis = 0;
+                    foreach (int c in q)
+                        if (c > yaxis)
+                            yaxis = c;
+                }
+                if (currentSecond - group > 0)
+                    xaxis = currentSecond - group;
+                else
+                    xaxis = 0;
+                realCpt.Viewport.Visible = new System.Windows.Rect(xaxis, 0, group, yaxis);
+            }
+            currentSecond++;
+        }
+
 
         private void window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -351,11 +442,15 @@ namespace SilverTest
                 case "开始测试":
                     statusBtn.Visibility = Visibility.Visible;
                     AnimatedColorButton.Visibility = Visibility.Visible;
+                    demoTimer.Start();
+                    realCptTimer.Start();
                     startTestBtn.Content = "停止测试";
                     break;
                 case "停止测试":
                     statusBtn.Visibility = Visibility.Hidden;
                     AnimatedColorButton.Visibility = Visibility.Hidden;
+                    demoTimer.Stop();
+                    realCptTimer.Stop();
                     startTestBtn.Content = "开始测试";
                     break;
                 default:
@@ -365,7 +460,6 @@ namespace SilverTest
             int selectedItem = NewTargetDgd.SelectedIndex;
 
             NewTargetDgd.IsEnabled = true;
-
             
         }
     }
