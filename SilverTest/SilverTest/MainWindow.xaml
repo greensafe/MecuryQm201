@@ -85,12 +85,14 @@
                     </Button>
                 </ToolBar>
             </ToolBarTray>
-            <d3:Chart Name="plotter" DockPanel.Dock="Top" Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}" Height="200">
+            <!--
+            <d3:Chart Visibility="Hidden" Name="plotter" DockPanel.Dock="Top" Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}" Height="200">
                 <d3:Chart.Title>
                     <TextBlock HorizontalAlignment="Center" FontSize="18" Margin="0,5,0,5">实时波形</TextBlock>
                 </d3:Chart.Title>
                 <d3:LineGraph x:Name="linegraph" Description="Simple linegraph" Stroke="Blue" StrokeThickness="3"/>
             </d3:Chart>
+            -->
             <dw:ChartPlotter x:Name="realCpt" Height="100" DockPanel.Dock="Top" Margin="10,10,20,10"></dw:ChartPlotter>
             <TabControl x:Name="sampletab" DockPanel.Dock="Top" SelectionChanged="sampletab_SelectionChanged">
                 <TabItem x:Name="newtabitem" Selector.Selected="OnNewTabSelected">
@@ -121,11 +123,12 @@
                                 <DataGridTextColumn Header="样品中汞.." Width="80"></DataGridTextColumn>
 
                                 <DataGridTemplateColumn Header="选择标样">
-                                    <DataGridTemplateColumn.CellTemplate>
+                                    <DataGridTemplateColumn.CellTemplate >
                                         <DataTemplate>
                                             <ComboBox x:Name="standardCmb" SelectionChanged="standardCmb_SelectionChanged" 
                                                       ItemsSource="{Binding ItemsSource, ElementName=standardSampleDgd}"
-                                                      DisplayMemberPath="Code" SelectedValuePath="Code">
+                                                      DisplayMemberPath="SampleName" SelectedValuePath="Code"
+                                                      SelectedValue="{Binding SampleName}">
                                             </ComboBox>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>

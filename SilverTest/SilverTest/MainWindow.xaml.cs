@@ -170,7 +170,7 @@ namespace SilverTest
             ComDevice = new SerialPort();
             ComDevice.DataReceived += new SerialDataReceivedEventHandler(Com_DataReceived);
 
-            drawWave_simulate(1001);
+            //drawWave_simulate(1001);
         }
 
 
@@ -198,6 +198,7 @@ namespace SilverTest
 
         //模拟数据，画波形
         //number = 1001 
+        /*
         private void drawWave_simulate(int number)
         {
 
@@ -205,6 +206,7 @@ namespace SilverTest
             var y = x.Select(v => Math.Abs(v) < 1e-10 ? 1 : Math.Sin(v) / v).ToArray();
             linegraph.Plot(x, y);
         }
+        */
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -388,28 +390,10 @@ namespace SilverTest
                 double d = (t1 * t2 * t3 / 1000);
                 newTestClt[rowNo].Density = d.ToString();
             }
-            NewTargetDgd.DataContext = null;
-            NewTargetDgd.DataContext = newTestClt;
 
-            //演示数据，模拟波形
-            switch (asample.Code)
-            {
-                case "s1001":
-                    drawWave_simulate(1001);
-                    break;
-                case "s1002":
-                    drawWave_simulate(150);
-                    break;
-                case "s1003":
-                    drawWave_simulate(2000);
-                    break;
-                case "s1004":
-                    drawWave_simulate(1500);
-                    break;
-                default:
-
-                    break;
-            }
+            //NewTargetDgd.DataContext = null;
+            //NewTargetDgd.DataContext = newTestClt;
+     
         }
 
         private void modifyBtn_Click(object sender, RoutedEventArgs e)

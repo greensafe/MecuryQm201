@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,29 +11,96 @@ namespace SilverTest
     {
     }
     // 标样表结构定义
-    public class StandardSample
+    public class StandardSample: INotifyPropertyChanged
     {
         //样品名称
+        private string sampleName;
         public string SampleName
         {
-            get;set;
+            get {
+                return sampleName;
+            }
+            set {
+                sampleName = value;
+                NotifyPropertyChanged("SampleName");
+            }
         }
         //样品编码
-        public string Code { get; set; }
+        private string code;
+        public string Code {
+            get { return code; }
+            set {
+                code = value;
+                NotifyPropertyChanged("Code");
+            }
+        }
         //汞浓度
-        public string Density { get; set; }
+        private string density;
+        public string Density {
+            get { return density; }
+            set
+            {
+                density = value;
+                NotifyPropertyChanged("Density");
+            }
+        }
         //样品重量
-        public string Weight { get; set; }
+        private string weight;
+        public string Weight {
+            get { return weight; }
+            set
+            {
+                weight = value;
+                NotifyPropertyChanged("Weight");
+            }
+        }
         //样品出厂商
-        public string ProviderCompany { get; set; }
+        private string providerCompany;
+        public string ProviderCompany
+        {
+            get { return providerCompany; }
+            set {
+                providerCompany = value;
+                NotifyPropertyChanged("ProviderCompany");
+            }
+        }
         //产地
-        public string Place { get; set; }
+        private string place;
+        public string Place {
+            get { return place; }
+            set
+            {
+                place = value;
+                NotifyPropertyChanged("Place");
+            }
+        }
         //样品购买日期
-        public string BuyDate { get; set; }
+        private string buyDate;
+        public string BuyDate {
+            get { return buyDate; }
+            set {
+                buyDate = value;
+                NotifyPropertyChanged("BuyDate");
+            }
+        }
         //斜率
-        public string A { get; set; }
+        private string a;
+        public string A {
+            get { return a; }
+            set {
+                a = value;
+                NotifyPropertyChanged("A");
+            }
+        }
         //截距
-        public string B { get; set; }
+        private string b;
+        public string B {
+            get { return b; }
+            set {
+                b = value;
+                NotifyPropertyChanged("B");
+            }
+        }
         //构造函数
         public StandardSample(string sampleName, string code, string density,
             string weight, string providerCompany, string place, string buyDate, string a, string b)
@@ -48,31 +116,135 @@ namespace SilverTest
             B = b;
         }
         public StandardSample() { }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void NotifyPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
     }
 
     //新样表结构定义
-    public class NewTestTarget
+    public class NewTestTarget: INotifyPropertyChanged
     {
         //新样名称
-        public string NewName { get; set; }
+        private string newName;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        //新样名称
+        public string NewName {
+            get { return newName; }
+            set
+            {
+                newName = value;
+                NotifyPropertyChanged("NewName");
+            }
+        }
         //测试序号
-        public string Code { get; set; }
+        private string code;
+        public string Code {
+            get
+            {
+                return code;
+            }
+            set
+            {
+                code = value;
+                NotifyPropertyChanged("Code");
+            }
+        }
         //重量
-        public string Weight { get; set; }
+        private string weight;
+        public string Weight {
+            get { return weight; }
+            set
+            {
+                weight = value;
+                NotifyPropertyChanged("Weight");
+            }
+        }
         //产地
-        public string Place { get; set; }
+        private string place;
+        public string Place {
+            get { return place; }
+            set
+            {
+                place = value;
+                NotifyPropertyChanged("Place");
+            }
+        }
         //响应值1
-        public string ResponseValue1 { get; set; }
+        private string responseValue1;
+        public string ResponseValue1 {
+            get { return responseValue1; }
+            set
+            {
+                responseValue1 = value;
+                NotifyPropertyChanged("ResponseValue1");
+            }
+        }
         //响应值2
-        public string ResponseValue2 { get; set; }
+        private string responseValue2;
+        public string ResponseValue2 {
+            get { return responseValue2; }
+            set
+            {
+                responseValue2 = value;
+                NotifyPropertyChanged("ResponseValue2");
+            }
+        }
         //响应值3
-        public string ResponseValue3 { get; set; }
+        private string responseValue3;
+        public string ResponseValue3 {
+            get { return responseValue3; }
+            set
+            {
+                responseValue3 = value;
+                NotifyPropertyChanged("ResponseValue3");
+            }
+        }
         //平均值
-        public string AverageValue { get; set; }
+        private string averageValue;
+        public string AverageValue {
+            get { return averageValue; }
+            set
+            {
+                averageValue = value;
+                NotifyPropertyChanged("AverageValue");
+            }
+        }
         //汞浓度
-        public string Density { get; set; }
+        private string density;
+        public string Density {
+            get { return density; }
+            set
+            {
+                density = value;
+                NotifyPropertyChanged("Density");
+            }
+        }
         //样品消化液总体积
-        public string LiquidSize{ get; set; }
+        private string liquidSize;
+        public string LiquidSize{
+            get { return liquidSize; }
+            set
+            {
+                liquidSize = value;
+                NotifyPropertyChanged("LiquidSize");
+            }
+        }
         //构造函数
         public NewTestTarget(string newName, string code, string weight, string place, string responseValue1,
             string responseValue2, string responseValue3, string density, string liquidSize)
