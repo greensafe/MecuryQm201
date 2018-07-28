@@ -4,5 +4,5 @@ obj/
 #ignore visual studio generated file
 .vs/
 
-#ignore release file
-/bin/Release
+#ignore all files in release directory
+Release/
