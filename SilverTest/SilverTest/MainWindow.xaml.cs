@@ -377,6 +377,7 @@ namespace SilverTest
 
         private void standardCmb_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (e.AddedItems.Count == 0) return;
             StandardSample asample = e.AddedItems[0] as StandardSample;
             aTxb.Text = asample.A;
             bTxb.Text = asample.B;
