@@ -31,6 +31,7 @@ using System.Xml;
  * Bbx = GroupBox
  * Cmb = ComboBox
  * Txb = TextBox
+ * Viw = ICollectionView
 */
 
 namespace SilverTest
@@ -68,6 +69,8 @@ namespace SilverTest
         private ObservableCollection<NewTestTarget> newTestClt;
         private ObservableCollection<StandardSample> standardSampleClt;
 
+        ICollectionView StandardCvw;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -96,6 +99,8 @@ namespace SilverTest
                 Utility.getStandardTargetDataFromXml("resources\\StandardSamples_Table.xml");
             standardSampleDgd.DataContext = standardSampleClt;
             ;
+            StandardCvw = CollectionViewSource.GetDefaultView(standardSampleClt);
+            StandardCvw.GroupDescriptions.Add(new PropertyGroupDescription("GroupName"));
 
             //演示代码
             demoTimer.Interval =  new TimeSpan(0, 0, 0, 1);  //1 seconds
@@ -378,7 +383,7 @@ namespace SilverTest
 
             //如果有平均值则计算汞浓度
             int rowNo = NewTargetDgd.SelectedIndex;
-            if (newTestClt[rowNo].AverageValue is null)
+            if (rowNo < 0 || newTestClt[rowNo].AverageValue is null)
                 return;
             if (newTestClt[rowNo].AverageValue != "")
             {
@@ -446,5 +451,14 @@ namespace SilverTest
             NewTargetDgd.IsEnabled = true;
             
         }
+
+        /*
+        private void SomeSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var comboBox = sender as ComboBox;
+            var selectedItem = this.NewTargetDgd.CurrentItem;
+            MessageBox.Show(selectedItem.ToString());
+        }
+        */
     }
 }

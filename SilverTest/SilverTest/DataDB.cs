@@ -25,6 +25,22 @@ namespace SilverTest
                 NotifyPropertyChanged("SampleName");
             }
         }
+
+        //组名
+        private string groupName;
+        public string GroupName
+        {
+            get
+            {
+                return groupName;
+            }
+            set
+            {
+                groupName = value;
+                NotifyPropertyChanged("GroupName");
+            }
+        }
+
         //样品编码
         private string code;
         public string Code {
@@ -103,7 +119,7 @@ namespace SilverTest
         }
         //构造函数
         public StandardSample(string sampleName, string code, string density,
-            string weight, string providerCompany, string place, string buyDate, string a, string b)
+            string weight, string providerCompany, string place, string buyDate, string a, string b,string grpname)
         {
             SampleName = sampleName;
             Code = code;
@@ -114,6 +130,7 @@ namespace SilverTest
             BuyDate = buyDate;
             A = a;
             B = b;
+            GroupName = grpname;
         }
         public StandardSample() { }
 

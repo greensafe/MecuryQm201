@@ -13,6 +13,20 @@
     <Window.Resources>
         <XmlDataProvider IsAsynchronous="False" x:Key="standardSampleData" Source="/resources/StandardSamples_Table.xml" XPath="/StandardSamples/StandardSample"/>
         <XmlDataProvider IsAsynchronous="False" x:Key="newTargetData" Source="/resources/NewTestTarget_Table.xml" XPath="/NewTestTargets/NewTestTarget"/>
+        <Style x:Key="GroupHeaderStyle" TargetType="{x:Type GroupItem}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type GroupItem}">
+                        <Expander IsExpanded="True">
+                            <Expander.Header>
+                                <TextBlock Text="{Binding Path=Name}"/>
+                            </Expander.Header>
+                            <ItemsPresenter />
+                        </Expander>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
     <Grid x:Name="grid">
         <DockPanel x:Name="dockPanel" HorizontalAlignment="Left" Height="880" LastChildFill="False" VerticalAlignment="Top" Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}" Margin="0,0,0,-61">
@@ -109,6 +123,7 @@
                                   CanUserAddRows="False"
                                   ItemsSource="{Binding}"                                  
                                   Margin="0,0,0,0" AutoGenerateColumns="False">
+                            
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="序号" Width="80" Binding="{Binding Code}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="样品名" Width="80" Binding="{Binding NewName}"></DataGridTextColumn>
@@ -127,13 +142,29 @@
                                         <DataTemplate>
                                             <ComboBox x:Name="standardCmb" SelectionChanged="standardCmb_SelectionChanged" 
                                                       ItemsSource="{Binding ItemsSource, ElementName=standardSampleDgd}"
-                                                      DisplayMemberPath="SampleName" SelectedValuePath="Code"
+                                                      DisplayMemberPath="GroupName" SelectedValuePath="Code"
                                                       SelectedValue="{Binding SampleName}">
                                             </ComboBox>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
-
+                                <!--
+                                <DataGridComboBoxColumn x:Name="test" Header="test">
+                                    <DataGridComboBoxColumn.EditingElementStyle>
+                                        <Style TargetType="{x:Type ComboBox}">
+                                            <EventSetter Event="SelectionChanged" Handler="SomeSelectionChanged" />
+                                        </Style>
+                                    </DataGridComboBoxColumn.EditingElementStyle>
+                                    <DataGridComboBoxColumn.ItemsSource>
+                                        <col:ArrayList>
+                                            <sys:String>标样一</sys:String>
+                                            <sys:String>标样二</sys:String>
+                                            <sys:String>标样三</sys:String>
+                                            <sys:String>标样四</sys:String>
+                                        </col:ArrayList>
+                                    </DataGridComboBoxColumn.ItemsSource>
+                                </DataGridComboBoxColumn>
+                                -->
                             </DataGrid.Columns>
                         </DataGrid>
                     </StackPanel>
@@ -145,7 +176,17 @@
                                   ItemsSource="{Binding}"
                                   CanUserAddRows="False"
                                   Margin="0,0,0,0" AutoGenerateColumns="False">
+                            <DataGrid.GroupStyle>
+                                <GroupStyle ContainerStyle="{StaticResource GroupHeaderStyle}">
+                                    <GroupStyle.Panel>
+                                        <ItemsPanelTemplate>
+                                            <DataGridRowsPresenter/>
+                                        </ItemsPanelTemplate>
+                                    </GroupStyle.Panel>
+                                </GroupStyle>
+                            </DataGrid.GroupStyle>
                             <DataGrid.Columns>
+                                <DataGridTextColumn Header="组名" Width="80" Binding="{Binding Path=GroupName}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="序号" Width="80" Binding="{Binding Path=Code}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="样品名" Width="80" Binding="{Binding Path=SampleName}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="汞浓度" Width="80" Binding="{Binding Path=Density,Mode=TwoWay}" ></DataGridTextColumn>
