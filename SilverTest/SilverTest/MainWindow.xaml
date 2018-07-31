@@ -205,8 +205,10 @@
                 <Button x:Name="modifyBtn" HorizontalAlignment="Left" DockPanel.Dock="Left" Height="20" Content="保存" Margin="20,1,0,0" Click="modifyBtn_Click"  />
                 <Button x:Name="exportexelBtn" HorizontalAlignment="Left" DockPanel.Dock="Left" Height="20" Content="输出excel" Margin="20,1,0,0" Click="exportexelBtn_Click" />
                 <Button x:Name="startTestBtn" HorizontalAlignment="Left" DockPanel.Dock="Left" Height="20" Content="开始测试" Margin="20,1,0,0" Click="startTestBtn_Click" />
+                <Button x:Name="testBtn" HorizontalAlignment="Left" DockPanel.Dock="Left" Content="开发" Margin="20,1,0,0" Height="20" Width="75" Click="testBtn_Click"/>
                 <Button x:Name="AddRowBtn" DockPanel.Dock="Right"  HorizontalAlignment="Right" Height="20" Padding="1" Margin="0,1,20,0"  Content="增加" Click="AddRowBtn_Click" />
                 <Button x:Name="DelRowBtn" DockPanel.Dock="Right"  HorizontalAlignment="Right" Height="20" Content="删除" Margin="0,1,20,0" Click="DelRowBtn_Click" />
+                
             </DockPanel>
             <StackPanel  DockPanel.Dock="Top" Height="50" Orientation="Vertical">
                 <Border x:Name="AnimatedColorButton" Width="48" Height="48" BorderThickness="2" BorderBrush="Red" CornerRadius="50" Visibility="Hidden">
@@ -265,7 +267,7 @@
             </GroupBox>
 
             <DockPanel DockPanel.Dock="Top" Height="90" LastChildFill="False" Width="{Binding ElementName=dockPanel, Mode=OneWay}">
-                <Button Content="退出" DockPanel.Dock="Right" Width="75" Margin="0,10,40,25" Click="Button_Click" RenderTransformOrigin="1,0"/>
+                <Button x:Name="exitBtn" Content="退出" DockPanel.Dock="Right" Width="75" Margin="0,10,40,25" RenderTransformOrigin="1,0" Click="exitBtn_Click"/>
             </DockPanel>
             <StatusBar Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}" Height="35" 
                        DockPanel.Dock="Bottom">

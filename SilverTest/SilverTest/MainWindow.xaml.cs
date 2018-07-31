@@ -213,10 +213,12 @@ namespace SilverTest
         }
         */
 
+        /*
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
+        */
 
         //打开端口
         private bool openRSPort()
@@ -451,6 +453,20 @@ namespace SilverTest
 
             NewTargetDgd.IsEnabled = true;
             
+        }
+
+        private void exitBtn_Click(object sender, RoutedEventArgs e)
+        {
+            
+            this.Close();
+
+        }
+
+        private void testBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ProduceFakeData pfd = new ProduceFakeData("实际数据.txt");
+            pfd.Send(1);
+            ;
         }
 
         /*
