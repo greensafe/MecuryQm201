@@ -178,8 +178,32 @@ namespace SilverTest
             //drawWave_simulate(1001);
         }
 
+        public void Com_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+
+            //接受数据
+            /*
+            byte[] ReDatas = new byte[ComDevice.BytesToRead];
+            ComDevice.Read(ReDatas, 0, ReDatas.Length);
+            */
+
+            byte[] ReDatas = SerialDriver.GetDriver().Read();
+
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < ReDatas.Length; i++)
+            {
+                sb.AppendFormat("{0:x2}" + " ", ReDatas[i]);
+            }
 
 
+            Dispatcher.Invoke(new Action(() =>
+            {
+                rTxt.Text = sb.ToString();
+            }));
+
+        }
+
+        /*
         public void Com_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
 
@@ -196,12 +220,14 @@ namespace SilverTest
 
             Dispatcher.Invoke(new Action(() =>
             {
-
+                ;
             }));
 
         }
+        */
 
-        //模拟数据，画波形
+        //演示
+        //画波形
         //number = 1001 
         /*
         private void drawWave_simulate(int number)
@@ -464,10 +490,13 @@ namespace SilverTest
 
         private void testBtn_Click(object sender, RoutedEventArgs e)
         {
+            SerialDriver.GetDriver().OnReceived(Com_DataReceived);
             ProduceFakeData pfd = new ProduceFakeData("实际数据.txt");
             pfd.Send(1);
             ;
         }
+
+
 
         /*
         private void SomeSelectionChanged(object sender, SelectionChangedEventArgs e)

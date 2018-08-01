@@ -21,16 +21,16 @@
     <ResponseValue2>103</ResponseValue2>
     <ResponseValue3>105</ResponseValue3>
     <AverageValue>103</AverageValue>
-    <Density>0.96</Density>
+    <Density>1.92</Density>
   </NewTestTarget>
   <NewTestTarget>
     <NewName>烟厂土3</NewName>
     <Code>x1003</Code>
     <Weight>22</Weight>
     <Place>昆山玉山镇</Place>
-    <ResponseValue1 />
-    <ResponseValue2 />
-    <ResponseValue3 />
+    <ResponseValue1>30</ResponseValue1>
+    <ResponseValue2>20</ResponseValue2>
+    <ResponseValue3>25</ResponseValue3>
     <AverageValue />
     <Density>39</Density>
   </NewTestTarget>
@@ -39,8 +39,9 @@
     <Code>x1004</Code>
   </NewTestTarget>
   <NewTestTarget>
-    <NewName>unkown1</NewName>
+    <NewName>美土</NewName>
     <Code>x1005</Code>
-    <Place>666</Place>
+    <Place>california</Place>
   </NewTestTarget>
+  <NewTestTarget />
 </ArrayOfNewTestTarget>

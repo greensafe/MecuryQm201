@@ -341,6 +341,28 @@ namespace SilverTest.libs
             return onlyone;
         }
 
+        //读取端口收到的数据
+        public byte[] Read()
+        {
+            byte[] ReDatas = new byte[ComDevice.BytesToRead]; 
+            ComDevice.Read(ReDatas, 0, ReDatas.Length);
+            return ReDatas;
+            /*
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < ReDatas.Length; i++)
+            {
+                sb.AppendFormat("{0:x2}" + " ", ReDatas[i]);
+            }
+            */
+        }
+
+        //设置数据接收处理函数
+        public SerialDriver OnReceived(SerialDataReceivedEventHandler dlr)
+        {
+            ComDevice.DataReceived += new SerialDataReceivedEventHandler(dlr);
+            return onlyone;
+        }
+
         //打开端口
         public SerialDriver Open(string portname, int rate, int parity, int databits, int stopBits)
         {
@@ -458,6 +480,7 @@ namespace SilverTest.libs
         FileStream aFile;
         StreamReader sr;
         public int i = 100;
+        int tickcount = 1;
 
         public ProduceFakeData(string filename)
         {
@@ -465,6 +488,12 @@ namespace SilverTest.libs
             readDataTimer.Tick += new EventHandler(timeCycle);
             aFile = new FileStream(filename, FileMode.Open);
             sr = new StreamReader(aFile);
+
+            SerialDriver.GetDriver().Open("COM1", 9600, 0, 8, 1);
+            if (!SerialDriver.GetDriver().isOpen())
+            {
+                Console.WriteLine("======打开COM1失败======");
+            }
         }
 
         //向端口间隔发送数据
@@ -477,7 +506,9 @@ namespace SilverTest.libs
 
         public void timeCycle(object sender, EventArgs e)
         {
+            tickcount++;
             string line;
+            Console.WriteLine("tick " + tickcount.ToString());
             try
             {
                 line = sr.ReadLine();
@@ -485,6 +516,7 @@ namespace SilverTest.libs
                 if (line != null)
                 {
                     Console.WriteLine(line);
+                    line = line + "\r\n";
                     //byte[] b = { 1, 2, 3, 4, 5 };
                     if (SerialDriver.GetDriver().isOpen())
                     {

@@ -1,7 +1,8 @@
 <?xml version="1.0"?>
 <ArrayOfStandardSample xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <StandardSample>
-    <SampleName>昆山园区土</SampleName>
+    <SampleName>标样1</SampleName>
+    <GroupName>潘阳蟹土</GroupName>
     <Code>s1001</Code>
     <Density>30</Density>
     <Weight>10</Weight>
@@ -12,7 +13,8 @@
     <B>2.5</B>
   </StandardSample>
   <StandardSample>
-    <SampleName>潘阳蟹土</SampleName>
+    <SampleName>标样2</SampleName>
+    <GroupName>潘阳蟹土</GroupName>
     <Code>s1002</Code>
     <Density>20</Density>
     <Weight>10</Weight>
@@ -23,7 +25,8 @@
     <B>2.6</B>
   </StandardSample>
   <StandardSample>
-    <SampleName>琉璃瓦土</SampleName>
+    <SampleName>标样3</SampleName>
+    <GroupName>琉璃瓦土</GroupName>
     <Code>s1003</Code>
     <Density>21</Density>
     <Weight>10</Weight>
@@ -34,7 +37,8 @@
     <B>3.2</B>
   </StandardSample>
   <StandardSample>
-    <SampleName>建材土</SampleName>
+    <SampleName>标样4</SampleName>
+    <GroupName>琉璃瓦土</GroupName>
     <Code>s1004</Code>
     <Density>22</Density>
     <Weight>10</Weight>

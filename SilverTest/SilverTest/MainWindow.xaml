@@ -259,7 +259,7 @@
                     <Label Content="斜率" HorizontalAlignment="Left" Margin="40,0,0,0" VerticalAlignment="Center"/>
                     <TextBox x:Name="aTxb" Height="30" TextWrapping="Wrap" Text="" Margin="10,0,0,0" VerticalAlignment="Center" Width="120"/>
                     <Label Content="相关系数" HorizontalAlignment="Left" Margin="40,0,0,0" VerticalAlignment="Center"/>
-                    <TextBox Height="30" TextWrapping="Wrap" Text="" Margin="10,0,0,0" VerticalAlignment="Center" Width="120"/>
+                    <TextBox x:Name="rTxt" Height="30" TextWrapping="Wrap" Text="" Margin="10,0,0,0" VerticalAlignment="Center" Width="120"/>
                 </DockPanel>
 
 
