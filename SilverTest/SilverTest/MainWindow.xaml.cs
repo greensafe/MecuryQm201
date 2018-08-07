@@ -188,12 +188,21 @@ namespace SilverTest
             */
 
             byte[] ReDatas = SerialDriver.GetDriver().Read();
+            string re ="";
+            for(int i = 0; i< ReDatas.Length; i++)
+            {
+                re += (char)ReDatas[i];
+            }
+            Console.WriteLine("received data: " + re);
 
+            //DataFormater.getDataFormater().GetDot(ReDatas);
+            
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < ReDatas.Length; i++)
             {
                 sb.AppendFormat("{0:x2}" + " ", ReDatas[i]);
             }
+            
 
 
             Dispatcher.Invoke(new Action(() =>
@@ -494,6 +503,21 @@ namespace SilverTest
             ProduceFakeData pfd = new ProduceFakeData("实际数据.txt");
             pfd.Send(1);
             ;
+            /*
+            if(DataFormater.getDataFormater().getStatus() == DataFormater.ErrorOccur.NONE)
+            {
+                DataFormater.getDataFormater().GetDot(new byte[] { 1,2,3,4,5});
+            }
+            */
+        }
+
+        private void debugBtn_Click(object sender, RoutedEventArgs e)
+        {
+            DataFormater.getDataFormater().GetDots();
+            //byte[] r = DataFormater.getDataFormater().GetRawData();
+            ;
+            //DataFormater.getDataFormater().SaveToFile("raw.txt");
+            
         }
 
 

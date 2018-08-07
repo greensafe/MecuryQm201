@@ -18,6 +18,7 @@ using System.Xml.Serialization;
 
 namespace SilverTest.libs
 {
+
     public class Utility
     {
         //从资源中读取数据新样xml数据，转换为ObservableCollection
@@ -310,168 +311,14 @@ namespace SilverTest.libs
         */
     }
 
-    /*
-     * 串口驱动类，
-     * 仅仅能生成一个对象
-     * 
-     * 使用顺序
-     * GetDriver -> open->send->close->destroy
-     *   GetDriver->open ->send->close可反复使用，均是使用驱动对象
-     *   调用destroy后，当前的驱动对象被销毁
-     *    
-     */
-    public class SerialDriver
-    {
-        static private SerialPort ComDevice = null;
-        static private SerialDriver onlyone = null;
-
-        private SerialDriver()
-        {
-            ComDevice = new SerialPort();
-            Console.WriteLine("SerialDriver object is created");
-        }
-
-        //获取SerialDriver对象
-        static public SerialDriver GetDriver()
-        {
-            if(onlyone == null)
-            {
-                onlyone = new SerialDriver();
-            }
-            return onlyone;
-        }
-
-        //读取端口收到的数据
-        public byte[] Read()
-        {
-            byte[] ReDatas = new byte[ComDevice.BytesToRead]; 
-            ComDevice.Read(ReDatas, 0, ReDatas.Length);
-            return ReDatas;
-            /*
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < ReDatas.Length; i++)
-            {
-                sb.AppendFormat("{0:x2}" + " ", ReDatas[i]);
-            }
-            */
-        }
-
-        //设置数据接收处理函数
-        public SerialDriver OnReceived(SerialDataReceivedEventHandler dlr)
-        {
-            ComDevice.DataReceived += new SerialDataReceivedEventHandler(dlr);
-            return onlyone;
-        }
-
-        //打开端口
-        public SerialDriver Open(string portname, int rate, int parity, int databits, int stopBits)
-        {
-            if (ComDevice.IsOpen == false)
-            {
-                ComDevice.PortName = portname;
-                ComDevice.BaudRate = rate;
-                ComDevice.Parity = (Parity)parity;
-                ComDevice.DataBits = databits;
-                ComDevice.StopBits = (StopBits)stopBits;
-                try
-                {
-                    ComDevice.Open();
-                    Console.WriteLine("打开成功");
-                }
-                catch (Exception ex)
-                {
-                    //Console.WriteLine("打开发生错误");
-                    MessageBox.Show("打开发生错误");
-                    return onlyone;
-                }
-
-            }
-            else
-            {
-                try
-                {
-                    ComDevice.Close();
-                    MessageBox.Show("打开端口已经被关闭");
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "无法关闭已打开的端口");
-                    return onlyone;
-                };
-            }
-
-            return onlyone;
-        }
-
-        //判断端口是否打开
-        public bool isOpen()
-        {
-            if (ComDevice == null || ComDevice.IsOpen == false)
-                return false;
-            else
-                return true;
-        }
-
-        //关闭端口
-        public SerialDriver Close()
-        {
-            if (ComDevice.IsOpen)
-            {
-                try
-                {
-                    ComDevice.Close();
-                    Console.WriteLine("serial is closed!");
-                }
-                catch
-                {
-                    MessageBox.Show("关闭端口失败");
-                }
-            }
-            else
-            {
-                MessageBox.Show("没有打开的端口");
-            }
-            return onlyone;
-        }
-
-        //向端口发送数据
-        public bool Send(byte[] data)
-        {
-            if (ComDevice.IsOpen)
-            {
-                try
-                {
-                    ComDevice.Write(data, 0, data.Length);//发送数据  
-                    return true;
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("发送数据错误");
-                }
-            }
-            else
-            {
-                Console.WriteLine("串口未打开");
-            }
-            return false;
-        }
-
-        //销毁端口
-        public void destroy()
-        {
-            if ( ComDevice!=null && ComDevice.IsOpen)
-            {
-                ComDevice.Close();
-
-            }
-            ComDevice = null;
-            onlyone = null;
-        }
-    }
 
     /*
      * <>开放工具 模拟机器数据
      *  从文件中读取数据发送到端口
+     *  用法
+     *       SerialDriver.GetDriver().OnReceived(Com_DataReceived);
+     *       ProduceFakeData pfd = new ProduceFakeData("实际数据.txt");
+      *      pfd.Send(1); 
      */
     public class ProduceFakeData
     {
@@ -500,11 +347,11 @@ namespace SilverTest.libs
         public void Send(int s)
         {
 
-            readDataTimer.Interval = new TimeSpan(0, 0, 0, 0,s);  //1 seconds
+            readDataTimer.Interval = new TimeSpan(0, 0, 0, s,0);  //1 seconds
             readDataTimer.Start();
         }
 
-        public void timeCycle(object sender, EventArgs e)
+        private void timeCycle(object sender, EventArgs e)
         {
             tickcount++;
             string line;
@@ -515,8 +362,8 @@ namespace SilverTest.libs
                 // Read data in line by line.
                 if (line != null)
                 {
-                    Console.WriteLine(line);
-                    line = line + "\r\n";
+                    Console.WriteLine("write to serial:"+line);
+                    //line = line + "\r\n";
                     //byte[] b = { 1, 2, 3, 4, 5 };
                     if (SerialDriver.GetDriver().isOpen())
                     {
@@ -556,25 +403,5 @@ namespace SilverTest.libs
     }
 
 
-    /*
-     * data format from machine through serial port
-     */
-    public class MachineDataFormat
-    {
-        public string TagStart { get; set; }
-        public int Response { get; set; }
-        public string TagEnd { get; set; }
-        public MachineDataFormat(int resp)
-        {
-            TagStart = "G";
-            TagEnd = "H";
-            Response = resp;
-        }
-        public MachineDataFormat()
-        {
-            TagStart = "G";
-            Response = 0;
-            TagEnd = "H";
-        }
-    }
+   
 }
