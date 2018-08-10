@@ -32,6 +32,12 @@ using System.Xml;
  * Cmb = ComboBox
  * Txb = TextBox
  * Viw = ICollectionView
+ * 
+ * 函数尾缀约定
+ * Hdlr = handler 事件处理函数
+ * 
+ * 函数前缀约定
+ * On = 事件注册函数
 */
 
 namespace SilverTest

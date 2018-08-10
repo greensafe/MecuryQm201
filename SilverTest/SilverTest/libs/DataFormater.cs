@@ -15,6 +15,13 @@ namespace SilverTest.libs
      */
     public class DataFormater
     {
+        //@Param
+        // dot - dot值
+        // sequence - 序号
+        public delegate void PacketReceviedDelegate(ADot dot, int sequence);  //解析出了一个dot
+        public delegate void PacketCorrectedDelegate(ADot dot, int sequence); //响应包数据校验成功
+        public delegate void PacketCheckErrorDelegate(int sequence); //数据包校验失败
+        public delegate void PacketStillErrorDelegate(int sequence);  // 响应包数据校验再次失败
         //点的格式
         public class ADot
         {
@@ -32,6 +39,10 @@ namespace SilverTest.libs
         }
 
         private Collection<ADot> dots = null;
+        PacketReceviedDelegate PacketRecevied_Ev = null;
+        PacketCorrectedDelegate PacketCorrected_Ev = null;
+        PacketStillErrorDelegate PacketStillError_Ev = null;
+        PacketCheckErrorDelegate PacketCheckError_Ev = null;
 
         static private DataFormater onlyone = null;
         static public DataFormater getDataFormater()
@@ -48,29 +59,92 @@ namespace SilverTest.libs
         }
 
         //获取所有点组
-        public ICollection GetDots()
+        public Collection<ADot> GetDots()
         {
             return dots;
         }
 
-        //PacketRecevied_Ev回调函数, packet是一个纯包
-        void PacketReceviedDelegate(byte[] packet, PacketType ptype)
+
+        public void onPacketRecevied(PacketReceviedDelegate hdlr)
+        {
+            PacketRecevied_Ev = hdlr;
+        }
+
+        public void onPacketCorrected(PacketCorrectedDelegate hdlr)
+        {
+            PacketCorrected_Ev = hdlr;
+        }
+
+        public void onPacketStillError(PacketStillErrorDelegate hdlr)
+        {
+            PacketStillError_Ev = hdlr;
+        }
+
+        public void onPacketCheckError(PacketCheckErrorDelegate hdlr)
+        {
+            PacketCheckError_Ev = hdlr;
+        }
+
+
+        //处理PhyCombine.PacketRecevied_Ev的函数, packet是一个纯包
+        public void PacketReceviedHdlr(byte[] packet, PacketType ptype)
         {
             switch (ptype)
             {
                 case PacketType.CORRECT_RESPONSE:
-                    if (validateData(packet +1,PhyCombine.GetPhyCombine().GetMachineInfo().CrtPctLength,
-                        twoint(packet)) == true)
+                    if (validateData(packet,PhyCombine.GetPhyCombine().GetMachineInfo().CrtPctMiddleTag +1
+                        ,PhyCombine.GetPhyCombine().GetMachineInfo().DataWidth,
+                        twoint(packet,PhyCombine.GetPhyCombine().GetMachineInfo().CrtPctMiddleTag+1)) == true)
                     {
+                        int seq = Utility.ConvertStrToInt_Little(packet, 
+                            PhyCombine.GetPhyCombine().GetMachineInfo().CrtPctSStart,
+                            PhyCombine.GetPhyCombine().GetMachineInfo().SequenceLength);
+                        dots[seq].Rvalue = Utility.ConvertStrToInt_Little(packet,
+                            PhyCombine.GetPhyCombine().GetMachineInfo().CrtPctDStart,
+                            PhyCombine.GetPhyCombine().GetMachineInfo().SequenceLength);
+                        
+                        dots[seq].Status = DotStaus.CORRECTED;
+                        if(PacketCorrected_Ev != null)
+                        {
+                            PacketCorrected_Ev(dots[seq],seq);
+                        }
+                        return;
+                    }
+                    else
+                    {
+                        PacketStillError_Ev(Utility.ConvertStrToInt_Little(packet,
+                            PhyCombine.GetPhyCombine().GetMachineInfo().CrtPctSStart,
+                            PhyCombine.GetPhyCombine().GetMachineInfo().SequenceLength));
+                    }
+                    break;
+                case PacketType.DATA_VALUE:
+                    if(validateData(packet,PhyCombine.GetPhyCombine().GetMachineInfo().DataPctDStart,
+                        PhyCombine.GetPhyCombine().GetMachineInfo().DataWidth,twoint(packet,PhyCombine.GetPhyCombine().GetMachineInfo().DataPctVStart)) == true)
+                    {
+                        dots.Add(new ADot() {
+                            Rvalue = Utility.ConvertStrToInt_Little(packet, PhyCombine.GetPhyCombine().GetMachineInfo().DataPctDStart,
+                                                        PhyCombine.GetPhyCombine().GetMachineInfo().DataWidth),
+                            Status = DotStaus.OK
+                        });
+                        if (PacketRecevied_Ev != null)
+                        {
+                            //通知收到一个包
+                            PacketRecevied_Ev(dots[dots.Count],dots.Count -1 );
+                        }
 
                     }
                     else
                     {
-                        
+                        //发生错误
+                        dots.Add(new ADot() {
+                            Status = DotStaus.CORRECTING,
+                        });
+                        if(PacketCheckError_Ev != null)
+                        {
+                            PacketCheckError_Ev(dots.Count);
+                        }
+
                     }
-                    break;
-                case PacketType.DATA_VALUE:
-                    
                     break;
                 case PacketType.SEQUENCE:
 
@@ -81,28 +155,15 @@ namespace SilverTest.libs
             }
         }
 
-        private bool validateData(object p, object g)
-        {
-            throw new NotImplementedException();
-        }
 
-        //将字符串拼接数字
-        private int cToNum(byte[] data, int len)
-        {
-            string a = "";
-            for(int i = 0; i< len; i++)
-            {
-                a += (char)data[i];
-            }
-            return int.Parse(a) ;
-        }
 
-        //将数字高低位拼接成一个完整的数字
-        private int twoint(byte[] data)
+
+        //校验拼接，将数字高低位拼接成一个完整的数字
+        private int twoint(byte[] data,int start)
         {
             int total = 0;
-            total += data[0];
-            total += data[1] * 256;
+            total += data[start];
+            total += data[start+1] * 256;
             return total;
         }
 
@@ -111,9 +172,21 @@ namespace SilverTest.libs
         //param
         // data - 待校验数据
         // cv - 校验值
-        private bool validateData(byte[] data, int len, int cv)
+        private bool validateData(byte[] data,int start, int len, int cv)
         {
-            return true;
+            int total = 0;
+            for(int i = 0; i< len; i++)
+            {
+                total += (data[i] - 0x30);
+            }
+            if(total == cv)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 

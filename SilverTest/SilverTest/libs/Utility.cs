@@ -272,6 +272,53 @@ namespace SilverTest.libs
 
         }
 
+        /*
+         * 将byte流转化为数字。 每个byte中存放的是数字字符的二进制。
+         * 比如 '2543', byte中存放的是0x32, 0x35, 0x34, 0x33
+         * 大端字节序
+         * @param
+         *      data - 字节流
+         *      start - 数据开始位置
+         *      len - 数据长度
+         *  
+         */ 
+        static public int ConvertStrToInt_Big(byte[] data, int start, int len)
+        {
+            int total = 0;
+
+            if (len > data.Length)
+                return -1;
+            for(int i =0; i< len; i++)
+            {
+                total += data[i] - 0x30;
+                total *= 10;
+            }
+            return total /= 10;
+        }
+
+        /*
+          * 将byte流转化为数字。 每个byte中存放的是数字字符的二进制。
+          * 比如 '2543', byte中存放的是0x32, 0x35, 0x34, 0x33
+          * 小端字节序
+          * @param
+          *      data - 字节流
+          *      start - 数据开始位置
+          *      len - 数据长度
+          *  
+          */
+        static public int ConvertStrToInt_Little(byte[] data, int start, int len)
+        {
+            int total = 0;
+
+            if (len > data.Length)
+                return -1;
+            for (int i = len - 1; i >= 0; i--)
+            {
+                total += data[i] - 0x30;
+                total *= 10;
+            }
+            return total /= 10;
+        }
 
         /*
         static public void GenerateExcel(DataTable DtIN)
@@ -312,95 +359,6 @@ namespace SilverTest.libs
     }
 
 
-    /*
-     * <>开放工具 模拟机器数据
-     *  从文件中读取数据发送到端口
-     *  用法
-     *       SerialDriver.GetDriver().OnReceived(Com_DataReceived);
-     *       ProduceFakeData pfd = new ProduceFakeData("实际数据.txt");
-      *      pfd.Send(1); 
-     */
-    public class ProduceFakeData
-    {
-        //context
-        private DispatcherTimer readDataTimer;
-        FileStream aFile;
-        StreamReader sr;
-        public int i = 100;
-        int tickcount = 1;
-
-        public ProduceFakeData(string filename)
-        {
-            readDataTimer = new DispatcherTimer();
-            readDataTimer.Tick += new EventHandler(timeCycle);
-            aFile = new FileStream(filename, FileMode.Open);
-            sr = new StreamReader(aFile);
-
-            SerialDriver.GetDriver().Open("COM1", 9600, 0, 8, 1);
-            if (!SerialDriver.GetDriver().isOpen())
-            {
-                Console.WriteLine("======打开COM1失败======");
-            }
-        }
-
-        //向端口间隔发送数据
-        public void Send(int s)
-        {
-
-            readDataTimer.Interval = new TimeSpan(0, 0, 0, s,0);  //1 seconds
-            readDataTimer.Start();
-        }
-
-        private void timeCycle(object sender, EventArgs e)
-        {
-            tickcount++;
-            string line;
-            Console.WriteLine("tick " + tickcount.ToString());
-            try
-            {
-                line = sr.ReadLine();
-                // Read data in line by line.
-                if (line != null)
-                {
-                    Console.WriteLine("write to serial:"+line);
-                    //line = line + "\r\n";
-                    //byte[] b = { 1, 2, 3, 4, 5 };
-                    if (SerialDriver.GetDriver().isOpen())
-                    {
-                        SerialDriver.GetDriver().Send(Encoding.Default.GetBytes(line));
-                    }
-                    ;
-                    //line = sr.ReadLine();
-                }
-                else
-                {
-                    //clear context
-                    aFile.Close();
-                    aFile = null;
-                    sr.Close();
-                    sr = null;
-                    readDataTimer.Stop();
-                    readDataTimer.IsEnabled = false;
-                    readDataTimer = null;
-                    Console.WriteLine("env released !");
-                }
-            }
-            catch (Exception error)
-            {
-                //clear context
-                aFile.Close();
-                aFile = null;
-                sr.Close();
-                sr = null;
-                readDataTimer.Stop();
-                readDataTimer.IsEnabled = false;
-                readDataTimer = null;
-                Console.WriteLine("error occure, env is released !");
-            }
-            ;
-        }
-
-    }
 
 
    

@@ -82,7 +82,9 @@
     </ApplicationDefinition>
     <Compile Include="DataDB.cs" />
     <Compile Include="libs\DataFormater.cs" />
+    <Compile Include="libs\DotManager.cs" />
     <Compile Include="libs\PhyCombine.cs" />
+    <Compile Include="libs\ProduceFakeData.cs" />
     <Compile Include="libs\SerialDriver.cs" />
     <Compile Include="libs\Utility.cs" />
     <Compile Include="Requirement.cs" />
