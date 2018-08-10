@@ -17,6 +17,8 @@ namespace SilverTest.libs
     public class DotManager
     {
         private static DotManager onlyme = null;
+        public delegate void PacketReceviedDelegate(ADot dot, int sequence);  //获得一个dot
+        public delegate void PacketCorrectedDelegate(ADot dot, int sequence); //获得一个校验dot
 
         enum correctstatus
         {
@@ -32,7 +34,8 @@ namespace SilverTest.libs
             public int seq { get; set; }    //点值序号
             public DispatcherTimer mytimer{ get; set; } //定时器
         }
-
+        PacketReceviedDelegate PacketRecevied_Ev = null;
+        PacketCorrectedDelegate PacketCorrected_Ev = null;
 
         List<CorrectItem> correctitems;
         private readonly int correctstrategy_retry = 3;
@@ -57,9 +60,25 @@ namespace SilverTest.libs
             return onlyme;
         }
 
+        public void onPacketRecevied(PacketReceviedDelegate hdlr)
+        {
+            PacketRecevied_Ev = hdlr;
+        }
+
+        public void onPacketCorrected(PacketCorrectedDelegate hdlr)
+        {
+            PacketCorrected_Ev = hdlr;
+        }
+
         public void Start()
         {
             //do nothing。 仅仅给用户一个感觉。
+        }
+
+        //获取一个dot，结果使用事件通知
+        public void GetDot(byte[] raw)
+        {
+            PhyCombine.GetPhyCombine().CombineFragment(raw);
         }
 
         public Collection<ADot> GetDots()
@@ -67,7 +86,7 @@ namespace SilverTest.libs
             return DataFormater.getDataFormater().GetDots();
         }
 
-        //收到纠正包，刷新波形图
+        //收到纠正包
         /*
         private void PacketCorrectedHdlr( int sequence)
         {
@@ -77,6 +96,7 @@ namespace SilverTest.libs
         //收到包，
         private void PacketReceviedHdlr(ADot dot, int sequence)
         {
+            PacketCorrected_Ev(dot, sequence);
             Console.WriteLine("dots[" + sequence.ToString() + "]: " + dot.ToString());
             ;
         }
@@ -120,7 +140,7 @@ namespace SilverTest.libs
             ;
         }
 
-        //纠正成功事件处理函数, 刷新波形图
+        //纠正成功事件处理函数
         private void PacketCorrectedHdlr(ADot dot, int sequence)
         {
             foreach(CorrectItem item in correctitems)
@@ -135,6 +155,7 @@ namespace SilverTest.libs
                     }
                 }
             }
+            PacketCorrected_Ev(dot, sequence);
         }
 
         private void correct_tick_hdlr(object sender, EventArgs e)
