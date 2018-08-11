@@ -540,7 +540,7 @@ namespace SilverTest.libs
         // 找到一个完整包后向rawtext添加\r\n，便于阅读
         private bool appendCRLF()
         {
-            if (rawText_length + 2 < rawText_maxlength)
+            if (rawText_length + 2 > rawText_maxlength)
                 return false;
             rawText[rawText_length] = 0x0d; // \r
             rawText[rawText_length] = 0x0a; // \n

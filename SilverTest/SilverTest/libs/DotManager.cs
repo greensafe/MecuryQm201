@@ -128,7 +128,6 @@ namespace SilverTest.libs
         private void PacketReceviedHdlr(ADot dot, int sequence)
         {
             PacketRecevied_Ev(dot, sequence);
-            Console.WriteLine("dots[" + sequence.ToString() + "]: " + dot.ToString());
             ;
         }
 
