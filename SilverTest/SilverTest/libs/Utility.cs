@@ -314,7 +314,7 @@ namespace SilverTest.libs
                 return -1;
             for (int i = len - 1; i >= 0; i--)
             {
-                total += data[i] - 0x30;
+                total += data[start + i] - 0x30;
                 total *= 10;
             }
             return total /= 10;

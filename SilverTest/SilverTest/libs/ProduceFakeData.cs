@@ -79,6 +79,7 @@ namespace SilverTest.libs
                     readDataTimer.IsEnabled = false;
                     readDataTimer = null;
                     Console.WriteLine("env released !");
+                    
                 }
             }
             catch (Exception error)

@@ -181,8 +181,15 @@ namespace SilverTest
             ComDevice = new SerialPort();
             ComDevice.DataReceived += new SerialDataReceivedEventHandler(Com_DataReceived);
 
+            //初始化串口数据分析模块
+            DotManager.GetDotManger().onPacketCorrected(CorrectedPacketReceived);
+            DotManager.GetDotManger().onPacketRecevied(PacketReceived);
+            DotManager.GetDotManger().Start();
+
             //drawWave_simulate(1001);
         }
+
+
 
         public void Com_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
@@ -199,7 +206,8 @@ namespace SilverTest
             {
                 re += (char)ReDatas[i];
             }
-            Console.WriteLine("received data: " + re);
+            Console.WriteLine("serial . received data: " + re);
+            DotManager.GetDotManger().GetDot(ReDatas);
 
             //DataFormater.getDataFormater().GetDot(ReDatas);
             
@@ -254,12 +262,6 @@ namespace SilverTest
         }
         */
 
-        /*
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
-        */
 
         //打开端口
         private bool openRSPort()
@@ -526,7 +528,15 @@ namespace SilverTest
             
         }
 
+        private void PacketReceived(DataFormater.ADot dot, int sequence)
+        {
+            Console.WriteLine("--- dot " + sequence.ToString() + ": " + dot.Rvalue);
+        }
 
+        private void CorrectedPacketReceived(DataFormater.ADot dot, int sequence)
+        {
+            Console.WriteLine("--- c dot " + sequence.ToString() + ": " + dot.Rvalue);
+        }
 
         /*
         private void SomeSelectionChanged(object sender, SelectionChangedEventArgs e)

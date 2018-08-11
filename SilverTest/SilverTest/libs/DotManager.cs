@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 using static SilverTest.libs.DataFormater;
+using static SilverTest.libs.PhyCombine;
 
 namespace SilverTest.libs
 {
@@ -50,6 +51,8 @@ namespace SilverTest.libs
             DataFormater.getDataFormater().onPacketCheckError(PacketCheckErrorHdlr);
             DataFormater.getDataFormater().onPacketCorrected(PacketCorrectedHdlr);
             DataFormater.getDataFormater().onPacketRecevied(PacketReceviedHdlr);
+
+            PhyCombine.GetPhyCombine().onCombineError(CombineErrorDelegate);
         }
         public static DotManager GetDotManger()
         {
@@ -86,17 +89,45 @@ namespace SilverTest.libs
             return DataFormater.getDataFormater().GetDots();
         }
 
-        //收到纠正包
-        /*
-        private void PacketCorrectedHdlr( int sequence)
+
+        //
+        private void CombineErrorDelegate(CombineErrorInfo err)
         {
-            Console.WriteLine("C dots["+sequence.ToString()+"]: "+dot.ToString());
-            ;
-        }*/
+            switch (err)
+            {
+                case CombineErrorInfo.CORRECT_PCT_DATA_FORMAT_ERROR:
+                    Console.WriteLine("纠正包格式出错");
+                    break;
+                case CombineErrorInfo.INVALID_MACHINE_TYPE:
+                    Console.WriteLine("无法识别机器格式");
+                    break;
+                case CombineErrorInfo.INVALID_PACKET_TYPE:
+                    Console.WriteLine("无法识别包格式");
+                    break;
+                case CombineErrorInfo.NOT_FOUND_MACHINE_HEADER_LONG:
+                    Console.WriteLine("长时间无法找到机器格式包");
+                    break;
+                case CombineErrorInfo.NOT_FOUND_START_TAG_LONG:
+                    Console.WriteLine("长时间无法找到包其实标志");
+                    break;
+                case CombineErrorInfo.SEQUENCE_PCT_DATA_FORMAT_ERROR:
+                    Console.WriteLine("序号包格式出错");
+                    break;
+                case CombineErrorInfo.VALUE_PCT_DATA_FORMAT_ERROR:
+                    Console.WriteLine("数据包格式出错");
+                    break;
+                case CombineErrorInfo.UNKNOWN:
+                default:
+                    Console.WriteLine("未知错误");
+                    break;
+            }
+            
+        }
+
         //收到包，
         private void PacketReceviedHdlr(ADot dot, int sequence)
         {
-            PacketCorrected_Ev(dot, sequence);
+            PacketRecevied_Ev(dot, sequence);
             Console.WriteLine("dots[" + sequence.ToString() + "]: " + dot.ToString());
             ;
         }
@@ -106,6 +137,8 @@ namespace SilverTest.libs
         {
             //
             CorrectItem item = null;
+
+            Console.WriteLine("数据校验出错");
             foreach(CorrectItem im in correctitems)
             {
                 if(im.seq == sequence)
@@ -117,21 +150,24 @@ namespace SilverTest.libs
             switch (item)
             {
                 case null:  //没有记录
-                    DispatcherTimer correcttimer = new DispatcherTimer();
-                    correcttimer.Interval = new TimeSpan(0, 0, 0, 0, correctstrategy_timespan);  //1 seconds
-                    correcttimer.Tick += new EventHandler(correct_tick_hdlr);
-                    
                     item = new CorrectItem
                     {
                         seq = sequence,
                         retrycount = 0,
                         status = correctstatus.CORRECTING,
-                        mytimer = correcttimer,
                     };
                     correctitems.Add(item);
 
-                    correcttimer.Tag = (object)(correctitems.Count - 1);
-                    correcttimer.Start();
+                    item.mytimer = new DispatcherTimer();
+                    //correcttimer.Interval = new TimeSpan(0, 0, 0, 0, correctstrategy_timespan);  //
+                    item.mytimer.Interval = new TimeSpan(0, 0, 0, 0, 1);  //
+                    item.mytimer.Tick += new EventHandler(correct_tick_hdlr);
+
+
+
+                    item.mytimer.Tag = (object)(correctitems.Count - 1);
+
+                    item.mytimer.Start();
                     break;
                 default:  //正在纠错中
                     //do noting
@@ -160,6 +196,7 @@ namespace SilverTest.libs
 
         private void correct_tick_hdlr(object sender, EventArgs e)
         {
+            Console.WriteLine("ticker start");
             int index = (int)(((DispatcherTimer)sender).Tag);
             if(correctitems[index].retrycount > correctstrategy_retry)  //超出重发次数，停止定时器
             {
@@ -206,5 +243,7 @@ namespace SilverTest.libs
             data[11] = 0x44;            //"D"
             return data;
         }
+
+
     }
 }

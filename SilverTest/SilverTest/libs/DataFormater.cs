@@ -92,16 +92,16 @@ namespace SilverTest.libs
             switch (ptype)
             {
                 case PacketType.CORRECT_RESPONSE:
-                    if (validateData(packet,PhyCombine.GetPhyCombine().GetMachineInfo().CrtPctMiddleTag +1
+                    if (validateData(packet,PhyCombine.GetPhyCombine().GetMachineInfo().CrtPctDStart
                         ,PhyCombine.GetPhyCombine().GetMachineInfo().DataWidth,
-                        twoint(packet,PhyCombine.GetPhyCombine().GetMachineInfo().CrtPctMiddleTag+1)) == true)
+                        twoint(packet,PhyCombine.GetPhyCombine().GetMachineInfo().CrtPctVStart)) == true)
                     {
                         int seq = Utility.ConvertStrToInt_Little(packet, 
                             PhyCombine.GetPhyCombine().GetMachineInfo().CrtPctSStart,
                             PhyCombine.GetPhyCombine().GetMachineInfo().SequenceLength);
                         dots[seq].Rvalue = Utility.ConvertStrToInt_Little(packet,
                             PhyCombine.GetPhyCombine().GetMachineInfo().CrtPctDStart,
-                            PhyCombine.GetPhyCombine().GetMachineInfo().SequenceLength);
+                            PhyCombine.GetPhyCombine().GetMachineInfo().DataWidth);
                         
                         dots[seq].Status = DotStaus.CORRECTED;
                         if(PacketCorrected_Ev != null)
@@ -112,7 +112,8 @@ namespace SilverTest.libs
                     }
                     else
                     {
-                        PacketStillError_Ev(Utility.ConvertStrToInt_Little(packet,
+                        if(PacketStillError_Ev != null)
+                            PacketStillError_Ev(Utility.ConvertStrToInt_Little(packet,
                             PhyCombine.GetPhyCombine().GetMachineInfo().CrtPctSStart,
                             PhyCombine.GetPhyCombine().GetMachineInfo().SequenceLength));
                     }
@@ -129,7 +130,7 @@ namespace SilverTest.libs
                         if (PacketRecevied_Ev != null)
                         {
                             //通知收到一个包
-                            PacketRecevied_Ev(dots[dots.Count],dots.Count -1 );
+                            PacketRecevied_Ev(dots[dots.Count-1],dots.Count -1 );
                         }
 
                     }
@@ -141,7 +142,7 @@ namespace SilverTest.libs
                         });
                         if(PacketCheckError_Ev != null)
                         {
-                            PacketCheckError_Ev(dots.Count);
+                            PacketCheckError_Ev(dots.Count - 1);
                         }
 
                     }
@@ -177,7 +178,7 @@ namespace SilverTest.libs
             int total = 0;
             for(int i = 0; i< len; i++)
             {
-                total += (data[i] - 0x30);
+                total += (data[start + i] - 0x30);
             }
             if(total == cv)
             {
