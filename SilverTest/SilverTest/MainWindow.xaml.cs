@@ -140,6 +140,7 @@ namespace SilverTest
 
         private void realTck(object sender, EventArgs e)
         {
+            /*
             //演示代码
             double x = currentSecond;
             double y = rd.Next(5, 30);
@@ -171,6 +172,7 @@ namespace SilverTest
                 realCpt.Viewport.Visible = new System.Windows.Rect(xaxis, 0, group, yaxis);
             }
             currentSecond++;
+            */
         }
 
 
@@ -511,6 +513,7 @@ namespace SilverTest
             ProduceFakeData pfd = new ProduceFakeData("实际数据.txt");
             pfd.Send(1);
             ;
+
             /*
             if(DataFormater.getDataFormater().getStatus() == DataFormater.ErrorOccur.NONE)
             {
@@ -530,6 +533,41 @@ namespace SilverTest
 
         private void PacketReceived(DataFormater.ADot dot, int sequence)
         {
+            //演示代码
+            double x = currentSecond;
+            double y = dot.Rvalue;
+            Point point = new Point(x, y);
+            realCptDs.AppendAsync(base.Dispatcher, point);
+            if (true)
+            {
+                if (q.Count < group)
+                {
+                    q.Enqueue((int)y);//入队
+                    yaxis = 0;
+                    foreach (int c in q)
+                        if (c > yaxis)
+                            yaxis = c;
+                }
+                else
+                {
+                    q.Dequeue();//出队
+                    q.Enqueue((int)y);//入队
+                    yaxis = 0;
+                    foreach (int c in q)
+                        if (c > yaxis)
+                            yaxis = c;
+                }
+                if (currentSecond - group > 0)
+                    xaxis = currentSecond - group;
+                else
+                    xaxis = 0;
+                Dispatcher.Invoke(new Action(() =>
+                {
+                    realCpt.Viewport.Visible = new System.Windows.Rect(xaxis, 0, group, yaxis);
+                }));
+                
+            }
+            currentSecond++;
             Console.WriteLine("--- dot " + sequence.ToString() + ": " + dot.Rvalue);
         }
 
