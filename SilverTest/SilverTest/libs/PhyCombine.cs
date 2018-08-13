@@ -275,7 +275,7 @@ namespace SilverTest.libs
                                     if(CombineError_Ev != null) CombineError_Ev(CombineErrorInfo.VALUE_PCT_DATA_FORMAT_ERROR);
                                     break;
                             }
-                            
+                            rawText_frag_status = PacketCombineStatus.OK; //抛弃格式错误包
                             break;
                         case CheckError.PACKET_TPYE_ERROR: ////抛弃，拨动指针，发出事件
                             rawText_bigpct_prt += 1; //跳过"S"
@@ -443,6 +443,7 @@ namespace SilverTest.libs
             bool hasMiddleTag, byte middleTag, int middletag_rel_position,
             byte eTag, int endtag_rel_position, int purepctlength)
         {
+            out_fragtype = getFragType(in_ptype);
             if (rawText_purepct_prt + purepctlength - 1 > rawText_length - 1) //碎片，继续拼接
             {
                 out_ptye = in_ptype;
@@ -455,7 +456,7 @@ namespace SilverTest.libs
                 if (rawText[rawText_purepct_prt + middletag_rel_position] != middleTag)
                 {
                     out_ptye = in_ptype;
-                    out_fragtype = PacketCombineStatus.OK;      //格式错误，抛弃数据
+                    //out_fragtype = PacketCombineStatus.OK;      //格式错误，抛弃数据
                     if(CombineError_Ev != null) CombineError_Ev(getDataFormatErrorType(in_ptype));
                     return CheckError.DATA_FORMAT_ERROR;
                 }
@@ -464,7 +465,7 @@ namespace SilverTest.libs
             if (rawText[rawText_purepct_prt + endtag_rel_position] != eTag)
             {
                 out_ptye = in_ptype;
-                out_fragtype = PacketCombineStatus.OK;      //格式错误，抛弃数据
+                //out_fragtype = PacketCombineStatus.OK;      //格式错误，抛弃数据
                 if(CombineError_Ev != null) CombineError_Ev(getDataFormatErrorType(in_ptype));
                 return CheckError.DATA_FORMAT_ERROR;
             }
