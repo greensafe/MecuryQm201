@@ -89,7 +89,10 @@ namespace SilverTest.libs
             return DataFormater.getDataFormater().GetDots();
         }
 
-
+        public void DumpRawText(string filename)
+        {
+            PhyCombine.GetPhyCombine().Dump(filename);
+        }
         //
         private void CombineErrorDelegate(CombineErrorInfo err)
         {

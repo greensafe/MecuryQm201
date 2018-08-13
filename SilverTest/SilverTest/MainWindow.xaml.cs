@@ -22,6 +22,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Xml;
+using static SilverTest.libs.DataFormater;
 
 /*
  * 变量尾缀约定
@@ -574,6 +575,22 @@ namespace SilverTest
         private void CorrectedPacketReceived(DataFormater.ADot dot, int sequence)
         {
             Console.WriteLine("--- c dot " + sequence.ToString() + ": " + dot.Rvalue);
+        }
+
+        private void saveDotsMenu_Checked(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void saveDotsMenu_Click(object sender, RoutedEventArgs e)
+        {
+            Collection<ADot> dots =  DotManager.GetDotManger().GetDots();
+            ;
+        }
+
+        private void saveRawTextMenu_Click(object sender, RoutedEventArgs e)
+        {
+            DotManager.GetDotManger().DumpRawText("rawtext.txt");
         }
 
         /*

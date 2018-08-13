@@ -67,6 +67,10 @@
                     <MenuItem Header="测砷"></MenuItem>
                 </MenuItem>
                 <MenuItem Header="帮助"></MenuItem>
+                <MenuItem Header="开发">
+                    <MenuItem x:Name="saveDotsMenu" Header="保存Dots" Checked="saveDotsMenu_Checked" Click="saveDotsMenu_Click"></MenuItem>
+                    <MenuItem x:Name="saveRawTextMenu" Header="保存rawtext" Click="saveRawTextMenu_Click"></MenuItem>
+                </MenuItem>                
             </Menu>
             <Separator DockPanel.Dock="Top" Height="3" Margin="0" VerticalAlignment="Top" Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}"/>
             <ToolBarTray x:Name="toolBarTray" Height="30" Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}" DockPanel.Dock="Top">
