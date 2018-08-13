@@ -32,6 +32,7 @@
                 <Button x:Name="openPort" Content="open" Height="40" Width="75" DockPanel.Dock="Right" Margin="0,0,30,0" Click="openPort_Click"/>
                 <TextBox x:Name="wordcount" Height="50" DockPanel.Dock="Left" TextWrapping="Wrap" Text="number" VerticalAlignment="Center" Width="70"/>
                 <Button Content="clear" Height="40" VerticalAlignment="Center" Width="75" Margin="15,0" DockPanel.Dock="Left" Click="Button_Click"/>
+                <Button x:Name="makeDataBtn" Content="创建模拟数据" Height="40" VerticalAlignment="Top" Width="75" Margin="0,30,0,0" Click="makeDataBtn_Click"/>
             </DockPanel>
             <TextBox x:Name="txtSendData" Height="61" TextWrapping="Wrap" Text="发送命令"/>
         </StackPanel>

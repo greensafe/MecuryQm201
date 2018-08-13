@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
@@ -248,6 +249,29 @@ namespace SerialPortLab
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             outputData.Text = "";
+        }
+
+        private void makeDataBtn_Click(object sender, RoutedEventArgs e)
+        {
+            FileStream afile = new FileStream("实际数据.txt", FileMode.Append);
+            StreamWriter writer = new StreamWriter(afile);
+
+            FileStream rfile = new FileStream("clip.txt", FileMode.Open);
+            StreamReader reader = new StreamReader(rfile);
+            string data = reader.ReadToEnd();
+
+            for (int i = 0; i < 5000; i++)
+            {
+
+                writer.Write(data);
+            }
+
+            writer.Close();
+            afile.Close();
+            reader.Close();
+            rfile.Close();
+
+
         }
     }
 }

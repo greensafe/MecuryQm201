@@ -43,7 +43,7 @@ namespace SilverTest.libs
         public void Send(int s)
         {
 
-            readDataTimer.Interval = new TimeSpan(0, 0, 0, s, 0);  //1 seconds
+            readDataTimer.Interval = new TimeSpan(0, 0, 0, 0, 1);  //1 seconds
             readDataTimer.Start();
         }
 
