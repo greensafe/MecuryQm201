@@ -58,12 +58,13 @@ namespace SilverTest
     public partial class MainWindow : Window
     {
         //演示代码
-        int seconds;
-        DispatcherTimer demoTimer = new DispatcherTimer();
+        //int seconds;
+        //DispatcherTimer demoTimer = new DispatcherTimer();
 
         //使用DynamicDataDisplay控件显示波形
         private ObservableDataSource<Point> realCptDs = new ObservableDataSource<Point>();
-        private DispatcherTimer realCptTimer = new DispatcherTimer();
+        //private DispatcherTimer realCptTimer = new DispatcherTimer();
+        private int dots_start_abs = 0;
         bool mode = true;
         Random rd = new Random();
         private int currentSecond = 0;
@@ -86,8 +87,8 @@ namespace SilverTest
             realCpt.AddLineGraph(realCptDs, Colors.Red, 2, "百分比");
             realCpt.LegendVisible = true;
             realCpt.Viewport.FitToView();
-            realCptTimer.Interval = TimeSpan.FromSeconds(1);
-            realCptTimer.Tick += realTck;
+            //realCptTimer.Interval = TimeSpan.FromSeconds(1);
+            //realCptTimer.Tick += realTck;
             //realCptTimer.IsEnabled = true;
 
             /*
@@ -110,11 +111,12 @@ namespace SilverTest
             StandardCvw.GroupDescriptions.Add(new PropertyGroupDescription("GroupName"));
 
             //演示代码
-            demoTimer.Interval =  new TimeSpan(0, 0, 0, 1);  //1 seconds
-            demoTimer.Tick += new EventHandler(timeCycle);
+            //demoTimer.Interval =  new TimeSpan(0, 0, 0, 1);  //1 seconds
+            //demoTimer.Tick += new EventHandler(timeCycle);
         }
 
         //演示代码
+        /*
         public void timeCycle(object sender, EventArgs e)
         {
             seconds++;
@@ -138,6 +140,7 @@ namespace SilverTest
             }
             ;
         }
+        */
 
         private void realTck(object sender, EventArgs e)
         {
@@ -432,16 +435,28 @@ namespace SilverTest
 
             //如果有平均值则计算汞浓度
             int rowNo = NewTargetDgd.SelectedIndex;
-            if (rowNo < 0 || newTestClt[rowNo].AverageValue is null)
+            if (rowNo < 0 )
                 return;
-            if (newTestClt[rowNo].AverageValue != "")
+            if (newTestClt[rowNo].ResponseValue1 == "" ||
+                newTestClt[rowNo].ResponseValue1 == null ||
+                newTestClt[rowNo].ResponseValue2 == "" ||
+                newTestClt[rowNo].ResponseValue2 == null ||
+                newTestClt[rowNo].ResponseValue3 == "" ||
+                newTestClt[rowNo].ResponseValue3 == null
+                )
+                return;
             {
 
                 //newTestClt[rowNow].Density = "";
-                int t1 = int.Parse(newTestClt[rowNo].ResponseValue1);
+                int avr = int.Parse(newTestClt[rowNo].ResponseValue1) +
+                    int.Parse(newTestClt[rowNo].ResponseValue2) +
+                    int.Parse(newTestClt[rowNo].ResponseValue3);
+                avr /= 3;
+                newTestClt[rowNo].AverageValue = avr.ToString();
+
                 double t2 = double.Parse(asample.A);
                 double t3 = double.Parse(asample.B);
-                double d = (t1 * t2 * t3 / 1000);
+                double d = (avr * t2 * t3 / 1000);
                 newTestClt[rowNo].Density = d.ToString();
             }
 
@@ -475,29 +490,120 @@ namespace SilverTest
 
         private void startTestBtn_Click(object sender, RoutedEventArgs e)
         {
-            switch(startTestBtn.Content as string)
+            switch (sampletab.SelectedIndex)
             {
-                case "开始测试":
-                    statusBtn.Visibility = Visibility.Visible;
-                    AnimatedColorButton.Visibility = Visibility.Visible;
-                    demoTimer.Start();
-                    realCptTimer.Start();
-                    startTestBtn.Content = "停止测试";
-                    break;
-                case "停止测试":
-                    statusBtn.Visibility = Visibility.Hidden;
-                    AnimatedColorButton.Visibility = Visibility.Hidden;
-                    demoTimer.Stop();
-                    realCptTimer.Stop();
-                    startTestBtn.Content = "开始测试";
-                    break;
-                default:
+                case 0:     //新样
+                    switch (startTestBtn.Content as string)
+                    {
+                        case "开始测试":
+                            if (NewTargetDgd.SelectedIndex == -1)
+                            {
+                                MessageBox.Show("请选择一条样本");
+                                return;
+                            }
+                            if (newTestClt[NewTargetDgd.SelectedIndex].ResponseValue3 != "" && newTestClt[NewTargetDgd.SelectedIndex].ResponseValue3 != null)
+                            {
+                                MessageBox.Show("数据已经满，请去掉网格中数据重新开始测试");
+                                return;
+                            }
 
+                            statusBtn.Visibility = Visibility.Visible;
+                            AnimatedColorButton.Visibility = Visibility.Visible;
+                            dots_start_abs = DotManager.GetDotManger().GetDots().Count;
+                            //demoTimer.Start();
+                            //realCptTimer.Start();
+                            startTestBtn.Content = "停止测试";
+                            if (SerialDriver.GetDriver().isOpen() == false)
+                            {
+                                SerialDriver.GetDriver().Open("COM1", 9600, 0, 8, 1);
+                            }
+                            break;
+                        case "停止测试":
+                            statusBtn.Visibility = Visibility.Hidden;
+                            AnimatedColorButton.Visibility = Visibility.Hidden;
+                            //demoTimer.Stop();
+                            //realCptTimer.Stop();
+                            startTestBtn.Content = "开始测试";
+                            if (SerialDriver.GetDriver().isOpen() == true)
+                            {
+                                SerialDriver.GetDriver().Close();
+                            }
+                            //计算响应值，填入datagrid之中
+                            if (newTestClt[NewTargetDgd.SelectedIndex].ResponseValue1 == "" ||
+                                newTestClt[NewTargetDgd.SelectedIndex].ResponseValue1 == null)
+                                newTestClt[NewTargetDgd.SelectedIndex].ResponseValue1 = Utility.ComputeResponseValue(
+                                    dots_start_abs, DotManager.GetDotManger().GetDots().Count).ToString();
+                            else if (newTestClt[NewTargetDgd.SelectedIndex].ResponseValue2 == "" ||
+                                newTestClt[NewTargetDgd.SelectedIndex].ResponseValue2 == null)
+                                newTestClt[NewTargetDgd.SelectedIndex].ResponseValue2 = Utility.ComputeResponseValue(
+                                    dots_start_abs, DotManager.GetDotManger().GetDots().Count).ToString();
+                            else if (newTestClt[NewTargetDgd.SelectedIndex].ResponseValue3 == "" ||
+                                newTestClt[NewTargetDgd.SelectedIndex].ResponseValue3 == null)
+                            {
+                                newTestClt[NewTargetDgd.SelectedIndex].ResponseValue3 = Utility.ComputeResponseValue(
+                                    dots_start_abs, DotManager.GetDotManger().GetDots().Count).ToString();
+                            }
+
+
+                            break;
+                        default:
+
+                            break;
+                    }
+                    break;
+                case 1:     //标样
+                    switch (startTestBtn.Content as string)
+                    {
+                        case "开始测试":
+                            if (standardSampleDgd.SelectedIndex == -1)
+                            {
+                                MessageBox.Show("请选择一条样本");
+                                return;
+                            }
+                            if (standardSampleClt[standardSampleDgd.SelectedIndex].ResponseValue1 != "" && standardSampleClt[standardSampleDgd.SelectedIndex].ResponseValue1 != null)
+                            {
+                                MessageBox.Show("数据已经满，请去掉网格中数据重新开始测试");
+                                return;
+                            }
+
+                            statusBtn.Visibility = Visibility.Visible;
+                            AnimatedColorButton.Visibility = Visibility.Visible;
+                            dots_start_abs = DotManager.GetDotManger().GetDots().Count;
+                            //demoTimer.Start();
+                            //realCptTimer.Start();
+                            startTestBtn.Content = "停止测试";
+                            if (SerialDriver.GetDriver().isOpen() == false)
+                            {
+                                SerialDriver.GetDriver().Open("COM1", 9600, 0, 8, 1);
+                            }
+                            break;
+                        case "停止测试":
+                            statusBtn.Visibility = Visibility.Hidden;
+                            AnimatedColorButton.Visibility = Visibility.Hidden;
+                            //demoTimer.Stop();
+                            //realCptTimer.Stop();
+                            startTestBtn.Content = "开始测试";
+                            if (SerialDriver.GetDriver().isOpen() == true)
+                            {
+                                SerialDriver.GetDriver().Close();
+                            }
+                            //计算响应值，填入datagrid之中
+                            if (standardSampleClt[standardSampleDgd.SelectedIndex].ResponseValue1 == "" ||
+                                standardSampleClt[standardSampleDgd.SelectedIndex].ResponseValue1 == null)
+                                standardSampleClt[standardSampleDgd.SelectedIndex].ResponseValue1 = Utility.ComputeResponseValue(
+                                    dots_start_abs, DotManager.GetDotManger().GetDots().Count).ToString();
+                            break;
+                        default:
+
+                            break;
+                    }
                     break;
             }
-            int selectedItem = NewTargetDgd.SelectedIndex;
+            
+            
+            //int selectedItem = NewTargetDgd.SelectedIndex;
 
-            NewTargetDgd.IsEnabled = true;
+            //NewTargetDgd.IsEnabled = true;
             
         }
 
@@ -510,11 +616,12 @@ namespace SilverTest
 
         private void testBtn_Click(object sender, RoutedEventArgs e)
         {
+            /*
             SerialDriver.GetDriver().OnReceived(Com_DataReceived);
             ProduceFakeData pfd = new ProduceFakeData("实际数据.txt");
             pfd.Send(1);
             ;
-
+            */
             /*
             if(DataFormater.getDataFormater().getStatus() == DataFormater.ErrorOccur.NONE)
             {
@@ -525,7 +632,7 @@ namespace SilverTest
 
         private void debugBtn_Click(object sender, RoutedEventArgs e)
         {
-            DataFormater.getDataFormater().GetDots();
+            //DataFormater.getDataFormater().GetDots();
             //byte[] r = DataFormater.getDataFormater().GetRawData();
             ;
             //DataFormater.getDataFormater().SaveToFile("raw.txt");
@@ -591,6 +698,15 @@ namespace SilverTest
         private void saveRawTextMenu_Click(object sender, RoutedEventArgs e)
         {
             DotManager.GetDotManger().DumpRawText("rawtext.txt");
+        }
+
+        private void sendTextMenu_Click(object sender, RoutedEventArgs e)
+        {
+            SerialDriver.GetDriver().OnReceived(Com_DataReceived);
+            ProduceFakeData pfd = new ProduceFakeData("实际数据.txt");
+            pfd.Send(1);
+            ;
+
         }
 
         /*

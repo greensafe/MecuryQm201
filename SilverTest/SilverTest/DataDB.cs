@@ -60,6 +60,17 @@ namespace SilverTest
                 NotifyPropertyChanged("Density");
             }
         }
+        //响应值
+        private string responseValue1;
+        public string ResponseValue1
+        {
+            get { return responseValue1; }
+            set
+            {
+                responseValue1 = value;
+                NotifyPropertyChanged("ResponseValue1");
+            }
+        }
         //样品重量
         private string weight;
         public string Weight {

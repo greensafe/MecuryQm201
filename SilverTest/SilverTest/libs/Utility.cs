@@ -1,4 +1,6 @@
-﻿using Microsoft.Win32;
+﻿using MathNet.Numerics;
+using MathNet.Numerics.Statistics;
+using Microsoft.Win32;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,6 +17,7 @@ using System.Windows.Data;
 using System.Windows.Threading;
 using System.Xml;
 using System.Xml.Serialization;
+using static SilverTest.libs.DataFormater;
 
 namespace SilverTest.libs
 {
@@ -356,6 +359,56 @@ namespace SilverTest.libs
             }
         }
         */
+
+
+        /*
+         * 计算响应值
+         * @param
+         *    start_abs - dots中的起始位， 
+         *    end_abs - dots中的结束位
+         *    
+         */
+        static public int ComputeResponseValue(int start_abs, int end_abs)
+        {
+            //检查参数
+
+            int max = 0;
+            Collection<ADot> dots = DotManager.GetDotManger().GetDots();
+
+            for(int i = start_abs; i< end_abs; i++)
+            {
+                if(dots[i].Rvalue > max)
+                {
+                    max = dots[i].Rvalue;
+                }
+            }
+
+            return max - dots[0].Rvalue;
+        }
+
+        /*
+         * 计算相关截距，斜率
+         * @param
+         *  x - x轴数据
+         *  y - y轴数据
+         */
+         static public void ComputeAB(out double a, out double b, double[] x, double[] y )
+        {
+            //double[] ydata = new double[] { 42.0, 43.5, 45.0, 45.5, 45.0, 47.5, 49.0, 53.0, 50.0, 55.0, 55.0, 60.0 };
+            //double[] xdata = new double[] { 0.10, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.20, 0.21, 0.23 };
+            Tuple<double, double> p = Fit.Line(x, y);
+            a = p.Item1;
+            b = p.Item2;
+        }
+
+        /*
+         * 计算相关系数
+         * 
+         */
+        static public double ComputeR(double[] x, double[] y)
+        {
+            return Correlation.Pearson(x, y);
+        }
     }
 
 
