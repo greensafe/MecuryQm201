@@ -202,6 +202,7 @@
                                 <DataGridTextColumn Header="样品购买日期" Width="80" Binding="{Binding Path=BuyDate}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="斜率" Width="80" Binding="{Binding Path=A}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="截距" Width="80" Binding="{Binding Path=B}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="相关系数" Width="80" Binding="{Binding Path=R}"></DataGridTextColumn>
                             </DataGrid.Columns>
                         </DataGrid>
                     </StackPanel>
@@ -211,6 +212,7 @@
                 <Button x:Name="modifyBtn" HorizontalAlignment="Left" DockPanel.Dock="Left" Height="20" Content="保存" Margin="20,1,0,0" Click="modifyBtn_Click"  />
                 <Button x:Name="exportexelBtn" HorizontalAlignment="Left" DockPanel.Dock="Left" Height="20" Content="输出excel" Margin="20,1,0,0" Click="exportexelBtn_Click" />
                 <Button x:Name="startTestBtn" HorizontalAlignment="Left" DockPanel.Dock="Left" Height="20" Content="开始测试" Margin="20,1,0,0" Click="startTestBtn_Click" />
+                <Button x:Name="RBtn" HorizontalAlignment="Left" DockPanel.Dock="Left" Height="20" Content="计算相关系数" Margin="20,1,0,0" Click="RBtn_Click" Visibility="Hidden" />
                 <Button x:Name="testBtn" HorizontalAlignment="Left" DockPanel.Dock="Left" Content="开发" Margin="20,1,0,0" Height="20" Width="75" Click="testBtn_Click" Visibility="Hidden"/>
                 <Button x:Name="debugBtn" HorizontalAlignment="Left" DockPanel.Dock="Left" Content="停止发送" Margin="20,1,0,0" Height="20" Width="75" Click="debugBtn_Click" Visibility="Hidden"/>
                 <Button x:Name="AddRowBtn" DockPanel.Dock="Right"  HorizontalAlignment="Right" Height="20" Padding="1" Margin="0,1,20,0"  Content="增加" Click="AddRowBtn_Click" />

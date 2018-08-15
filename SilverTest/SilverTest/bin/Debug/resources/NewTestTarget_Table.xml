@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <ArrayOfNewTestTarget xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <NewTestTarget>
-    <NewName>烟厂土123</NewName>
+    <NewName>烟厂土1234</NewName>
     <Code>x1001</Code>
     <Weight>10</Weight>
     <Place>昆山玉山镇</Place>
@@ -43,5 +43,6 @@
     <Code>x1005</Code>
     <Place>california</Place>
   </NewTestTarget>
+  <NewTestTarget />
   <NewTestTarget />
 </ArrayOfNewTestTarget>

@@ -128,6 +128,18 @@ namespace SilverTest
                 NotifyPropertyChanged("B");
             }
         }
+        //相关系数
+        private string r;
+        public string R
+        {
+            get { return r; }
+            set
+            {
+                r = value;
+                NotifyPropertyChanged("R");
+            }
+        }
+
         //构造函数
         public StandardSample(string sampleName, string code, string density,
             string weight, string providerCompany, string place, string buyDate, string a, string b,string grpname)

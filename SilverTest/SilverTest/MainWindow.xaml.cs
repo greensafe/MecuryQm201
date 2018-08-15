@@ -384,6 +384,7 @@ namespace SilverTest
                 var tab = sender as TabItem;
                 */
                 paramGbx.Visibility = Visibility.Hidden;
+                RBtn.Visibility = Visibility.Visible;
             }
         }
 
@@ -396,6 +397,7 @@ namespace SilverTest
                 var tab = sender as TabItem;
                 */
                 paramGbx.Visibility = Visibility.Visible;
+                RBtn.Visibility = Visibility.Hidden;
             }
         }
 
@@ -432,6 +434,7 @@ namespace SilverTest
             StandardSample asample = e.AddedItems[0] as StandardSample;
             aTxb.Text = asample.A;
             bTxb.Text = asample.B;
+            rTxt.Text = asample.R;
 
             //如果有平均值则计算汞浓度
             int rowNo = NewTargetDgd.SelectedIndex;
@@ -707,6 +710,61 @@ namespace SilverTest
             pfd.Send(1);
             ;
 
+        }
+
+        private void RBtn_Click(object sender, RoutedEventArgs e)
+        {
+            double[] x;
+            double[] y;
+            int len = 0;
+            int index = 0;
+            double a, b, R;
+        
+            if(standardSampleDgd.SelectedIndex == -1)
+            {
+                MessageBox.Show("请选择标样组");
+            }
+            string groupname = standardSampleClt[standardSampleDgd.SelectedIndex].GroupName;
+            foreach(StandardSample item in standardSampleClt)
+            {
+                if (item.GroupName == groupname)
+                {
+                    if(item.ResponseValue1 == "" || item.ResponseValue1 is null)
+                    {
+                        MessageBox.Show("测试未完成，无法计算");
+                        return;
+                    }
+                    else
+                    {
+                        len++;
+                    }
+                    
+                }
+            }
+            x = new double[len];
+            y = new double[len];
+            foreach(StandardSample v in standardSampleClt)
+            {
+                if (v.GroupName == groupname)
+                {
+                    x[index] = double.Parse(v.Density);
+                    y[index] = double.Parse(v.ResponseValue1);
+                    index++;
+                }
+                
+            }
+            Utility.ComputeAB(out a, out b, x, y);
+            R = Utility.ComputeR(x, y);
+            foreach(StandardSample v in standardSampleClt)
+            {
+                if (v.GroupName == groupname)
+                {
+                    v.A = a.ToString();
+                    v.B = b.ToString();
+                    v.R = R.ToString();
+                }
+                
+            }
         }
 
         /*
