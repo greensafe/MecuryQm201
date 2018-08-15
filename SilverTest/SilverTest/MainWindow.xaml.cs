@@ -385,6 +385,7 @@ namespace SilverTest
                 */
                 paramGbx.Visibility = Visibility.Hidden;
                 RBtn.Visibility = Visibility.Visible;
+                rCanvas.Visibility = Visibility.Visible;
             }
         }
 
@@ -398,6 +399,7 @@ namespace SilverTest
                 */
                 paramGbx.Visibility = Visibility.Visible;
                 RBtn.Visibility = Visibility.Hidden;
+                rCanvas.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -723,6 +725,7 @@ namespace SilverTest
             if(standardSampleDgd.SelectedIndex == -1)
             {
                 MessageBox.Show("请选择标样组");
+                return;
             }
             string groupname = standardSampleClt[standardSampleDgd.SelectedIndex].GroupName;
             foreach(StandardSample item in standardSampleClt)
@@ -765,6 +768,78 @@ namespace SilverTest
                 }
                 
             }
+        }
+
+        private void standardSampleDgd_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            //绘制R 线性回归图
+            int len = 0;
+            if (standardSampleDgd.SelectedIndex == -1)
+                return;
+
+            if (standardSampleClt[standardSampleDgd.SelectedIndex].A is null ||
+                standardSampleClt[standardSampleDgd.SelectedIndex].B is null ||
+                standardSampleClt[standardSampleDgd.SelectedIndex].R is null ||
+                standardSampleClt[standardSampleDgd.SelectedIndex].A == "" ||
+                standardSampleClt[standardSampleDgd.SelectedIndex].B == "" ||
+                standardSampleClt[standardSampleDgd.SelectedIndex].R == "")
+                return;
+
+            double a = double.Parse(standardSampleClt[standardSampleDgd.SelectedIndex].A);
+            double b = double.Parse(standardSampleClt[standardSampleDgd.SelectedIndex].B);
+            double R = double.Parse(standardSampleClt[standardSampleDgd.SelectedIndex].R);
+
+            string grpname = standardSampleClt[standardSampleDgd.SelectedIndex].GroupName;
+            foreach(StandardSample item in standardSampleClt)
+            {
+                if (item.GroupName == grpname)
+                    len++;
+            }
+            Point[] dots = new Point[len];
+            foreach(StandardSample item in standardSampleClt)
+            {
+                if(item.GroupName == grpname)
+                {
+                    dots[--len].X = double.Parse(item.Density);
+                    dots[len].Y = double.Parse(item.ResponseValue1);
+                }
+            }
+
+            //
+            double max = 0;
+            for(int i = 0; i < dots.Length; i++)
+            {
+                if (dots[i].Y >= max)
+                    max = dots[i].Y;
+            }
+
+            double ration = (rCanvas.Height - 10)/ max;
+
+            rCanvas.Children.Clear();
+            //直线
+            Line mydrawline = new Line();
+            mydrawline.Stroke = Brushes.Black;//mydrawline.Stroke = new SolidColorBrush(Color.FromArgb(0xFF, 0x5B, 0x9B, 0xD5));
+            mydrawline.StrokeThickness = 3;
+            mydrawline.X1 = 5;
+            mydrawline.Y1 = rCanvas.Height - (a*mydrawline.X1 + b);
+            mydrawline.Y2 = 295;
+            mydrawline.X2 = (mydrawline.Y2 - b)/ a;
+            mydrawline.Y2 = rCanvas.Height - 295;
+
+            rCanvas.Children.Add(mydrawline);
+
+            for (int i = 0; i < dots.Length; i++)
+            {
+                Ellipse eli = new Ellipse();
+                eli.Stroke = System.Windows.Media.Brushes.Black;
+                eli.Fill = System.Windows.Media.Brushes.DarkBlue;
+                eli.Width = 5;
+                eli.Height = 5;
+                Thickness mrg = new Thickness(dots[i].X, rCanvas.Height - dots[i].Y, 0, 0);
+                eli.Margin = mrg;
+                rCanvas.Children.Add(eli);
+            }
+
         }
 
         /*
