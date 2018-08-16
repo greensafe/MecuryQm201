@@ -46,8 +46,10 @@ namespace SerialPortLab
         {
             ComDevice = new SerialPort();
             string[] a = SerialPort.GetPortNames();
-            comporCombo.Items.Add(a[0]);
-            comporCombo.Items.Add(a[1]);
+            for (int i = 0; i < a.Length; i++)
+            {
+                comporCombo.Items.Add(a[i]);
+            }
             comporCombo.SelectedIndex = 0;
 
             rate.Items.Add("300");

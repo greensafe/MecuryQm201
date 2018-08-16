@@ -96,10 +96,10 @@ namespace SilverTest.libs
                         ,PhyCombine.GetPhyCombine().GetMachineInfo().DataWidth,
                         twoint(packet,PhyCombine.GetPhyCombine().GetMachineInfo().CrtPctVStart)) == true)
                     {
-                        int seq = Utility.ConvertStrToInt_Little(packet, 
+                        int seq = Utility.ConvertStrToInt_Big(packet, 
                             PhyCombine.GetPhyCombine().GetMachineInfo().CrtPctSStart,
                             PhyCombine.GetPhyCombine().GetMachineInfo().SequenceLength);
-                        dots[seq].Rvalue = Utility.ConvertStrToInt_Little(packet,
+                        dots[seq].Rvalue = Utility.ConvertStrToInt_Big(packet,
                             PhyCombine.GetPhyCombine().GetMachineInfo().CrtPctDStart,
                             PhyCombine.GetPhyCombine().GetMachineInfo().DataWidth);
                         
@@ -113,7 +113,7 @@ namespace SilverTest.libs
                     else
                     {
                         if(PacketStillError_Ev != null)
-                            PacketStillError_Ev(Utility.ConvertStrToInt_Little(packet,
+                            PacketStillError_Ev(Utility.ConvertStrToInt_Big(packet,
                             PhyCombine.GetPhyCombine().GetMachineInfo().CrtPctSStart,
                             PhyCombine.GetPhyCombine().GetMachineInfo().SequenceLength));
                     }
@@ -123,7 +123,7 @@ namespace SilverTest.libs
                         PhyCombine.GetPhyCombine().GetMachineInfo().DataWidth,twoint(packet,PhyCombine.GetPhyCombine().GetMachineInfo().DataPctVStart)) == true)
                     {
                         dots.Add(new ADot() {
-                            Rvalue = Utility.ConvertStrToInt_Little(packet, PhyCombine.GetPhyCombine().GetMachineInfo().DataPctDStart,
+                            Rvalue = Utility.ConvertStrToInt_Big(packet, PhyCombine.GetPhyCombine().GetMachineInfo().DataPctDStart,
                                                         PhyCombine.GetPhyCombine().GetMachineInfo().DataWidth),
                             Status = DotStaus.OK
                         });
@@ -162,10 +162,15 @@ namespace SilverTest.libs
         //校验拼接，将数字高低位拼接成一个完整的数字
         private int twoint(byte[] data,int start)
         {
-            int total = 0;
-            total += data[start];
-            total += data[start+1] * 256;
-            return total;
+            string cv = "";
+            //int total = 0;
+
+            cv += (char)data[start];
+            cv += (char)data[start+1];
+            return int.Parse(cv);
+            //total += data[start];
+            //total += data[start+1] * 256;
+            //return total;
         }
 
         //校验数据

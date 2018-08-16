@@ -217,19 +217,17 @@ namespace SilverTest
 
             //DataFormater.getDataFormater().GetDot(ReDatas);
             
+            /*            
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < ReDatas.Length; i++)
             {
                 sb.AppendFormat("{0:x2}" + " ", ReDatas[i]);
             }
-            
-
-
             Dispatcher.Invoke(new Action(() =>
             {
                 rTxt.Text = sb.ToString();
             }));
-
+            */
         }
 
         /*
@@ -495,6 +493,7 @@ namespace SilverTest
 
         private void startTestBtn_Click(object sender, RoutedEventArgs e)
         {
+            SerialDriver.GetDriver().OnReceived(Com_DataReceived);
             switch (sampletab.SelectedIndex)
             {
                 case 0:     //新样
@@ -520,7 +519,8 @@ namespace SilverTest
                             startTestBtn.Content = "停止测试";
                             if (SerialDriver.GetDriver().isOpen() == false)
                             {
-                                SerialDriver.GetDriver().Open("COM1", 9600, 0, 8, 1);
+                                //SerialDriver.GetDriver().Open("COM1", 9600, 0, 8, 1);
+                                SerialDriver.GetDriver().Open("COM4", 38400, 0, 8, 1);
                             }
                             break;
                         case "停止测试":
@@ -579,7 +579,8 @@ namespace SilverTest
                             startTestBtn.Content = "停止测试";
                             if (SerialDriver.GetDriver().isOpen() == false)
                             {
-                                SerialDriver.GetDriver().Open("COM1", 9600, 0, 8, 1);
+                                //SerialDriver.GetDriver().Open("COM1", 9600, 0, 8, 1);
+                                SerialDriver.GetDriver().Open("COM4", 38400, 0, 8, 1);
                             }
                             break;
                         case "停止测试":

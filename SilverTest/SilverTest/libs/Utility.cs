@@ -293,7 +293,7 @@ namespace SilverTest.libs
                 return -1;
             for(int i =0; i< len; i++)
             {
-                total += data[i] - 0x30;
+                total += data[start+i] - 0x30;
                 total *= 10;
             }
             return total /= 10;
@@ -374,6 +374,9 @@ namespace SilverTest.libs
 
             int max = 0;
             Collection<ADot> dots = DotManager.GetDotManger().GetDots();
+
+            if (dots.Count <= 0)
+                return -1;
 
             for(int i = start_abs; i< end_abs; i++)
             {

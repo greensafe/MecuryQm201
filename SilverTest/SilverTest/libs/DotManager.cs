@@ -17,6 +17,7 @@ namespace SilverTest.libs
      */
     public class DotManager
     {
+        #region I_not_want_see
         private static DotManager onlyme = null;
         public delegate void PacketReceviedDelegate(ADot dot, int sequence);  //获得一个dot
         public delegate void PacketCorrectedDelegate(ADot dot, int sequence); //获得一个校验dot
@@ -35,6 +36,8 @@ namespace SilverTest.libs
             public int seq { get; set; }    //点值序号
             public DispatcherTimer mytimer{ get; set; } //定时器
         }
+        
+
         PacketReceviedDelegate PacketRecevied_Ev = null;
         PacketCorrectedDelegate PacketCorrected_Ev = null;
 
@@ -52,7 +55,7 @@ namespace SilverTest.libs
             DataFormater.getDataFormater().onPacketCorrected(PacketCorrectedHdlr);
             DataFormater.getDataFormater().onPacketRecevied(PacketReceviedHdlr);
 
-            PhyCombine.GetPhyCombine().onCombineError(CombineErrorDelegate);
+            PhyCombine.GetPhyCombine().onCombineError(CombineErrorHdlr);
         }
         public static DotManager GetDotManger()
         {
@@ -93,8 +96,10 @@ namespace SilverTest.libs
         {
             PhyCombine.GetPhyCombine().Dump(filename);
         }
+
+        #endregion
         //
-        private void CombineErrorDelegate(CombineErrorInfo err)
+        private void CombineErrorHdlr(CombineErrorInfo err)
         {
             switch (err)
             {
@@ -109,6 +114,7 @@ namespace SilverTest.libs
                     break;
                 case CombineErrorInfo.NOT_FOUND_MACHINE_HEADER_LONG:
                     Console.WriteLine("长时间无法找到机器格式包");
+                    SerialDriver.GetDriver().Close();
                     break;
                 case CombineErrorInfo.NOT_FOUND_START_TAG_LONG:
                     Console.WriteLine("长时间无法找到包其实标志");

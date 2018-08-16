@@ -144,9 +144,9 @@ namespace SilverTest.libs
                 }
                 rawText_length += rawitem.Length;
 
-                for (int i = rawText_bigpct_prt; i < rawText_length; i++)  //查找包起始标志
+                for (int i = rawText_bigpct_prt; i < rawText_length -1; i++)  //查找包起始标志
                 {
-                    if (rawText[i] == 0x46)  //找到'F'
+                    if (rawText[i] == 0x46 && rawText[i+1] == 0x4C )  //找到'FL'
                     {
                         st = i;
                         break;

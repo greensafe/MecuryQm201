@@ -112,7 +112,7 @@
                 <d3:LineGraph x:Name="linegraph" Description="Simple linegraph" Stroke="Blue" StrokeThickness="3"/>
             </d3:Chart>
             -->
-            <dw:ChartPlotter x:Name="realCpt" Height="100" DockPanel.Dock="Top" Margin="10,10,20,10"></dw:ChartPlotter>
+            <dw:ChartPlotter x:Name="realCpt" Height="200" DockPanel.Dock="Top" Margin="10,10,20,10"></dw:ChartPlotter>
             <TabControl x:Name="sampletab" DockPanel.Dock="Top" SelectionChanged="sampletab_SelectionChanged">
                 <TabItem x:Name="newtabitem" Selector.Selected="OnNewTabSelected">
                     <TabItem.Header>

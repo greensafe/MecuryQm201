@@ -23,6 +23,8 @@ namespace SilverTest.libs
         static private SerialPort ComDevice = null;
         static private SerialDriver onlyone = null;
 
+        private int  hdrcount = 0;
+
         private SerialDriver()
         {
             ComDevice = new SerialPort();
@@ -55,9 +57,14 @@ namespace SilverTest.libs
         }
 
         //设置数据接收处理函数
+        //注意：仅仅调用一次，避免注册多次处理函数
         public SerialDriver OnReceived(SerialDataReceivedEventHandler dlr)
         {
-            ComDevice.DataReceived += new SerialDataReceivedEventHandler(dlr);
+            if (hdrcount == 0)
+            {
+                ComDevice.DataReceived += new SerialDataReceivedEventHandler(dlr);
+                hdrcount++;
+            }
             return onlyone;
         }
 
