@@ -531,9 +531,21 @@ namespace SilverTest
                             startTestBtn.Content = "开始测试";
                             if (SerialDriver.GetDriver().isOpen() == true)
                             {
-                                SerialDriver.GetDriver().Close();
+                                try
+                                {
+                                    //SerialDriver.GetDriver().RemoveHandler(Com_DataReceived);
+                                    System.Threading.Thread CloseDown = 
+                                        new System.Threading.Thread(new System.Threading.ThreadStart(closeSerialAsc));
+                                    CloseDown.Start();
+                                    //SerialDriver.GetDriver().Close();
+                                }
+                                catch (Exception ex)
+                                {
+                                    ;
+                                }
                             }
                             //计算响应值，填入datagrid之中
+                            /*
                             if (newTestClt[NewTargetDgd.SelectedIndex].ResponseValue1 == "" ||
                                 newTestClt[NewTargetDgd.SelectedIndex].ResponseValue1 == null)
                                 newTestClt[NewTargetDgd.SelectedIndex].ResponseValue1 = Utility.ComputeResponseValue(
@@ -548,7 +560,7 @@ namespace SilverTest
                                 newTestClt[NewTargetDgd.SelectedIndex].ResponseValue3 = Utility.ComputeResponseValue(
                                     dots_start_abs, DotManager.GetDotManger().GetDots().Count).ToString();
                             }
-
+                            */
 
                             break;
                         default:
@@ -611,6 +623,14 @@ namespace SilverTest
 
             //NewTargetDgd.IsEnabled = true;
             
+        }
+
+        /*
+         * 新线程中关闭serialdriver，避免deadlock
+         */
+        private void closeSerialAsc()
+        {
+            SerialDriver.GetDriver().Close();
         }
 
         private void exitBtn_Click(object sender, RoutedEventArgs e)
