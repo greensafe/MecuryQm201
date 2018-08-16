@@ -1,3 +1,5 @@
+Release/
+
 #ignore obj
 obj/
 
@@ -5,7 +7,7 @@ obj/
 .vs/
 
 #ignore all files in release directory
-Release/
 
-/SilverTest/SilverTest/bin/Debug/resources/NewTestTarget_Table.xml
-/SilverTest/SilverTest/bin/Debug/resources/StandardSamples_Table.xml
+SilverTest/SerialPortLab/bin/Debug/clip.txt
+SilverTest/SerialPortLab/bin/Debug/实际数据.txt
+SilverTest/SilverTest/bin/Debug/rawtext.txt
