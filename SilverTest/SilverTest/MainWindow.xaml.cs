@@ -647,12 +647,12 @@ namespace SilverTest
 
         private void PacketReceived(DataFormater.ADot dot, int sequence)
         {
-            //演示代码
+            
             double x = currentSecond;
             double y = dot.Rvalue;
             Point point = new Point(x, y);
             realCptDs.AppendAsync(base.Dispatcher, point);
-            if (true)
+            if (false)
             {
                 if (q.Count < group)
                 {
