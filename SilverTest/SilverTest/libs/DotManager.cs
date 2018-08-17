@@ -19,7 +19,7 @@ namespace SilverTest.libs
     {
         #region I_not_want_see
         private static DotManager onlyme = null;
-        public delegate void PacketReceviedDelegate(ADot dot, int sequence);  //获得一个dot
+        public delegate void PacketReceviedDelegate(object dot, int sequence, PacketType ptype);  //收到一个包，包括数据包，气体流量包，气体采样时间包
         public delegate void PacketCorrectedDelegate(ADot dot, int sequence); //获得一个校验dot
 
         enum correctstatus
@@ -117,13 +117,19 @@ namespace SilverTest.libs
                     SerialDriver.GetDriver().Close();
                     break;
                 case CombineErrorInfo.NOT_FOUND_START_TAG_LONG:
-                    Console.WriteLine("长时间无法找到包其实标志");
+                    Console.WriteLine("长时间无法找到包起始标志");
                     break;
                 case CombineErrorInfo.SEQUENCE_PCT_DATA_FORMAT_ERROR:
                     Console.WriteLine("序号包格式出错");
                     break;
                 case CombineErrorInfo.VALUE_PCT_DATA_FORMAT_ERROR:
                     Console.WriteLine("数据包格式出错");
+                    break;
+                case CombineErrorInfo.AIR_FLUENT_PCT_DATA_FORMAT_ERROR:
+                    Console.WriteLine("气体流量包格式出错");
+                    break;
+                case CombineErrorInfo.AIR_SAMPLE_TIME_PCT_DATA_FORMAT_ERROR:
+                    Console.WriteLine("气体采样时间包格式出错");
                     break;
                 case CombineErrorInfo.UNKNOWN:
                 default:
@@ -134,19 +140,30 @@ namespace SilverTest.libs
         }
 
         //收到包，
-        private void PacketReceviedHdlr(ADot dot, int sequence)
+        private void PacketReceviedHdlr(object dot, int sequence,PacketType ptype)
         {
-            PacketRecevied_Ev(dot, sequence);
+            PacketRecevied_Ev(dot, sequence,ptype);
             ;
         }
 
         //数据校验事件出错处理函数
-        private void PacketCheckErrorHdlr(int sequence)
+        private void PacketCheckErrorHdlr(int sequence,PacketType ptype)
         {
+            //目前忽略气体包的校验错，仅对数据包进行纠正
+            switch (ptype)
+            {
+                case PacketType.AIR_FLUENT:
+                    Console.WriteLine("气体流量包校验出错");
+                    return;
+                case PacketType.AIR_SAMPLE_TIME:
+                    Console.WriteLine("气体采样时间包格式出错");
+                    return;
+            }
+
             //
             CorrectItem item = null;
 
-            Console.WriteLine("数据校验出错");
+            Console.WriteLine("数据包数据校验出错");
             foreach(CorrectItem im in correctitems)
             {
                 if(im.seq == sequence)

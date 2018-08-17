@@ -55,6 +55,24 @@ namespace SilverTest.libs
             public int CrtPctDStart { get; set; }   //纠正包数据开始位置
             public int CrtPctSStart { get; set; }   //纠正包序号开始位置
             public int CrtPctVStart { get; internal set; }  //纠正包校验开始位置
+
+            public int AirSTPctLength { get; set; } //气体取样时间包长度
+            public int AirSTPctMiddleTag { get; set; }  //气体取样包中间标志
+            public int AirSTPctMiddleStart { get; set; }    //气体取样包中间标志位置
+            public int AirSTPctEndTag { get; set; } //气体取样包结束标志
+            public int AirSTPctEndStart { get; set; } //气体取样包结束标志位置
+            public int AirSTPctDStart { get; set; } //气体取样包数据开始位置
+            public int AirSTPctDataWidth { get; set; } //气体取样包数据长度
+            public int AirSTPctVStart { get; set; } //气体取样包纠正包开始位置
+
+            public int AirFluPctLength { get; set; } //气体流量包长度
+            public int AirFluPctMiddleTag { get; set; }  //气体流量包中间标志
+            public int AirFluPctMiddleStart { get; set; }    //气体流量包中间标志位置
+            public int AirFluPctEndTag { get; set; } //气体流量包结束标志
+            public int AirFluPctEndStart { get; set; } //气体流量包结束标志位置
+            public int AirFluPctDStart { get; set; } //气体流量包数据开始位置
+            public int AirFluPctDataWidth { get; set; } //气体流量包数据长度
+            public int AirFluPctVStart { get; set; } //气体流量包纠正包开始位置
         }
 
         //数据包类型
@@ -64,6 +82,8 @@ namespace SilverTest.libs
             DATA_VALUE,                 //机器采样到的一个数据值
             SEQUENCE,                   //数据值的序号包
             CORRECT_RESPONSE,           //校验出错重发命令的响应包
+            AIR_SAMPLE_TIME,            //气体取样时间包
+            AIR_FLUENT,                 //气体流量包
             FRAGMENT,                   //碎片
             UNKNOWN                     //未知格式
         }
@@ -75,6 +95,8 @@ namespace SilverTest.libs
                                     FRAGMENT_VALUE,             //包是一个数据值碎片
                                     FRAGMENT_SEQUENCE,          //包是一个序号碎片
                                     FRAGMENT_CORRECT,           //包是校验出错响应包碎片
+                                    FRAGMENT_AIR_SAMPLE_TIME,   //包是气体取样时间包碎片
+                                    FRAGMENT_AIR_FLUENT,        //包是气体流量包碎片
                                     FRAGMENT_UNKONWN            //碎片格式未知
         };
 
@@ -96,6 +118,8 @@ namespace SilverTest.libs
             VALUE_PCT_DATA_FORMAT_ERROR,          //数据包的格式有错，找不到包的结束位置,和中间标志位置
             SEQUENCE_PCT_DATA_FORMAT_ERROR,          //序号包的格式有错，找不到包的结束位置,和中间标志位置
             CORRECT_PCT_DATA_FORMAT_ERROR,          //纠正包的格式有错，找不到数据包的结束位置,和中间标志位置
+            AIR_SAMPLE_TIME_PCT_DATA_FORMAT_ERROR,          //气体取样时间包的格式有错，找不到数据包的结束位置,和中间标志位置
+            AIR_FLUENT_PCT_DATA_FORMAT_ERROR,          //气体流量包的格式有错，找不到数据包的结束位置,和中间标志位置
             INVALID_PACKET_TYPE,            //非法的包类型
             UNKNOWN,                        //程序算法出错 :<
         }
@@ -134,6 +158,7 @@ namespace SilverTest.libs
 
             CombineFragmentSg = delegate (byte[] rawitem)
             {
+                #region phase1: get machine header
                 ////phase 1: 获取机器格式头////
                 int st = -1;
 
@@ -171,14 +196,14 @@ namespace SilverTest.libs
                 }
 
                 //找到机器类型包，准备自弃
-                switch(rawText[st+2])
+                switch (rawText[st+2])
                 {
                     case 0x01:
                         machineinfo.CrtPctEndTag = 16;
                         machineinfo.CrtPctLength = 17;
                         machineinfo.CrtPctMiddleTag = 7;
                         machineinfo.CrtPctDStart = 2;
-                        machineinfo.CrtPctSStart = 10;        //序号其实位置
+                        machineinfo.CrtPctSStart = 10;        //序号起始位置
                         machineinfo.CrtPctVStart = 8;       
 
                         machineinfo.DataPctEndTag = 10;
@@ -190,6 +215,24 @@ namespace SilverTest.libs
                         machineinfo.SrlPctEndTag = 8;
                         machineinfo.SrlPctLength = 9;
 
+                        machineinfo.AirFluPctDataWidth = 2;
+                        machineinfo.AirFluPctDStart = 2;
+                        machineinfo.AirFluPctEndStart = 7;
+                        machineinfo.AirFluPctEndTag = 0x49;
+                        machineinfo.AirFluPctLength = 8;
+                        machineinfo.AirFluPctMiddleStart = 4;
+                        machineinfo.AirFluPctMiddleTag = 0x45;
+                        machineinfo.AirFluPctVStart = 5;
+
+                        machineinfo.AirSTPctDataWidth = 1;
+                        machineinfo.AirSTPctDStart = 2;
+                        machineinfo.AirSTPctEndStart = 6;
+                        machineinfo.AirSTPctEndTag = 0x49;
+                        machineinfo.AirSTPctLength = 7;
+                        machineinfo.AirSTPctMiddleStart = 3;
+                        machineinfo.AirSTPctMiddleTag = 0x42;
+                        machineinfo.AirSTPctVStart = 4;
+
                         machineinfo.DataWidth = 5;
                         machineinfo.SequenceLength = 6;
                         machineinfo.Type = 0x01;
@@ -197,7 +240,9 @@ namespace SilverTest.libs
                         rawText_bigpct_prt = st + MachineTypeHeaderLength;
                         break;
                 }
+                #endregion
 
+                #region phase2: analyze
                 ////phase 2: 分析数据////
                 CombineFragmentSg = delegate (byte[] rawit)
                 {
@@ -255,6 +300,35 @@ namespace SilverTest.libs
                                     }
 
                                     break;
+                                case PacketType.AIR_FLUENT:
+                                    if (rawText_purepct_prt + machineinfo.AirFluPctLength == rawText_length)
+                                    {
+                                        if (appendCRLF())
+                                        {
+                                            rawText_length += "\r\n".Length;
+                                            rawText_bigpct_prt = rawText_length;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        rawText_bigpct_prt = (rawText_purepct_prt + machineinfo.AirFluPctLength);
+                                    }
+                                    break;
+                                case PacketType.AIR_SAMPLE_TIME:
+                                    if (rawText_purepct_prt + machineinfo.AirSTPctLength == rawText_length)
+                                    {
+                                        if (appendCRLF())
+                                        {
+                                            rawText_length += "\r\n".Length;
+                                            rawText_bigpct_prt = rawText_length;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        rawText_bigpct_prt = (rawText_purepct_prt + machineinfo.AirSTPctLength);
+                                    }
+                                    break;
+                                
                             }
                             break;
                         case CheckError.CONTINUE: //碎片，不要拨动指针
@@ -274,6 +348,14 @@ namespace SilverTest.libs
                                     rawText_bigpct_prt = rawText_purepct_prt + machineinfo.DataPctLength;
                                     if(CombineError_Ev != null) CombineError_Ev(CombineErrorInfo.VALUE_PCT_DATA_FORMAT_ERROR);
                                     break;
+                                case PacketCombineStatus.FRAGMENT_AIR_FLUENT:
+                                    rawText_bigpct_prt = rawText_purepct_prt + machineinfo.AirFluPctLength;
+                                    if (CombineError_Ev != null) CombineError_Ev(CombineErrorInfo.AIR_FLUENT_PCT_DATA_FORMAT_ERROR);
+                                    break;
+                                case PacketCombineStatus.FRAGMENT_AIR_SAMPLE_TIME:
+                                    rawText_bigpct_prt = rawText_purepct_prt + machineinfo.AirSTPctLength;
+                                    if (CombineError_Ev != null) CombineError_Ev(CombineErrorInfo.AIR_SAMPLE_TIME_PCT_DATA_FORMAT_ERROR);
+                                    break;
                             }
                             rawText_frag_status = PacketCombineStatus.OK; //抛弃格式错误包
                             break;
@@ -283,7 +365,7 @@ namespace SilverTest.libs
                             break;
                     }
                 }; return ;
-
+                #endregion
             };
         }
         public MachineInfo GetMachineInfo()
@@ -344,6 +426,8 @@ namespace SilverTest.libs
                 case PacketCombineStatus.FRAGMENT_CORRECT:
                 case PacketCombineStatus.FRAGMENT_SEQUENCE:
                 case PacketCombineStatus.FRAGMENT_VALUE:
+                case PacketCombineStatus.FRAGMENT_AIR_FLUENT:
+                case PacketCombineStatus.FRAGMENT_AIR_SAMPLE_TIME:
                     return check_known_type_fn(cmbstus,out fragtype, out ptype);
                     
             }
@@ -406,6 +490,12 @@ namespace SilverTest.libs
                 case 0x43: //'C', 纠正包,0x4d, 0x54
                     return cut(out ptype, out fragtype, PacketType.CORRECT_RESPONSE, true, 0x4d,
                         machineinfo.CrtPctMiddleTag, 0x54, machineinfo.CrtPctEndTag, machineinfo.CrtPctLength);
+                case 0x41: //'A' 气体取样时间包
+                    return cut(out ptype, out fragtype, PacketType.AIR_SAMPLE_TIME, true, (byte)machineinfo.AirSTPctMiddleTag,
+                        machineinfo.AirSTPctMiddleStart, (byte)machineinfo.AirSTPctEndTag, machineinfo.AirSTPctEndStart, machineinfo.AirSTPctLength);
+                case 0x44: //'D' 气体流量包
+                    return cut(out ptype, out fragtype, PacketType.AIR_FLUENT, true, (byte)machineinfo.AirFluPctMiddleTag,  
+                        machineinfo.AirFluPctMiddleStart, (byte)machineinfo.AirFluPctEndTag, machineinfo.AirFluPctEndStart, machineinfo.AirFluPctLength);
                 default:  //无法识别包的类型
                     ptype = PacketType.UNKNOWN;
                     fragtype = PacketCombineStatus.FRAGMENT_UNKONWN;
@@ -430,8 +520,14 @@ namespace SilverTest.libs
                     return cut(out ptype, out fragtype, PacketType.SEQUENCE, false, 0x0,
                           0, 0x45, machineinfo.SrlPctEndTag, machineinfo.SrlPctLength);
                 case PacketCombineStatus.FRAGMENT_CORRECT: //'C', 纠正包
-                    return cut(out ptype, out fragtype, PacketType.SEQUENCE, true, 0x4d,
-                        machineinfo.CrtPctMiddleTag, 0x54, machineinfo.SrlPctEndTag, machineinfo.SrlPctLength);
+                    return cut(out ptype, out fragtype, PacketType.CORRECT_RESPONSE, true, 0x4d,
+                        machineinfo.CrtPctMiddleTag, 0x54, machineinfo.CrtPctEndTag, machineinfo.CrtPctLength);
+                case PacketCombineStatus.FRAGMENT_AIR_FLUENT:
+                    return cut(out ptype, out fragtype, PacketType.AIR_FLUENT, true, (byte)machineinfo.AirFluPctMiddleTag,
+                        machineinfo.AirFluPctMiddleStart, (byte)machineinfo.AirFluPctEndTag, machineinfo.AirFluPctEndStart, machineinfo.AirFluPctLength);
+                case PacketCombineStatus.FRAGMENT_AIR_SAMPLE_TIME:
+                    return cut(out ptype, out fragtype, PacketType.AIR_SAMPLE_TIME, true, (byte)machineinfo.AirSTPctMiddleTag,
+                        machineinfo.AirSTPctMiddleStart, (byte)machineinfo.AirSTPctEndTag, machineinfo.AirSTPctEndStart, machineinfo.AirSTPctLength);
             }
             return CheckError.CONTINUE;
         }
@@ -488,6 +584,10 @@ namespace SilverTest.libs
                     return CombineErrorInfo.CORRECT_PCT_DATA_FORMAT_ERROR;
                 case PacketType.SEQUENCE:
                     return CombineErrorInfo.SEQUENCE_PCT_DATA_FORMAT_ERROR;
+                case PacketType.AIR_FLUENT:
+                    return CombineErrorInfo.AIR_FLUENT_PCT_DATA_FORMAT_ERROR;
+                case PacketType.AIR_SAMPLE_TIME:
+                    return CombineErrorInfo.AIR_SAMPLE_TIME_PCT_DATA_FORMAT_ERROR;
                 default:
                     return CombineErrorInfo.UNKNOWN;
             }
@@ -503,6 +603,10 @@ namespace SilverTest.libs
                     return PacketCombineStatus.FRAGMENT_CORRECT;
                 case PacketType.SEQUENCE:
                     return PacketCombineStatus.FRAGMENT_SEQUENCE;
+                case PacketType.AIR_FLUENT:
+                    return PacketCombineStatus.FRAGMENT_AIR_FLUENT;
+                case PacketType.AIR_SAMPLE_TIME:
+                    return PacketCombineStatus.FRAGMENT_AIR_SAMPLE_TIME;
                 default:
                     return PacketCombineStatus.FRAGMENT_UNKONWN;
             }

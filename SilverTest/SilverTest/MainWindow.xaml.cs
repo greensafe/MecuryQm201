@@ -23,6 +23,7 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Xml;
 using static SilverTest.libs.DataFormater;
+using static SilverTest.libs.PhyCombine;
 
 /*
  * 变量尾缀约定
@@ -603,7 +604,10 @@ namespace SilverTest
                             startTestBtn.Content = "开始测试";
                             if (SerialDriver.GetDriver().isOpen() == true)
                             {
-                                SerialDriver.GetDriver().Close();
+                                //SerialDriver.GetDriver().Close();
+                                System.Threading.Thread CloseDown1 =
+                                    new System.Threading.Thread(new System.Threading.ThreadStart(closeSerialAsc));
+                                CloseDown1.Start();
                             }
                             //计算响应值，填入datagrid之中
                             if (standardSampleClt[standardSampleDgd.SelectedIndex].ResponseValue1 == "" ||
@@ -665,44 +669,58 @@ namespace SilverTest
             
         }
 
-        private void PacketReceived(DataFormater.ADot dot, int sequence)
+
+        private void PacketReceived(object dot, int sequence, PacketType ptype)
         {
-            
-            double x = currentSecond;
-            double y = dot.Rvalue;
-            Point point = new Point(x, y);
-            realCptDs.AppendAsync(base.Dispatcher, point);
-            if (false)
+            switch(ptype)
             {
-                if (q.Count < group)
-                {
-                    q.Enqueue((int)y);//入队
-                    yaxis = 0;
-                    foreach (int c in q)
-                        if (c > yaxis)
-                            yaxis = c;
-                }
-                else
-                {
-                    q.Dequeue();//出队
-                    q.Enqueue((int)y);//入队
-                    yaxis = 0;
-                    foreach (int c in q)
-                        if (c > yaxis)
-                            yaxis = c;
-                }
-                if (currentSecond - group > 0)
-                    xaxis = currentSecond - group;
-                else
-                    xaxis = 0;
-                Dispatcher.Invoke(new Action(() =>
-                {
-                    realCpt.Viewport.Visible = new System.Windows.Rect(xaxis, 0, group, yaxis);
-                }));
-                
+                case PacketType.AIR_FLUENT:
+                    Console.WriteLine("气体流量包: "+sequence.ToString());
+                    break;
+                case PacketType.AIR_SAMPLE_TIME:
+                    Console.WriteLine("气体采样包: " + sequence.ToString());
+                    break;
+                case PacketType.DATA_VALUE:
+
+                    double x = currentSecond;
+                    double y = (dot as ADot).Rvalue;
+                    Point point = new Point(x, y);
+                    realCptDs.AppendAsync(base.Dispatcher, point);
+                    /*
+                    if (false)
+                    {
+                        if (q.Count < group)
+                        {
+                            q.Enqueue((int)y);//入队
+                            yaxis = 0;
+                            foreach (int c in q)
+                                if (c > yaxis)
+                                    yaxis = c;
+                        }
+                        else
+                        {
+                            q.Dequeue();//出队
+                            q.Enqueue((int)y);//入队
+                            yaxis = 0;
+                            foreach (int c in q)
+                                if (c > yaxis)
+                                    yaxis = c;
+                        }
+                        if (currentSecond - group > 0)
+                            xaxis = currentSecond - group;
+                        else
+                            xaxis = 0;
+                        Dispatcher.Invoke(new Action(() =>
+                        {
+                            realCpt.Viewport.Visible = new System.Windows.Rect(xaxis, 0, group, yaxis);
+                        }));
+
+                    }*/
+                    currentSecond++;
+                    Console.WriteLine("--- dot " + sequence.ToString() + ": " + (dot as ADot).Rvalue);
+                    break;
             }
-            currentSecond++;
-            Console.WriteLine("--- dot " + sequence.ToString() + ": " + dot.Rvalue);
+
         }
 
         private void CorrectedPacketReceived(DataFormater.ADot dot, int sequence)

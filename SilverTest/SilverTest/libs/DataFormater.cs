@@ -18,10 +18,11 @@ namespace SilverTest.libs
         //@Param
         // dot - dot值
         // sequence - 序号
-        public delegate void PacketReceviedDelegate(ADot dot, int sequence);  //解析出了一个dot
+        public delegate void PacketReceviedDelegate(object dot, int sequence, PacketType ptype);  //解析出了一个dot
         public delegate void PacketCorrectedDelegate(ADot dot, int sequence); //响应包数据校验成功
-        public delegate void PacketCheckErrorDelegate(int sequence); //数据包校验失败
+        public delegate void PacketCheckErrorDelegate(int sequence,PacketType ptype); //数据包校验失败
         public delegate void PacketStillErrorDelegate(int sequence);  // 响应包数据校验再次失败
+        
         //点的格式
         public class ADot
         {
@@ -130,7 +131,7 @@ namespace SilverTest.libs
                         if (PacketRecevied_Ev != null)
                         {
                             //通知收到一个包
-                            PacketRecevied_Ev(dots[dots.Count-1],dots.Count -1 );
+                            PacketRecevied_Ev(dots[dots.Count-1],dots.Count -1,PacketType.DATA_VALUE );
                         }
 
                     }
@@ -142,7 +143,53 @@ namespace SilverTest.libs
                         });
                         if(PacketCheckError_Ev != null)
                         {
-                            PacketCheckError_Ev(dots.Count - 1);
+                            PacketCheckError_Ev(dots.Count - 1, PacketType.DATA_VALUE);
+                        }
+
+                    }
+                    break;
+                case PacketType.AIR_FLUENT:
+                    if (validateData(packet, PhyCombine.GetPhyCombine().GetMachineInfo().AirFluPctDStart,
+                         PhyCombine.GetPhyCombine().GetMachineInfo().AirFluPctDataWidth, 
+                         twoint(packet, PhyCombine.GetPhyCombine().GetMachineInfo().AirFluPctVStart)) == true)
+                    {
+                        if (PacketRecevied_Ev != null)
+                        {
+                            //通知收到一个包
+                            PacketRecevied_Ev(null, Utility.ConvertStrToInt_Big(packet, PhyCombine.GetPhyCombine().GetMachineInfo().AirFluPctDStart,
+                                                        PhyCombine.GetPhyCombine().GetMachineInfo().AirFluPctDataWidth), PacketType.AIR_FLUENT);
+                        }
+
+                    }
+                    else
+                    {
+                        //发生错误
+                        if (PacketCheckError_Ev != null)
+                        {
+                            PacketCheckError_Ev(0,PacketType.AIR_FLUENT);
+                        }
+
+                    }
+                    break;
+                case PacketType.AIR_SAMPLE_TIME:
+                    if (validateData(packet, PhyCombine.GetPhyCombine().GetMachineInfo().AirSTPctDStart,
+                         PhyCombine.GetPhyCombine().GetMachineInfo().AirSTPctDataWidth,
+                         twoint(packet, PhyCombine.GetPhyCombine().GetMachineInfo().AirSTPctVStart)) == true)
+                    {
+                        if (PacketRecevied_Ev != null)
+                        {
+                            //通知收到一个包
+                            PacketRecevied_Ev(null, Utility.ConvertStrToInt_Big(packet, PhyCombine.GetPhyCombine().GetMachineInfo().AirSTPctDStart,
+                                                        PhyCombine.GetPhyCombine().GetMachineInfo().AirSTPctDataWidth), PacketType.AIR_SAMPLE_TIME);
+                        }
+
+                    }
+                    else
+                    {
+                        //发生错误
+                        if (PacketCheckError_Ev != null)
+                        {
+                            PacketCheckError_Ev(0, PacketType.AIR_SAMPLE_TIME);
                         }
 
                     }
