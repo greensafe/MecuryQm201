@@ -176,5 +176,11 @@
   <ItemGroup>
     <Resource Include="实际数据.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="config\config.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Resource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

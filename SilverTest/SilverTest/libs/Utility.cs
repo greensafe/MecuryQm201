@@ -412,6 +412,23 @@ namespace SilverTest.libs
         {
             return Correlation.Pearson(x, y);
         }
+
+        /*
+         * 从xml取值
+         */
+         static public string GetValueFrXml(string xpath, string propertyname)
+        {
+            XmlDocument xdoc = new XmlDocument();
+            xdoc.Load(@"config\config.xml");
+
+            XmlElement root = xdoc.DocumentElement;
+            XmlNode node = root.SelectSingleNode(xpath);
+
+            string t = node.Attributes[propertyname].Value;
+            
+            return t;
+            
+        }
     }
 
 

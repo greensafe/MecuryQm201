@@ -213,7 +213,7 @@ namespace SilverTest
             {
                 re += (char)ReDatas[i];
             }
-            Console.WriteLine("serial . received data: " + re);
+            //Console.WriteLine("serial . received data: " + re);
             DotManager.GetDotManger().GetDot(ReDatas);
 
             //DataFormater.getDataFormater().GetDot(ReDatas);
@@ -521,7 +521,7 @@ namespace SilverTest
                             if (SerialDriver.GetDriver().isOpen() == false)
                             {
                                 //SerialDriver.GetDriver().Open("COM1", 9600, 0, 8, 1);
-                                SerialDriver.GetDriver().Open("COM4", 38400, 0, 8, 1);
+                                SerialDriver.GetDriver().Open("COM5", 38400, 0, 8, 1);
                             }
                             break;
                         case "停止测试":
@@ -593,7 +593,7 @@ namespace SilverTest
                             if (SerialDriver.GetDriver().isOpen() == false)
                             {
                                 //SerialDriver.GetDriver().Open("COM1", 9600, 0, 8, 1);
-                                SerialDriver.GetDriver().Open("COM4", 38400, 0, 8, 1);
+                                SerialDriver.GetDriver().Open("COM5", 38400, 0, 8, 1);
                             }
                             break;
                         case "停止测试":
@@ -730,11 +730,15 @@ namespace SilverTest
 
         private void saveDotsMenu_Checked(object sender, RoutedEventArgs e)
         {
+            //
             
+
         }
 
         private void saveDotsMenu_Click(object sender, RoutedEventArgs e)
         {
+            //string s = Utility.GetValueFrXml("descendant::R1", "pointstart");
+
             Collection<ADot> dots =  DotManager.GetDotManger().GetDots();
             ;
         }
