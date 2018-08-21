@@ -177,7 +177,7 @@ namespace SilverTest.libs
                         break;
                     }
                 }
-                if (st == -1 && rawText_length > 1000)  //长时间不能收到机器类型包
+                if (st == -1 && rawText_length > rawText_maxlength - 100)  //长时间不能收到机器类型包
                 {
                     Console.WriteLine("长时间不能收到机器类型包");
                     if(CombineError_Ev != null) CombineError_Ev(CombineErrorInfo.NOT_FOUND_MACHINE_HEADER_LONG);
@@ -373,6 +373,14 @@ namespace SilverTest.libs
             return machineinfo;
         }
         
+        //清空rawtext数据
+        public void Clear()
+        {
+            Array.Clear(rawText, 0, rawText_maxlength);
+            rawText_bigpct_prt = 0;
+            rawText_length = 0;
+            rawText_purepct_prt = 0;
+        }
         //将rawtext数据保存到文本之中
         public void Dump(string filename)
         {

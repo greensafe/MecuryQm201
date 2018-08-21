@@ -73,6 +73,15 @@ namespace SilverTest
         int yaxis = 0;
         int group = 200;//组距
         Queue<int> q = new Queue<int>();
+        //配置
+        //调整面积积分的积分结果
+        readonly double ratio = 1.0000;
+        //响应值R1面积积分起始点
+        readonly int R1_start = 2000;
+        //响应值R1面积积分结束点
+        readonly int R1_end = 7000;
+        //停止测试点位
+        readonly int stop_test_position = 7500;
 
         private SerialPort ComDevice = null;
         private ObservableCollection<NewTestTarget> newTestClt;
@@ -183,6 +192,11 @@ namespace SilverTest
 
         private void window_Loaded(object sender, RoutedEventArgs e)
         {
+            
+            //加载config数据
+            //string s = Utility.GetValueFrXml("QM201H/response/compute", "ratio");
+            string rs = Utility.GetValueFrXml("/config/QM201H/response/compute/R1", "pointstart");
+            string re = Utility.GetValueFrXml("/config/QM201H/response/compute/R1", "end");
 
             //初始化RS232驱动，注册回调函数
             ComDevice = new SerialPort();
@@ -194,6 +208,7 @@ namespace SilverTest
             DotManager.GetDotManger().Start();
 
             //drawWave_simulate(1001);
+
         }
 
 
@@ -442,26 +457,27 @@ namespace SilverTest
             if (rowNo < 0 )
                 return;
             if (newTestClt[rowNo].ResponseValue1 == "" ||
-                newTestClt[rowNo].ResponseValue1 == null ||
-                newTestClt[rowNo].ResponseValue2 == "" ||
-                newTestClt[rowNo].ResponseValue2 == null ||
-                newTestClt[rowNo].ResponseValue3 == "" ||
-                newTestClt[rowNo].ResponseValue3 == null
+                newTestClt[rowNo].ResponseValue1 == null 
+                //newTestClt[rowNo].ResponseValue2 == "" ||
+                //newTestClt[rowNo].ResponseValue2 == null ||
+                //newTestClt[rowNo].ResponseValue3 == "" ||
+                //newTestClt[rowNo].ResponseValue3 == null
                 )
                 return;
             {
 
                 //newTestClt[rowNow].Density = "";
-                int avr = int.Parse(newTestClt[rowNo].ResponseValue1) +
-                    int.Parse(newTestClt[rowNo].ResponseValue2) +
-                    int.Parse(newTestClt[rowNo].ResponseValue3);
-                avr /= 3;
+                double avr = double.Parse(newTestClt[rowNo].ResponseValue1);
+                   // int.Parse(newTestClt[rowNo].ResponseValue2) +
+                   // int.Parse(newTestClt[rowNo].ResponseValue3);
+                //avr /= 3;
                 newTestClt[rowNo].AverageValue = avr.ToString();
 
-                double t2 = double.Parse(asample.A);
-                double t3 = double.Parse(asample.B);
-                double d = (avr * t2 * t3 / 1000);
-                newTestClt[rowNo].Density = d.ToString();
+                double a = double.Parse(asample.A);
+                double b = double.Parse(asample.B);
+                //double d = (avr * t2 * t3 / 1000);
+                double den = (avr - b) / a;
+                newTestClt[rowNo].Density = den.ToString();
             }
 
             //NewTargetDgd.DataContext = null;
@@ -515,6 +531,10 @@ namespace SilverTest
                             statusBtn.Visibility = Visibility.Visible;
                             AnimatedColorButton.Visibility = Visibility.Visible;
                             dots_start_abs = DotManager.GetDotManger().GetDots().Count;
+                            //清空图形记录及DotManager中数据
+                            realCptDs.Collection.Clear();
+                            DotManager.GetDotManger().ReleaseData();
+
                             //demoTimer.Start();
                             //realCptTimer.Start();
                             startTestBtn.Content = "停止测试";
@@ -529,6 +549,7 @@ namespace SilverTest
                             AnimatedColorButton.Visibility = Visibility.Hidden;
                             //demoTimer.Stop();
                             //realCptTimer.Stop();
+                            
                             startTestBtn.Content = "开始测试";
                             if (SerialDriver.GetDriver().isOpen() == true)
                             {
@@ -545,6 +566,7 @@ namespace SilverTest
                                     ;
                                 }
                             }
+                            
                             //计算响应值，填入datagrid之中
                             /*
                             if (newTestClt[NewTargetDgd.SelectedIndex].ResponseValue1 == "" ||
@@ -587,6 +609,10 @@ namespace SilverTest
                             statusBtn.Visibility = Visibility.Visible;
                             AnimatedColorButton.Visibility = Visibility.Visible;
                             dots_start_abs = DotManager.GetDotManger().GetDots().Count;
+                            //清空图形记录及DotManager中数据
+                            realCptDs.Collection.Clear();
+                            DotManager.GetDotManger().ReleaseData();
+
                             //demoTimer.Start();
                             //realCptTimer.Start();
                             startTestBtn.Content = "停止测试";
@@ -686,6 +712,7 @@ namespace SilverTest
                     double y = (dot as ADot).Rvalue;
                     Point point = new Point(x, y);
                     realCptDs.AppendAsync(base.Dispatcher, point);
+                    
                     /*
                     if (false)
                     {
@@ -718,6 +745,42 @@ namespace SilverTest
                     }*/
                     currentSecond++;
                     Console.WriteLine("--- dot " + sequence.ToString() + ": " + (dot as ADot).Rvalue);
+
+                    //采样到达一定点数后，自动结束测试，计算并且显示测试结果。
+                    if(sequence >= stop_test_position)
+                    {
+                        Dispatcher.Invoke(new Action(() =>
+                        { 
+                            switch (sampletab.SelectedIndex)
+                            {
+                                case 0:         //新样测试
+                                    //关闭串口
+                                    newTestClt[NewTargetDgd.SelectedIndex].ResponseValue1 =
+                                        Utility.Integration(DotManager.GetDotManger().GetDots(), R1_start, R1_end,this.ratio).ToString();
+                                    break;
+                                case 1:         //标样测试
+                                    standardSampleClt[standardSampleDgd.SelectedIndex].ResponseValue1 =
+                                        Utility.Integration(DotManager.GetDotManger().GetDots(), R1_start, R1_end, this.ratio).ToString();
+                                    break;
+                            }
+                            startTestBtn.Content = "开始测试";
+                            AnimatedColorButton.Visibility = Visibility.Hidden;
+                        }));
+
+                        try
+                        {
+                            //SerialDriver.GetDriver().RemoveHandler(Com_DataReceived);
+                            System.Threading.Thread CloseDown =
+                                new System.Threading.Thread(new System.Threading.ThreadStart(closeSerialAsc));
+                            CloseDown.Start();
+                            //SerialDriver.GetDriver().Close();
+                        }
+                        catch (Exception ex)
+                        {
+                            ;
+                        }
+                    }
+
                     break;
             }
 
@@ -815,74 +878,102 @@ namespace SilverTest
 
         private void standardSampleDgd_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //绘制R 线性回归图
+
+            //计算相关系数及截率
+            double[] x;
+            double[] y;
             int len = 0;
-            if (standardSampleDgd.SelectedIndex == -1)
-                return;
+            int index = 0;
+            double a, b, R;
 
-            if (standardSampleClt[standardSampleDgd.SelectedIndex].A is null ||
-                standardSampleClt[standardSampleDgd.SelectedIndex].B is null ||
-                standardSampleClt[standardSampleDgd.SelectedIndex].R is null ||
-                standardSampleClt[standardSampleDgd.SelectedIndex].A == "" ||
-                standardSampleClt[standardSampleDgd.SelectedIndex].B == "" ||
-                standardSampleClt[standardSampleDgd.SelectedIndex].R == "")
-                return;
-
-            double a = double.Parse(standardSampleClt[standardSampleDgd.SelectedIndex].A);
-            double b = double.Parse(standardSampleClt[standardSampleDgd.SelectedIndex].B);
-            double R = double.Parse(standardSampleClt[standardSampleDgd.SelectedIndex].R);
-
-            string grpname = standardSampleClt[standardSampleDgd.SelectedIndex].GroupName;
-            foreach(StandardSample item in standardSampleClt)
+            if (standardSampleDgd.SelectedIndex < 0) return;
+            if (standardSampleClt[standardSampleDgd.SelectedIndex].R == null ||
+                standardSampleClt[standardSampleDgd.SelectedIndex].R == "") 
             {
-                if (item.GroupName == grpname)
-                    len++;
-            }
-            Point[] dots = new Point[len];
-            foreach(StandardSample item in standardSampleClt)
-            {
-                if(item.GroupName == grpname)
+                string groupname = standardSampleClt[standardSampleDgd.SelectedIndex].GroupName;
+                foreach (StandardSample item in standardSampleClt)
                 {
-                    dots[--len].X = double.Parse(item.Density);
-                    dots[len].Y = double.Parse(item.ResponseValue1);
+                    if (item.GroupName == groupname)
+                    {
+                        if (item.ResponseValue1 == "" || item.ResponseValue1 is null)
+                        {
+                            //MessageBox.Show("测试未完成，无法计算R");
+                            return;
+                        }
+                        else
+                        {
+                            len++;
+                        }
+
+                    }
+                }
+                x = new double[len];
+                y = new double[len];
+                foreach (StandardSample v in standardSampleClt)
+                {
+                    if (v.GroupName == groupname)
+                    {
+                        x[index] = double.Parse(v.Density);
+                        y[index] = double.Parse(v.ResponseValue1);
+                        index++;
+                    }
+
+                }
+                Utility.ComputeAB(out a, out b, x, y);
+                R = Utility.ComputeR(x, y);
+                foreach (StandardSample v in standardSampleClt)
+                {
+                    if (v.GroupName == groupname)
+                    {
+                        v.A = a.ToString();
+                        v.B = b.ToString();
+                        v.R = R.ToString();
+                    }
+
+                }
+
+                //绘制R 线性回归图
+                //
+
+
+                double maxX = 0;
+                for (int i = 0; i < x.Length; i++)
+                {
+                    if (x[i] >= maxX)
+                        maxX = x[i];
+                }
+                double maxY = 0;
+                for(int i =0; i < y.Length; i++)
+                {
+                    if (y[i] >= maxY)
+                        maxY = y[i];
+                }
+
+                double rationX = (rCanvas.Width - 50) / maxX;
+                double rationY = (rCanvas.Height - 50) / maxY;
+                //直线
+                rCanvas.Children.Clear();
+                Line mydrawline = new Line();
+                mydrawline.Stroke = Brushes.Black;//mydrawline.Stroke = new SolidColorBrush(Color.FromArgb(0xFF, 0x5B, 0x9B, 0xD5));
+                mydrawline.StrokeThickness = 3;
+                mydrawline.X1 = 5;
+                mydrawline.Y1 = rCanvas.Height - (a * mydrawline.X1 + b)*rationY;
+                mydrawline.X2 = 295;
+                mydrawline.Y2 = rCanvas.Height - (a*mydrawline.X1+b)*rationY;
+                rCanvas.Children.Add(mydrawline);
+                //画点
+                for (int i = 0; i < x.Length; i++)
+                {
+                    Ellipse eli = new Ellipse();
+                    eli.Stroke = System.Windows.Media.Brushes.Black;
+                    eli.Fill = System.Windows.Media.Brushes.DarkBlue;
+                    eli.Width = 5;
+                    eli.Height = 5;
+                    Thickness mrg = new Thickness(x[i]*rationX, rCanvas.Height - y[i]*rationY, 0, 0);
+                    eli.Margin = mrg;
+                    rCanvas.Children.Add(eli);
                 }
             }
-
-            //
-            double max = 0;
-            for(int i = 0; i < dots.Length; i++)
-            {
-                if (dots[i].Y >= max)
-                    max = dots[i].Y;
-            }
-
-            double ration = (rCanvas.Height - 10)/ max;
-
-            rCanvas.Children.Clear();
-            //直线
-            Line mydrawline = new Line();
-            mydrawline.Stroke = Brushes.Black;//mydrawline.Stroke = new SolidColorBrush(Color.FromArgb(0xFF, 0x5B, 0x9B, 0xD5));
-            mydrawline.StrokeThickness = 3;
-            mydrawline.X1 = 5;
-            mydrawline.Y1 = rCanvas.Height - (a*mydrawline.X1 + b);
-            mydrawline.Y2 = 295;
-            mydrawline.X2 = (mydrawline.Y2 - b)/ a;
-            mydrawline.Y2 = rCanvas.Height - 295;
-
-            rCanvas.Children.Add(mydrawline);
-
-            for (int i = 0; i < dots.Length; i++)
-            {
-                Ellipse eli = new Ellipse();
-                eli.Stroke = System.Windows.Media.Brushes.Black;
-                eli.Fill = System.Windows.Media.Brushes.DarkBlue;
-                eli.Width = 5;
-                eli.Height = 5;
-                Thickness mrg = new Thickness(dots[i].X, rCanvas.Height - dots[i].Y, 0, 0);
-                eli.Margin = mrg;
-                rCanvas.Children.Add(eli);
-            }
-
         }
 
         /*

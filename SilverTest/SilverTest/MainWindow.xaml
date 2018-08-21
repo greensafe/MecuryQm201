@@ -134,9 +134,11 @@
                                 <DataGridTextColumn Header="样品名" Width="80" Binding="{Binding NewName}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="产地" Width="80" Binding="{Binding Place}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="响应值1" Width="80" Binding="{Binding ResponseValue1}"></DataGridTextColumn>
-                                <DataGridTextColumn Header="响应值2" Width="80" Binding="{Binding ResponseValue2}"></DataGridTextColumn>
-                                <DataGridTextColumn Header="响应值3" Width="80" Binding="{Binding ResponseValue3}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="响应值2" Width="80" Binding="{Binding ResponseValue2}" Visibility="Hidden"></DataGridTextColumn>
+                                <DataGridTextColumn Header="响应值3" Width="80" Binding="{Binding ResponseValue3}" Visibility="Hidden"></DataGridTextColumn>
                                 <DataGridTextColumn Header="平均值" Width="80" Binding="{Binding AverageValue}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="气体采样时间" Width="90" Binding="{Binding AirSampleTime}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="气体流量" Width="80" Binding="{Binding AirFluent}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="汞浓度mg/L" Width="80" Binding="{Binding Density}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="样品重量g" Width="80" Binding="{Binding Weight}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="样品消化液总体积ml" Width="80"></DataGridTextColumn>
@@ -196,6 +198,9 @@
                                 <DataGridTextColumn Header="样品名" Width="80" Binding="{Binding Path=SampleName}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="汞浓度" Width="80" Binding="{Binding Path=Density,Mode=TwoWay}" ></DataGridTextColumn>
                                 <DataGridTextColumn Header="响应值" Width="80" Binding="{Binding Path=ResponseValue1}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="气体采样时间" Width="90" Binding="{Binding AirSampleTime}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="气体流量" Width="80" Binding="{Binding AirFluent}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="温度" Width="80" Binding="{Binding Temperature}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="样品重量" Width="80" Binding="{Binding Path=Weight}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="样品供应商" Width="80" Binding="{Binding Path=ProviderCompany}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="产地" Width="80" Binding="{Binding Path=Place}"></DataGridTextColumn>

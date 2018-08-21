@@ -92,6 +92,13 @@ namespace SilverTest.libs
             return DataFormater.getDataFormater().GetDots();
         }
 
+        //清空Dots，rawText所有数据
+        public void ReleaseData()
+        {
+            DataFormater.getDataFormater().GetDots().Clear();
+            PhyCombine.GetPhyCombine().Clear();
+        }
+
         public void DumpRawText(string filename)
         {
             PhyCombine.GetPhyCombine().Dump(filename);

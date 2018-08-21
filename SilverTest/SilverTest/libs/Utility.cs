@@ -415,24 +415,45 @@ namespace SilverTest.libs
 
         /*
          * 从xml取值
+         * @param
+         *  xpath - 定位元素。 比如
+         *              descendant::Ratio
          */
-         static public string GetValueFrXml(string xpath, string propertyname)
+        static public string GetValueFrXml(string xpath, string propertyname)
         {
             XmlDocument xdoc = new XmlDocument();
             xdoc.Load(@"config\config.xml");
 
-            XmlElement root = xdoc.DocumentElement;
-            XmlNode node = root.SelectSingleNode(xpath);
+            //XmlElement root = xdoc.DocumentElement;
+            //XmlNode node = xdoc.SelectSingleNode(xpath);
+            //XmlNode node = xdoc.SelectSingleNode("/config/QM201H/response/compute");
+            //XmlNode node = xdoc.SelectSingleNode("/config/response/compute/R3");
 
-            string t = node.Attributes[propertyname].Value;
+            //string t = node.Attributes[propertyname].Value;
             
-            return t;
+            return "";
             
         }
+
+        /*
+         * 面积积分
+         * 初略算法，寻求更加高级的算法
+         * @param
+         *      start_abs 起始位置
+         *      end_abs 结束位置
+         *      
+         */
+         static public double Integration(Collection<ADot> dots, int start_abs, int end_abs, double ratio)
+        {
+            double t = 0;
+
+            for (int i = start_abs; i<end_abs; i++)
+            {
+                t += dots[i].Rvalue * 1;
+            }
+
+            return ( t / (end_abs - start_abs) ) * ratio;
+        }
     }
-
-
-
-
    
 }

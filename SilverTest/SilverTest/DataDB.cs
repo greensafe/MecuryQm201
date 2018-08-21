@@ -81,6 +81,17 @@ namespace SilverTest
                 NotifyPropertyChanged("Weight");
             }
         }
+        //温度
+        private string temperature;
+        public string Temperature
+        {
+            get { return temperature; }
+            set
+            {
+                temperature = value;
+                NotifyPropertyChanged("Temperature");
+            }
+        }
         //样品出厂商
         private string providerCompany;
         public string ProviderCompany
@@ -137,6 +148,30 @@ namespace SilverTest
             {
                 r = value;
                 NotifyPropertyChanged("R");
+            }
+        }
+
+        //气体取样时间
+        private string airSampleTime;
+        public string AirSampleTime
+        {
+            get { return airSampleTime; }
+            set
+            {
+                airSampleTime = value;
+                NotifyPropertyChanged("airSampleTime");
+            }
+        }
+
+        //气体流量
+        private string airFluent;
+        public string AirFluent
+        {
+            get { return airFluent; }
+            set
+            {
+                airFluent = value;
+                NotifyPropertyChanged("airFluent");
             }
         }
 
@@ -265,6 +300,7 @@ namespace SilverTest
                 NotifyPropertyChanged("AverageValue");
             }
         }
+
         //汞浓度
         private string density;
         public string Density {
@@ -285,6 +321,31 @@ namespace SilverTest
                 NotifyPropertyChanged("LiquidSize");
             }
         }
+
+        //气体取样时间
+        private string airSampleTime;
+        public string AirSampleTime
+        {
+            get { return airSampleTime; }
+            set
+            {
+                airSampleTime = value;
+                NotifyPropertyChanged("airSampleTime");
+            }
+        }
+
+        //气体流量
+        private string airFluent;
+        public string AirFluent
+        {
+            get { return airFluent; }
+            set
+            {
+                airFluent = value;
+                NotifyPropertyChanged("airFluent");
+            }
+        }
+
         //构造函数
         public NewTestTarget(string newName, string code, string weight, string place, string responseValue1,
             string responseValue2, string responseValue3, string density, string liquidSize)
