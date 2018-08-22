@@ -223,6 +223,7 @@ namespace SilverTest
             */
 
             byte[] ReDatas = SerialDriver.GetDriver().Read();
+            if (ReDatas == null) return;
             string re ="";
             for(int i = 0; i< ReDatas.Length; i++)
             {
@@ -522,7 +523,8 @@ namespace SilverTest
                                 MessageBox.Show("请选择一条样本");
                                 return;
                             }
-                            if (newTestClt[NewTargetDgd.SelectedIndex].ResponseValue3 != "" && newTestClt[NewTargetDgd.SelectedIndex].ResponseValue3 != null)
+                            if (newTestClt[NewTargetDgd.SelectedIndex].ResponseValue1 != "" && 
+                                newTestClt[NewTargetDgd.SelectedIndex].ResponseValue1 != null)
                             {
                                 MessageBox.Show("数据已经满，请去掉网格中数据重新开始测试");
                                 return;
@@ -600,7 +602,8 @@ namespace SilverTest
                                 MessageBox.Show("请选择一条样本");
                                 return;
                             }
-                            if (standardSampleClt[standardSampleDgd.SelectedIndex].ResponseValue1 != "" && standardSampleClt[standardSampleDgd.SelectedIndex].ResponseValue1 != null)
+                            if (standardSampleClt[getCltIndex( standardSampleDgd.SelectedIndex )].ResponseValue1 != "" && 
+                                standardSampleClt[getCltIndex( standardSampleDgd.SelectedIndex )].ResponseValue1 != null)
                             {
                                 MessageBox.Show("数据已经满，请去掉网格中数据重新开始测试");
                                 return;
@@ -636,9 +639,9 @@ namespace SilverTest
                                 CloseDown1.Start();
                             }
                             //计算响应值，填入datagrid之中
-                            if (standardSampleClt[standardSampleDgd.SelectedIndex].ResponseValue1 == "" ||
-                                standardSampleClt[standardSampleDgd.SelectedIndex].ResponseValue1 == null)
-                                standardSampleClt[standardSampleDgd.SelectedIndex].ResponseValue1 = Utility.ComputeResponseValue(
+                            if (standardSampleClt[getCltIndex( standardSampleDgd.SelectedIndex )].ResponseValue1 == "" ||
+                                standardSampleClt[getCltIndex( standardSampleDgd.SelectedIndex )].ResponseValue1 == null)
+                                standardSampleClt[getCltIndex( standardSampleDgd.SelectedIndex )].ResponseValue1 = Utility.ComputeResponseValue(
                                     dots_start_abs, DotManager.GetDotManger().GetDots().Count).ToString();
                             break;
                         default:
@@ -759,7 +762,7 @@ namespace SilverTest
                                         Utility.Integration(DotManager.GetDotManger().GetDots(), R1_start, R1_end,this.ratio).ToString();
                                     break;
                                 case 1:         //标样测试
-                                    standardSampleClt[standardSampleDgd.SelectedIndex].ResponseValue1 =
+                                    standardSampleClt[getCltIndex(standardSampleDgd.SelectedIndex)].ResponseValue1 =
                                         Utility.Integration(DotManager.GetDotManger().GetDots(), R1_start, R1_end, this.ratio).ToString();
                                     break;
                             }
@@ -833,7 +836,7 @@ namespace SilverTest
                 MessageBox.Show("请选择标样组");
                 return;
             }
-            string groupname = standardSampleClt[standardSampleDgd.SelectedIndex].GroupName;
+            string groupname = standardSampleClt[getCltIndex( standardSampleDgd.SelectedIndex )].GroupName;
             foreach(StandardSample item in standardSampleClt)
             {
                 if (item.GroupName == groupname)
@@ -876,6 +879,26 @@ namespace SilverTest
             }
         }
 
+        /*
+         * 绘制相关系数点直线图
+         */
+        private void drawR(double[] x, double[] y, double a, double b)
+        {
+
+        }
+
+        //在标样选择中，将视图选中序号转变为数据源中序号
+        private int getCltIndex(int index)
+        {
+            string code = (standardSampleDgd.SelectedItem as StandardSample).Code;
+            for(int i=0; i < standardSampleClt.Count; i++)
+            {
+                if (standardSampleClt[i].Code == code)
+                    return i;
+            }
+            return 0;
+        }
+
         private void standardSampleDgd_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
@@ -884,13 +907,16 @@ namespace SilverTest
             double[] y;
             int len = 0;
             int index = 0;
+            int cltindex = 0;
             double a, b, R;
 
             if (standardSampleDgd.SelectedIndex < 0) return;
-            if (standardSampleClt[standardSampleDgd.SelectedIndex].R == null ||
-                standardSampleClt[standardSampleDgd.SelectedIndex].R == "") 
+
+            cltindex = getCltIndex(standardSampleDgd.SelectedIndex);
+            if (standardSampleClt[cltindex].R == null ||
+                standardSampleClt[cltindex].R == "") 
             {
-                string groupname = standardSampleClt[standardSampleDgd.SelectedIndex].GroupName;
+                string groupname = standardSampleClt[cltindex].GroupName;
                 foreach (StandardSample item in standardSampleClt)
                 {
                     if (item.GroupName == groupname)

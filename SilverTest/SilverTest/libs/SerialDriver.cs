@@ -45,8 +45,17 @@ namespace SilverTest.libs
         public byte[] Read()
         {
             byte[] ReDatas = new byte[ComDevice.BytesToRead];
-            ComDevice.Read(ReDatas, 0, ReDatas.Length);
-            return ReDatas;
+            if (ComDevice.IsOpen == (true))
+            {
+                ComDevice.Read(ReDatas, 0, ReDatas.Length);
+                return ReDatas;
+            }
+            else
+            {
+                Console.WriteLine("SerialDriver:端口关闭，无法读取数据");
+                return null;
+            }
+            
             /*
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < ReDatas.Length; i++)

@@ -5,11 +5,11 @@
     <Code>x1001</Code>
     <Weight>10</Weight>
     <Place>昆山玉山镇</Place>
-    <ResponseValue1 />
+    <ResponseValue1>2752.956</ResponseValue1>
     <ResponseValue2 />
     <ResponseValue3 />
-    <AverageValue />
-    <Density>30</Density>
+    <AverageValue>2752.956</AverageValue>
+    <Density>6.90706170201086</Density>
     <LiquidSize />
   </NewTestTarget>
   <NewTestTarget>
@@ -17,31 +17,40 @@
     <Code>x1002</Code>
     <Weight>20</Weight>
     <Place>昆山玉山镇</Place>
-    <ResponseValue1>100</ResponseValue1>
+    <ResponseValue1>2718.3594</ResponseValue1>
     <ResponseValue2>103</ResponseValue2>
     <ResponseValue3>105</ResponseValue3>
-    <AverageValue>103</AverageValue>
-    <Density>1.92</Density>
+    <AverageValue>2718.3594</AverageValue>
+    <Density>6.86309337655024</Density>
   </NewTestTarget>
   <NewTestTarget>
     <NewName>烟厂土3</NewName>
     <Code>x1003</Code>
     <Weight>22</Weight>
     <Place>昆山玉山镇</Place>
-    <ResponseValue1>30</ResponseValue1>
+    <ResponseValue1>2545.0646</ResponseValue1>
     <ResponseValue2>20</ResponseValue2>
     <ResponseValue3>25</ResponseValue3>
-    <AverageValue />
-    <Density>39</Density>
+    <AverageValue>2545.0646</AverageValue>
+    <Density>6.6428554870746</Density>
   </NewTestTarget>
   <NewTestTarget>
     <NewName>天狼星土</NewName>
     <Code>x1004</Code>
+    <Weight>20</Weight>
+    <Place>Kete town</Place>
+    <ResponseValue1>2061.8828</ResponseValue1>
+    <AverageValue>2061.8828</AverageValue>
+    <Density>6.0287866294687</Density>
   </NewTestTarget>
   <NewTestTarget>
     <NewName>美土</NewName>
     <Code>x1005</Code>
+    <Weight>20</Weight>
     <Place>california</Place>
+    <ResponseValue1>2541.64</ResponseValue1>
+    <AverageValue>2541.64</AverageValue>
+    <Density>6.63850321178245</Density>
   </NewTestTarget>
   <NewTestTarget />
   <NewTestTarget />
