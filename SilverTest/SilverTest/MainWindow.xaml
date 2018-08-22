@@ -137,12 +137,12 @@
                                 <DataGridTextColumn Header="响应值2" Width="80" Binding="{Binding ResponseValue2}" Visibility="Hidden"></DataGridTextColumn>
                                 <DataGridTextColumn Header="响应值3" Width="80" Binding="{Binding ResponseValue3}" Visibility="Hidden"></DataGridTextColumn>
                                 <DataGridTextColumn Header="平均值" Width="80" Binding="{Binding AverageValue}"></DataGridTextColumn>
-                                <DataGridTextColumn Header="气体采样时间" Width="90" Binding="{Binding AirSampleTime}"></DataGridTextColumn>
-                                <DataGridTextColumn Header="气体流量" Width="80" Binding="{Binding AirFluent}"></DataGridTextColumn>
-                                <DataGridTextColumn Header="汞浓度mg/L" Width="80" Binding="{Binding Density}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="取样时间m" Width="90" Binding="{Binding AirSampleTime}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="流量L/m" Width="80" Binding="{Binding AirFluent}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="汞浓度ng/mL" Width="80" Binding="{Binding Density}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="样品重量g" Width="80" Binding="{Binding Weight}"></DataGridTextColumn>
-                                <DataGridTextColumn Header="样品消化液总体积ml" Width="80"></DataGridTextColumn>
-                                <DataGridTextColumn Header="样品中汞.." Width="80"></DataGridTextColumn>
+                                <DataGridTextColumn Header="样品消化液总体积ml" Width="80" Visibility="Hidden"></DataGridTextColumn>
+                                <DataGridTextColumn Header="样品中汞含量" Width="80"></DataGridTextColumn>
 
                                 <DataGridTemplateColumn Header="选择标样">
                                     <DataGridTemplateColumn.CellTemplate >
@@ -196,10 +196,10 @@
                                 <DataGridTextColumn Header="组名" Width="80" Binding="{Binding Path=GroupName}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="序号" Width="80" Binding="{Binding Path=Code}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="样品名" Width="80" Binding="{Binding Path=SampleName}"></DataGridTextColumn>
-                                <DataGridTextColumn Header="汞浓度" Width="80" Binding="{Binding Path=Density,Mode=TwoWay}" ></DataGridTextColumn>
+                                <DataGridTextColumn Header="汞浓度ng/mL" Width="80" Binding="{Binding Path=Density,Mode=TwoWay}" ></DataGridTextColumn>
                                 <DataGridTextColumn Header="响应值" Width="80" Binding="{Binding Path=ResponseValue1}"></DataGridTextColumn>
-                                <DataGridTextColumn Header="气体采样时间" Width="90" Binding="{Binding AirSampleTime}"></DataGridTextColumn>
-                                <DataGridTextColumn Header="气体流量" Width="80" Binding="{Binding AirFluent}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="取样时间m" Width="90" Binding="{Binding AirSampleTime}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="流量L/m" Width="80" Binding="{Binding AirFluent}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="温度" Width="80" Binding="{Binding Temperature}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="样品重量" Width="80" Binding="{Binding Path=Weight}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="样品供应商" Width="80" Binding="{Binding Path=ProviderCompany}"></DataGridTextColumn>
@@ -262,7 +262,7 @@
                     </Button>
                 </Border>
             </StackPanel>
-            <Canvas x:Name="rCanvas" DockPanel.Dock="Top" Width="300" Height="300" Background="#FFDCD9D9" Visibility="Collapsed"/>
+            <Canvas x:Name="rCanvas" DockPanel.Dock="Top" Width="300" Height="300" Background="#FFDCD9D9" Visibility="Collapsed" ClipToBounds="True"/>
             <GroupBox x:Name="paramGbx" Header="y = ax + b" Height="100" DockPanel.Dock="Top" Margin="0,2,308,0">
                 <GroupBox.Background>
                     <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>

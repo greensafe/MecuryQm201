@@ -82,6 +82,8 @@ namespace SilverTest
         readonly int R1_end = 7000;
         //停止测试点位
         readonly int stop_test_position = 7500;
+        //瞬时最大值
+        double maxResponse = 0;
 
         private SerialPort ComDevice = null;
         private ObservableCollection<NewTestTarget> newTestClt;
@@ -445,6 +447,17 @@ namespace SilverTest
 
         }
 
+        private int getNewCltIndex(int index)
+        {
+            string code = (NewTargetDgd.SelectedItem as NewTestTarget).Code;
+            for(int i = 0; i< newTestClt.Count; i++)
+            {
+                if (newTestClt[i].Code == code)
+                    return i;
+            }
+            return 0;
+        }
+
         private void standardCmb_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (e.AddedItems.Count == 0) return;
@@ -455,10 +468,11 @@ namespace SilverTest
 
             //如果有平均值则计算汞浓度
             int rowNo = NewTargetDgd.SelectedIndex;
+            int cltindex = getNewCltIndex(rowNo);
             if (rowNo < 0 )
                 return;
-            if (newTestClt[rowNo].ResponseValue1 == "" ||
-                newTestClt[rowNo].ResponseValue1 == null 
+            if (newTestClt[cltindex].ResponseValue1 == "" ||
+                newTestClt[cltindex].ResponseValue1 == null 
                 //newTestClt[rowNo].ResponseValue2 == "" ||
                 //newTestClt[rowNo].ResponseValue2 == null ||
                 //newTestClt[rowNo].ResponseValue3 == "" ||
@@ -468,17 +482,17 @@ namespace SilverTest
             {
 
                 //newTestClt[rowNow].Density = "";
-                double avr = double.Parse(newTestClt[rowNo].ResponseValue1);
+                double avr = double.Parse(newTestClt[cltindex].ResponseValue1);
                    // int.Parse(newTestClt[rowNo].ResponseValue2) +
                    // int.Parse(newTestClt[rowNo].ResponseValue3);
                 //avr /= 3;
-                newTestClt[rowNo].AverageValue = avr.ToString();
+                newTestClt[cltindex].AverageValue = avr.ToString();
 
                 double a = double.Parse(asample.A);
                 double b = double.Parse(asample.B);
                 //double d = (avr * t2 * t3 / 1000);
                 double den = (avr - b) / a;
-                newTestClt[rowNo].Density = den.ToString();
+                newTestClt[cltindex].Density = den.ToString();
             }
 
             //NewTargetDgd.DataContext = null;
@@ -511,6 +525,7 @@ namespace SilverTest
 
         private void startTestBtn_Click(object sender, RoutedEventArgs e)
         {
+            int newcltindex = 0;
             SerialDriver.GetDriver().OnReceived(Com_DataReceived);
             switch (sampletab.SelectedIndex)
             {
@@ -523,8 +538,9 @@ namespace SilverTest
                                 MessageBox.Show("请选择一条样本");
                                 return;
                             }
-                            if (newTestClt[NewTargetDgd.SelectedIndex].ResponseValue1 != "" && 
-                                newTestClt[NewTargetDgd.SelectedIndex].ResponseValue1 != null)
+                            newcltindex = getNewCltIndex(NewTargetDgd.SelectedIndex);
+                            if (newTestClt[newcltindex].ResponseValue1 != "" && 
+                                newTestClt[newcltindex].ResponseValue1 != null)
                             {
                                 MessageBox.Show("数据已经满，请去掉网格中数据重新开始测试");
                                 return;
@@ -701,6 +717,7 @@ namespace SilverTest
 
         private void PacketReceived(object dot, int sequence, PacketType ptype)
         {
+            int newcltindex = 0;
             switch(ptype)
             {
                 case PacketType.AIR_FLUENT:
@@ -713,6 +730,10 @@ namespace SilverTest
 
                     double x = currentSecond;
                     double y = (dot as ADot).Rvalue;
+
+                    if (y > maxResponse)
+                        maxResponse = y;
+
                     Point point = new Point(x, y);
                     realCptDs.AppendAsync(base.Dispatcher, point);
                     
@@ -757,13 +778,17 @@ namespace SilverTest
                             switch (sampletab.SelectedIndex)
                             {
                                 case 0:         //新样测试
-                                    //关闭串口
-                                    newTestClt[NewTargetDgd.SelectedIndex].ResponseValue1 =
-                                        Utility.Integration(DotManager.GetDotManger().GetDots(), R1_start, R1_end,this.ratio).ToString();
+                                    newcltindex = getNewCltIndex(NewTargetDgd.SelectedIndex);
+                                    //newTestClt[newcltindex].ResponseValue1 =
+                                    //    Utility.Integration(DotManager.GetDotManger().GetDots(), R1_start, R1_end,this.ratio).ToString();
+                                    newTestClt[newcltindex].ResponseValue1 =
+                                        maxResponse.ToString();
                                     break;
                                 case 1:         //标样测试
+                                    //standardSampleClt[getCltIndex(standardSampleDgd.SelectedIndex)].ResponseValue1 =
+                                    //    Utility.Integration(DotManager.GetDotManger().GetDots(), R1_start, R1_end, this.ratio).ToString();
                                     standardSampleClt[getCltIndex(standardSampleDgd.SelectedIndex)].ResponseValue1 =
-                                        Utility.Integration(DotManager.GetDotManger().GetDots(), R1_start, R1_end, this.ratio).ToString();
+                                        maxResponse.ToString();
                                     break;
                             }
                             startTestBtn.Content = "开始测试";
@@ -884,7 +909,46 @@ namespace SilverTest
          */
         private void drawR(double[] x, double[] y, double a, double b)
         {
+            double maxX = 0, maxY = 0,ratiox = 0,ratioy = 0;
 
+            rCanvas.Children.Clear();
+
+            for (int i = 0; i < x.Length; i++)
+            {
+                if (x[i] > maxX) maxX = x[i];
+                if (y[i] > maxY) maxY = y[i];
+            }
+            ratiox = rCanvas.Width / (maxX + 10);
+            ratioy = rCanvas.Height / (maxY + 10);
+
+            double x1 = 5 * ratiox;
+            double y1 = (5*a+b)*ratioy;
+            double x2 = (maxX+10)*ratiox;
+            double y2 = ((maxX + 10) * a + b) * ratioy;
+            
+
+            Line mydrawline = new Line();
+            mydrawline.Stroke = Brushes.Black;//mydrawline.Stroke = new SolidColorBrush(Color.FromArgb(0xFF, 0x5B, 0x9B, 0xD5));
+            mydrawline.StrokeThickness = 3;
+            mydrawline.X1 = x1;
+            mydrawline.Y1 = rCanvas.Height - y1;
+            mydrawline.X2 = x2;
+            mydrawline.Y2 = rCanvas.Height - y2;
+            rCanvas.Children.Add(mydrawline);
+
+
+            //画点
+            for (int i = 0; i < x.Length; i++)
+            {
+                Ellipse eli = new Ellipse();
+                eli.Stroke = System.Windows.Media.Brushes.Black;
+                eli.Fill = System.Windows.Media.Brushes.DarkBlue;
+                eli.Width = 5;
+                eli.Height = 5;
+                Thickness mrg = new Thickness(x[i] * ratiox, rCanvas.Height - y[i] * ratioy, 0, 0);
+                eli.Margin = mrg;
+                rCanvas.Children.Add(eli);
+            }
         }
 
         //在标样选择中，将视图选中序号转变为数据源中序号
@@ -913,39 +977,43 @@ namespace SilverTest
             if (standardSampleDgd.SelectedIndex < 0) return;
 
             cltindex = getCltIndex(standardSampleDgd.SelectedIndex);
+
+            //数据未测试完成，则不计算相关系数
+            string groupname = standardSampleClt[cltindex].GroupName;
+            foreach (StandardSample item in standardSampleClt)
+            {
+                if (item.GroupName == groupname)
+                {
+                    if (item.ResponseValue1 == "" || item.ResponseValue1 is null)
+                    {
+                        //MessageBox.Show("测试未完成，无法计算R");
+                        return;
+                    }
+                    else
+                    {
+                        len++;
+                    }
+                }
+            }
+
+            //收集新x,y数组
+            x = new double[len];
+            y = new double[len];
+            foreach (StandardSample v in standardSampleClt)
+            {
+                if (v.GroupName == groupname)
+                {
+                    x[index] = double.Parse(v.Density);
+                    y[index] = double.Parse(v.ResponseValue1);
+                    index++;
+                }
+            }
+
+            Utility.ComputeAB(out a, out b, x, y);
+
             if (standardSampleClt[cltindex].R == null ||
                 standardSampleClt[cltindex].R == "") 
             {
-                string groupname = standardSampleClt[cltindex].GroupName;
-                foreach (StandardSample item in standardSampleClt)
-                {
-                    if (item.GroupName == groupname)
-                    {
-                        if (item.ResponseValue1 == "" || item.ResponseValue1 is null)
-                        {
-                            //MessageBox.Show("测试未完成，无法计算R");
-                            return;
-                        }
-                        else
-                        {
-                            len++;
-                        }
-
-                    }
-                }
-                x = new double[len];
-                y = new double[len];
-                foreach (StandardSample v in standardSampleClt)
-                {
-                    if (v.GroupName == groupname)
-                    {
-                        x[index] = double.Parse(v.Density);
-                        y[index] = double.Parse(v.ResponseValue1);
-                        index++;
-                    }
-
-                }
-                Utility.ComputeAB(out a, out b, x, y);
                 R = Utility.ComputeR(x, y);
                 foreach (StandardSample v in standardSampleClt)
                 {
@@ -957,49 +1025,12 @@ namespace SilverTest
                     }
 
                 }
-
-                //绘制R 线性回归图
-                //
-
-
-                double maxX = 0;
-                for (int i = 0; i < x.Length; i++)
-                {
-                    if (x[i] >= maxX)
-                        maxX = x[i];
-                }
-                double maxY = 0;
-                for(int i =0; i < y.Length; i++)
-                {
-                    if (y[i] >= maxY)
-                        maxY = y[i];
-                }
-
-                double rationX = (rCanvas.Width - 50) / maxX;
-                double rationY = (rCanvas.Height - 50) / maxY;
-                //直线
-                rCanvas.Children.Clear();
-                Line mydrawline = new Line();
-                mydrawline.Stroke = Brushes.Black;//mydrawline.Stroke = new SolidColorBrush(Color.FromArgb(0xFF, 0x5B, 0x9B, 0xD5));
-                mydrawline.StrokeThickness = 3;
-                mydrawline.X1 = 5;
-                mydrawline.Y1 = rCanvas.Height - (a * mydrawline.X1 + b)*rationY;
-                mydrawline.X2 = 295;
-                mydrawline.Y2 = rCanvas.Height - (a*mydrawline.X1+b)*rationY;
-                rCanvas.Children.Add(mydrawline);
-                //画点
-                for (int i = 0; i < x.Length; i++)
-                {
-                    Ellipse eli = new Ellipse();
-                    eli.Stroke = System.Windows.Media.Brushes.Black;
-                    eli.Fill = System.Windows.Media.Brushes.DarkBlue;
-                    eli.Width = 5;
-                    eli.Height = 5;
-                    Thickness mrg = new Thickness(x[i]*rationX, rCanvas.Height - y[i]*rationY, 0, 0);
-                    eli.Margin = mrg;
-                    rCanvas.Children.Add(eli);
-                }
             }
+            //绘制R 线性回归图
+            //
+            drawR(x, y, a, b);
+
+
         }
 
         /*
