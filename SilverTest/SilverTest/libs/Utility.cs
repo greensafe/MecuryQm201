@@ -251,7 +251,12 @@ namespace SilverTest.libs
 
                 for (int i = 0; i < dataGrid.Columns.Count - 1; i++) //暂时不处理新样选择标样列，所以标样最后一列也不保存
                 {
-                    worksheet.Cells[r + 2, i + 1] = (dataGrid.Columns[i].GetCellContent(dataGrid.Items[r]) as TextBlock).Text;
+                    if ((dataGrid.Columns[i].GetCellContent(dataGrid.Items[r]) is null)){
+                        worksheet.Cells[r + 2, i + 1] = "NaN";
+                    }
+                    else {
+                        worksheet.Cells[r + 2, i + 1] = (dataGrid.Columns[i].GetCellContent(dataGrid.Items[r]) as TextBlock).Text;
+                    }
                 }
 
             }

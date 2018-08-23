@@ -76,21 +76,6 @@
     <R>0.102066950878718</R>
   </StandardSample>
   <StandardSample>
-    <SampleName>标样4</SampleName>
-    <GroupName>潘阳蟹土</GroupName>
-    <Code>s1004</Code>
-    <Density>5.70</Density>
-    <ResponseValue1>2610.561</ResponseValue1>
-    <Weight>10</Weight>
-    <Temperature>10.3</Temperature>
-    <ProviderCompany>快乐蟹蟹公司</ProviderCompany>
-    <Place>苏州潘阳湖</Place>
-    <BuyDate>2018.8.3</BuyDate>
-    <A>786.852799999994</A>
-    <B>-2681.88483999997</B>
-    <R>0.102066950878718</R>
-  </StandardSample>
-  <StandardSample>
     <SampleName>标样5</SampleName>
     <GroupName>潘阳蟹土</GroupName>
     <Code>s1005</Code>
@@ -104,5 +89,9 @@
     <A>786.852799999994</A>
     <B>-2681.88483999997</B>
     <R>0.102066950878718</R>
+  </StandardSample>
+  <StandardSample>
+    <GroupName>潘阳蟹土</GroupName>
+    <Code>s1006</Code>
   </StandardSample>
 </ArrayOfStandardSample>

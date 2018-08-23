@@ -66,6 +66,10 @@
                     <MenuItem Header="测汞"></MenuItem>
                     <MenuItem Header="测砷"></MenuItem>
                 </MenuItem>
+                <MenuItem Header="气体或液体">
+                    <MenuItem x:Name="testliquidMenu" Header="测液体" Click="testliquidMenu_Click"/>
+                    <MenuItem x:Name="testairMenu" Header="测气体" Click="testairMenu_Click"/>
+                </MenuItem>
                 <MenuItem Header="帮助"></MenuItem>
                 <MenuItem Header="开发">
                     <MenuItem x:Name="saveDotsMenu" Header="保存Dots" Checked="saveDotsMenu_Checked" Click="saveDotsMenu_Click"></MenuItem>
@@ -118,7 +122,7 @@
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
                             <Ellipse Width="10" Height="10" Fill="DarkGray"/>
-                            <TextBlock>新样测试</TextBlock>
+                            <TextBlock>样品测试</TextBlock>
                         </StackPanel>
                     </TabItem.Header>
                     <StackPanel>
@@ -137,11 +141,11 @@
                                 <DataGridTextColumn Header="响应值2" Width="80" Binding="{Binding ResponseValue2}" Visibility="Hidden"></DataGridTextColumn>
                                 <DataGridTextColumn Header="响应值3" Width="80" Binding="{Binding ResponseValue3}" Visibility="Hidden"></DataGridTextColumn>
                                 <DataGridTextColumn Header="平均值" Width="80" Binding="{Binding AverageValue}"></DataGridTextColumn>
-                                <DataGridTextColumn Header="取样时间m" Width="90" Binding="{Binding AirSampleTime}"></DataGridTextColumn>
-                                <DataGridTextColumn Header="流量L/m" Width="80" Binding="{Binding AirFluent}"></DataGridTextColumn>
+                                <DataGridTextColumn x:Name="newAirSampTimeCol" Header="取样时间m" Width="90" Binding="{Binding AirSampleTime}"></DataGridTextColumn>
+                                <DataGridTextColumn x:Name="newAirFluentCol" Header="流量L/m" Width="80" Binding="{Binding AirFluent}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="汞浓度ng/mL" Width="80" Binding="{Binding Density}"></DataGridTextColumn>
-                                <DataGridTextColumn Header="样品重量g" Width="80" Binding="{Binding Weight}"></DataGridTextColumn>
-                                <DataGridTextColumn Header="样品消化液总体积ml" Width="80" Visibility="Hidden"></DataGridTextColumn>
+                                <DataGridTextColumn Header="样品质量" Width="80" Binding="{Binding Weight}"></DataGridTextColumn>
+                                <DataGridTextColumn x:Name="newLiquidBulkCol"  Header="样品消化液总体积ml" Width="80" Visibility="Hidden"></DataGridTextColumn>
                                 <DataGridTextColumn Header="样品中汞含量" Width="80"></DataGridTextColumn>
 
                                 <DataGridTemplateColumn Header="选择标样">
@@ -196,14 +200,14 @@
                                 <DataGridTextColumn Header="组名" Width="80" Binding="{Binding Path=GroupName}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="序号" Width="80" Binding="{Binding Path=Code}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="样品名" Width="80" Binding="{Binding Path=SampleName}"></DataGridTextColumn>
-                                <DataGridTextColumn Header="汞浓度ng/mL" Width="80" Binding="{Binding Path=Density,Mode=TwoWay}" ></DataGridTextColumn>
+                                <DataGridTextColumn x:Name="standardAirDensityCol" Header="汞浓度ng/mL" Width="80" Binding="{Binding Path=Density,Mode=TwoWay}" Visibility="Hidden" ></DataGridTextColumn>
                                 <DataGridTextColumn Header="响应值" Width="80" Binding="{Binding Path=ResponseValue1}"></DataGridTextColumn>
-                                <DataGridTextColumn Header="取样时间m" Width="90" Binding="{Binding AirSampleTime}"></DataGridTextColumn>
-                                <DataGridTextColumn Header="流量L/m" Width="80" Binding="{Binding AirFluent}"></DataGridTextColumn>
+                                <DataGridTextColumn x:Name="standardAirSampleTimeCol" Header="取样时间m" Width="90" Binding="{Binding AirSampleTime}"></DataGridTextColumn>
+                                <DataGridTextColumn x:Name="standardAirFluentCol" Header="流量L/m" Width="80" Binding="{Binding AirFluent}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="温度" Width="80" Binding="{Binding Temperature}"></DataGridTextColumn>
-                                <DataGridTextColumn Header="样品重量" Width="80" Binding="{Binding Path=Weight}"></DataGridTextColumn>
-                                <DataGridTextColumn Header="样品供应商" Width="80" Binding="{Binding Path=ProviderCompany}"></DataGridTextColumn>
-                                <DataGridTextColumn Header="产地" Width="80" Binding="{Binding Path=Place}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="样品质量" Width="80" Binding="{Binding Path=Weight}"></DataGridTextColumn>
+                                <DataGridTextColumn x:Name="standardProviderCol" Header="样品供应商" Width="80" Binding="{Binding Path=ProviderCompany}" Visibility="Hidden"></DataGridTextColumn>
+                                <DataGridTextColumn x:Name="standardPlaceCol"  Header="产地" Width="80" Binding="{Binding Path=Place}" Visibility="Hidden"></DataGridTextColumn>
                                 <DataGridTextColumn Header="样品购买日期" Width="80" Binding="{Binding Path=BuyDate}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="斜率" Width="80" Binding="{Binding Path=A}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="截距" Width="80" Binding="{Binding Path=B}"></DataGridTextColumn>

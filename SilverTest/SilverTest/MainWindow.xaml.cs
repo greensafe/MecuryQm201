@@ -370,20 +370,22 @@ namespace SilverTest
 
         private void DelRowBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            int index = 0;
             switch (sampletab.SelectedIndex)
             {
                 //新样测试
                 case 0:
                     if (NewTargetDgd.SelectedIndex < 0)
                         return;
-                    newTestClt.RemoveAt(NewTargetDgd.SelectedIndex);
+                    index = getNewCltIndex(NewTargetDgd.SelectedIndex);
+                    newTestClt.RemoveAt(index);
                     break;
                 //标样测试
                 case 1:
                     if (standardSampleDgd.SelectedIndex < 0)
                         return;
-                    standardSampleClt.RemoveAt(standardSampleDgd.SelectedIndex);
+                    index = getCltIndex(standardSampleDgd.SelectedIndex);
+                    standardSampleClt.RemoveAt(index);
                     break;
                 default:
 
@@ -1029,8 +1031,28 @@ namespace SilverTest
             //绘制R 线性回归图
             //
             drawR(x, y, a, b);
+        }
 
+        private void testliquidMenu_Click(object sender, RoutedEventArgs e)
+        {
+            newAirSampTimeCol.Visibility = Visibility.Hidden;
+            newAirFluentCol.Visibility = Visibility.Hidden;
+            newLiquidBulkCol.Visibility = Visibility.Visible;
+            standardAirSampleTimeCol.Visibility = Visibility.Hidden;
+            standardAirFluentCol.Visibility = Visibility.Hidden;
+            standardPlaceCol.Visibility = Visibility.Visible;
+            standardProviderCol.Visibility = Visibility.Visible;
+        }
 
+        private void testairMenu_Click(object sender, RoutedEventArgs e)
+        {
+            newAirSampTimeCol.Visibility = Visibility.Visible;
+            newAirFluentCol.Visibility = Visibility.Visible;
+            newLiquidBulkCol.Visibility = Visibility.Hidden;
+            standardAirSampleTimeCol.Visibility = Visibility.Visible;
+            standardAirFluentCol.Visibility = Visibility.Visible;
+            standardPlaceCol.Visibility = Visibility.Hidden;
+            standardProviderCol.Visibility = Visibility.Hidden;
         }
 
         /*
