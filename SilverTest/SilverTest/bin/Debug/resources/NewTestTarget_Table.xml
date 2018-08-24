@@ -2,7 +2,7 @@
 <ArrayOfNewTestTarget xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <NewTestTarget>
     <NewName>烟厂土1</NewName>
-    <Code>x1001</Code>
+    <Code>1001</Code>
     <Weight>10</Weight>
     <Place>昆山玉山镇</Place>
     <ResponseValue1>2752.956</ResponseValue1>
@@ -14,7 +14,7 @@
   </NewTestTarget>
   <NewTestTarget>
     <NewName>烟厂土2</NewName>
-    <Code>x1002</Code>
+    <Code>1002</Code>
     <Weight>20</Weight>
     <Place>昆山玉山镇</Place>
     <ResponseValue1>2718.3594</ResponseValue1>
@@ -25,7 +25,7 @@
   </NewTestTarget>
   <NewTestTarget>
     <NewName>烟厂土3</NewName>
-    <Code>x1003</Code>
+    <Code>1003</Code>
     <Weight>22</Weight>
     <Place>昆山玉山镇</Place>
     <ResponseValue1>2608.7116</ResponseValue1>
@@ -36,7 +36,7 @@
   </NewTestTarget>
   <NewTestTarget>
     <NewName>天狼星土</NewName>
-    <Code>x1004</Code>
+    <Code>1004</Code>
     <Weight>20</Weight>
     <Place>Kete town</Place>
     <ResponseValue1>2658.926</ResponseValue1>
@@ -45,7 +45,7 @@
   </NewTestTarget>
   <NewTestTarget>
     <NewName>美土</NewName>
-    <Code>x1005</Code>
+    <Code>1005</Code>
     <Weight>20</Weight>
     <Place>california</Place>
     <ResponseValue1>2541.64</ResponseValue1>

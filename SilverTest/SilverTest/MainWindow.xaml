@@ -197,8 +197,8 @@
                                 </GroupStyle>
                             </DataGrid.GroupStyle>
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="组名" Width="80" Binding="{Binding Path=GroupName}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="序号" Width="80" Binding="{Binding Path=Code}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="组名" Width="80" Binding="{Binding Path=GroupName}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="样品名" Width="80" Binding="{Binding Path=SampleName}"></DataGridTextColumn>
                                 <DataGridTextColumn x:Name="standardAirDensityCol" Header="汞浓度ng/mL" Width="80" Binding="{Binding Path=Density,Mode=TwoWay}" Visibility="Hidden" ></DataGridTextColumn>
                                 <DataGridTextColumn Header="响应值" Width="80" Binding="{Binding Path=ResponseValue1}"></DataGridTextColumn>

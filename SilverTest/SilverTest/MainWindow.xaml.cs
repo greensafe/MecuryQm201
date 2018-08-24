@@ -56,6 +56,14 @@ namespace SilverTest
         public string responseTime { get; set; }
     }
 
+    //样本类型
+    public enum SampleType
+    {
+        LIQUID,
+        AIR,
+        SOLID
+    }
+
     public partial class MainWindow : Window
     {
         //演示代码
@@ -84,6 +92,10 @@ namespace SilverTest
         readonly int stop_test_position = 7500;
         //瞬时最大值
         double maxResponse = 0;
+        //载入气体温度汞浓度资源
+        XmlDocument AirDensityXml = new XmlDocument();
+        //样本类型
+        SampleType sampleType = SampleType.AIR;
 
         private SerialPort ComDevice = null;
         private ObservableCollection<NewTestTarget> newTestClt;
@@ -103,6 +115,12 @@ namespace SilverTest
             //realCptTimer.Tick += realTck;
             //realCptTimer.IsEnabled = true;
 
+            //初始化xml文档
+            AirDensityXml.Load(@"resources\ChinaAirDensity.xml");
+            /*
+            XmlNode sn = AirDensityXml.SelectSingleNode("/air/density[@hot=70.0]");
+            double vl = double.Parse(sn.InnerText);
+            */
             /*
             newTestClt =
             Utility.getNewTestTargetDataFromXDP((DataSourceProvider)this.FindResource("newTargetData"));
@@ -351,22 +369,72 @@ namespace SilverTest
 
         private void AddRowBtn_Click(object sender, RoutedEventArgs e)
         {
+            int se = 0;
             switch (sampletab.SelectedIndex)
             {
                 //新样测试
                 case 0:
-                    newTestClt.Add(new NewTestTarget());
+                    NewTestTarget newitem = new NewTestTarget();
+                    //计算序号
+                    for(int i = 0; i < newTestClt.Count; i++)
+                    {
+                        //处理边界情况
+                        if (i == newTestClt.Count - 1) {
+                            se = int.Parse(newTestClt[i].Code) + 1;
+                            break;
+                        }
+                        //序号连续情况下，跳过连续号码
+                        if (int.Parse(newTestClt[i].Code) + 1 == int.Parse(newTestClt[i + 1].Code))
+                            continue;
+                        //找到一个可能的空洞
+                        se = int.Parse(newTestClt[i].Code + 1);
+                        /*
+                        bool found = true;
+                        //看下剩下的数组是否被占用
+                        for(int j = i + 1; j < newTestClt.Count; i++)
+                        {
+                            if( int.Parse(newTestClt[i].Code) == int.Parse(newTestClt[j].Code))
+                            {
+                                //被占用
+                                found = false;
+                                break;
+                            }
+                        }
+                        */
+                        
+                    }
+                    newitem.Code = se.ToString();
+                    newTestClt.Add(newitem);
                     break;
                 //标样测试
                 case 1:
-                    standardSampleClt.Add(new StandardSample());
+                    StandardSample standarditem = new StandardSample();
+                    //计算序号
+                    for (int i = 0; i < standardSampleClt.Count; i++)
+                    {
+                        //处理边界情况
+                        if (i == standardSampleClt.Count - 1) {
+                            se = int.Parse(standardSampleClt[i].Code) + 1;
+                            break;
+                        }
+                        //序号连续情况下，跳过连续号码
+                        if (int.Parse(standardSampleClt[i].Code) + 1 == int.Parse(standardSampleClt[i + 1].Code))
+                            continue;
+                        //找到一个空洞
+                        se = int.Parse(standardSampleClt[i].Code + 1);
+                    }
+                    standarditem.Code = se.ToString();
+                    standardSampleClt.Add(standarditem);
                     break;
                 default:
 
                     break;
             }
 
+
         }
+
+
 
         private void DelRowBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -1005,7 +1073,7 @@ namespace SilverTest
             {
                 if (v.GroupName == groupname)
                 {
-                    x[index] = double.Parse(v.Density);
+                    x[index] = double.Parse(AirDensityXml.SelectSingleNode("/air/density[@hot = "+ v.Temperature+ "]").InnerText);
                     y[index] = double.Parse(v.ResponseValue1);
                     index++;
                 }
@@ -1042,6 +1110,7 @@ namespace SilverTest
             standardAirFluentCol.Visibility = Visibility.Hidden;
             standardPlaceCol.Visibility = Visibility.Visible;
             standardProviderCol.Visibility = Visibility.Visible;
+            sampleType = SampleType.LIQUID;
         }
 
         private void testairMenu_Click(object sender, RoutedEventArgs e)
@@ -1053,6 +1122,7 @@ namespace SilverTest
             standardAirFluentCol.Visibility = Visibility.Visible;
             standardPlaceCol.Visibility = Visibility.Hidden;
             standardProviderCol.Visibility = Visibility.Hidden;
+            sampleType = SampleType.AIR;
         }
 
         /*
