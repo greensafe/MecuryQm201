@@ -92,6 +92,28 @@ namespace SilverTest
                 NotifyPropertyChanged("Temperature");
             }
         }
+        //气体标样体积
+        private string airML;
+        public string AirML
+        {
+            get { return airML; }
+            set
+            {
+                airML = value;
+                NotifyPropertyChanged("AirML");
+            }
+        }
+        //气体汞量
+        private string airG;
+        public string AirG
+        {
+            get { return airG; }
+            set
+            {
+                airG = value;
+                NotifyPropertyChanged("AirG");
+            }
+        }
         //样品出厂商
         private string providerCompany;
         public string ProviderCompany

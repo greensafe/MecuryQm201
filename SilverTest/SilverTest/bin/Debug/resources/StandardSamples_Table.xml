@@ -8,6 +8,7 @@
     <ResponseValue1>1330.4906</ResponseValue1>
     <Weight>10</Weight>
     <Temperature>10.0</Temperature>
+    <AirML>0.5</AirML>
     <ProviderCompany>快乐净土公司</ProviderCompany>
     <Place>昆山玉山镇</Place>
     <BuyDate>2018.6.1</BuyDate>
@@ -22,7 +23,8 @@
     <Density>5.60</Density>
     <ResponseValue1>2217.1346</ResponseValue1>
     <Weight>10</Weight>
-    <Temperature>10.1</Temperature>
+    <Temperature>10.0</Temperature>
+    <AirML>1</AirML>
     <ProviderCompany>快乐蟹蟹公司</ProviderCompany>
     <Place>苏州潘阳湖</Place>
     <BuyDate>2018.6.3</BuyDate>
@@ -67,7 +69,8 @@
     <Density>5.65</Density>
     <ResponseValue1>1330.4906</ResponseValue1>
     <Weight>10</Weight>
-    <Temperature>10.2</Temperature>
+    <Temperature>10.0</Temperature>
+    <AirML>1.5</AirML>
     <ProviderCompany>快乐蟹蟹公司</ProviderCompany>
     <Place>苏州潘阳湖</Place>
     <BuyDate>2018.8.8</BuyDate>
@@ -82,7 +85,8 @@
     <Density>5.75</Density>
     <ResponseValue1>1330.4906</ResponseValue1>
     <Weight>10</Weight>
-    <Temperature>10.4</Temperature>
+    <Temperature>10.0</Temperature>
+    <AirML>2.5</AirML>
     <ProviderCompany>快乐蟹蟹公司</ProviderCompany>
     <Place>苏州潘阳湖</Place>
     <BuyDate>2018.8.10</BuyDate>
