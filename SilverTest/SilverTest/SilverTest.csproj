@@ -185,5 +185,8 @@
   <ItemGroup>
     <Resource Include="resources\ChinaAirDensity.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="history\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

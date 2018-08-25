@@ -39,6 +39,8 @@
                     <MenuItem Header="打开"></MenuItem>
                     <MenuItem Header="关闭"></MenuItem>
                     <MenuItem Header="保存"></MenuItem>
+                    <MenuItem x:Name="savehistory" Header="保存历史" Click="savehistory_Click"></MenuItem>
+                    <MenuItem x:Name="loadhistory" Header="载入历史" Click="loadhistory_Click"></MenuItem>
                     <MenuItem Header="输出到excel"></MenuItem>
                     <MenuItem Header="汞打印预览测试数据"></MenuItem>
                     <MenuItem Header="汞打印测试数据"></MenuItem>
@@ -130,24 +132,23 @@
                         <DataGrid x:Name="NewTargetDgd" Height="245" DockPanel.Dock="Top" 
                                   Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}" 
                                   CanUserAddRows="False"
-                                  ItemsSource="{Binding}"                                  
-                                  Margin="0,0,0,0" AutoGenerateColumns="False">
+                                  ItemsSource="{Binding}"  
+                                  Margin="0,0,0,0" AutoGenerateColumns="False" CellEditEnding="NewTargetDgd_CellEditEnding">
 
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="序号" Width="80" Binding="{Binding Code}"></DataGridTextColumn>
-                                <DataGridTextColumn Header="样品名" Width="80" Binding="{Binding NewName}"></DataGridTextColumn>
-                                <DataGridTextColumn Header="产地" Width="80" Binding="{Binding Place}"></DataGridTextColumn>
-                                <DataGridTextColumn Header="响应值1" Width="80" Binding="{Binding ResponseValue1}"></DataGridTextColumn>
-                                <DataGridTextColumn Header="响应值2" Width="80" Binding="{Binding ResponseValue2}" Visibility="Hidden"></DataGridTextColumn>
-                                <DataGridTextColumn Header="响应值3" Width="80" Binding="{Binding ResponseValue3}" Visibility="Hidden"></DataGridTextColumn>
-                                <DataGridTextColumn Header="平均值" Width="80" Binding="{Binding AverageValue}"></DataGridTextColumn>
-                                <DataGridTextColumn x:Name="newAirSampTimeCol" Header="取样时间m" Width="90" Binding="{Binding AirSampleTime}"></DataGridTextColumn>
-                                <DataGridTextColumn x:Name="newAirFluentCol" Header="流量L/m" Width="80" Binding="{Binding AirFluent}"></DataGridTextColumn>
-                                <DataGridTextColumn Header="汞浓度ng/mL" Width="80" Binding="{Binding Density}"></DataGridTextColumn>
-                                <DataGridTextColumn Header="样品质量" Width="80" Binding="{Binding Weight}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="序号" Width="80" Binding="{Binding Code,Mode=TwoWay}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="样品名" Width="80" Binding="{Binding NewName,Mode=TwoWay}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="产地" Width="80" Binding="{Binding Place,Mode=TwoWay}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="响应值1" Width="80" Binding="{Binding ResponseValue1,Mode=TwoWay}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="响应值2" Width="80" Binding="{Binding ResponseValue2,Mode=TwoWay}" Visibility="Hidden"></DataGridTextColumn>
+                                <DataGridTextColumn Header="响应值3" Width="80" Binding="{Binding ResponseValue3,Mode=TwoWay}" Visibility="Hidden"></DataGridTextColumn>
+                                <DataGridTextColumn Header="平均值" Width="80" Binding="{Binding AverageValue,Mode=TwoWay}"></DataGridTextColumn>
+                                <DataGridTextColumn x:Name="newAirSampTimeCol" Header="取样时间m" Width="90" Binding="{Binding AirSampleTime,Mode=TwoWay}"></DataGridTextColumn>
+                                <DataGridTextColumn x:Name="newAirFluentCol" Header="流量L/m" Width="80" Binding="{Binding AirFluent,Mode=TwoWay}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="汞浓度ng/mL" Width="80" Binding="{Binding Density,Mode=TwoWay}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="样品质量" Width="80" Binding="{Binding Weight,Mode=TwoWay}"></DataGridTextColumn>
                                 <DataGridTextColumn x:Name="newLiquidBulkCol"  Header="样品消化液总体积ml" Width="80" Visibility="Hidden"></DataGridTextColumn>
                                 <DataGridTextColumn Header="样品中汞含量" Width="80"></DataGridTextColumn>
-
                                 <DataGridTemplateColumn Header="选择标样">
                                     <DataGridTemplateColumn.CellTemplate >
                                         <DataTemplate>

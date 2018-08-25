@@ -220,6 +220,28 @@ namespace SilverTest.libs
             }
         }
 
+        /*
+         * 将datagrid数据保存到保存到xml文件中。为文件名附上时间以便于区分
+         */
+        static public void Save2XmlHistory(ICollection newclt, ICollection standardclt)
+        {
+            string now = DateTime.Now.ToString();
+            string suffix = "";
+            for (int i = 0; i < now.Length; i++)
+            {
+                if (now[i] != ':' && now[i] != '/' && now[i] != ' ')
+                {
+                    suffix += now[i];
+                }
+            }
+            ;
+            string standardfile = "history\\标样测试表格" + suffix+".xml";
+            string newfile = "history\\样本测试表格" + suffix + ".xml";
+
+            SaveToNewXmlFileCls.SaveToNewXmlFile(newclt, newfile);
+            SaveToStandardXmlFileCls.SaveToStandardXmlFile(standardclt, standardfile);
+        }
+
         static public void Save2excel(DataGrid dataGrid)
         {
             string fileName = "";

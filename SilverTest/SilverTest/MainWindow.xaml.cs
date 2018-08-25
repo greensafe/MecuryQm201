@@ -1,5 +1,6 @@
 ﻿using Microsoft.Research.DynamicDataDisplay;
 using Microsoft.Research.DynamicDataDisplay.DataSources;
+using Microsoft.Win32;
 using SilverTest.libs;
 using System;
 using System.Collections;
@@ -213,6 +214,7 @@ namespace SilverTest
         private void window_Loaded(object sender, RoutedEventArgs e)
         {
             
+
             //加载config数据
             //string s = Utility.GetValueFrXml("QM201H/response/compute", "ratio");
             string rs = Utility.GetValueFrXml("/config/QM201H/response/compute/R1", "pointstart");
@@ -1124,6 +1126,82 @@ namespace SilverTest
             standardProviderCol.Visibility = Visibility.Hidden;
             sampleType = SampleType.AIR;
         }
+
+        /*
+         * 将表格中的数据保存到历史xml文件中
+         */
+        private void savehistory_Click(object sender, RoutedEventArgs e)
+        {
+            Utility.Save2XmlHistory(newTestClt,standardSampleClt);
+            ;
+        }
+
+        private void loadhistory_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openDialog = new OpenFileDialog();
+            openDialog.DefaultExt = "xml";
+            openDialog.Filter = "xml 文件|*.xml";
+            openDialog.ShowDialog();
+            string filename = openDialog.FileName;
+            ;
+            //截取日期
+            string suffix = "";
+            if (filename.Length < 17) return;
+            for (int i = filename.Length - 17; i < filename.Length - 4; i++)
+            {
+                suffix += filename[i];
+            }
+            ;
+            string newtestxml = "history\\样本测试表格" + suffix + ".xml";
+            string standardtestxml = "history\\标样测试表格" + suffix + ".xml";
+
+            newTestClt = Utility.getNewTestTargetDataFromXml(newtestxml);
+            NewTargetDgd.DataContext = newTestClt;
+            standardSampleClt = Utility.getStandardTargetDataFromXml(standardtestxml);
+            standardSampleDgd.DataContext = standardSampleClt;
+        }
+
+        //更新数据源，保持数据同步
+        private void NewTargetDgd_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            int index = getNewCltIndex(NewTargetDgd.SelectedIndex);
+            int col = e.Column.DisplayIndex;
+            switch (col)
+            {
+                case 0:
+                    
+                    break;
+                case 1:
+                    
+                    break;
+                case 2:
+
+                    break;
+                case 3:
+
+                    break;
+                case 4:
+
+                    break;
+                case 5:
+
+                    break;
+                case 6:
+
+                    break;
+                case 7:
+
+                    break;
+                case 8:
+
+                    break;
+                case 9:
+
+                    break;
+            }
+        }
+
+
 
         /*
         private void SomeSelectionChanged(object sender, SelectionChangedEventArgs e)
