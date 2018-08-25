@@ -790,10 +790,16 @@ namespace SilverTest
         private void PacketReceived(object dot, int sequence, PacketType ptype)
         {
             int newcltindex = 0;
+            int standardcltindex = 0;
             switch(ptype)
             {
                 case PacketType.AIR_FLUENT:
                     Console.WriteLine("气体流量包: "+sequence.ToString());
+                    Dispatcher.Invoke(new Action(() =>
+                    {
+                        newcltindex = getNewCltIndex(NewTargetDgd.SelectedIndex);
+                        newTestClt[newcltindex].AirFluent = sequence.ToString();
+                    }));
                     break;
                 case PacketType.AIR_SAMPLE_TIME:
                     Console.WriteLine("气体采样包: " + sequence.ToString());
@@ -1100,6 +1106,7 @@ namespace SilverTest
             }
             //绘制R 线性回归图
             //
+            if (a.ToString() == "NaN" || b.ToString() == "NaN") return;
             drawR(x, y, a, b);
         }
 
@@ -1199,6 +1206,12 @@ namespace SilverTest
 
                     break;
             }
+        }
+
+        private void standardSampleDgd_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            ;
+            
         }
 
 

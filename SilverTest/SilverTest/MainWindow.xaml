@@ -187,7 +187,7 @@
                                   Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}" 
                                   ItemsSource="{Binding}"
                                   CanUserAddRows="False"
-                                  Margin="0,0,0,0" AutoGenerateColumns="False" SelectionChanged="standardSampleDgd_SelectionChanged">
+                                  Margin="0,0,0,0" AutoGenerateColumns="False" SelectionChanged="standardSampleDgd_SelectionChanged" CellEditEnding="standardSampleDgd_CellEditEnding">
                             <DataGrid.GroupStyle>
                                 <GroupStyle ContainerStyle="{StaticResource GroupHeaderStyle}">
                                     <GroupStyle.Panel>

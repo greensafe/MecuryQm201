@@ -215,23 +215,25 @@ namespace SilverTest.libs
                         machineinfo.SrlPctEndTag = 8;
                         machineinfo.SrlPctLength = 9;
 
-                        machineinfo.AirFluPctDataWidth = 2;
+                        //气体流量包
+                        machineinfo.AirFluPctDataWidth = 1;
                         machineinfo.AirFluPctDStart = 2;
-                        machineinfo.AirFluPctEndStart = 7;
+                        machineinfo.AirFluPctEndStart = 6;
                         machineinfo.AirFluPctEndTag = 0x49;
-                        machineinfo.AirFluPctLength = 8;
-                        machineinfo.AirFluPctMiddleStart = 4;
+                        machineinfo.AirFluPctLength = 7;
+                        machineinfo.AirFluPctMiddleStart = 3;
                         machineinfo.AirFluPctMiddleTag = 0x45;
-                        machineinfo.AirFluPctVStart = 5;
+                        machineinfo.AirFluPctVStart = 4;
 
-                        machineinfo.AirSTPctDataWidth = 1;
+                        //气体取样时间包
+                        machineinfo.AirSTPctDataWidth = 2;
                         machineinfo.AirSTPctDStart = 2;
-                        machineinfo.AirSTPctEndStart = 6;
+                        machineinfo.AirSTPctEndStart = 7;
                         machineinfo.AirSTPctEndTag = 0x49;
-                        machineinfo.AirSTPctLength = 7;
-                        machineinfo.AirSTPctMiddleStart = 3;
+                        machineinfo.AirSTPctLength = 8;
+                        machineinfo.AirSTPctMiddleStart = 4;
                         machineinfo.AirSTPctMiddleTag = 0x42;
-                        machineinfo.AirSTPctVStart = 4;
+                        machineinfo.AirSTPctVStart = 5;
 
                         machineinfo.DataWidth = 5;
                         machineinfo.SequenceLength = 6;
