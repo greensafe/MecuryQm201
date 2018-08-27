@@ -454,7 +454,7 @@ namespace SilverTest
                 case 1:
                     if (standardSampleDgd.SelectedIndex < 0)
                         return;
-                    index = getCltIndex(standardSampleDgd.SelectedIndex);
+                    index = getStandardCltIndex(standardSampleDgd.SelectedIndex);
                     standardSampleClt.RemoveAt(index);
                     break;
                 default:
@@ -690,8 +690,8 @@ namespace SilverTest
                                 MessageBox.Show("请选择一条样本");
                                 return;
                             }
-                            if (standardSampleClt[getCltIndex( standardSampleDgd.SelectedIndex )].ResponseValue1 != "" && 
-                                standardSampleClt[getCltIndex( standardSampleDgd.SelectedIndex )].ResponseValue1 != null)
+                            if (standardSampleClt[getStandardCltIndex( standardSampleDgd.SelectedIndex )].ResponseValue1 != "" && 
+                                standardSampleClt[getStandardCltIndex( standardSampleDgd.SelectedIndex )].ResponseValue1 != null)
                             {
                                 MessageBox.Show("数据已经满，请去掉网格中数据重新开始测试");
                                 return;
@@ -727,9 +727,9 @@ namespace SilverTest
                                 CloseDown1.Start();
                             }
                             //计算响应值，填入datagrid之中
-                            if (standardSampleClt[getCltIndex( standardSampleDgd.SelectedIndex )].ResponseValue1 == "" ||
-                                standardSampleClt[getCltIndex( standardSampleDgd.SelectedIndex )].ResponseValue1 == null)
-                                standardSampleClt[getCltIndex( standardSampleDgd.SelectedIndex )].ResponseValue1 = Utility.ComputeResponseValue(
+                            if (standardSampleClt[getStandardCltIndex( standardSampleDgd.SelectedIndex )].ResponseValue1 == "" ||
+                                standardSampleClt[getStandardCltIndex( standardSampleDgd.SelectedIndex )].ResponseValue1 == null)
+                                standardSampleClt[getStandardCltIndex( standardSampleDgd.SelectedIndex )].ResponseValue1 = Utility.ComputeResponseValue(
                                     dots_start_abs, DotManager.GetDotManger().GetDots().Count).ToString();
                             break;
                         default:
@@ -865,7 +865,7 @@ namespace SilverTest
                                 case 1:         //标样测试
                                     //standardSampleClt[getCltIndex(standardSampleDgd.SelectedIndex)].ResponseValue1 =
                                     //    Utility.Integration(DotManager.GetDotManger().GetDots(), R1_start, R1_end, this.ratio).ToString();
-                                    standardSampleClt[getCltIndex(standardSampleDgd.SelectedIndex)].ResponseValue1 =
+                                    standardSampleClt[getStandardCltIndex(standardSampleDgd.SelectedIndex)].ResponseValue1 =
                                         maxResponse.ToString();
                                     break;
                             }
@@ -939,7 +939,7 @@ namespace SilverTest
                 MessageBox.Show("请选择标样组");
                 return;
             }
-            string groupname = standardSampleClt[getCltIndex( standardSampleDgd.SelectedIndex )].GroupName;
+            string groupname = standardSampleClt[getStandardCltIndex( standardSampleDgd.SelectedIndex )].GroupName;
             foreach(StandardSample item in standardSampleClt)
             {
                 if (item.GroupName == groupname)
@@ -1030,7 +1030,7 @@ namespace SilverTest
         }
 
         //在标样选择中，将视图选中序号转变为数据源中序号
-        private int getCltIndex(int index)
+        private int getStandardCltIndex(int index)
         {
             string code = (standardSampleDgd.SelectedItem as StandardSample).Code;
             for(int i=0; i < standardSampleClt.Count; i++)
@@ -1054,7 +1054,7 @@ namespace SilverTest
 
             if (standardSampleDgd.SelectedIndex < 0) return;
 
-            cltindex = getCltIndex(standardSampleDgd.SelectedIndex);
+            cltindex = getStandardCltIndex(standardSampleDgd.SelectedIndex);
 
             //数据未测试完成，则不计算相关系数
             string groupname = standardSampleClt[cltindex].GroupName;
@@ -1168,50 +1168,137 @@ namespace SilverTest
             standardSampleDgd.DataContext = standardSampleClt;
         }
 
-        //更新数据源，保持数据同步
-        private void NewTargetDgd_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        //更新新样数据源，保持数据同步
+        private void updateNewClt(string v, int row, string head)
         {
-            int index = getNewCltIndex(NewTargetDgd.SelectedIndex);
-            int col = e.Column.DisplayIndex;
-            switch (col)
+            int index = getNewCltIndex(row);
+            switch (head)
             {
-                case 0:
+                case "样品名":
+                    newTestClt[index].NewName = v;
+                    break;
+                case "产地":
+                    newTestClt[index].Place = v;
+                    break;
+                case "响应值1":
+                    newTestClt[index].ResponseValue1 = v;
+                    break;
+                case "取样时间m":
+                    newTestClt[index].AirSampleTime = v;
+                    break;
+                case "流量L/m":
+                    newTestClt[index].AirFluent = v;
+                    break;
+                case "汞浓度ng/mL":
+                    newTestClt[index].Density = v;
+                    break;
+                case "样品质量":
+                    newTestClt[index].Weight = v;
+                    break;
+                case "样品消化液总体积ml":
+
+                    break;
+                case "样品中汞含量":
                     
-                    break;
-                case 1:
-                    
-                    break;
-                case 2:
-
-                    break;
-                case 3:
-
-                    break;
-                case 4:
-
-                    break;
-                case 5:
-
-                    break;
-                case 6:
-
-                    break;
-                case 7:
-
-                    break;
-                case 8:
-
-                    break;
-                case 9:
-
                     break;
             }
         }
 
+        //更新标样数据源，保持数据同步
+        private void updateStandardClt(string v, int row, string head)
+        {
+            int index = getStandardCltIndex(row);
+            switch (head)
+            {
+                case "组名":
+                    standardSampleClt[index].GroupName = v;
+                    break;
+                case "样品名":
+                    standardSampleClt[index].SampleName = v;
+                    break;
+                case "汞浓度ng/mL":
+                    standardSampleClt[index].Density = v;
+                    break;
+                case "响应值":
+                    standardSampleClt[index].ResponseValue1 = v;
+                    break;
+                case "取样时间m":
+                    standardSampleClt[index].AirSampleTime = v;
+                    break;
+                case "流量L/m":
+                    standardSampleClt[index].AirFluent = v;
+                    break;
+                case "温度":
+                    standardSampleClt[index].Temperature = v;
+                    break;
+                case "标样体积mL":
+                    standardSampleClt[index].AirML = v;
+                    break;
+                case "汞量ng":
+                    standardSampleClt[index].AirG = v;
+                    break;
+                case "样品质量":
+                    standardSampleClt[index].Weight = v;
+                    break;
+                case "样品供应商":
+                    standardSampleClt[index].ProviderCompany = v;
+                    break;
+                case "产地":
+                    standardSampleClt[index].Place = v;
+                    break;
+                case "样品购买日期":
+                    standardSampleClt[index].BuyDate = v;
+                    break;
+            }
+        }
+
+        private void NewTargetDgd_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            string vle = (e.EditingElement as TextBox).Text;
+            string headname = e.Column.Header as string;
+            //int cltindex = getNewCltIndex(NewTargetDgd.SelectedIndex);
+
+            //将数据更新到数据源
+            updateNewClt(vle, NewTargetDgd.SelectedIndex, headname);
+
+        }
+
         private void standardSampleDgd_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
-            ;
-            
+            string vle = (e.EditingElement as TextBox).Text;
+            string headname = e.Column.Header as string;
+            int cltindex = getStandardCltIndex(standardSampleDgd.SelectedIndex);
+            double den, bulk;
+            XmlNode node;
+            //将数据更新到数据源
+            updateStandardClt(vle, standardSampleDgd.SelectedIndex, headname);
+            if (vle == "" || vle is null)
+                return;
+            //计算汞量
+            switch (headname)
+            {
+                case "温度":
+                    if (standardSampleClt[cltindex].AirML is null || standardSampleClt[cltindex].AirML == "")
+                        return;
+                    node = AirDensityXml.SelectSingleNode("/air/density[@hot=" + vle + "]");
+
+                    bulk = double.Parse(standardSampleClt[cltindex].AirML);
+                    den = double.Parse(node.InnerText);
+                    standardSampleClt[cltindex].AirG = (den * bulk).ToString();
+                    break;
+                case "标样体积mL":
+                    if (standardSampleClt[cltindex].Temperature is null || standardSampleClt[cltindex].Temperature == "")
+                        return;
+                    string tem = standardSampleClt[cltindex].Temperature;
+                    node = AirDensityXml.SelectSingleNode("/air/density[@hot=" + tem + "]");
+
+                    bulk = double.Parse(vle);
+                    den = double.Parse(node.InnerText);
+                    standardSampleClt[cltindex].AirG = (den * bulk).ToString();
+                    break;
+
+            }
+
         }
 
 
