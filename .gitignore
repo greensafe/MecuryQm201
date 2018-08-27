@@ -6,6 +6,8 @@ obj/
 #ignore visual studio generated file
 .vs/
 
+*.tmp
+
 #ignore all files in release directory
 
 SilverTest/SerialPortLab/bin/Debug/clip.txt
