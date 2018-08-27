@@ -163,7 +163,7 @@ namespace SilverTest.libs
                     Console.WriteLine("气体流量包校验出错");
                     return;
                 case PacketType.AIR_SAMPLE_TIME:
-                    Console.WriteLine("气体采样时间包格式出错");
+                    Console.WriteLine("气体采样时间包校验出错");
                     return;
             }
 
