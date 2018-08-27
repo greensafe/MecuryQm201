@@ -797,12 +797,21 @@ namespace SilverTest
                     Console.WriteLine("气体流量包: "+sequence.ToString());
                     Dispatcher.Invoke(new Action(() =>
                     {
+                        if (NewTargetDgd.SelectedIndex == -1)
+                            return;
                         newcltindex = getNewCltIndex(NewTargetDgd.SelectedIndex);
                         newTestClt[newcltindex].AirFluent = sequence.ToString();
                     }));
                     break;
                 case PacketType.AIR_SAMPLE_TIME:
-                    Console.WriteLine("气体采样包: " + sequence.ToString());
+                    Console.WriteLine("气体采样时间包: " + sequence.ToString());
+                    Dispatcher.Invoke(new Action(() =>
+                    {
+                        if (NewTargetDgd.SelectedIndex == -1)
+                            return;
+                        newcltindex = getNewCltIndex(NewTargetDgd.SelectedIndex);
+                        newTestClt[newcltindex].AirSampleTime = sequence.ToString();
+                    }));
                     break;
                 case PacketType.DATA_VALUE:
 
@@ -999,8 +1008,8 @@ namespace SilverTest
             ratiox = rCanvas.Width / (maxX + 10);
             ratioy = rCanvas.Height / (maxY + 10);
 
-            double x1 = 5 * ratiox;
-            double y1 = (5*a+b)*ratioy;
+            double x1 = 0.01 * ratiox;
+            double y1 = (0.01*a+b)*ratioy;
             double x2 = (maxX+10)*ratiox;
             double y2 = ((maxX + 10) * a + b) * ratioy;
             
@@ -1062,7 +1071,9 @@ namespace SilverTest
             {
                 if (item.GroupName == groupname)
                 {
-                    if (item.ResponseValue1 == "" || item.ResponseValue1 is null)
+                    if (item.ResponseValue1 == "" || item.ResponseValue1 is null ||
+                        item.AirG == "" || item.AirG is null
+                        )
                     {
                         //MessageBox.Show("测试未完成，无法计算R");
                         return;
@@ -1081,7 +1092,7 @@ namespace SilverTest
             {
                 if (v.GroupName == groupname)
                 {
-                    x[index] = double.Parse(AirDensityXml.SelectSingleNode("/air/density[@hot = "+ v.Temperature+ "]").InnerText);
+                    x[index] = double.Parse(v.AirG);
                     y[index] = double.Parse(v.ResponseValue1);
                     index++;
                 }
@@ -1089,21 +1100,22 @@ namespace SilverTest
 
             Utility.ComputeAB(out a, out b, x, y);
 
+            /*
             if (standardSampleClt[cltindex].R == null ||
                 standardSampleClt[cltindex].R == "") 
+            {*/
+            R = Utility.ComputeR(x, y);
+            foreach (StandardSample v in standardSampleClt)
             {
-                R = Utility.ComputeR(x, y);
-                foreach (StandardSample v in standardSampleClt)
+                if (v.GroupName == groupname)
                 {
-                    if (v.GroupName == groupname)
-                    {
-                        v.A = a.ToString();
-                        v.B = b.ToString();
-                        v.R = R.ToString();
-                    }
-
+                    v.A = a.ToString();
+                    v.B = b.ToString();
+                    v.R = R.ToString();
                 }
+
             }
+            //}
             //绘制R 线性回归图
             //
             if (a.ToString() == "NaN" || b.ToString() == "NaN") return;

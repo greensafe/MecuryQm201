@@ -51,5 +51,6 @@
     <ResponseValue1>1</ResponseValue1>
     <AverageValue>2541.64</AverageValue>
     <Density>6.63850321178245</Density>
+    <AirFluent>4</AirFluent>
   </NewTestTarget>
 </ArrayOfNewTestTarget>
