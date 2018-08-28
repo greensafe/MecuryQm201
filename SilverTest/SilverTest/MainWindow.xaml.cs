@@ -213,7 +213,7 @@ namespace SilverTest
 
         private void window_Loaded(object sender, RoutedEventArgs e)
         {
-            
+
 
             //加载config数据
             //string s = Utility.GetValueFrXml("QM201H/response/compute", "ratio");
@@ -246,8 +246,8 @@ namespace SilverTest
 
             byte[] ReDatas = SerialDriver.GetDriver().Read();
             if (ReDatas == null) return;
-            string re ="";
-            for(int i = 0; i< ReDatas.Length; i++)
+            string re = "";
+            for (int i = 0; i < ReDatas.Length; i++)
             {
                 re += (char)ReDatas[i];
             }
@@ -255,7 +255,7 @@ namespace SilverTest
             DotManager.GetDotManger().GetDot(ReDatas);
 
             //DataFormater.getDataFormater().GetDot(ReDatas);
-            
+
             /*            
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < ReDatas.Length; i++)
@@ -378,7 +378,7 @@ namespace SilverTest
                 case 0:
                     NewTestTarget newitem = new NewTestTarget();
                     //计算序号
-                    for(int i = 0; i < newTestClt.Count; i++)
+                    for (int i = 0; i < newTestClt.Count; i++)
                     {
                         //处理边界情况
                         if (i == newTestClt.Count - 1) {
@@ -403,7 +403,7 @@ namespace SilverTest
                             }
                         }
                         */
-                        
+
                     }
                     newitem.Code = se.ToString();
                     newTestClt.Add(newitem);
@@ -526,7 +526,7 @@ namespace SilverTest
         private int getNewCltIndex(int index)
         {
             string code = (NewTargetDgd.SelectedItem as NewTestTarget).Code;
-            for(int i = 0; i< newTestClt.Count; i++)
+            for (int i = 0; i < newTestClt.Count; i++)
             {
                 if (newTestClt[i].Code == code)
                     return i;
@@ -545,35 +545,43 @@ namespace SilverTest
             //如果有平均值则计算汞浓度
             int rowNo = NewTargetDgd.SelectedIndex;
             int cltindex = getNewCltIndex(rowNo);
-            if (rowNo < 0 )
+            if (rowNo < 0)
                 return;
             if (newTestClt[cltindex].ResponseValue1 == "" ||
-                newTestClt[cltindex].ResponseValue1 == null 
+                newTestClt[cltindex].ResponseValue1 == null
                 //newTestClt[rowNo].ResponseValue2 == "" ||
                 //newTestClt[rowNo].ResponseValue2 == null ||
                 //newTestClt[rowNo].ResponseValue3 == "" ||
                 //newTestClt[rowNo].ResponseValue3 == null
                 )
                 return;
-            {
 
-                //newTestClt[rowNow].Density = "";
-                double avr = double.Parse(newTestClt[cltindex].ResponseValue1);
-                   // int.Parse(newTestClt[rowNo].ResponseValue2) +
-                   // int.Parse(newTestClt[rowNo].ResponseValue3);
-                //avr /= 3;
-                newTestClt[cltindex].AverageValue = avr.ToString();
+            //newTestClt[rowNow].Density = "";
+            //double avr = double.Parse(newTestClt[cltindex].ResponseValue1);
+            // int.Parse(newTestClt[rowNo].ResponseValue2) +
+            // int.Parse(newTestClt[rowNo].ResponseValue3);
+            //avr /= 3;
+            //newTestClt[cltindex].AverageValue = avr.ToString();
 
-                double a = double.Parse(asample.A);
-                double b = double.Parse(asample.B);
-                //double d = (avr * t2 * t3 / 1000);
-                double den = (avr - b) / a;
-                newTestClt[cltindex].Density = den.ToString();
-            }
+            double a = double.Parse(asample.A);
+            double b = double.Parse(asample.B);
+            //double d = (avr * t2 * t3 / 1000);
+            //double den = (avr - b) / a;
+            //newTestClt[cltindex].Density = den.ToString();
+            
 
             //NewTargetDgd.DataContext = null;
             //NewTargetDgd.DataContext = newTestClt;
-     
+            //计算气体体积
+            if (newTestClt[cltindex].AirFluent == "" || newTestClt[cltindex].AirFluent is null||
+                newTestClt[cltindex].AirSampleTime == "" || newTestClt[cltindex].AirSampleTime is null)
+            {
+                return;
+            }
+            newTestClt[cltindex].AirTotolBulk = (Math.Round(double.Parse(newTestClt[cltindex].AirFluent) * double.Parse(newTestClt[cltindex].AirSampleTime),
+                2)).ToString();
+            //y-b/a
+            newTestClt[cltindex].AirG = Math.Round(0.001*(double.Parse(newTestClt[cltindex].ResponseValue1) - b) / a, 5).ToString();
         }
 
         private void modifyBtn_Click(object sender, RoutedEventArgs e)

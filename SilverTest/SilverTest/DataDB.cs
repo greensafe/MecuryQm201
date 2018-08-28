@@ -344,6 +344,17 @@ namespace SilverTest
             }
         }
 
+        private string airTotolBulk;
+        public string AirTotolBulk
+        {
+            get { return airTotolBulk; }
+            set
+            {
+                airTotolBulk = value;
+                NotifyPropertyChanged("AirTotolBulk");
+            }
+        }
+
         //气体取样时间
         private string airSampleTime;
         public string AirSampleTime
@@ -352,7 +363,7 @@ namespace SilverTest
             set
             {
                 airSampleTime = value;
-                NotifyPropertyChanged("airSampleTime");
+                NotifyPropertyChanged("AirSampleTime");
             }
         }
 
@@ -364,7 +375,19 @@ namespace SilverTest
             set
             {
                 airFluent = value;
-                NotifyPropertyChanged("airFluent");
+                NotifyPropertyChanged("AirFluent");
+            }
+        }
+
+        //气体样品中汞含量
+        private string airG;
+        public string AirG
+        {
+            get { return airG; }
+            set
+            {
+                airG = value;
+                NotifyPropertyChanged("AirG");
             }
         }
 
