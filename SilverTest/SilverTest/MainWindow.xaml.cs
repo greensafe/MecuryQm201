@@ -1009,10 +1009,10 @@ namespace SilverTest
             TextBlock xtext = new TextBlock();
             Line arrowx = new Line();
             Line arrowy = new Line();
-            double scaleGapX;    //x轴单位粒度所占用的点数
+            double ScaleGapX;    //x轴单位粒度所占用的点数
             double ScaleGapY;    //y轴单位粒度说占用的点数
             double gapX;        //x轴一个大单位的粒度数
-            double gapY;        //y轴一个大单位的粒度数
+            int gapY;        //y轴一个大单位的粒度数
 
             int topmargin = 50; //顶端的空白，为20个点
             int rightmargin = 50; //右边的空白，为20个点
@@ -1048,25 +1048,26 @@ namespace SilverTest
             arrowy.Y2 = 5;
             rCanvas.Children.Add(arrowy);
             //绘制y轴scale尺度
-            gapY = Math.Round((rCanvas.Height - topmargin) / (y.Length), 0);
-            //ScaleGapY = (rCanvas.Height - topmargin) / maxY;
-            //gapY = (int)(maxY/y.Length);
-            //gapY = (int)(gapY /100);
-            //gapY *= 100;
+            //gapY = Math.Round((rCanvas.Height - topmargin) / (y.Length), 0);
+            ScaleGapY = (rCanvas.Height - topmargin) / maxY;
+            gapY = (int)(maxY/y.Length);
+            gapY = (int)(gapY /100);
+            gapY *= 100;
             for(int i = 0; i < y.Length; i++)
             {
                 scaleline = new Line();
                 scaleline.Stroke = Brushes.Black;
                 scaleline.StrokeThickness = 3;
                 scaleline.X1 = 0;
-                scaleline.Y1 = rCanvas.Height - gapY * (i + 1);
+                scaleline.Y1 = rCanvas.Height - gapY * (i + 1)*ScaleGapY;
                 scaleline.X2 = 5;
-                scaleline.Y2 = rCanvas.Height - gapY * (i + 1);
+                scaleline.Y2 = rCanvas.Height - gapY * (i + 1)*ScaleGapY;
                 rCanvas.Children.Add(scaleline);
                 scaletext = new TextBlock();
-                scaletext.Text = Math.Round((maxY/(y.Length))*(i+1),2).ToString();
+                //scaletext.Text = Math.Round((maxY/(y.Length))*(i+1),2).ToString();
+                scaletext.Text = (gapY*(i+1)).ToString();
                 Canvas.SetLeft(scaletext, 2);
-                Canvas.SetTop(scaletext, (rCanvas.Height - gapY*(i+1)));
+                Canvas.SetTop(scaletext, (rCanvas.Height - gapY*(i+1)*ScaleGapY));
                 rCanvas.Children.Add(scaletext);
 
             }
@@ -1093,20 +1094,24 @@ namespace SilverTest
             rCanvas.Children.Add(arrowx);
 
             //绘制x轴scale
-            gapX = Math.Round((rCanvas.Width - rightmargin) / (x.Length), 0);
+            //gapX = Math.Round((rCanvas.Width - rightmargin) / (x.Length), 0);
+            ScaleGapX = (rCanvas.Width - rightmargin) / maxX;
+            gapX = (int)(maxX * 10 / x.Length); //maxX太小，比如18.81
+            gapX = Math.Round(gapX / 10,1);
             for (int i = 0; i < x.Length; i++)
             {
                 scaleline = new Line();
                 scaleline.Stroke = Brushes.Black;
                 scaleline.StrokeThickness = 3;
-                scaleline.X1 = gapX * (i + 1);
+                scaleline.X1 = gapX * (i + 1)* ScaleGapX;
                 scaleline.Y1 = rCanvas.Height - 0;
-                scaleline.X2 = gapX*(i+1);
+                scaleline.X2 = gapX * (i + 1)* ScaleGapX;
                 scaleline.Y2 = rCanvas.Height -5;
                 rCanvas.Children.Add(scaleline);
                 scaletext = new TextBlock();
-                scaletext.Text = Math.Round((maxX / (x.Length)) * (i + 1), 2).ToString();
-                Canvas.SetLeft(scaletext, gapX*(i+1)-20);
+                //scaletext.Text = Math.Round((maxX / (x.Length)) * (i + 1), 2).ToString();
+                scaletext.Text = (gapX * (i + 1)).ToString();
+                Canvas.SetLeft(scaletext, gapX*(i+1)* ScaleGapX - 20);
                 Canvas.SetTop(scaletext, (rCanvas.Height - 20));
                 rCanvas.Children.Add(scaletext);
 
@@ -1119,7 +1124,7 @@ namespace SilverTest
             double y2 = ((maxX + 10) * a + b) * ratioy;
             Line mydrawline = new Line();
             mydrawline.Stroke = Brushes.Black;//mydrawline.Stroke = new SolidColorBrush(Color.FromArgb(0xFF, 0x5B, 0x9B, 0xD5));
-            mydrawline.StrokeThickness = 3;
+            mydrawline.StrokeThickness = 1;
             mydrawline.X1 = x1;
             mydrawline.Y1 = rCanvas.Height - y1;
             mydrawline.X2 = x2;
@@ -1130,14 +1135,24 @@ namespace SilverTest
             //画点
             for (int i = 0; i < x.Length; i++)
             {
-                Ellipse eli = new Ellipse();
-                eli.Stroke = System.Windows.Media.Brushes.Black;
-                eli.Fill = System.Windows.Media.Brushes.DarkBlue;
-                eli.Width = 5;
-                eli.Height = 5;
-                Thickness mrg = new Thickness(x[i] * ratiox, rCanvas.Height - y[i] * ratioy, 0, 0);
-                eli.Margin = mrg;
-                rCanvas.Children.Add(eli);
+                //画中心点
+                Ellipse centereli = new Ellipse();
+                centereli.Stroke = System.Windows.Media.Brushes.Red;
+                centereli.Fill = System.Windows.Media.Brushes.Red;
+                centereli.Width = 3;
+                centereli.Height = 3;
+                Thickness mrg = new Thickness(x[i] * ratiox -1.5, rCanvas.Height - y[i] * ratioy -1.5, 0, 0);
+                centereli.Margin = mrg;
+                rCanvas.Children.Add(centereli);
+                //画外圈
+                Ellipse outeli = new Ellipse();
+                outeli.Stroke = System.Windows.Media.Brushes.Blue;
+                //outeli.Fill = System.Windows.Media.Brushes.Red;
+                outeli.Width = 6;
+                outeli.Height = 6;
+                Thickness outmrg = new Thickness(x[i] * ratiox -3, rCanvas.Height - y[i] * ratioy -3, 0, 0);
+                outeli.Margin = outmrg;
+                rCanvas.Children.Add(outeli);
             }
             //在右侧显示显示信息
             RparamSpTxbl.Text = "";
