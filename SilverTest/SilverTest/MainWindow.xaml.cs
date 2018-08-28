@@ -474,7 +474,9 @@ namespace SilverTest
                 */
                 paramGbx.Visibility = Visibility.Hidden;
                 RBtn.Visibility = Visibility.Visible;
-                rCanvas.Visibility = Visibility.Visible;
+                //rCanvas.Visibility = Visibility.Visible;
+                //RparamSp.Visibility = Visibility.Visible;
+                Rstackpanel.Visibility = Visibility.Visible;
             }
         }
 
@@ -488,7 +490,9 @@ namespace SilverTest
                 */
                 paramGbx.Visibility = Visibility.Visible;
                 RBtn.Visibility = Visibility.Hidden;
-                rCanvas.Visibility = Visibility.Collapsed;
+                //rCanvas.Visibility = Visibility.Collapsed;
+                //RparamSp.Visibility = Visibility.Hidden;
+                Rstackpanel.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -953,7 +957,9 @@ namespace SilverTest
             {
                 if (item.GroupName == groupname)
                 {
-                    if(item.ResponseValue1 == "" || item.ResponseValue1 is null)
+                    if(item.ResponseValue1 == "" || item.ResponseValue1 is null ||
+                       item.AirG =="" || item.AirG is null
+                        )
                     {
                         MessageBox.Show("测试未完成，无法计算");
                         return;
@@ -962,7 +968,6 @@ namespace SilverTest
                     {
                         len++;
                     }
-                    
                 }
             }
             x = new double[len];
@@ -971,7 +976,7 @@ namespace SilverTest
             {
                 if (v.GroupName == groupname)
                 {
-                    x[index] = double.Parse(v.Density);
+                    x[index] = double.Parse(v.AirG);
                     y[index] = double.Parse(v.ResponseValue1);
                     index++;
                 }
@@ -983,9 +988,9 @@ namespace SilverTest
             {
                 if (v.GroupName == groupname)
                 {
-                    v.A = a.ToString();
-                    v.B = b.ToString();
-                    v.R = R.ToString();
+                    v.A = Math.Round(a,2).ToString();
+                    v.B = Math.Round(b,2).ToString();
+                    v.R = Math.Round(R,2).ToString();
                 }
                 
             }
@@ -993,10 +998,24 @@ namespace SilverTest
 
         /*
          * 绘制相关系数点直线图
+         * 
          */
-        private void drawR(double[] x, double[] y, double a, double b)
+        private void drawR(double[] x, double[] y, double a, double b, double r)
         {
             double maxX = 0, maxY = 0,ratiox = 0,ratioy = 0;
+            Line scaleline;
+            TextBlock scaletext;
+            TextBlock ytext = new TextBlock();
+            TextBlock xtext = new TextBlock();
+            Line arrowx = new Line();
+            Line arrowy = new Line();
+            double scaleGapX;    //x轴单位粒度所占用的点数
+            double ScaleGapY;    //y轴单位粒度说占用的点数
+            double gapX;        //x轴一个大单位的粒度数
+            double gapY;        //y轴一个大单位的粒度数
+
+            int topmargin = 50; //顶端的空白，为20个点
+            int rightmargin = 50; //右边的空白，为20个点
 
             rCanvas.Children.Clear();
 
@@ -1005,15 +1024,99 @@ namespace SilverTest
                 if (x[i] > maxX) maxX = x[i];
                 if (y[i] > maxY) maxY = y[i];
             }
-            ratiox = rCanvas.Width / (maxX + 10);
-            ratioy = rCanvas.Height / (maxY + 10);
+            ratiox = (rCanvas.Width - rightmargin) / (maxX);
+            ratioy = (rCanvas.Height - topmargin)/ (maxY);
 
+            //绘制y轴
+            Line yline = new Line();
+            yline.Stroke = Brushes.Black;
+            yline.StrokeThickness = 3; ;
+            yline.X1 = 0;
+            yline.Y1 = 0;
+            yline.X2 = 0;
+            yline.Y2 = rCanvas.Height;
+            rCanvas.Children.Add(yline);
+            ytext.Text = "Y";
+            Canvas.SetTop(ytext, 3);
+            Canvas.SetLeft(ytext, 4);
+            rCanvas.Children.Add(ytext);
+            arrowy.Stroke = Brushes.Black;
+            arrowy.StrokeThickness = 3;
+            arrowy.X1 = 0;
+            arrowy.Y1 = 0;
+            arrowy.X2 = 5;
+            arrowy.Y2 = 5;
+            rCanvas.Children.Add(arrowy);
+            //绘制y轴scale尺度
+            gapY = Math.Round((rCanvas.Height - topmargin) / (y.Length), 0);
+            //ScaleGapY = (rCanvas.Height - topmargin) / maxY;
+            //gapY = (int)(maxY/y.Length);
+            //gapY = (int)(gapY /100);
+            //gapY *= 100;
+            for(int i = 0; i < y.Length; i++)
+            {
+                scaleline = new Line();
+                scaleline.Stroke = Brushes.Black;
+                scaleline.StrokeThickness = 3;
+                scaleline.X1 = 0;
+                scaleline.Y1 = rCanvas.Height - gapY * (i + 1);
+                scaleline.X2 = 5;
+                scaleline.Y2 = rCanvas.Height - gapY * (i + 1);
+                rCanvas.Children.Add(scaleline);
+                scaletext = new TextBlock();
+                scaletext.Text = Math.Round((maxY/(y.Length))*(i+1),2).ToString();
+                Canvas.SetLeft(scaletext, 2);
+                Canvas.SetTop(scaletext, (rCanvas.Height - gapY*(i+1)));
+                rCanvas.Children.Add(scaletext);
+
+            }
+
+            //绘制x轴
+            Line xline = new Line();
+            xline.Stroke = Brushes.Black;
+            xline.StrokeThickness = 3; ;
+            xline.X1 = 0;
+            xline.Y1 = rCanvas.Height - 0;
+            xline.X2 = rCanvas.Width;
+            xline.Y2 = rCanvas.Height - 0;
+            rCanvas.Children.Add(xline);
+            xtext.Text = "X(ng)";
+            Canvas.SetTop(xtext, rCanvas.Height - 30);
+            Canvas.SetLeft(xtext, rCanvas.Width - 30);
+            rCanvas.Children.Add(xtext);
+            arrowx.Stroke = Brushes.Black;
+            arrowx.StrokeThickness = 3;
+            arrowx.X1 = rCanvas.Width - 10;
+            arrowx.Y1 = rCanvas.Height - 10;
+            arrowx.X2 = rCanvas.Width;
+            arrowx.Y2 = rCanvas.Height;
+            rCanvas.Children.Add(arrowx);
+
+            //绘制x轴scale
+            gapX = Math.Round((rCanvas.Width - rightmargin) / (x.Length), 0);
+            for (int i = 0; i < x.Length; i++)
+            {
+                scaleline = new Line();
+                scaleline.Stroke = Brushes.Black;
+                scaleline.StrokeThickness = 3;
+                scaleline.X1 = gapX * (i + 1);
+                scaleline.Y1 = rCanvas.Height - 0;
+                scaleline.X2 = gapX*(i+1);
+                scaleline.Y2 = rCanvas.Height -5;
+                rCanvas.Children.Add(scaleline);
+                scaletext = new TextBlock();
+                scaletext.Text = Math.Round((maxX / (x.Length)) * (i + 1), 2).ToString();
+                Canvas.SetLeft(scaletext, gapX*(i+1)-20);
+                Canvas.SetTop(scaletext, (rCanvas.Height - 20));
+                rCanvas.Children.Add(scaletext);
+
+            }
+            
+            //画斜线
             double x1 = 0.01 * ratiox;
             double y1 = (0.01*a+b)*ratioy;
             double x2 = (maxX+10)*ratiox;
             double y2 = ((maxX + 10) * a + b) * ratioy;
-            
-
             Line mydrawline = new Line();
             mydrawline.Stroke = Brushes.Black;//mydrawline.Stroke = new SolidColorBrush(Color.FromArgb(0xFF, 0x5B, 0x9B, 0xD5));
             mydrawline.StrokeThickness = 3;
@@ -1036,6 +1139,16 @@ namespace SilverTest
                 eli.Margin = mrg;
                 rCanvas.Children.Add(eli);
             }
+            //在右侧显示显示信息
+            RparamSpTxbl.Text = "";
+            for (int i=0; i < x.Length; i++)
+            {
+                RparamSpTxbl.Text += "(" + x[i].ToString() +",  "+ y[i].ToString() + ")" + "\r\n";
+            }
+            RparamSpTxbl.Text += "\r\n\r\n";
+            RparamSpTxbl.Text += "斜率:  " + a.ToString() + "\r\n";
+            RparamSpTxbl.Text += "截距:  " + b.ToString() + "\r\n";
+            RparamSpTxbl.Text += "相关系数:  " + r.ToString();
         }
 
         //在标样选择中，将视图选中序号转变为数据源中序号
@@ -1109,9 +1222,9 @@ namespace SilverTest
             {
                 if (v.GroupName == groupname)
                 {
-                    v.A = a.ToString();
-                    v.B = b.ToString();
-                    v.R = R.ToString();
+                    v.A = Math.Round(a,2).ToString();
+                    v.B = Math.Round(b,2).ToString();
+                    v.R = Math.Round(R,2).ToString();
                 }
 
             }
@@ -1119,7 +1232,7 @@ namespace SilverTest
             //绘制R 线性回归图
             //
             if (a.ToString() == "NaN" || b.ToString() == "NaN") return;
-            drawR(x, y, a, b);
+            drawR(x, y, Math.Round(a, 2), Math.Round(b, 2), Math.Round(R, 2));
         }
 
         private void testliquidMenu_Click(object sender, RoutedEventArgs e)
@@ -1247,7 +1360,7 @@ namespace SilverTest
                     standardSampleClt[index].AirML = v;
                     break;
                 case "汞量ng":
-                    standardSampleClt[index].AirG = v;
+                    standardSampleClt[index].AirG = Math.Round(double.Parse(v),2).ToString();
                     break;
                 case "样品质量":
                     standardSampleClt[index].Weight = v;
@@ -1296,7 +1409,7 @@ namespace SilverTest
 
                     bulk = double.Parse(standardSampleClt[cltindex].AirML);
                     den = double.Parse(node.InnerText);
-                    standardSampleClt[cltindex].AirG = (den * bulk).ToString();
+                    standardSampleClt[cltindex].AirG = Math.Round((den * bulk),2).ToString();
                     break;
                 case "标样体积mL":
                     if (standardSampleClt[cltindex].Temperature is null || standardSampleClt[cltindex].Temperature == "")
@@ -1306,7 +1419,7 @@ namespace SilverTest
 
                     bulk = double.Parse(vle);
                     den = double.Parse(node.InnerText);
-                    standardSampleClt[cltindex].AirG = (den * bulk).ToString();
+                    standardSampleClt[cltindex].AirG = Math.Round((den * bulk),2).ToString();
                     break;
 
             }

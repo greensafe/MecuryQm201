@@ -269,7 +269,13 @@
                     </Button>
                 </Border>
             </StackPanel>
-            <Canvas x:Name="rCanvas" DockPanel.Dock="Top" Width="300" Height="300" Background="#FFDCD9D9" Visibility="Collapsed" ClipToBounds="True"/>
+            <StackPanel Visibility="Collapsed" x:Name="Rstackpanel" DockPanel.Dock="Top" Width="600" Height="300" Orientation="Horizontal">
+                <Canvas x:Name="rCanvas" Width="300" Height="300" Background="#FFDCD9D9" ClipToBounds="True"/>
+                <StackPanel  Width="100" Height="300">
+                    <TextBlock x:Name="RparamSpTxbl" Width="100" Height="300"></TextBlock>
+                </StackPanel>
+            </StackPanel>
+            
             <GroupBox x:Name="paramGbx" Header="y = ax + b" Height="100" DockPanel.Dock="Top" Margin="0,2,308,0">
                 <GroupBox.Background>
                     <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
