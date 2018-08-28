@@ -1000,7 +1000,7 @@ namespace SilverTest
          * 绘制相关系数点直线图
          * 
          */
-        private void drawR(double[] x, double[] y, double a, double b, double r)
+        private void drawR(double[] x, double[] y, double a, double b, double r, string groupname)
         {
             double maxX = 0, maxY = 0,ratiox = 0,ratioy = 0;
             Line scaleline;
@@ -1015,7 +1015,7 @@ namespace SilverTest
             int gapY;        //y轴一个大单位的粒度数
 
             int topmargin = 50; //顶端的空白，为20个点
-            int rightmargin = 50; //右边的空白，为20个点
+            int rightmargin = 200; //右边的空白，为20个点
 
             rCanvas.Children.Clear();
 
@@ -1036,7 +1036,7 @@ namespace SilverTest
             yline.X2 = 0;
             yline.Y2 = rCanvas.Height;
             rCanvas.Children.Add(yline);
-            ytext.Text = "Y";
+            ytext.Text = "Y 响应值";
             Canvas.SetTop(ytext, 3);
             Canvas.SetLeft(ytext, 4);
             rCanvas.Children.Add(ytext);
@@ -1081,7 +1081,7 @@ namespace SilverTest
             xline.X2 = rCanvas.Width;
             xline.Y2 = rCanvas.Height - 0;
             rCanvas.Children.Add(xline);
-            xtext.Text = "X(ng)";
+            xtext.Text = "X 汞量(ng)";
             Canvas.SetTop(xtext, rCanvas.Height - 30);
             Canvas.SetLeft(xtext, rCanvas.Width - 30);
             rCanvas.Children.Add(xtext);
@@ -1155,15 +1155,33 @@ namespace SilverTest
                 rCanvas.Children.Add(outeli);
             }
             //在右侧显示显示信息
+            TextBlock RparamSpTxbl = new TextBlock();
             RparamSpTxbl.Text = "";
+            RparamSpTxbl.Text = "样品名称  响应值  汞量ng\r\n";
+            int j = 0;
             for (int i=0; i < x.Length; i++)
             {
-                RparamSpTxbl.Text += "(" + x[i].ToString() +",  "+ y[i].ToString() + ")" + "\r\n";
+                for(int k=j; k < standardSampleClt.Count; k++)
+                {
+                    if(standardSampleClt[k].GroupName == groupname)
+                    {
+                        RparamSpTxbl.Text += standardSampleClt[k].SampleName +
+                            "\t  " + standardSampleClt[k].ResponseValue1 + "\t " +
+                            standardSampleClt[k].AirG + "\r\n";
+                        j=k+1;
+                        break;
+                    }
+                }
+                
             }
             RparamSpTxbl.Text += "\r\n\r\n";
             RparamSpTxbl.Text += "斜率:  " + a.ToString() + "\r\n";
             RparamSpTxbl.Text += "截距:  " + b.ToString() + "\r\n";
             RparamSpTxbl.Text += "相关系数:  " + r.ToString();
+            Canvas.SetTop(RparamSpTxbl, 50);
+            Canvas.SetLeft(RparamSpTxbl, rCanvas.Width - rightmargin + 50);
+            rCanvas.Children.Add(RparamSpTxbl);
+
         }
 
         //在标样选择中，将视图选中序号转变为数据源中序号
@@ -1247,7 +1265,7 @@ namespace SilverTest
             //绘制R 线性回归图
             //
             if (a.ToString() == "NaN" || b.ToString() == "NaN") return;
-            drawR(x, y, Math.Round(a, 2), Math.Round(b, 2), Math.Round(R, 2));
+            drawR(x, y, Math.Round(a, 2), Math.Round(b, 2), Math.Round(R, 2), groupname);
         }
 
         private void testliquidMenu_Click(object sender, RoutedEventArgs e)
@@ -1439,6 +1457,15 @@ namespace SilverTest
 
             }
 
+        }
+
+        private void printRmenu_Click(object sender, RoutedEventArgs e)
+        {
+            PrintDialog dlg = new PrintDialog();
+            if (dlg.ShowDialog() == true)
+            {
+                dlg.PrintVisual(rCanvas, "Print Receipt");
+            }
         }
 
 

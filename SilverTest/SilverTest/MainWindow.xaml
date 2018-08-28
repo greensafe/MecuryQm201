@@ -60,9 +60,7 @@
                     <MenuItem Header="样品中砷的含量"></MenuItem>
                 </MenuItem>
                 <MenuItem Header="工具">
-                    <MenuItem Header="公司名"></MenuItem>
-                    <MenuItem Header="工具栏"></MenuItem>
-                    <MenuItem Header="状态栏"></MenuItem>
+                    <MenuItem x:Name="printRmenu" Header="打印相关系数图" Click="printRmenu_Click"></MenuItem>
                 </MenuItem>
                 <MenuItem Header="测汞或砷">
                     <MenuItem Header="测汞"></MenuItem>
@@ -270,10 +268,10 @@
                 </Border>
             </StackPanel>
             <StackPanel Visibility="Collapsed" x:Name="Rstackpanel" DockPanel.Dock="Top" Width="600" Height="300" Orientation="Horizontal">
-                <Canvas x:Name="rCanvas" Width="300" Height="300" Background="#FFDCD9D9" ClipToBounds="True"/>
-                <StackPanel  Width="100" Height="300">
-                    <TextBlock x:Name="RparamSpTxbl" Width="100" Height="300"></TextBlock>
-                </StackPanel>
+                <Canvas x:Name="rCanvas" Width="450" Height="300" Background="#FFDCD9D9" ClipToBounds="True"/>
+                <!--<StackPanel  Width="200" Height="300">
+                   <TextBlock x:Name="RparamSpTxbl" Width="150" Height="300"></TextBlock>
+                </StackPanel> -->
             </StackPanel>
             
             <GroupBox x:Name="paramGbx" Header="y = ax + b" Height="100" DockPanel.Dock="Top" Margin="0,2,308,0">
