@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
+using System.IO;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
@@ -478,6 +479,8 @@ namespace SilverTest
                 //RparamSp.Visibility = Visibility.Visible;
                 Rstackpanel.Visibility = Visibility.Visible;
                 printRbtn.Visibility = Visibility.Visible;
+                realCpt.Visibility = Visibility.Collapsed;
+                waveContainer.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -495,6 +498,8 @@ namespace SilverTest
                 //RparamSp.Visibility = Visibility.Hidden;
                 Rstackpanel.Visibility = Visibility.Collapsed;
                 printRbtn.Visibility = Visibility.Collapsed;
+                realCpt.Visibility = Visibility.Visible;
+                waveContainer.Visibility = Visibility.Visible;
             }
         }
 
@@ -1493,6 +1498,61 @@ namespace SilverTest
         private void exportExcelBtn_Click(object sender, RoutedEventArgs e)
         {
             Utility.Save2excel(NewTargetDgd);
+        }
+
+        private void printRbtn_Click(object sender, RoutedEventArgs e)
+        {
+            PrintDialog dlg = new PrintDialog();
+            if (dlg.ShowDialog() == true)
+            {
+                dlg.PrintVisual(rCanvas, "Print Receipt");
+            }
+        }
+
+        private void exportDotsBtn_Click(object sender, RoutedEventArgs e)
+        {
+            string filename = "";
+
+            Collection<ADot> dots = DotManager.GetDotManger().GetDots();
+            if (dots is null || dots.Count == 0)
+            {
+                MessageBox.Show("没有发现测试数据");
+                return;
+            }
+
+            string now = DateTime.Now.ToString();
+            string suffix = "";
+            for (int i = 0; i < now.Length; i++)
+            {
+                if (now[i] != ':' && now[i] != '/' && now[i] != ' ')
+                {
+                    suffix += now[i];
+                }
+            }
+            ;
+            switch (sampletab.SelectedIndex)
+            {
+                case 0:  //新样测试
+                    filename = "history\\样本测试原始数据" + suffix + ".raw";
+                    break;
+                case 1:  //标样测试
+                    filename = "history\\标样测试原始数据" + suffix + ".raw";
+                    break;
+            }
+
+
+            FileStream aFile = new FileStream(filename,FileMode.Create);
+            StreamWriter sr = new StreamWriter(aFile);
+            for (int i = 0; i < dots.Count; i++)
+            {
+                sr.Write(dots[i].Rvalue.ToString()+"\r\n");
+
+            }
+            sr.Close();
+            aFile.Close();
+
+            MessageBox.Show("文件已保存到history目录中");
+
         }
 
 
