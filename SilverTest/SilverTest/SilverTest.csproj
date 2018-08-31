@@ -188,5 +188,8 @@
   <ItemGroup>
     <Folder Include="history\" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\excel.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

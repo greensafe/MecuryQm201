@@ -477,6 +477,7 @@ namespace SilverTest
                 //rCanvas.Visibility = Visibility.Visible;
                 //RparamSp.Visibility = Visibility.Visible;
                 Rstackpanel.Visibility = Visibility.Visible;
+                printRbtn.Visibility = Visibility.Visible;
             }
         }
 
@@ -493,6 +494,7 @@ namespace SilverTest
                 //rCanvas.Visibility = Visibility.Collapsed;
                 //RparamSp.Visibility = Visibility.Hidden;
                 Rstackpanel.Visibility = Visibility.Collapsed;
+                printRbtn.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -1346,7 +1348,7 @@ namespace SilverTest
                 case "产地":
                     newTestClt[index].Place = v;
                     break;
-                case "响应值1":
+                case "响应值":
                     newTestClt[index].ResponseValue1 = v;
                     break;
                 case "取样时间m":
@@ -1474,6 +1476,23 @@ namespace SilverTest
             {
                 dlg.PrintVisual(rCanvas, "Print Receipt");
             }
+        }
+
+        private void exitMenu_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void saveallbtn_Click(object sender, RoutedEventArgs e)
+        {
+            Utility.SaveToNewXmlFileCls.SaveToNewXmlFile(newTestClt, "resources\\NewTestTarget_Table.xml");
+            Utility.SaveToStandardXmlFileCls.SaveToStandardXmlFile(standardSampleClt, "resources\\StandardSamples_Table.xml");
+            MessageBox.Show("数据已保存");
+        }
+
+        private void exportExcelBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Utility.Save2excel(NewTargetDgd);
         }
 
 

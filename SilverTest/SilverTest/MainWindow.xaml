@@ -35,23 +35,23 @@
             </DockPanel.Background>
             <Menu Height="25" Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}" DockPanel.Dock="Top">
                 <MenuItem Header="文件">
-                    <MenuItem Header="新建"></MenuItem>
-                    <MenuItem Header="打开"></MenuItem>
-                    <MenuItem Header="关闭"></MenuItem>
-                    <MenuItem Header="保存"></MenuItem>
+                    <MenuItem Header="新建" Visibility="Collapsed"></MenuItem>
+                    <MenuItem Header="打开" Visibility="Collapsed"></MenuItem>
+                    <MenuItem Header="关闭" Visibility="Collapsed"></MenuItem>
+                    <MenuItem Header="保存" Visibility="Collapsed"></MenuItem>
                     <MenuItem x:Name="savehistory" Header="保存历史" Click="savehistory_Click"></MenuItem>
                     <MenuItem x:Name="loadhistory" Header="载入历史" Click="loadhistory_Click"></MenuItem>
                     <MenuItem Header="输出到excel"></MenuItem>
-                    <MenuItem Header="汞打印预览测试数据"></MenuItem>
-                    <MenuItem Header="汞打印测试数据"></MenuItem>
-                    <MenuItem Header="打印预览样品中汞含量"></MenuItem>
-                    <MenuItem Header="砷打印预览测试数据"></MenuItem>
-                    <MenuItem Header="砷打印测试数据"></MenuItem>
-                    <MenuItem Header="打印预览样品中砷含量"></MenuItem>
-                    <MenuItem Header="打印样品中砷含量"></MenuItem>
-                    <MenuItem Header="退出"></MenuItem>
+                    <MenuItem Header="汞打印预览测试数据" Visibility="Collapsed"></MenuItem>
+                    <MenuItem Header="汞打印测试数据" Visibility="Collapsed"></MenuItem>
+                    <MenuItem Header="打印预览样品中汞含量" Visibility="Collapsed"></MenuItem>
+                    <MenuItem Header="砷打印预览测试数据" Visibility="Collapsed"></MenuItem>
+                    <MenuItem Header="砷打印测试数据" Visibility="Collapsed"></MenuItem>
+                    <MenuItem Header="打印预览样品中砷含量" Visibility="Collapsed"></MenuItem>
+                    <MenuItem Header="打印样品中砷含量" Visibility="Collapsed"></MenuItem>
+                    <MenuItem x:Name="exitMenu" Header="退出" Click="exitMenu_Click"></MenuItem>
                 </MenuItem>
-                <MenuItem Header="计算">
+                <MenuItem Header="计算" Visibility="Collapsed">
                     <MenuItem Header="平均值"></MenuItem>
                     <MenuItem Header="相关系数"></MenuItem>
                     <MenuItem Header="汞浓度"></MenuItem>
@@ -62,7 +62,7 @@
                 <MenuItem Header="工具">
                     <MenuItem x:Name="printRmenu" Header="打印相关系数图" Click="printRmenu_Click"></MenuItem>
                 </MenuItem>
-                <MenuItem Header="测汞或砷">
+                <MenuItem Header="测汞或砷" Visibility="Collapsed">
                     <MenuItem Header="测汞"></MenuItem>
                     <MenuItem Header="测砷"></MenuItem>
                 </MenuItem>
@@ -78,7 +78,7 @@
                 </MenuItem>                
             </Menu>
             <Separator DockPanel.Dock="Top" Height="3" Margin="0" VerticalAlignment="Top" Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}"/>
-            <ToolBarTray x:Name="toolBarTray" Height="30" Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}" DockPanel.Dock="Top">
+            <ToolBarTray x:Name="toolBarTray" Height="32" Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}" DockPanel.Dock="Top">
                 <ToolBarTray.Background>
                     <SolidColorBrush Color="#FFF0F0F0"/>
                 </ToolBarTray.Background>
@@ -86,22 +86,17 @@
                     <ToolBar.Background>
                         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
                     </ToolBar.Background>
-                    <Button VerticalAlignment="Top" Height="21" >
-                        <Image Source="images\Document-Blank-icon.png">
-
-                        </Image>
-                    </Button>
-                    <Button VerticalAlignment="Top" Height="21">
-                        <Image Source="images\open.png">
-
-                        </Image>
-                    </Button>
-                    <Button x:Name="saveall" VerticalAlignment="Top" Height="21" Click="saveall_Click">
+                    <Button x:Name="saveallbtn" ToolTip="快速保存当前数据" VerticalAlignment="Top" Height="30" Click="saveallbtn_Click">
                         <Image Source="images\save.png">
 
                         </Image>
                     </Button>
-                    <Button VerticalAlignment="Top" Height="21">
+                    <Button x:Name="exportExcelBtn" ToolTip="输出excel表" VerticalAlignment="Top" Height="30" Click="exportExcelBtn_Click" >
+                        <Image Source="images\excel.png">
+
+                        </Image>
+                    </Button>                    
+                    <Button x:Name="printRbtn" ToolTip="打印R图" VerticalAlignment="Top" Height="30" Visibility="Collapsed">
                         <Image Source="images\print.png">
 
                         </Image>
@@ -121,7 +116,7 @@
                 <TabItem x:Name="newtabitem" Selector.Selected="OnNewTabSelected">
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
-                            <Ellipse Width="10" Height="10" Fill="DarkGray"/>
+                            <!--<Ellipse Width="10" Height="10" Fill="DarkGray"/>-->
                             <TextBlock>样品测试</TextBlock>
                         </StackPanel>
                     </TabItem.Header>
@@ -220,8 +215,8 @@
                 </TabItem>
             </TabControl>
             <DockPanel DockPanel.Dock="Top" Height="50">
-                <Button x:Name="modifyBtn" HorizontalAlignment="Left" DockPanel.Dock="Left" Height="20" Content="保存" Margin="20,1,0,0" Click="modifyBtn_Click"  />
-                <Button x:Name="exportexelBtn" HorizontalAlignment="Left" DockPanel.Dock="Left" Height="20" Content="输出excel" Margin="20,1,0,0" Click="exportexelBtn_Click" />
+                <Button x:Name="modifyBtn" HorizontalAlignment="Left" DockPanel.Dock="Left" Height="20" Content="保存" Margin="20,1,0,0" Click="modifyBtn_Click"  Visibility="Collapsed"/>
+                <Button x:Name="exportexelBtn" HorizontalAlignment="Left" DockPanel.Dock="Left" Height="20" Content="输出excel" Margin="20,1,0,0" Click="exportexelBtn_Click" Visibility="Collapsed"/>
                 <Button x:Name="startTestBtn" HorizontalAlignment="Left" DockPanel.Dock="Left" Height="20" Content="开始测试" Margin="20,1,0,0" Click="startTestBtn_Click" />
                 <Button x:Name="RBtn" HorizontalAlignment="Left" DockPanel.Dock="Left" Height="20" Content="计算相关系数" Margin="20,1,0,0" Click="RBtn_Click" Visibility="Hidden" />
                 <Button x:Name="testBtn" HorizontalAlignment="Left" DockPanel.Dock="Left" Content="开发" Margin="20,1,0,0" Height="20" Width="75" Click="testBtn_Click" Visibility="Hidden"/>
