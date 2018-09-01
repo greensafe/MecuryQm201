@@ -229,7 +229,7 @@
             </TabControl>
             <StackPanel x:Name="waveContainer" Margin="0,20" DockPanel.Dock="Top" Orientation="Horizontal">
                 <dw:ChartPlotter x:Name="realCpt" Width="400" Height="200" DockPanel.Dock="Top" Margin="10,10,20,10"></dw:ChartPlotter>
-                <GroupBox x:Name="paramGbx" Header="y = ax + b"  Height="200" Width="500" Margin="40,0,0,0">
+                <GroupBox x:Name="paramGbx" Header="y = ax + b"  Height="200" Width="500" Margin="40,0,0,0" Visibility="Visible">
                     <GroupBox.Background>
                         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
                     </GroupBox.Background>
@@ -248,6 +248,14 @@
                         </Grid>
                     </DockPanel>
                 </GroupBox>
+                <DockPanel Visibility="Collapsed" x:Name="Rstackpanel"  Margin="40,0,0,0"
+                        Width="500" 
+                        Height="200" >
+                    <Canvas x:Name="rCanvas" HorizontalAlignment="Center" Width="500" Height="200" Background="#FFDCD9D9" ClipToBounds="True"/>
+                    <!--<StackPanel  Width="200" Height="300">
+                   <TextBlock x:Name="RparamSpTxbl" Width="150" Height="300"></TextBlock>
+                </StackPanel> -->
+                </DockPanel>
             </StackPanel>
             <Separator Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}" Height="3" DockPanel.Dock="Top"></Separator>
             <DockPanel DockPanel.Dock="Top" Height="50">
@@ -300,14 +308,7 @@
                     </Button>
                 </Border>
             </StackPanel>
-            <DockPanel Visibility="Collapsed" x:Name="Rstackpanel" DockPanel.Dock="Top" 
-                        Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}" 
-                        Height="300" >
-                <Canvas x:Name="rCanvas" HorizontalAlignment="Center" Width="450" Height="300" Background="#FFDCD9D9" ClipToBounds="True"/>
-                <!--<StackPanel  Width="200" Height="300">
-                   <TextBlock x:Name="RparamSpTxbl" Width="150" Height="300"></TextBlock>
-                </StackPanel> -->
-            </DockPanel>
+
 
             <StatusBar Height="30" Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}"
                        DockPanel.Dock="Bottom" RenderTransformOrigin="0.503,0.033">

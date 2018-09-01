@@ -464,14 +464,14 @@ namespace SilverTest
                 /*
                 var tab = sender as TabItem;
                 */
-                paramGbx.Visibility = Visibility.Hidden;
+                paramGbx.Visibility = Visibility.Collapsed;
                 RBtn.Visibility = Visibility.Visible;
                 //rCanvas.Visibility = Visibility.Visible;
                 //RparamSp.Visibility = Visibility.Visible;
                 Rstackpanel.Visibility = Visibility.Visible;
                 printRbtn.Visibility = Visibility.Visible;
-                realCpt.Visibility = Visibility.Collapsed;
-                waveContainer.Visibility = Visibility.Collapsed;
+                //realCpt.Visibility = Visibility.Collapsed;
+                //waveContainer.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -489,7 +489,7 @@ namespace SilverTest
                 //RparamSp.Visibility = Visibility.Hidden;
                 Rstackpanel.Visibility = Visibility.Collapsed;
                 printRbtn.Visibility = Visibility.Collapsed;
-                realCpt.Visibility = Visibility.Visible;
+                //realCpt.Visibility = Visibility.Visible;
                 waveContainer.Visibility = Visibility.Visible;
 
 
