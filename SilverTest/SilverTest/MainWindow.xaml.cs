@@ -3,24 +3,15 @@ using Microsoft.Research.DynamicDataDisplay.DataSources;
 using Microsoft.Win32;
 using SilverTest.libs;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Data;
 using System.IO;
 using System.IO.Ports;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Xml;
@@ -500,6 +491,8 @@ namespace SilverTest
                 printRbtn.Visibility = Visibility.Collapsed;
                 realCpt.Visibility = Visibility.Visible;
                 waveContainer.Visibility = Visibility.Visible;
+
+
             }
         }
 
@@ -555,11 +548,14 @@ namespace SilverTest
             if (rowNo < 0)
                 return;
             if (newTestClt[cltindex].ResponseValue1 == "" ||
-                newTestClt[cltindex].ResponseValue1 == null
+                newTestClt[cltindex].ResponseValue1 == null ||
                 //newTestClt[rowNo].ResponseValue2 == "" ||
                 //newTestClt[rowNo].ResponseValue2 == null ||
                 //newTestClt[rowNo].ResponseValue3 == "" ||
                 //newTestClt[rowNo].ResponseValue3 == null
+                asample.A is null ||
+                asample.B is null ||
+                asample.R is null
                 )
                 return;
 
@@ -1427,6 +1423,7 @@ namespace SilverTest
 
         private void NewTargetDgd_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
+            if (e.EditingElement is null) return;
             string vle = (e.EditingElement as TextBox).Text;
             string headname = e.Column.Header as string;
             //int cltindex = getNewCltIndex(NewTargetDgd.SelectedIndex);
@@ -1553,6 +1550,43 @@ namespace SilverTest
 
             MessageBox.Show("文件已保存到history目录中");
 
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void standardCmb_Loaded(object sender, RoutedEventArgs e)
+        {
+            //去除重复的组名
+            ComboBox cmb = sender as ComboBox;
+            cmb.ItemsSource = standardSampleDgd.ItemsSource;
+            Collection<StandardSample> items = cmb.ItemsSource as Collection<StandardSample>;
+            if (items.Count == 0) return;
+
+            Collection<StandardSample> tempitem = new Collection<StandardSample>();
+            tempitem.Add(items[0]);
+            bool isok = true;
+            
+            for(int i = 1; i< items.Count; i++)
+            {
+                for(int k = 0; k < tempitem.Count; k++)
+                {
+                    if(items[i].GroupName == tempitem[k].GroupName)
+                    {
+                        isok = false;
+                        break;
+                    }
+                }
+                if (isok)
+                {
+                    tempitem.Add(items[i]);
+                }
+                isok = true;
+            }
+
+            cmb.ItemsSource = tempitem;
         }
 
 

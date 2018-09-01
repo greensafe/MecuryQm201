@@ -10,7 +10,7 @@
         xmlns:local="clr-namespace:SilverTest"
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="QM201H" Height="810" Width="1000" Loaded="window_Loaded" WindowStartupLocation="CenterScreen">
+        Title="QM201H" Height="850" Width="1000" Loaded="window_Loaded" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <XmlDataProvider IsAsynchronous="False" x:Key="standardSampleData" Source="/resources/StandardSamples_Table.xml" XPath="/StandardSamples/StandardSample"/>
         <XmlDataProvider IsAsynchronous="False" x:Key="newTargetData" Source="/resources/NewTestTarget_Table.xml" XPath="/NewTestTargets/NewTestTarget"/>
@@ -78,6 +78,9 @@
                     <MenuItem x:Name="saveRawTextMenu" Header="保存rawtext" Click="saveRawTextMenu_Click"></MenuItem>
                     <MenuItem x:Name="sendTextMenu" Header="发送模拟数据" Click="sendTextMenu_Click" ></MenuItem>
                 </MenuItem>
+                <MenuItem Header="登陆" Click="MenuItem_Click">
+                    <MenuItem x:Name="checkerlogin" Header="审核者登陆"/>
+                </MenuItem>
             </Menu>
             <Separator DockPanel.Dock="Top" Height="3" Margin="0" VerticalAlignment="Top" Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}"/>
             <ToolBarTray x:Name="toolBarTray" Height="32" Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}" DockPanel.Dock="Top">
@@ -137,20 +140,20 @@
                                   Margin="0,0,0,0" AutoGenerateColumns="False" CellEditEnding="NewTargetDgd_CellEditEnding">
 
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="序号" Width="80" Binding="{Binding Code,Mode=TwoWay}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="序号" Width="80" Binding="{Binding Code,Mode=TwoWay}" IsReadOnly="True"></DataGridTextColumn>
                                 <DataGridTextColumn Header="样品名" Width="80" Binding="{Binding NewName,Mode=TwoWay}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="产地" Width="80" Binding="{Binding Place,Mode=TwoWay}"></DataGridTextColumn>
-                                <DataGridTextColumn Header="响应值" Width="80" Binding="{Binding ResponseValue1,Mode=TwoWay}"></DataGridTextColumn>
-                                <DataGridTextColumn Header="响应值2" Width="80" Binding="{Binding ResponseValue2,Mode=TwoWay}" Visibility="Hidden"></DataGridTextColumn>
-                                <DataGridTextColumn Header="响应值3" Width="80" Binding="{Binding ResponseValue3,Mode=TwoWay}" Visibility="Hidden"></DataGridTextColumn>
-                                <DataGridTextColumn Header="平均值" Width="80" Binding="{Binding AverageValue,Mode=TwoWay}" Visibility="Hidden"></DataGridTextColumn>
-                                <DataGridTextColumn x:Name="newAirSampTimeCol" Header="取样时间m" Width="90" Binding="{Binding AirSampleTime,Mode=TwoWay}"></DataGridTextColumn>
-                                <DataGridTextColumn x:Name="newAirFluentCol" Header="流量L/m" Width="80" Binding="{Binding AirFluent,Mode=TwoWay}"></DataGridTextColumn>
-                                <DataGridTextColumn Header="汞浓度ng/mL" Width="80" Binding="{Binding Density,Mode=TwoWay}" Visibility="Hidden"></DataGridTextColumn>
+                                <DataGridTextColumn Header="响应值" Width="80" Binding="{Binding ResponseValue1,Mode=TwoWay}" IsReadOnly="True"></DataGridTextColumn>
+                                <DataGridTextColumn Header="响应值2" Width="80" Binding="{Binding ResponseValue2,Mode=TwoWay}" Visibility="Hidden" IsReadOnly="True"></DataGridTextColumn>
+                                <DataGridTextColumn Header="响应值3" Width="80" Binding="{Binding ResponseValue3,Mode=TwoWay}" Visibility="Hidden" IsReadOnly="True"></DataGridTextColumn>
+                                <DataGridTextColumn Header="平均值" Width="80" Binding="{Binding AverageValue,Mode=TwoWay}" Visibility="Hidden" IsReadOnly="True"></DataGridTextColumn>
+                                <DataGridTextColumn x:Name="newAirSampTimeCol" Header="取样时间m" Width="90" Binding="{Binding AirSampleTime,Mode=TwoWay}" IsReadOnly="True"></DataGridTextColumn>
+                                <DataGridTextColumn x:Name="newAirFluentCol" Header="流量L/m" Width="80" Binding="{Binding AirFluent,Mode=TwoWay}" IsReadOnly="True"></DataGridTextColumn>
+                                <DataGridTextColumn Header="汞浓度ng/mL" Width="80" Binding="{Binding Density,Mode=TwoWay}" Visibility="Hidden" IsReadOnly="True"></DataGridTextColumn>
                                 <DataGridTextColumn Header="样品质量" Width="80" Binding="{Binding Weight,Mode=TwoWay}"></DataGridTextColumn>
                                 <DataGridTextColumn x:Name="newLiquidBulkCol"  Header="样品消化液总体积ml" Width="80" Visibility="Hidden"></DataGridTextColumn>
                                 <DataGridTextColumn Header="样品总体积L" Binding="{Binding AirTotolBulk,Mode=TwoWay}" Width="80"></DataGridTextColumn>
-                                <DataGridTextColumn Header="样品中汞含量mg/m3" Binding="{Binding AirG,Mode=TwoWay}" Width="80"></DataGridTextColumn>
+                                <DataGridTextColumn Header="样品中汞含量mg/m3" Binding="{Binding AirG,Mode=TwoWay}" Width="80" IsReadOnly="True"></DataGridTextColumn>
                                 <DataGridTemplateColumn Header="选择标样" Width="*">
                                     <DataGridTemplateColumn.CellTemplate >
                                         <DataTemplate>
@@ -159,7 +162,7 @@
                                                       DisplayMemberPath="GroupName" SelectedValuePath="Code"
                                                       Width="100"
                                                       HorizontalAlignment="Left"
-                                                      SelectedValue="{Binding SampleName}">
+                                                      SelectedValue="{Binding SampleName}" Loaded="standardCmb_Loaded">
                                             </ComboBox>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
@@ -202,23 +205,23 @@
                                 </GroupStyle>
                             </DataGrid.GroupStyle>
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="序号" Width="80" Binding="{Binding Path=Code,Mode=TwoWay}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="序号" Width="80" Binding="{Binding Path=Code,Mode=TwoWay}" IsReadOnly="True"></DataGridTextColumn>
                                 <DataGridTextColumn Header="组名" Width="80" Binding="{Binding Path=GroupName,Mode=TwoWay}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="样品名" Width="80" Binding="{Binding Path=SampleName,Mode=TwoWay}"></DataGridTextColumn>
-                                <DataGridTextColumn x:Name="standardAirDensityCol" Header="汞浓度ng/mL" Width="80" Binding="{Binding Path=Density,Mode=TwoWay}" Visibility="Hidden" ></DataGridTextColumn>
-                                <DataGridTextColumn Header="响应值" Width="80" Binding="{Binding Path=ResponseValue1,Mode=TwoWay}"></DataGridTextColumn>
-                                <DataGridTextColumn x:Name="standardAirSampleTimeCol" Header="取样时间m" Width="90" Binding="{Binding AirSampleTime,Mode=TwoWay}" Visibility="Hidden"></DataGridTextColumn>
-                                <DataGridTextColumn x:Name="standardAirFluentCol" Header="流量L/m" Width="80" Binding="{Binding AirFluent,Mode=TwoWay}" Visibility="Hidden"></DataGridTextColumn>
-                                <DataGridTextColumn x:Name="airtemperature" Header="温度" Width="80" Binding="{Binding Temperature,Mode=TwoWay}"></DataGridTextColumn>
-                                <DataGridTextColumn x:Name="airbulk" Header="标样体积mL" Width="80" Binding="{Binding AirML,Mode=TwoWay}"></DataGridTextColumn>
-                                <DataGridTextColumn x:Name="airhan" Header="汞量ng" Width="80" Binding="{Binding AirG,Mode=TwoWay}"></DataGridTextColumn>
+                                <DataGridTextColumn x:Name="standardAirDensityCol" Header="汞浓度ng/mL" Width="80" Binding="{Binding Path=Density,Mode=TwoWay}" Visibility="Hidden" IsReadOnly="True" ></DataGridTextColumn>
+                                <DataGridTextColumn Header="响应值" Width="80" Binding="{Binding Path=ResponseValue1,Mode=TwoWay}" IsReadOnly="True"></DataGridTextColumn>
+                                <DataGridTextColumn x:Name="standardAirSampleTimeCol" Header="取样时间m" Width="90" Binding="{Binding AirSampleTime,Mode=TwoWay}" Visibility="Hidden" IsReadOnly="True"></DataGridTextColumn>
+                                <DataGridTextColumn x:Name="standardAirFluentCol" Header="流量L/m" Width="80" Binding="{Binding AirFluent,Mode=TwoWay}" Visibility="Hidden" IsReadOnly="True"></DataGridTextColumn>
+                                <DataGridTextColumn x:Name="airtemperature" Header="温度" Width="80" Binding="{Binding Temperature,Mode=TwoWay}" IsReadOnly="True"></DataGridTextColumn>
+                                <DataGridTextColumn x:Name="airbulk" Header="标样体积mL" Width="80" Binding="{Binding AirML,Mode=TwoWay}" IsReadOnly="True"></DataGridTextColumn>
+                                <DataGridTextColumn x:Name="airhan" Header="汞量ng" Width="80" Binding="{Binding AirG,Mode=TwoWay}" IsReadOnly="True"></DataGridTextColumn>
                                 <DataGridTextColumn Header="样品质量" Width="80" Binding="{Binding Path=Weight,Mode=TwoWay}"></DataGridTextColumn>
                                 <DataGridTextColumn x:Name="standardProviderCol" Header="样品供应商" Width="80" Binding="{Binding Path=ProviderCompany,Mode=TwoWay}" Visibility="Hidden"></DataGridTextColumn>
                                 <DataGridTextColumn x:Name="standardPlaceCol"  Header="产地" Width="80" Binding="{Binding Path=Place,Mode=TwoWay}" Visibility="Hidden"></DataGridTextColumn>
                                 <DataGridTextColumn Header="样品购买日期" Width="80" Binding="{Binding Path=BuyDate,Mode=TwoWay}"></DataGridTextColumn>
-                                <DataGridTextColumn Header="斜率" Width="80" Binding="{Binding Path=A,Mode=TwoWay}"></DataGridTextColumn>
-                                <DataGridTextColumn Header="截距" Width="80" Binding="{Binding Path=B,Mode=TwoWay}"></DataGridTextColumn>
-                                <DataGridTextColumn Header="相关系数" Width="*" Binding="{Binding Path=R,Mode=TwoWay}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="斜率" Width="80" Binding="{Binding Path=A,Mode=TwoWay}" IsReadOnly="True"></DataGridTextColumn>
+                                <DataGridTextColumn Header="截距" Width="80" Binding="{Binding Path=B,Mode=TwoWay}" IsReadOnly="True"></DataGridTextColumn>
+                                <DataGridTextColumn Header="相关系数" Width="*" Binding="{Binding Path=R,Mode=TwoWay}" IsReadOnly="True"></DataGridTextColumn>
                             </DataGrid.Columns>
                         </DataGrid>
                     </StackPanel>
@@ -297,14 +300,14 @@
                     </Button>
                 </Border>
             </StackPanel>
-            <StackPanel Visibility="Collapsed" x:Name="Rstackpanel" DockPanel.Dock="Top" 
+            <DockPanel Visibility="Collapsed" x:Name="Rstackpanel" DockPanel.Dock="Top" 
                         Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}" 
-                        Height="300" Orientation="Horizontal" Background="AliceBlue" >
+                        Height="300" >
                 <Canvas x:Name="rCanvas" HorizontalAlignment="Center" Width="450" Height="300" Background="#FFDCD9D9" ClipToBounds="True"/>
                 <!--<StackPanel  Width="200" Height="300">
                    <TextBlock x:Name="RparamSpTxbl" Width="150" Height="300"></TextBlock>
                 </StackPanel> -->
-            </StackPanel>
+            </DockPanel>
 
             <StatusBar Height="30" Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}"
                        DockPanel.Dock="Bottom" RenderTransformOrigin="0.503,0.033">
