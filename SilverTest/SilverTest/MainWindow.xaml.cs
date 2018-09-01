@@ -1424,6 +1424,7 @@ namespace SilverTest
         private void NewTargetDgd_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
             if (e.EditingElement is null) return;
+            if (!(e.EditingElement is TextBox)) return;
             string vle = (e.EditingElement as TextBox).Text;
             string headname = e.Column.Header as string;
             //int cltindex = getNewCltIndex(NewTargetDgd.SelectedIndex);
@@ -1589,7 +1590,41 @@ namespace SilverTest
             cmb.ItemsSource = tempitem;
         }
 
+        private void checkerlogin_Click(object sender, RoutedEventArgs e)
+        {
+            Window w = new CheckerLoginWnd();
+            w.Owner = this;
+            w.ShowDialog();
+        }
 
+        private void checkerlogout_Click(object sender, RoutedEventArgs e)
+        {
+            checkerbtn.Visibility = Visibility.Hidden;
+        }
+
+        private void modifytestmenu_Click(object sender, RoutedEventArgs e)
+        {
+            switch (sampletab.SelectedIndex)
+            {
+                case 0:
+                    if(NewTargetDgd.SelectedIndex == -1)
+                    {
+                        MessageBox.Show("请选择一条记录");
+                        return;
+                    }
+                    break;
+                case 1:
+                    if(standardSampleDgd.SelectedIndex == -1)
+                    {
+                        MessageBox.Show("请选择一条记录");
+                        return;
+                    }
+                    break;
+            }
+            ModifyDataWnd w = new ModifyDataWnd();
+            w.Owner = this;
+            w.ShowDialog();
+        }
 
         /*
         private void SomeSelectionChanged(object sender, SelectionChangedEventArgs e)

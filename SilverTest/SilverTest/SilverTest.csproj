@@ -85,6 +85,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CheckerLoginWnd.xaml.cs">
+      <DependentUpon>CheckerLoginWnd.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DataDB.cs" />
     <Compile Include="libs\DataFormater.cs" />
     <Compile Include="libs\DotManager.cs" />
@@ -92,10 +95,17 @@
     <Compile Include="libs\ProduceFakeData.cs" />
     <Compile Include="libs\SerialDriver.cs" />
     <Compile Include="libs\Utility.cs" />
+    <Compile Include="ModifyDataWnd.xaml.cs">
+      <DependentUpon>ModifyDataWnd.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Requirement.cs" />
     <Compile Include="WelcomeYou.xaml.cs">
       <DependentUpon>WelcomeYou.xaml</DependentUpon>
     </Compile>
+    <Page Include="CheckerLoginWnd.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="login.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -115,6 +125,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="ModifyDataWnd.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="WelcomeYou.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -193,6 +207,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="images\exportraw.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\admin.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

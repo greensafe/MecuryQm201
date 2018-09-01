@@ -63,6 +63,7 @@
                 </MenuItem>
                 <MenuItem Header="工具">
                     <MenuItem x:Name="printRmenu" Header="打印相关系数图" Click="printRmenu_Click"></MenuItem>
+                    <MenuItem x:Name="modifytestmenu" Header="修改测试数据" Click="modifytestmenu_Click" ></MenuItem>
                 </MenuItem>
                 <MenuItem Header="测汞或砷" Visibility="Collapsed">
                     <MenuItem Header="测汞"></MenuItem>
@@ -79,40 +80,48 @@
                     <MenuItem x:Name="sendTextMenu" Header="发送模拟数据" Click="sendTextMenu_Click" ></MenuItem>
                 </MenuItem>
                 <MenuItem Header="登陆" Click="MenuItem_Click">
-                    <MenuItem x:Name="checkerlogin" Header="审核者登陆"/>
+                    <MenuItem x:Name="checkerlogin" Header="审核者登陆" Click="checkerlogin_Click"/>
+                    <MenuItem x:Name="checkerlogout" Header="审核者退出" Click="checkerlogout_Click"/>
                 </MenuItem>
             </Menu>
             <Separator DockPanel.Dock="Top" Height="3" Margin="0" VerticalAlignment="Top" Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}"/>
-            <ToolBarTray x:Name="toolBarTray" Height="32" Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}" DockPanel.Dock="Top">
-                <ToolBarTray.Background>
-                    <SolidColorBrush Color="#FFF0F0F0"/>
-                </ToolBarTray.Background>
-                <ToolBar>
-                    <ToolBar.Background>
-                        <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
-                    </ToolBar.Background>
-                    <Button x:Name="saveallbtn" ToolTip="快速保存当前数据" VerticalAlignment="Top" Height="30" Click="saveallbtn_Click">
-                        <Image Source="images\save.png">
+            <DockPanel DockPanel.Dock="Top">
+                <Button x:Name="checkerbtn" Width="32" DockPanel.Dock="Right" Panel.ZIndex="2" Background="Transparent" BorderThickness="0" ToolTip="审核者已经登陆" Visibility="Hidden">
+                    <Image Source="images\admin.png">
+                    </Image>
+                </Button>
+                <ToolBarTray x:Name="toolBarTray" Height="32" Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}" DockPanel.Dock="Left">
+                    <ToolBarTray.Background>
+                        <SolidColorBrush Color="#FFF0F0F0"/>
+                    </ToolBarTray.Background>
+                    <ToolBar>
+                        <ToolBar.Background>
+                            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+                        </ToolBar.Background>
+                        <Button x:Name="saveallbtn" ToolTip="快速保存当前数据" VerticalAlignment="Top" Height="30" Click="saveallbtn_Click" IsEnabled="True">
+                            <Image Source="images\save.png">
 
-                        </Image>
-                    </Button>
-                    <Button x:Name="exportExcelBtn" ToolTip="输出excel表" VerticalAlignment="Top" Height="30" Click="exportExcelBtn_Click" >
-                        <Image Source="images\excel.png">
+                            </Image>
+                        </Button>
+                        <Button x:Name="exportExcelBtn" ToolTip="输出excel表" VerticalAlignment="Top" Height="30" Click="exportExcelBtn_Click" >
+                            <Image Source="images\excel.png">
 
-                        </Image>
-                    </Button>
-                    <Button x:Name="exportDotsBtn" ToolTip="输出点值" VerticalAlignment="Top" Height="30" Click="exportDotsBtn_Click">
-                        <Image Source="images\exportraw.png">
+                            </Image>
+                        </Button>
+                        <Button x:Name="exportDotsBtn" ToolTip="输出点值" VerticalAlignment="Top" Height="30" Click="exportDotsBtn_Click">
+                            <Image Source="images\exportraw.png">
 
-                        </Image>
-                    </Button>
-                    <Button x:Name="printRbtn" ToolTip="打印R图" VerticalAlignment="Top" Height="30" Visibility="Collapsed" Click="printRbtn_Click">
-                        <Image Source="images\print.png">
+                            </Image>
+                        </Button>
+                        <Button x:Name="printRbtn" ToolTip="打印R图" VerticalAlignment="Top" Height="30" Visibility="Collapsed" Click="printRbtn_Click">
+                            <Image Source="images\print.png">
 
-                        </Image>
-                    </Button>
-                </ToolBar>
-            </ToolBarTray>
+                            </Image>
+                        </Button>
+
+                    </ToolBar>
+                </ToolBarTray>
+            </DockPanel>
             <Separator DockPanel.Dock="Top" Height="3" Margin="0" VerticalAlignment="Top" Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}"/>
             <!--
             <d3:Chart Visibility="Hidden" Name="plotter" DockPanel.Dock="Top" Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}" Height="200">
@@ -210,10 +219,10 @@
                                 <DataGridTextColumn Header="样品名" Width="80" Binding="{Binding Path=SampleName,Mode=TwoWay}"></DataGridTextColumn>
                                 <DataGridTextColumn x:Name="standardAirDensityCol" Header="汞浓度ng/mL" Width="80" Binding="{Binding Path=Density,Mode=TwoWay}" Visibility="Hidden" IsReadOnly="True" ></DataGridTextColumn>
                                 <DataGridTextColumn Header="响应值" Width="80" Binding="{Binding Path=ResponseValue1,Mode=TwoWay}" IsReadOnly="True"></DataGridTextColumn>
-                                <DataGridTextColumn x:Name="standardAirSampleTimeCol" Header="取样时间m" Width="90" Binding="{Binding AirSampleTime,Mode=TwoWay}" Visibility="Hidden" IsReadOnly="True"></DataGridTextColumn>
-                                <DataGridTextColumn x:Name="standardAirFluentCol" Header="流量L/m" Width="80" Binding="{Binding AirFluent,Mode=TwoWay}" Visibility="Hidden" IsReadOnly="True"></DataGridTextColumn>
-                                <DataGridTextColumn x:Name="airtemperature" Header="温度" Width="80" Binding="{Binding Temperature,Mode=TwoWay}" IsReadOnly="True"></DataGridTextColumn>
-                                <DataGridTextColumn x:Name="airbulk" Header="标样体积mL" Width="80" Binding="{Binding AirML,Mode=TwoWay}" IsReadOnly="True"></DataGridTextColumn>
+                                <DataGridTextColumn x:Name="standardAirSampleTimeCol" Header="取样时间m" Width="90" Binding="{Binding AirSampleTime,Mode=TwoWay}" Visibility="Hidden" IsReadOnly="False"></DataGridTextColumn>
+                                <DataGridTextColumn x:Name="standardAirFluentCol" Header="流量L/m" Width="80" Binding="{Binding AirFluent,Mode=TwoWay}" Visibility="Hidden" IsReadOnly="False"></DataGridTextColumn>
+                                <DataGridTextColumn x:Name="airtemperature" Header="温度" Width="80" Binding="{Binding Temperature,Mode=TwoWay}" IsReadOnly="False"></DataGridTextColumn>
+                                <DataGridTextColumn x:Name="airbulk" Header="标样体积mL" Width="80" Binding="{Binding AirML,Mode=TwoWay}" IsReadOnly="False"></DataGridTextColumn>
                                 <DataGridTextColumn x:Name="airhan" Header="汞量ng" Width="80" Binding="{Binding AirG,Mode=TwoWay}" IsReadOnly="True"></DataGridTextColumn>
                                 <DataGridTextColumn Header="样品质量" Width="80" Binding="{Binding Path=Weight,Mode=TwoWay}"></DataGridTextColumn>
                                 <DataGridTextColumn x:Name="standardProviderCol" Header="样品供应商" Width="80" Binding="{Binding Path=ProviderCompany,Mode=TwoWay}" Visibility="Hidden"></DataGridTextColumn>
