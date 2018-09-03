@@ -352,44 +352,6 @@ namespace SilverTest.libs
         }
 
         /*
-        static public void GenerateExcel(DataTable DtIN)
-        {
-            try
-            {
-                excel = new Microsoft.Office.Interop.Excel.Application();
-                excel.DisplayAlerts = false;
-                excel.Visible = false;
-                workBook = excel.Workbooks.Add(Type.Missing);
-                workSheet = (Microsoft.Office.Interop.Excel.Worksheet)workBook.ActiveSheet;
-                workSheet.Name = "LearningExcel";
-                System.Data.DataTable tempDt = DtIN;
-                dgExcel.ItemsSource = tempDt.DefaultView;
-                workSheet.Cells.Font.Size = 11;
-                int rowcount = 1;
-                for (int i = 1; i <= tempDt.Columns.Count; i++) //taking care of Headers.  
-                {
-                    workSheet.Cells[1, i] = tempDt.Columns[i - 1].ColumnName;
-                }
-                foreach (System.Data.DataRow row in tempDt.Rows) //taking care of each Row  
-                {
-                    rowcount += 1;
-                    for (int i = 0; i < tempDt.Columns.Count; i++) //taking care of each column  
-                    {
-                        workSheet.Cells[rowcount, i + 1] = row[i].ToString();
-                    }
-                }
-                cellRange = workSheet.Range[workSheet.Cells[1, 1], workSheet.Cells[rowcount, tempDt.Columns.Count]];
-                cellRange.EntireColumn.AutoFit();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-        */
-
-
-        /*
          * 计算响应值
          * @param
          *    start_abs - dots中的起始位， 

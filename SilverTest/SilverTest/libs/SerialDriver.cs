@@ -77,19 +77,6 @@ namespace SilverTest.libs
             return onlyone;
         }
 
-        //
-        /*
-        public SerialDriver RemoveHandler(SerialDataReceivedEventHandler dlr)
-        {
-            if(hdrcount == 1)
-            {
-                ComDevice.DataReceived -= new SerialDataReceivedEventHandler(dlr);
-                hdrcount--;
-            }
-            return onlyone;
-        }
-        */
-
         //打开端口
         public SerialDriver Open(string portname, int rate, int parity, int databits, int stopBits)
         {

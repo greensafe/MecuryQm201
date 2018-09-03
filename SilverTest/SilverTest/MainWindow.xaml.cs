@@ -110,19 +110,7 @@ namespace SilverTest
 
             //初始化xml文档
             AirDensityXml.Load(@"resources\ChinaAirDensity.xml");
-            /*
-            XmlNode sn = AirDensityXml.SelectSingleNode("/air/density[@hot=70.0]");
-            double vl = double.Parse(sn.InnerText);
-            */
-            /*
-            newTestClt =
-            Utility.getNewTestTargetDataFromXDP((DataSourceProvider)this.FindResource("newTargetData"));
-            NewTargetDgd.DataContext = newTestClt;
-
-            standardSampleClt = 
-            Utility.getStandardTargetDataFromXDP((DataSourceProvider)this.FindResource("standardSampleData"));
-            standardSampleDgd.DataContext = standardSampleClt;
-            */
+    
             newTestClt =
                     Utility.getNewTestTargetDataFromXml("resources\\NewTestTarget_Table.xml");
             NewTargetDgd.DataContext = newTestClt;
@@ -133,73 +121,11 @@ namespace SilverTest
             StandardCvw = CollectionViewSource.GetDefaultView(standardSampleClt);
             StandardCvw.GroupDescriptions.Add(new PropertyGroupDescription("GroupName"));
 
-            //演示代码
-            //demoTimer.Interval =  new TimeSpan(0, 0, 0, 1);  //1 seconds
-            //demoTimer.Tick += new EventHandler(timeCycle);
         }
-
-        //演示代码
-        /*
-        public void timeCycle(object sender, EventArgs e)
-        {
-            seconds++;
-            if (seconds == 3)
-            {
-                newTestClt[2].ResponseValue1 = "30";
-                NewTargetDgd.DataContext = null;
-                NewTargetDgd.DataContext = newTestClt;
-            }
-            if(seconds == 5)
-            {
-                newTestClt[2].ResponseValue2 = "20";
-                NewTargetDgd.DataContext = null;
-                NewTargetDgd.DataContext = newTestClt;
-            }
-            if(seconds == 7)
-            {
-                newTestClt[2].ResponseValue3 = "25";
-                NewTargetDgd.DataContext = null;
-                NewTargetDgd.DataContext = newTestClt;
-            }
-            ;
-        }
-        */
 
         private void realTck(object sender, EventArgs e)
         {
-            /*
-            //演示代码
-            double x = currentSecond;
-            double y = rd.Next(5, 30);
-            Point point = new Point(x, y);
-            realCptDs.AppendAsync(base.Dispatcher, point);
-            if (true)
-            {
-                if (q.Count < group)
-                {
-                    q.Enqueue((int)y);//入队
-                    yaxis = 0;
-                    foreach (int c in q)
-                        if (c > yaxis)
-                            yaxis = c;
-                }
-                else
-                {
-                    q.Dequeue();//出队
-                    q.Enqueue((int)y);//入队
-                    yaxis = 0;
-                    foreach (int c in q)
-                        if (c > yaxis)
-                            yaxis = c;
-                }
-                if (currentSecond - group > 0)
-                    xaxis = currentSecond - group;
-                else
-                    xaxis = 0;
-                realCpt.Viewport.Visible = new System.Windows.Rect(xaxis, 0, group, yaxis);
-            }
-            currentSecond++;
-            */
+       
         }
 
 
@@ -247,56 +173,7 @@ namespace SilverTest
             DotManager.GetDotManger().GetDot(ReDatas);
 
             //DataFormater.getDataFormater().GetDot(ReDatas);
-
-            /*            
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < ReDatas.Length; i++)
-            {
-                sb.AppendFormat("{0:x2}" + " ", ReDatas[i]);
-            }
-            Dispatcher.Invoke(new Action(() =>
-            {
-                rTxt.Text = sb.ToString();
-            }));
-            */
         }
-
-        /*
-        public void Com_DataReceived(object sender, SerialDataReceivedEventArgs e)
-        {
-
-            //接受数据
-            byte[] ReDatas = new byte[ComDevice.BytesToRead];
-            ComDevice.Read(ReDatas, 0, ReDatas.Length);
-
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < ReDatas.Length; i++)
-            {
-                sb.AppendFormat("{0:x2}" + " ", ReDatas[i]);
-            }
-
-
-            Dispatcher.Invoke(new Action(() =>
-            {
-                ;
-            }));
-
-        }
-        */
-
-        //演示
-        //画波形
-        //number = 1001 
-        /*
-        private void drawWave_simulate(int number)
-        {
-
-            var x = Enumerable.Range(0, number).Select(i => i / 10.0).ToArray();
-            var y = x.Select(v => Math.Abs(v) < 1e-10 ? 1 : Math.Sin(v) / v).ToArray();
-            linegraph.Plot(x, y);
-        }
-        */
-
 
         //打开端口
         private bool openRSPort()
@@ -428,8 +305,6 @@ namespace SilverTest
 
         }
 
-
-
         private void DelRowBtn_Click(object sender, RoutedEventArgs e)
         {
             int index = 0;
@@ -453,8 +328,6 @@ namespace SilverTest
 
                     break;
             }
-
-
         }
 
         private void OnStandardTabSelected(object sender, RoutedEventArgs e)
@@ -491,31 +364,11 @@ namespace SilverTest
                 printRbtn.Visibility = Visibility.Collapsed;
                 //realCpt.Visibility = Visibility.Visible;
                 waveContainer.Visibility = Visibility.Visible;
-
-
             }
         }
 
         private void sampletab_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
-            /*
-            if (window.IsLoaded)
-            {
-                if (newtabitem.IsSelected)
-                {
-
-                }
-                else if (standardtabitem.IsSelected)
-                {
-                }
-                else
-                {
-                    //do nothing
-                    ;
-                }
-            }
-            */
         }
 
         private void newItemHead_Click(object sender, RoutedEventArgs e)
@@ -671,25 +524,6 @@ namespace SilverTest
                                     ;
                                 }
                             }
-                            
-                            //计算响应值，填入datagrid之中
-                            /*
-                            if (newTestClt[NewTargetDgd.SelectedIndex].ResponseValue1 == "" ||
-                                newTestClt[NewTargetDgd.SelectedIndex].ResponseValue1 == null)
-                                newTestClt[NewTargetDgd.SelectedIndex].ResponseValue1 = Utility.ComputeResponseValue(
-                                    dots_start_abs, DotManager.GetDotManger().GetDots().Count).ToString();
-                            else if (newTestClt[NewTargetDgd.SelectedIndex].ResponseValue2 == "" ||
-                                newTestClt[NewTargetDgd.SelectedIndex].ResponseValue2 == null)
-                                newTestClt[NewTargetDgd.SelectedIndex].ResponseValue2 = Utility.ComputeResponseValue(
-                                    dots_start_abs, DotManager.GetDotManger().GetDots().Count).ToString();
-                            else if (newTestClt[NewTargetDgd.SelectedIndex].ResponseValue3 == "" ||
-                                newTestClt[NewTargetDgd.SelectedIndex].ResponseValue3 == null)
-                            {
-                                newTestClt[NewTargetDgd.SelectedIndex].ResponseValue3 = Utility.ComputeResponseValue(
-                                    dots_start_abs, DotManager.GetDotManger().GetDots().Count).ToString();
-                            }
-                            */
-
                             break;
                         default:
 
@@ -753,12 +587,6 @@ namespace SilverTest
                     }
                     break;
             }
-            
-            
-            //int selectedItem = NewTargetDgd.SelectedIndex;
-
-            //NewTargetDgd.IsEnabled = true;
-            
         }
 
         /*
@@ -778,27 +606,12 @@ namespace SilverTest
 
         private void testBtn_Click(object sender, RoutedEventArgs e)
         {
-            /*
-            SerialDriver.GetDriver().OnReceived(Com_DataReceived);
-            ProduceFakeData pfd = new ProduceFakeData("实际数据.txt");
-            pfd.Send(1);
-            ;
-            */
-            /*
-            if(DataFormater.getDataFormater().getStatus() == DataFormater.ErrorOccur.NONE)
-            {
-                DataFormater.getDataFormater().GetDot(new byte[] { 1,2,3,4,5});
-            }
-            */
+
         }
 
         private void debugBtn_Click(object sender, RoutedEventArgs e)
         {
-            //DataFormater.getDataFormater().GetDots();
-            //byte[] r = DataFormater.getDataFormater().GetRawData();
-            ;
-            //DataFormater.getDataFormater().SaveToFile("raw.txt");
-            
+
         }
 
 
@@ -923,9 +736,6 @@ namespace SilverTest
 
         private void saveDotsMenu_Checked(object sender, RoutedEventArgs e)
         {
-            //
-            
-
         }
 
         private void saveDotsMenu_Click(object sender, RoutedEventArgs e)
@@ -1003,7 +813,6 @@ namespace SilverTest
                     v.B = Math.Round(b,2).ToString();
                     v.R = Math.Round(R,2).ToString();
                 }
-                
             }
         }
 
@@ -1257,10 +1066,6 @@ namespace SilverTest
 
             Utility.ComputeAB(out a, out b, x, y);
 
-            /*
-            if (standardSampleClt[cltindex].R == null ||
-                standardSampleClt[cltindex].R == "") 
-            {*/
             R = Utility.ComputeR(x, y);
             foreach (StandardSample v in standardSampleClt)
             {
@@ -1625,14 +1430,5 @@ namespace SilverTest
             w.Owner = this;
             w.ShowDialog();
         }
-
-        /*
-        private void SomeSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var comboBox = sender as ComboBox;
-            var selectedItem = this.NewTargetDgd.CurrentItem;
-            MessageBox.Show(selectedItem.ToString());
-        }
-        */
     }
 }
