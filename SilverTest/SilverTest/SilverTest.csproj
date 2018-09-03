@@ -37,6 +37,9 @@
     <Reference Include="DynamicDataDisplay, Version=0.3.0.1, Culture=neutral, PublicKeyToken=5b7d744a7263923f, processorArchitecture=MSIL">
       <HintPath>..\packages\DynamicDataDisplay.0.3.0.1\lib\net45\DynamicDataDisplay.dll</HintPath>
     </Reference>
+    <Reference Include="EasyEncryption, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EasyEncryption.1.0.2\lib\EasyEncryption.dll</HintPath>
+    </Reference>
     <Reference Include="InteractiveDataDisplay.WPF">
       <HintPath>dll\InteractiveDataDisplay.WPF.dll</HintPath>
     </Reference>
@@ -200,6 +203,7 @@
     <Resource Include="resources\ChinaAirDensity.xml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="changelog\" />
     <Folder Include="history\" />
   </ItemGroup>
   <ItemGroup>

@@ -19,8 +19,10 @@ namespace SilverTest
     /// </summary>
     public partial class CheckerLoginWnd : Window
     {
+        public bool isshort = false;
         public CheckerLoginWnd()
         {
+            
             InitializeComponent();
         }
 
@@ -29,7 +31,15 @@ namespace SilverTest
             if(checkerbtxt.Text == "checker" && passwordtxt.Text == "checker")
             {
                 Window w = this.Owner;
-                (w.FindName("checkerbtn") as Button).Visibility = Visibility.Visible;
+                if (isshort)
+                {
+                    //do noting
+                }
+                else
+                {
+                    (w.FindName("checkerbtn") as Button).Visibility = Visibility.Visible;
+                }
+
                 this.Close();
             }
         }

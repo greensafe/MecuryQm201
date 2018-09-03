@@ -6,32 +6,32 @@
         xmlns:local="clr-namespace:SilverTest"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="修改测试数据" Height="450" Width="600" Loaded="Window_Loaded">
+        Title="修改测试数据" Height="350" Width="450" Loaded="Window_Loaded">
     <DockPanel>
-        <StackPanel x:Name="newGrid" Visibility="Collapsed" DockPanel.Dock="Top">
-            <StackPanel Height="80" Orientation="Horizontal" Margin="0,30">
-                <Label FontSize="20" HorizontalAlignment="Left" Margin="100,0" Width="100" Height="50" Content="响应值"></Label>
-                <TextBox x:Name="responsevaluetxt" Margin="0" Width="200" Height="50" ></TextBox>
+        <StackPanel x:Name="newGrid" Visibility="Collapsed" DockPanel.Dock="Top" Margin="0,20" Height="150">
+            <StackPanel Height="40" Orientation="Horizontal" Margin="0,0">
+                <Label HorizontalAlignment="Left" Margin="130,5,30,15" Width="100" Height="30" Content="响应值"></Label>
+                <TextBox x:Name="responsevaluetxt" Margin="0" Width="100" Height="30" ></TextBox>
             </StackPanel>
-            <StackPanel Height="80" Orientation="Horizontal">
-                <Label FontSize="20" HorizontalAlignment="Left" Margin="100,0" Width="100" Height="50" Content="取样时间"></Label>
-                <TextBox x:Name="sampletimetxt" Width="200" Height="50" ></TextBox>
+            <StackPanel Height="40" Orientation="Horizontal">
+                <Label HorizontalAlignment="Left" Margin="130,5,30,15" Width="100" Height="30" Content="取样时间"></Label>
+                <TextBox x:Name="sampletimetxt" Width="100" Height="30" ></TextBox>
             </StackPanel>
-            <StackPanel Height="80" Orientation="Horizontal">
-                <Label FontSize="20" HorizontalAlignment="Left" Margin="100,15" Width="100" Height="50" Content="流量" RenderTransformOrigin="0.829,0.451"/>
-                <TextBox x:Name="fluenttxt" Width="200" Height="50" />
+            <StackPanel Height="40" Orientation="Horizontal">
+                <Label HorizontalAlignment="Right" Margin="130,5,30,15" Width="100" Height="30" Content="流量" RenderTransformOrigin="0.829,0.451"/>
+                <TextBox x:Name="fluenttxt" Width="100" Height="30" />
             </StackPanel>
 
         </StackPanel>
         <StackPanel x:Name="standardGrid" Visibility="Visible" DockPanel.Dock="Top">
             <StackPanel Height="80" Orientation="Horizontal" Margin="0,30">
-                <Label  FontSize="20" HorizontalAlignment="Left" Margin="100,0" Width="100" Height="50" Content="响应值"></Label>
-                <TextBox x:Name="standardresponsetxt" Width="200" Height="50" ></TextBox>
+                <Label HorizontalAlignment="Left" Margin="100,0,30,0" Width="100" Height="30" Content="响应值"></Label>
+                <TextBox x:Name="standardresponsetxt" Width="100" Height="30" ></TextBox>
             </StackPanel>
         </StackPanel>
-        <StackPanel Height="80" Orientation="Horizontal" DockPanel.Dock="Top">
-            <Button FontSize="20" x:Name="checkbtn" Width="80" Height="40" Margin="150,0" Click="checkbtn_Click" >审查</Button>
-            <Button FontSize="20" Width="80" Height="40" Margin="0,0" Click="Button_Click">取消</Button>
+        <StackPanel Height="80" Orientation="Horizontal" DockPanel.Dock="Bottom">
+            <Button  x:Name="checkbtn" Width="60" Height="30" Margin="150,0,60,0" Click="checkbtn_Click" >审查</Button>
+            <Button  Width="60" Height="30" Margin="0,0" Click="Button_Click">取消</Button>
         </StackPanel>
     </DockPanel>
 </Window>

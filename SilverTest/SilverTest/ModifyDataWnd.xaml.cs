@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace SilverTest
@@ -64,6 +66,7 @@ namespace SilverTest
             Button man = w.FindName("checkerbtn") as Button;
             DataGrid dg;
             TabControl tab = parentwindow.FindName("sampletab") as TabControl;
+            string text = "";
 
             switch (tab.SelectedIndex)
             {
@@ -82,25 +85,43 @@ namespace SilverTest
                 switch (tab.SelectedIndex)
                 {
                     case 0:
+                        text = "样本修改 " + DateTime.Now.ToString()+"\r\n";
+                        text += (dg.Items[dg.SelectedIndex] as NewTestTarget).ResponseValue1 + " --> " + responsevaluetxt.Text + "\r\n";
+                        text += (dg.Items[dg.SelectedIndex] as NewTestTarget).AirSampleTime + " --> " + sampletimetxt.Text + "\r\n";
+                        text += (dg.Items[dg.SelectedIndex] as NewTestTarget).AirFluent + " --> " + fluenttxt.Text + "\r\n";
                         (dg.Items[dg.SelectedIndex] as NewTestTarget).ResponseValue1 = responsevaluetxt.Text;
                         (dg.Items[dg.SelectedIndex] as NewTestTarget).AirSampleTime = sampletimetxt.Text;
                         (dg.Items[dg.SelectedIndex] as NewTestTarget).AirFluent = fluenttxt.Text;
+                        
                         break;
                     case 1:
-                        (dg.Items[dg.SelectedIndex] as StandardSample).ResponseValue1 = standardresponsetxt.Text;
+                        text = "标样修改 " + DateTime.Now.ToString() + "\r\n";
+                        text += (dg.Items[dg.SelectedIndex] as StandardSample).ResponseValue1 + " --> " + standardresponsetxt.Text + "\r\n";
+                        (dg.Items[dg.SelectedIndex] as StandardSample).ResponseValue1 = standardresponsetxt.Text + "\r\n";
                         break;
                 }
-                //change log 
-                //todo
+                //save to change log 
+                string md5 = EasyEncryption.MD5.ComputeMD5Hash(text);
+                string filename = "changelog\\"+ md5 + ".change";
+
+                FileStream aFile = new FileStream(filename, FileMode.Create);
+                StreamWriter sr = new StreamWriter(aFile);
+                sr.Write(text);
+                sr.Close();
+                aFile.Close();
+
+                this.Close();
 
             }
             else
             {
+                //审核者未登陆
                 Window login = new CheckerLoginWnd();
                 login.Owner = this.Owner;
+                //Application.Current.Properties["isshort"] = true;
                 login.ShowDialog();
             }
-            this.Close();
+
         }
     }
 }
