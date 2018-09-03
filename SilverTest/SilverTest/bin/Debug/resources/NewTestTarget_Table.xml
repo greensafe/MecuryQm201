@@ -44,13 +44,16 @@
     <Density>6.78756031623705</Density>
   </NewTestTarget>
   <NewTestTarget>
-    <NewName>美土</NewName>
+    <NewName>美土1</NewName>
     <Code>1005</Code>
-    <Weight>20</Weight>
-    <Place>california</Place>
-    <ResponseValue1>55555</ResponseValue1>
+    <Weight>44444</Weight>
+    <Place>california og</Place>
+    <ResponseValue1>111111</ResponseValue1>
     <AverageValue>2541.64</AverageValue>
     <Density>6.63850321178245</Density>
-    <AirFluent>4</AirFluent>
+    <AirTotolBulk>740725926</AirTotolBulk>
+    <AirSampleTime>22222</AirSampleTime>
+    <AirFluent>33333</AirFluent>
+    <AirG>0.02225</AirG>
   </NewTestTarget>
 </ArrayOfNewTestTarget>

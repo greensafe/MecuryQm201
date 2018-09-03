@@ -102,4 +102,15 @@
     <B>-4.24</B>
     <R>1</R>
   </StandardSample>
+  <StandardSample>
+    <SampleName>啊啊啊</SampleName>
+    <GroupName>啵啵啵宝宝</GroupName>
+    <Code>1007</Code>
+    <ResponseValue1>77777
+</ResponseValue1>
+    <Weight>555555</Weight>
+    <Temperature>333333</Temperature>
+    <AirML>4444</AirML>
+    <BuyDate>66666</BuyDate>
+  </StandardSample>
 </ArrayOfStandardSample>

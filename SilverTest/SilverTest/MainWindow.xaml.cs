@@ -1241,6 +1241,8 @@ namespace SilverTest
 
         private void standardSampleDgd_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
+            if (e.EditingElement is null) return;
+            if (!(e.EditingElement is TextBox)) return;
             string vle = (e.EditingElement as TextBox).Text;
             string headname = e.Column.Header as string;
             int cltindex = getStandardCltIndex(standardSampleDgd.SelectedIndex);
@@ -1257,6 +1259,7 @@ namespace SilverTest
                     if (standardSampleClt[cltindex].AirML is null || standardSampleClt[cltindex].AirML == "")
                         return;
                     node = AirDensityXml.SelectSingleNode("/air/density[@hot=" + vle + "]");
+                    if (node is null) return;
 
                     bulk = double.Parse(standardSampleClt[cltindex].AirML);
                     den = double.Parse(node.InnerText);
@@ -1267,6 +1270,7 @@ namespace SilverTest
                         return;
                     string tem = standardSampleClt[cltindex].Temperature;
                     node = AirDensityXml.SelectSingleNode("/air/density[@hot=" + tem + "]");
+                    if (node is null) return;
 
                     bulk = double.Parse(vle);
                     den = double.Parse(node.InnerText);
@@ -1300,7 +1304,15 @@ namespace SilverTest
 
         private void exportExcelBtn_Click(object sender, RoutedEventArgs e)
         {
-            Utility.Save2excel(NewTargetDgd);
+            switch (sampletab.SelectedIndex)
+            {
+                case 0:  //新样
+                    Utility.Save2excel(NewTargetDgd);
+                    break;
+                case 1: //标样
+                    Utility.Save2excel(standardSampleDgd);
+                    break;
+            }
         }
 
         private void printRbtn_Click(object sender, RoutedEventArgs e)

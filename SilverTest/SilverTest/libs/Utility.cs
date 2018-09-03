@@ -245,6 +245,7 @@ namespace SilverTest.libs
 
         static public void Save2excel(DataGrid dataGrid)
         {
+            int colcount = 0;
             string fileName = "";
             string saveFileName = "";
             SaveFileDialog saveDialog = new SaveFileDialog();
@@ -263,25 +264,42 @@ namespace SilverTest.libs
             Microsoft.Office.Interop.Excel.Workbooks workbooks = xlApp.Workbooks;
             Microsoft.Office.Interop.Excel.Workbook workbook = workbooks.Add(Microsoft.Office.Interop.Excel.XlWBATemplate.xlWBATWorksheet);
             Microsoft.Office.Interop.Excel.Worksheet worksheet = (Microsoft.Office.Interop.Excel.Worksheet)workbook.Worksheets[1]; //取得sheet1
+            
 
-            //写入行
+            //统计可见列的数目
+            for(int i=0;i<dataGrid.Columns.Count;i++)
+            {
+                if (dataGrid.Columns[i].Visibility == Visibility.Visible)
+                    colcount++;
+            }
+            //写入列头
+            int k = 0;
             for (int i = 0; i < dataGrid.Columns.Count; i++)
             {
-                worksheet.Cells[1, i + 1] = dataGrid.Columns[i].Header;
+                if(dataGrid.Columns[i].Visibility == Visibility.Visible)
+                {
+                    worksheet.Cells[1, k + 1] = dataGrid.Columns[i].Header;
+                    k++;
+                }
             }
+            k = 0;
             for (int r = 0; r < dataGrid.Items.Count; r++)
             {
 
                 for (int i = 0; i < dataGrid.Columns.Count - 1; i++) //暂时不处理新样选择标样列，所以标样最后一列也不保存
                 {
+                    if (dataGrid.Columns[i].Visibility == Visibility.Hidden ||
+                        dataGrid.Columns[i].Visibility == Visibility.Collapsed)
+                        continue;
                     if ((dataGrid.Columns[i].GetCellContent(dataGrid.Items[r]) is null)){
-                        worksheet.Cells[r + 2, i + 1] = "NaN";
+                        worksheet.Cells[r + 2, k + 1] = "NaN";
                     }
                     else {
-                        worksheet.Cells[r + 2, i + 1] = (dataGrid.Columns[i].GetCellContent(dataGrid.Items[r]) as TextBlock).Text;
+                        worksheet.Cells[r + 2, k + 1] = (dataGrid.Columns[i].GetCellContent(dataGrid.Items[r]) as TextBlock).Text;
                     }
+                    k++;
                 }
-
+                k = 0;
             }
             worksheet.Columns.EntireColumn.AutoFit();
             MessageBox.Show(fileName + "保存成功");
