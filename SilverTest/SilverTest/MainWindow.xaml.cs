@@ -1127,8 +1127,8 @@ namespace SilverTest
             ;
             //截取日期
             string suffix = "";
-            if (filename.Length < 17) return;
-            for (int i = filename.Length - 17; i < filename.Length - 4; i++)
+            if (filename.Length < 16) return;
+            for (int i = filename.Length - 16; i < filename.Length - 4; i++)
             {
                 suffix += filename[i];
             }
@@ -1441,6 +1441,19 @@ namespace SilverTest
             ModifyDataWnd w = new ModifyDataWnd();
             w.Owner = this;
             w.ShowDialog();
+        }
+
+        private void exportexcelmenu_Click(object sender, RoutedEventArgs e)
+        {
+            switch (sampletab.SelectedIndex)
+            {
+                case 0:  //新样
+                    Utility.Save2excel(NewTargetDgd);
+                    break;
+                case 1: //标样
+                    Utility.Save2excel(standardSampleDgd);
+                    break;
+            }
         }
     }
 }

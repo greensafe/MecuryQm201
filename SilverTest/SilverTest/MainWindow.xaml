@@ -43,7 +43,7 @@
                     <MenuItem Header="保存" Visibility="Collapsed"></MenuItem>
                     <MenuItem x:Name="savehistory" Header="保存历史" Click="savehistory_Click"></MenuItem>
                     <MenuItem x:Name="loadhistory" Header="载入历史" Click="loadhistory_Click"></MenuItem>
-                    <MenuItem Header="输出到excel"></MenuItem>
+                    <MenuItem x:Name="exportexcelmenu" Header="输出到excel" Click="exportexcelmenu_Click"/>
                     <MenuItem Header="汞打印预览测试数据" Visibility="Collapsed"></MenuItem>
                     <MenuItem Header="汞打印测试数据" Visibility="Collapsed"></MenuItem>
                     <MenuItem Header="打印预览样品中汞含量" Visibility="Collapsed"></MenuItem>
@@ -322,15 +322,15 @@
             <StatusBar Height="30" Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}"
                        DockPanel.Dock="Bottom" RenderTransformOrigin="0.503,0.033">
                 <StatusBarItem>
-                    <TextBlock Text="{Binding Now.Year, Mode=OneWay, Source={StaticResource current}}"></TextBlock>
+                    <TextBlock Text="{Binding Year, Mode=OneWay, Source={StaticResource current}}"></TextBlock>
                 </StatusBarItem>
                 
                 <StatusBarItem>
-                    <TextBlock Text="{Binding Now.Month, Mode=OneWay, Source={StaticResource current}}"></TextBlock>
+                    <TextBlock Text="{Binding Month, Mode=OneWay, Source={StaticResource current}}"></TextBlock>
                 </StatusBarItem>
                 
                 <StatusBarItem>
-                    <TextBlock Text="{Binding Now.Day, Mode=OneWay, Source={StaticResource current}}"></TextBlock>
+                    <TextBlock Text="{Binding Day, Mode=OneWay, Source={StaticResource current}}"></TextBlock>
                 </StatusBarItem>
             </StatusBar>
         </DockPanel>

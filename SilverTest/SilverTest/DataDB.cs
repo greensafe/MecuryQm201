@@ -393,7 +393,8 @@ namespace SilverTest
 
         //构造函数
         public NewTestTarget(string newName, string code, string weight, string place, string responseValue1,
-            string responseValue2, string responseValue3, string density, string liquidSize)
+            string responseValue2, string responseValue3, string density, string liquidSize, string airTotolBulk,
+            string airSampleTime, string airFluent, string airG)
         {
             NewName = newName;
             Code = code;
@@ -404,6 +405,10 @@ namespace SilverTest
             Density = density;
             LiquidSize = liquidSize;
             Place = place;
+            AirTotolBulk = airTotolBulk;
+            AirSampleTime = airSampleTime;
+            AirFluent = airFluent;
+            AirG = airG;
         }
         public NewTestTarget() { }
     }
