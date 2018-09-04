@@ -32,6 +32,10 @@ namespace SilverTest
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
+            if(!(usertxt.Text == "user" && passwordtxt.Password == "user"))
+            {
+                return;
+            }
             WelcomeYou come = new WelcomeYou();
 
             come.Show();

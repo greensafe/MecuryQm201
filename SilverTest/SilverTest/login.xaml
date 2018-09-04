@@ -12,12 +12,12 @@
     <Grid x:Name="grid">
         <StackPanel x:Name="stackPanel" HorizontalAlignment="Left" Height="{Binding ActualHeight, ElementName=grid, Mode=OneWay}" VerticalAlignment="Top" Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}">
             <DockPanel Height="55" LastChildFill="False">
-                <Label Content="用户名" Height="30"  Margin="80,0,0,0" Width="64" DockPanel.Dock="Left"/>
-                <TextBox Height="30" TextWrapping="Wrap" Margin="0,0" Text="飞鱼" Width="120" DockPanel.Dock="Left"/>
+                <Label  Content="用户名" Height="30"  Margin="80,0,0,0" Width="64" DockPanel.Dock="Left"/>
+                <TextBox x:Name="usertxt" Height="30" TextWrapping="Wrap" Margin="0,0" Text="user" Width="120" DockPanel.Dock="Left"/>
             </DockPanel>
             <DockPanel Height="46" LastChildFill="False">
                 <Label Content="密码" Height="30"  Margin="80,0,0,0" Width="64" DockPanel.Dock="Left"/>
-                <TextBox Height="30" TextWrapping="Wrap" Text="123456" Margin="0,0" Width="120" DockPanel.Dock="Left"/>
+                <PasswordBox x:Name="passwordtxt" Height="30" Margin="0,0" Width="120" DockPanel.Dock="Left"/>
             </DockPanel>
             <DockPanel Height="47" LastChildFill="False" Margin="0,0,0,0">
                 <Button Content="确定" Height="30" VerticalAlignment="Top" Width="50" DockPanel.Dock="Left" Margin="170,10,0,0" Click="Button_Click_1"/>
