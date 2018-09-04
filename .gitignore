@@ -8,6 +8,9 @@ obj/
 
 *.tmp
 
+Thumbs.db
+
+
 #ignore all files in release directory
 
 SilverTest/SerialPortLab/bin/Debug/clip.txt

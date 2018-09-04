@@ -146,7 +146,8 @@ namespace SilverTest.libs
             }
             else
             {
-                MessageBox.Show("没有打开的端口");
+                //MessageBox.Show("没有打开的端口");
+                Console.WriteLine("SerialDriver.close : 没有打开的端口");
             }
             return onlyone;
         }

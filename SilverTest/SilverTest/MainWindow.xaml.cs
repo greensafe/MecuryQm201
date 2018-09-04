@@ -581,10 +581,12 @@ namespace SilverTest
                                 CloseDown1.Start();
                             }
                             //计算响应值，填入datagrid之中
+                            /*
                             if (standardSampleClt[getStandardCltIndex( standardSampleDgd.SelectedIndex )].ResponseValue1 == "" ||
                                 standardSampleClt[getStandardCltIndex( standardSampleDgd.SelectedIndex )].ResponseValue1 == null)
                                 standardSampleClt[getStandardCltIndex( standardSampleDgd.SelectedIndex )].ResponseValue1 = Utility.ComputeResponseValue(
                                     dots_start_abs, DotManager.GetDotManger().GetDots().Count).ToString();
+                            */
                             break;
                         default:
 

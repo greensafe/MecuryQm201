@@ -394,7 +394,7 @@ namespace SilverTest.libs
                 }
             }
 
-            return max - dots[0].Rvalue;
+            return max;
         }
 
         /*

@@ -25,7 +25,7 @@
     <ResponseValue1>27720</ResponseValue1>
     <Weight>10</Weight>
     <Temperature>10.0</Temperature>
-    <AirML>1</AirML>
+    <AirML>1g</AirML>
     <AirG>5.55</AirG>
     <ProviderCompany>快乐蟹蟹公司</ProviderCompany>
     <Place>苏州潘阳湖</Place>
@@ -42,7 +42,7 @@
     <ResponseValue1>13860</ResponseValue1>
     <Weight>10</Weight>
     <Temperature>10.5</Temperature>
-    <AirML>0.5</AirML>
+    <AirML>0.5g</AirML>
     <AirG>2.9</AirG>
     <ProviderCompany>安安公司</ProviderCompany>
     <Place>北京</Place>
@@ -59,7 +59,7 @@
     <ResponseValue1>27720</ResponseValue1>
     <Weight>10</Weight>
     <Temperature>10.5</Temperature>
-    <AirML>1</AirML>
+    <AirML>1g</AirML>
     <AirG>5.81</AirG>
     <ProviderCompany>安安公司</ProviderCompany>
     <Place>北京</Place>
