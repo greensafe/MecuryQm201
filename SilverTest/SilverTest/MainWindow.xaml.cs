@@ -482,8 +482,12 @@ namespace SilverTest
                             if (newTestClt[newcltindex].ResponseValue1 != "" && 
                                 newTestClt[newcltindex].ResponseValue1 != null)
                             {
-                                MessageBox.Show("数据已经满，请去掉网格中数据重新开始测试");
-                                return;
+                                if (MessageBox.Show("将清除上次的测试结果，是否继续?", "", MessageBoxButton.YesNo) == MessageBoxResult.No) return ;
+                                newTestClt[newcltindex].ResponseValue1 = "";
+                                newTestClt[newcltindex].AirFluent = "";
+                                newTestClt[newcltindex].AirSampleTime = "";
+                                newTestClt[newcltindex].AirTotolBulk = "";
+                                newTestClt[newcltindex].AirG = "";
                             }
 
                             statusBtn.Visibility = Visibility.Visible;
@@ -542,8 +546,9 @@ namespace SilverTest
                             if (standardSampleClt[getStandardCltIndex( standardSampleDgd.SelectedIndex )].ResponseValue1 != "" && 
                                 standardSampleClt[getStandardCltIndex( standardSampleDgd.SelectedIndex )].ResponseValue1 != null)
                             {
-                                MessageBox.Show("数据已经满，请去掉网格中数据重新开始测试");
-                                return;
+                                if (MessageBox.Show("将清除上次的测试结果，是否继续?", "", MessageBoxButton.YesNo) == MessageBoxResult.No)
+                                    return;
+                                standardSampleClt[getStandardCltIndex(standardSampleDgd.SelectedIndex)].ResponseValue1 = "";
                             }
 
                             statusBtn.Visibility = Visibility.Visible;
@@ -811,7 +816,7 @@ namespace SilverTest
                 {
                     v.A = Math.Round(a,2).ToString();
                     v.B = Math.Round(b,2).ToString();
-                    v.R = Math.Round(R,2).ToString();
+                    v.R = Math.Round(R,3).ToString();
                 }
             }
         }
@@ -1082,7 +1087,7 @@ namespace SilverTest
                 {
                     v.A = Math.Round(a,2).ToString();
                     v.B = Math.Round(b,2).ToString();
-                    v.R = Math.Round(R,2).ToString();
+                    v.R = Math.Round(R,3).ToString();
                 }
 
             }
@@ -1090,7 +1095,7 @@ namespace SilverTest
             //绘制R 线性回归图
             //
             if (a.ToString() == "NaN" || b.ToString() == "NaN") return;
-            drawR(x, y, Math.Round(a, 2), Math.Round(b, 2), Math.Round(R, 2), groupname);
+            drawR(x, y, Math.Round(a, 2), Math.Round(b, 2), Math.Round(R, 3), groupname);
         }
 
         private void testliquidMenu_Click(object sender, RoutedEventArgs e)

@@ -323,15 +323,15 @@
             <StatusBar Height="30" Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}"
                        DockPanel.Dock="Bottom" RenderTransformOrigin="0.503,0.033">
                 <StatusBarItem>
-                    <TextBlock Text="{Binding Year, Mode=OneWay, Source={StaticResource current}}"></TextBlock>
+                    <TextBlock Text="{Binding Now.Year, Mode=OneWay, Source={StaticResource current}}"></TextBlock>
                 </StatusBarItem>
                 
                 <StatusBarItem>
-                    <TextBlock Text="{Binding Month, Mode=OneWay, Source={StaticResource current}}"></TextBlock>
+                    <TextBlock Text="{Binding Now.Month, Mode=OneWay, Source={StaticResource current}}"></TextBlock>
                 </StatusBarItem>
                 
                 <StatusBarItem>
-                    <TextBlock Text="{Binding Day, Mode=OneWay, Source={StaticResource current}}"></TextBlock>
+                    <TextBlock Text="{Binding Now.Day, Mode=OneWay, Source={StaticResource current}}"></TextBlock>
                 </StatusBarItem>
             </StatusBar>
         </DockPanel>
