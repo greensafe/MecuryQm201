@@ -257,14 +257,15 @@
                         </Grid>
                     </DockPanel>
                 </GroupBox>
-                <DockPanel Visibility="Collapsed" x:Name="Rstackpanel"  Margin="40,0,0,0"
+                <GroupBox Visibility="Collapsed" x:Name="Rstackpanel"  Margin="40,0,0,0"
                         Width="500" 
-                        Height="200" >
-                    <Canvas x:Name="rCanvas" HorizontalAlignment="Center" Width="500" Height="200" Background="#FFDCD9D9" ClipToBounds="True"/>
+                        Height="200" 
+                        >
+                    <Canvas x:Name="rCanvas" HorizontalAlignment="Center" Width="500" Height="200" ClipToBounds="True"/>
                     <!--<StackPanel  Width="200" Height="300">
                    <TextBlock x:Name="RparamSpTxbl" Width="150" Height="300"></TextBlock>
                 </StackPanel> -->
-                </DockPanel>
+                </GroupBox>
             </StackPanel>
             <Separator Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}" Height="3" DockPanel.Dock="Top"></Separator>
             <DockPanel DockPanel.Dock="Top" Height="50">

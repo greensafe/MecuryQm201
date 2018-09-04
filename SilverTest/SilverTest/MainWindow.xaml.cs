@@ -833,9 +833,13 @@ namespace SilverTest
             double ScaleGapY;    //y轴单位粒度说占用的点数
             double gapX;        //x轴一个大单位的粒度数
             int gapY;        //y轴一个大单位的粒度数
+            double validwidth; //有效区宽度
+            double validheight;  //有效区高度
 
-            int topmargin = 50; //顶端的空白，为20个点
+            int topmargin = 20; //顶端的空白，为20个点
             int rightmargin = 200; //右边的空白，为20个点
+            int leftmargin = 30;    //左边的空白
+            int bottommargin = 20;  //底部的空白
 
             rCanvas.Children.Clear();
 
@@ -844,113 +848,115 @@ namespace SilverTest
                 if (x[i] > maxX) maxX = x[i];
                 if (y[i] > maxY) maxY = y[i];
             }
-            ratiox = (rCanvas.Width - rightmargin) / (maxX);
-            ratioy = (rCanvas.Height - topmargin)/ (maxY);
+            //ratiox = (rCanvas.Width - rightmargin - leftmargin) / (maxX);
+            //ratioy = (rCanvas.Height - topmargin)/ (maxY);
+
+            ScaleGapX = (rCanvas.Width - rightmargin - leftmargin) / maxX;
+            ScaleGapY = (rCanvas.Height - topmargin - bottommargin) / maxY;
+            gapX = (int)(maxX * 10 / x.Length); //maxX太小，比如18.81
+            gapX = Math.Round(gapX / 10, 1);
+            gapY = (int)(maxY / y.Length);
+            gapY = (int)(gapY / 100);
+            gapY *= 100;
+            validwidth = rCanvas.Width - leftmargin - rightmargin;
+            validheight = rCanvas.Height - topmargin - bottommargin;
 
             //绘制y轴
             Line yline = new Line();
             yline.Stroke = Brushes.Black;
-            yline.StrokeThickness = 3; ;
-            yline.X1 = 0;
+            yline.StrokeThickness = 1; ;
+            yline.X1 = leftmargin;
             yline.Y1 = 0;
-            yline.X2 = 0;
-            yline.Y2 = rCanvas.Height;
+            yline.X2 = leftmargin;
+            yline.Y2 = rCanvas.Height - bottommargin;
             rCanvas.Children.Add(yline);
             ytext.Text = "Y 响应值";
-            Canvas.SetTop(ytext, 3);
-            Canvas.SetLeft(ytext, 4);
+            Canvas.SetTop(ytext, 15);
+            Canvas.SetLeft(ytext, leftmargin + 36);
             rCanvas.Children.Add(ytext);
             arrowy.Stroke = Brushes.Black;
-            arrowy.StrokeThickness = 3;
-            arrowy.X1 = 0;
+            arrowy.StrokeThickness = 1;
+            arrowy.X1 = leftmargin;
             arrowy.Y1 = 0;
-            arrowy.X2 = 5;
+            arrowy.X2 = leftmargin + 5;
             arrowy.Y2 = 5;
             rCanvas.Children.Add(arrowy);
             //绘制y轴scale尺度
-            //gapY = Math.Round((rCanvas.Height - topmargin) / (y.Length), 0);
-            ScaleGapY = (rCanvas.Height - topmargin) / maxY;
-            gapY = (int)(maxY/y.Length);
-            gapY = (int)(gapY /100);
-            gapY *= 100;
-            for(int i = 0; i < y.Length; i++)
+            for (int i = 0; i < y.Length; i++)
             {
                 scaleline = new Line();
                 scaleline.Stroke = Brushes.Black;
-                scaleline.StrokeThickness = 3;
-                scaleline.X1 = 0;
-                scaleline.Y1 = rCanvas.Height - gapY * (i + 1)*ScaleGapY;
-                scaleline.X2 = 5;
-                scaleline.Y2 = rCanvas.Height - gapY * (i + 1)*ScaleGapY;
+                scaleline.StrokeThickness = 1;
+                scaleline.X1 = leftmargin;
+                scaleline.Y1 = validheight - gapY * (i + 1)*ScaleGapY + topmargin;
+                scaleline.X2 = leftmargin + 5;
+                scaleline.Y2 = validheight - gapY * (i + 1) * ScaleGapY + topmargin;
                 rCanvas.Children.Add(scaleline);
                 scaletext = new TextBlock();
                 //scaletext.Text = Math.Round((maxY/(y.Length))*(i+1),2).ToString();
                 scaletext.Text = (gapY*(i+1)).ToString();
-                Canvas.SetLeft(scaletext, 2);
-                Canvas.SetTop(scaletext, (rCanvas.Height - gapY*(i+1)*ScaleGapY));
+                Canvas.SetLeft(scaletext,leftmargin + 2);
+                Canvas.SetTop(scaletext, (validheight - gapY*(i+1)*ScaleGapY) + topmargin);
                 rCanvas.Children.Add(scaletext);
-
             }
 
             //绘制x轴
             Line xline = new Line();
             xline.Stroke = Brushes.Black;
-            xline.StrokeThickness = 3; ;
-            xline.X1 = 0;
-            xline.Y1 = rCanvas.Height - 0;
+            xline.StrokeThickness = 1; ;
+            xline.X1 = leftmargin;
+            xline.Y1 = rCanvas.Height - bottommargin;
             xline.X2 = rCanvas.Width;
-            xline.Y2 = rCanvas.Height - 0;
+            xline.Y2 = rCanvas.Height - bottommargin;
             rCanvas.Children.Add(xline);
             xtext.Text = "X 汞量(ng)";
-            Canvas.SetTop(xtext, rCanvas.Height - 30);
-            Canvas.SetLeft(xtext, rCanvas.Width - 30);
+            Canvas.SetTop(xtext, rCanvas.Height - 20 - bottommargin);
+            Canvas.SetLeft(xtext, rCanvas.Width - 70 );
             rCanvas.Children.Add(xtext);
             arrowx.Stroke = Brushes.Black;
-            arrowx.StrokeThickness = 3;
+            arrowx.StrokeThickness = 1;
             arrowx.X1 = rCanvas.Width - 10;
-            arrowx.Y1 = rCanvas.Height - 10;
+            arrowx.Y1 = rCanvas.Height - 10 - bottommargin;
             arrowx.X2 = rCanvas.Width;
-            arrowx.Y2 = rCanvas.Height;
+            arrowx.Y2 = rCanvas.Height - bottommargin;
             rCanvas.Children.Add(arrowx);
-
             //绘制x轴scale
-            //gapX = Math.Round((rCanvas.Width - rightmargin) / (x.Length), 0);
-            ScaleGapX = (rCanvas.Width - rightmargin) / maxX;
-            gapX = (int)(maxX * 10 / x.Length); //maxX太小，比如18.81
-            gapX = Math.Round(gapX / 10,1);
             for (int i = 0; i < x.Length; i++)
             {
                 scaleline = new Line();
                 scaleline.Stroke = Brushes.Black;
-                scaleline.StrokeThickness = 3;
-                scaleline.X1 = gapX * (i + 1)* ScaleGapX;
-                scaleline.Y1 = rCanvas.Height - 0;
-                scaleline.X2 = gapX * (i + 1)* ScaleGapX;
-                scaleline.Y2 = rCanvas.Height -5;
+                scaleline.StrokeThickness = 1;
+                scaleline.X1 = gapX * (i + 1)* ScaleGapX + leftmargin;
+                scaleline.Y1 = rCanvas.Height -  bottommargin;
+                scaleline.X2 = gapX * (i + 1)* ScaleGapX + leftmargin;
+                scaleline.Y2 = rCanvas.Height -5 - bottommargin;
                 rCanvas.Children.Add(scaleline);
                 scaletext = new TextBlock();
-                //scaletext.Text = Math.Round((maxX / (x.Length)) * (i + 1), 2).ToString();
                 scaletext.Text = (gapX * (i + 1)).ToString();
-                Canvas.SetLeft(scaletext, gapX*(i+1)* ScaleGapX - 20);
-                Canvas.SetTop(scaletext, (rCanvas.Height - 20));
+                Canvas.SetLeft(scaletext, gapX*(i+1)* ScaleGapX - 20 + leftmargin);
+                Canvas.SetTop(scaletext, (rCanvas.Height - 20) - bottommargin);
                 rCanvas.Children.Add(scaletext);
-
             }
-            
+
             //画斜线
+            /*
             double x1 = 0.01 * ratiox;
             double y1 = (0.01*a+b)*ratioy;
             double x2 = (maxX+10)*ratiox;
             double y2 = ((maxX + 10) * a + b) * ratioy;
+            */
+            double x1 = 0 + leftmargin;
+            double y1 = validheight - b * ScaleGapY + topmargin;
+            double x2 = maxX * ScaleGapX + leftmargin;
+            double y2 = validheight - maxY * ScaleGapY + topmargin;
             Line mydrawline = new Line();
             mydrawline.Stroke = Brushes.Black;//mydrawline.Stroke = new SolidColorBrush(Color.FromArgb(0xFF, 0x5B, 0x9B, 0xD5));
             mydrawline.StrokeThickness = 1;
             mydrawline.X1 = x1;
-            mydrawline.Y1 = rCanvas.Height - y1;
+            mydrawline.Y1 = y1;
             mydrawline.X2 = x2;
-            mydrawline.Y2 = rCanvas.Height - y2;
+            mydrawline.Y2 = y2;
             rCanvas.Children.Add(mydrawline);
-
 
             //画点
             for (int i = 0; i < x.Length; i++)
@@ -961,7 +967,8 @@ namespace SilverTest
                 centereli.Fill = System.Windows.Media.Brushes.Red;
                 centereli.Width = 3;
                 centereli.Height = 3;
-                Thickness mrg = new Thickness(x[i] * ratiox -1.5, rCanvas.Height - y[i] * ratioy -1.5, 0, 0);
+                Thickness mrg = new Thickness(x[i] * ScaleGapX + leftmargin -1.5, 
+                    validheight - y[i] * ScaleGapY + topmargin -1.5, 0, 0);
                 centereli.Margin = mrg;
                 rCanvas.Children.Add(centereli);
                 //画外圈
@@ -970,7 +977,8 @@ namespace SilverTest
                 //outeli.Fill = System.Windows.Media.Brushes.Red;
                 outeli.Width = 6;
                 outeli.Height = 6;
-                Thickness outmrg = new Thickness(x[i] * ratiox -3, rCanvas.Height - y[i] * ratioy -3, 0, 0);
+                Thickness outmrg = new Thickness(x[i] * ScaleGapX + leftmargin -3, 
+                    validheight - y[i] * ScaleGapY + topmargin -3, 0, 0);
                 outeli.Margin = outmrg;
                 rCanvas.Children.Add(outeli);
             }
@@ -994,12 +1002,13 @@ namespace SilverTest
                 }
                 
             }
-            RparamSpTxbl.Text += "\r\n\r\n";
+            RparamSpTxbl.Text += "\r\n";
             RparamSpTxbl.Text += "斜率:  " + a.ToString() + "\r\n";
             RparamSpTxbl.Text += "截距:  " + b.ToString() + "\r\n";
             RparamSpTxbl.Text += "相关系数:  " + r.ToString();
-            Canvas.SetTop(RparamSpTxbl, 50);
-            Canvas.SetLeft(RparamSpTxbl, rCanvas.Width - rightmargin + 50);
+            Canvas.SetTop(RparamSpTxbl, 20);
+            Canvas.SetLeft(RparamSpTxbl, rCanvas.Width - rightmargin + 30);
+            
             rCanvas.Children.Add(RparamSpTxbl);
 
         }
@@ -1258,11 +1267,28 @@ namespace SilverTest
                 case "温度":
                     if (standardSampleClt[cltindex].AirML is null || standardSampleClt[cltindex].AirML == "")
                         return;
-                    node = AirDensityXml.SelectSingleNode("/air/density[@hot=" + vle + "]");
+                    try
+                    {
+                        node = AirDensityXml.SelectSingleNode("/air/density[@hot=" + vle + "]");
+                    }
+                    catch
+                    {
+                        //MessageBox.Show("");
+                        return;
+                    }
+                    
                     if (node is null) return;
 
-                    bulk = double.Parse(standardSampleClt[cltindex].AirML);
-                    den = double.Parse(node.InnerText);
+                    try
+                    {
+                        bulk = double.Parse(standardSampleClt[cltindex].AirML);
+                        den = double.Parse(node.InnerText);
+                    }
+                    catch
+                    {
+                        return;
+                    }
+
                     standardSampleClt[cltindex].AirG = Math.Round((den * bulk),2).ToString();
                     break;
                 case "标样体积mL":
@@ -1271,9 +1297,15 @@ namespace SilverTest
                     string tem = standardSampleClt[cltindex].Temperature;
                     node = AirDensityXml.SelectSingleNode("/air/density[@hot=" + tem + "]");
                     if (node is null) return;
-
-                    bulk = double.Parse(vle);
-                    den = double.Parse(node.InnerText);
+                    try
+                    {
+                        bulk = double.Parse(vle);
+                        den = double.Parse(node.InnerText);
+                    }
+                    catch
+                    {
+                        return;
+                    }
                     standardSampleClt[cltindex].AirG = Math.Round((den * bulk),2).ToString();
                     break;
 

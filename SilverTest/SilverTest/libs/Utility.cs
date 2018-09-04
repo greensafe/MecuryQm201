@@ -407,6 +407,12 @@ namespace SilverTest.libs
         {
             //double[] ydata = new double[] { 42.0, 43.5, 45.0, 45.5, 45.0, 47.5, 49.0, 53.0, 50.0, 55.0, 55.0, 60.0 };
             //double[] xdata = new double[] { 0.10, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.20, 0.21, 0.23 };
+            if (x.Length <= 1)
+            {
+                a = 0;
+                b = 0;
+                return;
+            }
             Tuple<double, double> p = Fit.Line(x, y);
             a = p.Item2;
             b = p.Item1;
