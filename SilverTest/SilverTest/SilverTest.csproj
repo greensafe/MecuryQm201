@@ -172,9 +172,6 @@
     <Resource Include="images\zong1.bmp" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images\Document-Blank-icon.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="images\open.png" />
   </ItemGroup>
   <ItemGroup>
@@ -214,6 +211,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="images\admin.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\new.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

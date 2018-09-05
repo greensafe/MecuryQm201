@@ -1494,5 +1494,24 @@ namespace SilverTest
                     break;
             }
         }
+
+        private void clearbtn_Click(object sender, RoutedEventArgs e)
+        {
+            switch (sampletab.SelectedIndex)
+            {
+                case 0: //新样
+                    while (newTestClt.Count > 0)
+                    {
+                        newTestClt.RemoveAt(0);
+                    }
+                    break;
+                case 1: //标样
+                    while (standardSampleClt.Count > 0)
+                    {
+                        standardSampleClt.RemoveAt(0);
+                    }
+                    break;
+            }
+        }
     }
 }

@@ -98,6 +98,11 @@
                         <ToolBar.Background>
                             <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
                         </ToolBar.Background>
+                        <Button x:Name="clearbtn" ToolTip="开始新的测试" VerticalAlignment="Top" Height="30" Click="clearbtn_Click" IsEnabled="True">
+                            <Image Source="images\new.png">
+
+                            </Image>
+                        </Button>                        
                         <Button x:Name="saveallbtn" ToolTip="快速保存当前数据" VerticalAlignment="Top" Height="30" Click="saveallbtn_Click" IsEnabled="True">
                             <Image Source="images\save.png">
 
@@ -323,16 +328,10 @@
             <StatusBar Height="30" Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}"
                        DockPanel.Dock="Bottom" RenderTransformOrigin="0.503,0.033">
                 <StatusBarItem>
-                    <TextBlock Text="{Binding Now.Year, Mode=OneWay, Source={StaticResource current}}"></TextBlock>
+                    <TextBlock Text="{Binding Date.Now, Mode=OneWay, Source={StaticResource current}}"></TextBlock>
+                    
                 </StatusBarItem>
-                
-                <StatusBarItem>
-                    <TextBlock Text="{Binding Now.Month, Mode=OneWay, Source={StaticResource current}}"></TextBlock>
-                </StatusBarItem>
-                
-                <StatusBarItem>
-                    <TextBlock Text="{Binding Now.Day, Mode=OneWay, Source={StaticResource current}}"></TextBlock>
-                </StatusBarItem>
+             
             </StatusBar>
         </DockPanel>
     </Grid>
