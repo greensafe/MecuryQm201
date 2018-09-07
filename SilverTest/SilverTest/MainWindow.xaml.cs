@@ -240,6 +240,11 @@ namespace SilverTest
 
         private void AddRowBtn_Click(object sender, RoutedEventArgs e)
         {
+            addrow();
+        }
+
+        private void addrow()
+        {
             int se = 0;
             switch (sampletab.SelectedIndex)
             {
@@ -250,7 +255,8 @@ namespace SilverTest
                     for (int i = 0; i < newTestClt.Count; i++)
                     {
                         //处理边界情况
-                        if (i == newTestClt.Count - 1) {
+                        if (i == newTestClt.Count - 1)
+                        {
                             se = int.Parse(newTestClt[i].Code) + 1;
                             break;
                         }
@@ -284,7 +290,8 @@ namespace SilverTest
                     for (int i = 0; i < standardSampleClt.Count; i++)
                     {
                         //处理边界情况
-                        if (i == standardSampleClt.Count - 1) {
+                        if (i == standardSampleClt.Count - 1)
+                        {
                             se = int.Parse(standardSampleClt[i].Code) + 1;
                             break;
                         }
@@ -301,7 +308,6 @@ namespace SilverTest
 
                     break;
             }
-
 
         }
 
@@ -325,9 +331,40 @@ namespace SilverTest
                     standardSampleClt.RemoveAt(index);
                     break;
                 default:
-
                     break;
             }
+
+            threeline();
+
+        }
+
+        //增加老年需求
+        //总是保持三行空白
+        private void threeline()
+        {
+            int blankcount = 0;
+            switch (sampletab.SelectedIndex)
+            {
+                case 0:
+                    foreach(NewTestTarget item in newTestClt )
+                    {
+                        if (item.NewName == "" || item.NewName is null)
+                            blankcount++;
+                    }
+
+                    break;
+                case 1:
+                    foreach(StandardSample item in standardSampleClt)
+                    {
+                        if(item.SampleName == "" || item.SampleName is null)
+                        {
+                            blankcount++;
+                        }
+                    }
+                    break;
+            }
+            if (blankcount < 3)
+                addrow();
         }
 
         private void OnStandardTabSelected(object sender, RoutedEventArgs e)
@@ -1504,12 +1541,40 @@ namespace SilverTest
                     {
                         newTestClt.RemoveAt(0);
                     }
+                    NewTestTarget n1 = new NewTestTarget();
+                    n1.Code = "1";
+                    n1.NewName = "样品一";
+                    NewTestTarget n2 = new NewTestTarget();
+                    n2.Code = "2";
+                    n2.NewName = "样品二";
+                    NewTestTarget n3 = new NewTestTarget();
+                    n3.Code = "3";
+                    n3.NewName = "样品三";
+                    newTestClt.Add(n1);
+                    newTestClt.Add(n2);
+                    newTestClt.Add(n3);
                     break;
                 case 1: //标样
                     while (standardSampleClt.Count > 0)
                     {
                         standardSampleClt.RemoveAt(0);
                     }
+                    StandardSample s1 = new StandardSample();
+                    s1.Code = "1";
+                    s1.SampleName = "标样一";
+                    s1.GroupName = "组一";
+
+                    StandardSample s2 = new StandardSample();
+                    s2.Code = "2";
+                    s2.SampleName = "标样二";
+                    s2.GroupName = "组一";
+                    StandardSample s3 = new StandardSample();
+                    s3.Code = "3";
+                    s3.SampleName = "标样三";
+                    s3.GroupName = "组一";
+                    standardSampleClt.Add(s1);
+                    standardSampleClt.Add(s2);
+                    standardSampleClt.Add(s3);
                     break;
             }
         }

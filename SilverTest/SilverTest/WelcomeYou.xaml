@@ -21,9 +21,10 @@
                 <DockPanel Height="299" LastChildFill="False" Margin="0,0,10,0">
                     <Image Width="300" DockPanel.Dock="Left" Source="images/zong1.bmp" Margin="50,0,0,0"></Image>
                     <StackPanel Margin="0,50,30,50" Width="300" DockPanel.Dock="Right" >
-                        <Label Content="QM201" FontSize="25" Margin="0,10,0,0"  FontWeight="DemiBold" />
+                        <Label Content="QM201H" FontSize="25" Margin="0,10,0,0"  FontWeight="DemiBold" />
                         <Label Content="荧光测试仪器" FontSize="25" Margin="0,10,0,0" FontWeight="DemiBold"/>
                         <Label Content="带蠕动泵" FontSize="25" Margin="0,10,0,0" FontWeight="DemiBold"/>
+                        <Label Content="V2.0" FontSize="25" Margin="0,10,0,0" FontWeight="DemiBold"/>
                     </StackPanel>
                 </DockPanel>
 
