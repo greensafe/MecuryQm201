@@ -174,7 +174,8 @@ namespace SilverTest
 
             //DataFormater.getDataFormater().GetDot(ReDatas);
         }
-
+        
+        /*
         //打开端口
         private bool openRSPort()
         {
@@ -237,6 +238,8 @@ namespace SilverTest
                 MessageBox.Show("发送数据错误");
             }
         }
+
+        */
 
         private void AddRowBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -540,7 +543,13 @@ namespace SilverTest
                             if (SerialDriver.GetDriver().isOpen() == false)
                             {
                                 //SerialDriver.GetDriver().Open("COM1", 9600, 0, 8, 1);
-                                SerialDriver.GetDriver().Open("COM5", 38400, 0, 8, 1);
+                                //SerialDriver.GetDriver().Open("COM5", 38400, 0, 8, 1);
+                                SerialDriver.GetDriver().Open(
+                                    SerialDriver.GetDriver().portname,
+                                    SerialDriver.GetDriver().rate,
+                                    SerialDriver.GetDriver().parity,
+                                    SerialDriver.GetDriver().databits,
+                                    SerialDriver.GetDriver().stopbits);
                             }
                             break;
                         case "停止测试":
@@ -601,7 +610,13 @@ namespace SilverTest
                             if (SerialDriver.GetDriver().isOpen() == false)
                             {
                                 //SerialDriver.GetDriver().Open("COM1", 9600, 0, 8, 1);
-                                SerialDriver.GetDriver().Open("COM5", 38400, 0, 8, 1);
+                                //SerialDriver.GetDriver().Open("COM5", 38400, 0, 8, 1);
+                                SerialDriver.GetDriver().Open(
+                                        SerialDriver.GetDriver().portname,
+                                        SerialDriver.GetDriver().rate,
+                                        SerialDriver.GetDriver().parity,
+                                        SerialDriver.GetDriver().databits,
+                                        SerialDriver.GetDriver().stopbits);
                             }
                             break;
                         case "停止测试":
@@ -1577,6 +1592,20 @@ namespace SilverTest
                     standardSampleClt.Add(s3);
                     break;
             }
+        }
+
+        private void commandBtn_Click(object sender, RoutedEventArgs e)
+        {
+            CommandPanelWnd w = new CommandPanelWnd();
+            w.Owner = this;
+            w.ShowDialog();
+        }
+
+        private void setportmenu_Click(object sender, RoutedEventArgs e)
+        {
+            SetPortWnd w = new SetPortWnd();
+            w.Owner = this;
+            w.ShowDialog();
         }
     }
 }

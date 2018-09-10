@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SilverTest"
         mc:Ignorable="d"
+        WindowStyle="None"
         Title="欢迎" Height="450" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Loaded="welecomeWindow_Loaded">
     <Grid x:Name="grid">
         <Grid.ColumnDefinitions>

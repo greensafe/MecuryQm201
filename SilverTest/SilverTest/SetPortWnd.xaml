@@ -1,0 +1,108 @@
+﻿<Window x:Class="SilverTest.SetPortWnd"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SilverTest"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        mc:Ignorable="d"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
+        Title="SetPortWnd" Height="300" Width="380.901" Initialized="Window_Initialized">
+    <Window.Resources>
+        <x:Array x:Key="speedary" Type="system:String">
+            <system:String>
+                300
+            </system:String>
+            <system:String>
+                600                
+            </system:String>
+            <system:String>
+                1200
+            </system:String>
+            <system:String>
+                2400
+            </system:String>
+            <system:String>
+                4800
+            </system:String>
+            <system:String>
+                9600
+            </system:String>
+            <system:String>
+                19200
+            </system:String>
+            <system:String>
+                38400
+            </system:String>
+            <system:String>
+                43000
+            </system:String>
+            <system:String>
+                56000
+            </system:String>
+            <system:String>
+                57600
+            </system:String>
+            <system:String>
+                115200
+            </system:String>
+        </x:Array>
+        <x:Array x:Key="evenary" Type="system:String">
+            <system:String>
+                None
+            </system:String>
+        </x:Array>
+        <x:Array x:Key="dataary" Type="system:String">
+            <system:String>
+                8
+            </system:String>
+            <system:String>
+                7
+            </system:String>
+            <system:String>
+                6
+            </system:String>
+        </x:Array>
+        <x:Array x:Key="stopary" Type="system:String">
+            <system:String>
+                1
+            </system:String>
+            <system:String>
+                2
+            </system:String>
+            <system:String>
+                3
+            </system:String>
+        </x:Array>
+    </Window.Resources>
+    <Grid>
+        <DockPanel>
+            <StackPanel DockPanel.Dock="Top" Margin="0,30,0,0" Orientation="Horizontal">
+                <Label Content="端口" Margin="100,0,10,0"></Label>
+                <ComboBox Text="端口" SelectedIndex="0" x:Name="comportCombo" Height="30" VerticalAlignment="Top" Width="100" Margin="20,0,0,0"/>
+            </StackPanel>
+            <StackPanel DockPanel.Dock="Top" Margin="0,10,0,0" Orientation="Horizontal">
+                <Label Content="速率" Margin="100,0,10,0"></Label>
+                <ComboBox x:Name="speedcombo" SelectedIndex="7" ItemsSource="{StaticResource ResourceKey=speedary}" Text="速率" Height="30" VerticalAlignment="Top" Width="100" Margin="20,0,0,0"/>
+            </StackPanel>
+            <StackPanel DockPanel.Dock="Top" Margin="0,10,0,0" Orientation="Horizontal">
+                <Label Content="奇偶校验" Margin="76,0,10,0"></Label>
+                <ComboBox x:Name="paritycombo" ItemsSource="{StaticResource ResourceKey=evenary}" SelectedIndex="0" Text="奇偶校验" Height="30" VerticalAlignment="Top" Width="100" Margin="20,0,0,0"/>
+            </StackPanel>
+            <StackPanel DockPanel.Dock="Top" Margin="0,10,0,0" Orientation="Horizontal">
+                <Label Content="数据位" Margin="89,0,10,0"></Label>
+                <ComboBox x:Name="datacombo" SelectedIndex="0" ItemsSource="{StaticResource ResourceKey=dataary}" Text="数据位" Height="30" VerticalAlignment="Top" Width="100" Margin="20,0,0,0"/>
+            </StackPanel>
+            <StackPanel DockPanel.Dock="Top" Margin="0,10,0,0" Orientation="Horizontal" Height="50" VerticalAlignment="Bottom">
+                <Label Content="数据停止位" Margin="65,0,10,0"></Label>
+                <ComboBox x:Name="stopcombo" SelectedIndex="0" ItemsSource="{StaticResource ResourceKey=stopary}" Text="数据停止位" Height="30" VerticalAlignment="Top" Width="100" Margin="20,0,0,0"/>
+            </StackPanel>
+            <StackPanel DockPanel.Dock="Bottom" Height="50" Orientation="Horizontal">
+                <Button x:Name="applybtn" Content="应用" Height="30" Width="60" Margin="150,0,0,0" Click="applybtn_Click"></Button>
+                <Button x:Name="exitbtn" Content="取消" Height="30" Width="60" Margin="60,0,0,0" Click="exitbtn_Click"></Button>
+            </StackPanel>
+
+        </DockPanel>
+    </Grid>
+</Window>

@@ -23,6 +23,12 @@ namespace SilverTest.libs
         static private SerialPort ComDevice = null;
         static private SerialDriver onlyone = null;
 
+        public string portname = "COM5";
+        public int rate = 38400;
+        public int parity = 0 ;
+        public int databits = 8;
+        public int stopbits = 1;
+
         private int  hdrcount = 0;
 
         private SerialDriver()
@@ -184,6 +190,12 @@ namespace SilverTest.libs
             }
             ComDevice = null;
             onlyone = null;
+        }
+
+        //获取端口列表
+        public string[] GetPortList()
+        {
+            return SerialPort.GetPortNames();
         }
     }
 

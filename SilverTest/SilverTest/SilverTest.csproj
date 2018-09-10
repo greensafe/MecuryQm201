@@ -91,6 +91,9 @@
     <Compile Include="CheckerLoginWnd.xaml.cs">
       <DependentUpon>CheckerLoginWnd.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CommandPanelWnd.xaml.cs">
+      <DependentUpon>CommandPanelWnd.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DataDB.cs" />
     <Compile Include="libs\DataFormater.cs" />
     <Compile Include="libs\DotManager.cs" />
@@ -102,10 +105,17 @@
       <DependentUpon>ModifyDataWnd.xaml</DependentUpon>
     </Compile>
     <Compile Include="Requirement.cs" />
+    <Compile Include="SetPortWnd.xaml.cs">
+      <DependentUpon>SetPortWnd.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WelcomeYou.xaml.cs">
       <DependentUpon>WelcomeYou.xaml</DependentUpon>
     </Compile>
     <Page Include="CheckerLoginWnd.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CommandPanelWnd.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -129,6 +139,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="ModifyDataWnd.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SetPortWnd.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -214,6 +228,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="images\new.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\panel.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
