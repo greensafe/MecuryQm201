@@ -324,6 +324,7 @@ namespace SilverTest
                     if (NewTargetDgd.SelectedIndex < 0)
                         return;
                     index = getNewCltIndex(NewTargetDgd.SelectedIndex);
+                    if (index == -1) return;
                     newTestClt.RemoveAt(index);
                     break;
                 //标样测试
@@ -331,6 +332,7 @@ namespace SilverTest
                     if (standardSampleDgd.SelectedIndex < 0)
                         return;
                     index = getStandardCltIndex(standardSampleDgd.SelectedIndex);
+                    if (index == -1) return;
                     standardSampleClt.RemoveAt(index);
                     break;
                 default:
@@ -418,6 +420,8 @@ namespace SilverTest
 
         private int getNewCltIndex(int index)
         {
+            if (NewTargetDgd.SelectedItem is null)
+                return -1;
             string code = (NewTargetDgd.SelectedItem as NewTestTarget).Code;
             for (int i = 0; i < newTestClt.Count; i++)
             {
@@ -438,6 +442,7 @@ namespace SilverTest
             //如果有平均值则计算汞浓度
             int rowNo = NewTargetDgd.SelectedIndex;
             int cltindex = getNewCltIndex(rowNo);
+            if (cltindex == -1) return;
             if (rowNo < 0)
                 return;
             if (newTestClt[cltindex].ResponseValue1 == "" ||
@@ -519,6 +524,7 @@ namespace SilverTest
                                 return;
                             }
                             newcltindex = getNewCltIndex(NewTargetDgd.SelectedIndex);
+                            if (newcltindex == -1) return;
                             if (newTestClt[newcltindex].ResponseValue1 != "" && 
                                 newTestClt[newcltindex].ResponseValue1 != null)
                             {
@@ -589,6 +595,7 @@ namespace SilverTest
                                 MessageBox.Show("请选择一条样本");
                                 return;
                             }
+                            if (getStandardCltIndex(standardSampleDgd.SelectedIndex) == -1) return;
                             if (standardSampleClt[getStandardCltIndex( standardSampleDgd.SelectedIndex )].ResponseValue1 != "" && 
                                 standardSampleClt[getStandardCltIndex( standardSampleDgd.SelectedIndex )].ResponseValue1 != null)
                             {
@@ -687,6 +694,7 @@ namespace SilverTest
                         if (NewTargetDgd.SelectedIndex == -1)
                             return;
                         newcltindex = getNewCltIndex(NewTargetDgd.SelectedIndex);
+                        if (newcltindex == -1) return;
                         newTestClt[newcltindex].AirFluent = sequence.ToString();
                     }));
                     break;
@@ -697,6 +705,7 @@ namespace SilverTest
                         if (NewTargetDgd.SelectedIndex == -1)
                             return;
                         newcltindex = getNewCltIndex(NewTargetDgd.SelectedIndex);
+                        if (newcltindex == -1) return;
                         newTestClt[newcltindex].AirSampleTime = sequence.ToString();
                     }));
                     break;
@@ -753,6 +762,7 @@ namespace SilverTest
                             {
                                 case 0:         //新样测试
                                     newcltindex = getNewCltIndex(NewTargetDgd.SelectedIndex);
+                                    if (newcltindex == -1) return;
                                     //newTestClt[newcltindex].ResponseValue1 =
                                     //    Utility.Integration(DotManager.GetDotManger().GetDots(), R1_start, R1_end,this.ratio).ToString();
                                     newTestClt[newcltindex].ResponseValue1 =
@@ -761,6 +771,7 @@ namespace SilverTest
                                 case 1:         //标样测试
                                     //standardSampleClt[getCltIndex(standardSampleDgd.SelectedIndex)].ResponseValue1 =
                                     //    Utility.Integration(DotManager.GetDotManger().GetDots(), R1_start, R1_end, this.ratio).ToString();
+                                    if (getStandardCltIndex(standardSampleDgd.SelectedIndex) == -1) return;
                                     standardSampleClt[getStandardCltIndex(standardSampleDgd.SelectedIndex)].ResponseValue1 =
                                         maxResponse.ToString();
                                     break;
@@ -832,6 +843,7 @@ namespace SilverTest
                 MessageBox.Show("请选择标样组");
                 return;
             }
+            if (getStandardCltIndex(standardSampleDgd.SelectedIndex) == -1) return;
             string groupname = standardSampleClt[getStandardCltIndex( standardSampleDgd.SelectedIndex )].GroupName;
             foreach(StandardSample item in standardSampleClt)
             {
@@ -1075,6 +1087,7 @@ namespace SilverTest
         //在标样选择中，将视图选中序号转变为数据源中序号
         private int getStandardCltIndex(int index)
         {
+            if (standardSampleDgd.SelectedItem is null) return -1;
             string code = (standardSampleDgd.SelectedItem as StandardSample).Code;
             for(int i=0; i < standardSampleClt.Count; i++)
             {
@@ -1098,6 +1111,7 @@ namespace SilverTest
             if (standardSampleDgd.SelectedIndex < 0) return;
 
             cltindex = getStandardCltIndex(standardSampleDgd.SelectedIndex);
+            if (cltindex == -1) return;
 
             //数据未测试完成，则不计算相关系数
             string groupname = standardSampleClt[cltindex].GroupName;
@@ -1214,6 +1228,7 @@ namespace SilverTest
         private void updateNewClt(string v, int row, string head)
         {
             int index = getNewCltIndex(row);
+            if (index == -1) return;
             switch (head)
             {
                 case "样品名":
@@ -1250,6 +1265,7 @@ namespace SilverTest
         private void updateStandardClt(string v, int row, string head)
         {
             int index = getStandardCltIndex(row);
+            if (index == -1) return;
             switch (head)
             {
                 case "组名":
@@ -1314,6 +1330,7 @@ namespace SilverTest
             string vle = (e.EditingElement as TextBox).Text;
             string headname = e.Column.Header as string;
             int cltindex = getStandardCltIndex(standardSampleDgd.SelectedIndex);
+            if (cltindex == -1) return;
             double den, bulk;
             XmlNode node;
             //将数据更新到数据源
