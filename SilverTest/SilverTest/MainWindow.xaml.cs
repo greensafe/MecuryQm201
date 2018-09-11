@@ -139,14 +139,14 @@ namespace SilverTest
             string re = Utility.GetValueFrXml("/config/QM201H/response/compute/R1", "end");
 
             //初始化RS232驱动，注册回调函数
-            ComDevice = new SerialPort();
-            ComDevice.DataReceived += new SerialDataReceivedEventHandler(Com_DataReceived);
+            //ComDevice = new SerialPort();
+            //ComDevice.DataReceived += new SerialDataReceivedEventHandler(Com_DataReceived);
 
             //初始化串口数据分析模块
+            SerialDriver.GetDriver().OnReceived(Com_DataReceived);
             DotManager.GetDotManger().onPacketCorrected(CorrectedPacketReceived);
             DotManager.GetDotManger().onPacketRecevied(PacketReceived);
             DotManager.GetDotManger().Start();
-
             //drawWave_simulate(1001);
 
         }
@@ -169,7 +169,7 @@ namespace SilverTest
             {
                 re += (char)ReDatas[i];
             }
-            //Console.WriteLine("serial . received data: " + re);
+            Console.WriteLine("serial received : " + re);
             DotManager.GetDotManger().GetDot(ReDatas);
 
             //DataFormater.getDataFormater().GetDot(ReDatas);
@@ -511,7 +511,7 @@ namespace SilverTest
         private void startTestBtn_Click(object sender, RoutedEventArgs e)
         {
             int newcltindex = 0;
-            SerialDriver.GetDriver().OnReceived(Com_DataReceived);
+            //SerialDriver.GetDriver().OnReceived(Com_DataReceived);
             switch (sampletab.SelectedIndex)
             {
                 case 0:     //新样
@@ -751,7 +751,7 @@ namespace SilverTest
 
                     }*/
                     currentSecond++;
-                    Console.WriteLine("--- dot " + sequence.ToString() + ": " + (dot as ADot).Rvalue);
+                    Console.WriteLine("--- dot " + sequence.ToString() + ": " + (dot as ADot).Rvalue + "\r\n");
 
                     //采样到达一定点数后，自动结束测试，计算并且显示测试结果。
                     if(sequence >= stop_test_position)

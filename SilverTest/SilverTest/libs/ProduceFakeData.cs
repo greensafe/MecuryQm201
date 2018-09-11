@@ -43,18 +43,149 @@ namespace SilverTest.libs
         public void Send(int s)
         {
 
-            readDataTimer.Interval = new TimeSpan(0, 0, 0, 1, 0);  //1 seconds
+            readDataTimer.Interval = new TimeSpan(0, 0, 0, 0, 1);  //1 seconds
             readDataTimer.Start();
         }
 
         private void timeCycle(object sender, EventArgs e)
         {
             tickcount++;
-            string line;
+            string line = "";
+            char ch;
             Console.WriteLine("tick " + tickcount.ToString());
             try
             {
-                line = sr.ReadLine();
+                //line = sr.ReadLine();
+                if (sr.EndOfStream == false)
+                {
+                    ch = (char)sr.Read();
+                    line += ch;
+                }
+                if (sr.EndOfStream == false)
+                {
+                    ch = (char)sr.Read();
+                    line += ch;
+                }
+                if (sr.EndOfStream == false)
+                {
+                    ch = (char)sr.Read();
+                    line += ch;
+                }
+                if (sr.EndOfStream == false)
+                {
+                    ch = (char)sr.Read();
+                    line += ch;
+                }
+                if (sr.EndOfStream == false)
+                {
+                    ch = (char)sr.Read();
+                    line += ch;
+                }
+                if (sr.EndOfStream == false)
+                {
+                    ch = (char)sr.Read();
+                    line += ch;
+                }
+                if (sr.EndOfStream == false)
+                {
+                    ch = (char)sr.Read();
+                    line += ch;
+                }
+                if (sr.EndOfStream == false)
+                {
+                    ch = (char)sr.Read();
+                    line += ch;
+                }
+                if (sr.EndOfStream == false)
+                {
+                    ch = (char)sr.Read();
+                    line += ch;
+                }
+                if (sr.EndOfStream == false)
+                {
+                    ch = (char)sr.Read();
+                    line += ch;
+                }
+                if (sr.EndOfStream == false)
+                {
+                    ch = (char)sr.Read();
+                    line += ch;
+                }
+                if (sr.EndOfStream == false)
+                {
+                    ch = (char)sr.Read();
+                    line += ch;
+                }
+                if (sr.EndOfStream == false)
+                {
+                    ch = (char)sr.Read();
+                    line += ch;
+                }
+                if (sr.EndOfStream == false)
+                {
+                    ch = (char)sr.Read();
+                    line += ch;
+                }
+                if (sr.EndOfStream == false)
+                {
+                    ch = (char)sr.Read();
+                    line += ch;
+                }
+                if (sr.EndOfStream == false)
+                {
+                    ch = (char)sr.Read();
+                    line += ch;
+                }
+                if (sr.EndOfStream == false)
+                {
+                    ch = (char)sr.Read();
+                    line += ch;
+                }
+                if (sr.EndOfStream == false)
+                {
+                    ch = (char)sr.Read();
+                    line += ch;
+                }
+                if (sr.EndOfStream == false)
+                {
+                    ch = (char)sr.Read();
+                    line += ch;
+                }
+                if (sr.EndOfStream == false)
+                {
+                    ch = (char)sr.Read();
+                    line += ch;
+                }
+                if (sr.EndOfStream == false)
+                {
+                    ch = (char)sr.Read();
+                    line += ch;
+                }
+                if (sr.EndOfStream == false)
+                {
+                    ch = (char)sr.Read();
+                    line += ch;
+                }
+                if (sr.EndOfStream == false)
+                {
+                    ch = (char)sr.Read();
+                    line += ch;
+                }
+                if (sr.EndOfStream == false)
+                {
+                    ch = (char)sr.Read();
+                    line += ch;
+                }
+                if (sr.EndOfStream == false)
+                {
+                    ch = (char)sr.Read();
+                    line += ch;
+                }
+                if (sr.EndOfStream == false)
+                {
+                    ch = (char)sr.Read();
+                    line += ch;
+                }
                 // Read data in line by line.
                 if (line != null)
                 {
