@@ -253,119 +253,128 @@ namespace SilverTest.libs
                     if (!append(rawit)) return;
                     rawText_length += rawit.Length;
 
-                    switch(check(rawText_frag_status, out out_ftype, out out_ptype))
+                    //串口上传过来的一片数据可能包含多个包，循环直到处理完该片中的所有包
+                    CheckError errslt = CheckError.OK;
+                    while(errslt == CheckError.OK || errslt == CheckError.DATA_FORMAT_ERROR || 
+                            errslt == CheckError.PACKET_TPYE_ERROR)
                     {
-                        case CheckError.OK: //成功组包，拨动指针。如果尾部没有其它数据添加回车换行符合
-                            switch (out_ptype)
-                            {
-                                case PacketType.CORRECT_RESPONSE:
-                                    if(rawText_purepct_prt +machineinfo.CrtPctLength == rawText_length){
-                                        if (appendCRLF())
+                        errslt = check(rawText_frag_status, out out_ftype, out out_ptype);
+                        switch (errslt)
+                        {
+                            case CheckError.OK: //成功组包，拨动指针。如果尾部没有其它数据添加回车换行符合
+                                switch (out_ptype)
+                                {
+                                    case PacketType.CORRECT_RESPONSE:
+                                        if (rawText_purepct_prt + machineinfo.CrtPctLength == rawText_length)
                                         {
-                                            rawText_length += "\r\n".Length;
-                                            rawText_bigpct_prt = rawText_length;
+                                            if (appendCRLF())
+                                            {
+                                                rawText_length += "\r\n".Length;
+                                                rawText_bigpct_prt = rawText_length;
+                                            }
                                         }
-                                    }
-                                    else
-                                    {
-                                        rawText_bigpct_prt = (rawText_purepct_prt + machineinfo.CrtPctLength);
-                                    }
+                                        else
+                                        {
+                                            rawText_bigpct_prt = (rawText_purepct_prt + machineinfo.CrtPctLength);
+                                        }
 
-                                    break;
-                                case PacketType.DATA_VALUE:
-                                    if (rawText_purepct_prt + machineinfo.DataPctLength == rawText_length)
-                                    {
-                                        if (appendCRLF())
+                                        break;
+                                    case PacketType.DATA_VALUE:
+                                        if (rawText_purepct_prt + machineinfo.DataPctLength == rawText_length)
                                         {
-                                            rawText_length += "\r\n".Length;
-                                            rawText_bigpct_prt = rawText_length;
+                                            if (appendCRLF())
+                                            {
+                                                rawText_length += "\r\n".Length;
+                                                rawText_bigpct_prt = rawText_length;
+                                            }
                                         }
-                                    }
-                                    else
-                                    {
-                                        rawText_bigpct_prt = (rawText_purepct_prt + machineinfo.DataPctLength);
-                                    }
+                                        else
+                                        {
+                                            rawText_bigpct_prt = (rawText_purepct_prt + machineinfo.DataPctLength);
+                                        }
 
-                                    break;
-                                case PacketType.SEQUENCE:
-                                    if (rawText_purepct_prt + machineinfo.SrlPctLength == rawText_length)
-                                    {
-                                        if (appendCRLF())
+                                        break;
+                                    case PacketType.SEQUENCE:
+                                        if (rawText_purepct_prt + machineinfo.SrlPctLength == rawText_length)
                                         {
-                                            rawText_length += "\r\n".Length;
-                                            rawText_bigpct_prt = rawText_length;
+                                            if (appendCRLF())
+                                            {
+                                                rawText_length += "\r\n".Length;
+                                                rawText_bigpct_prt = rawText_length;
+                                            }
                                         }
-                                    }
-                                    else
-                                    {
-                                        rawText_bigpct_prt = (rawText_purepct_prt + machineinfo.SrlPctLength);
-                                    }
+                                        else
+                                        {
+                                            rawText_bigpct_prt = (rawText_purepct_prt + machineinfo.SrlPctLength);
+                                        }
 
-                                    break;
-                                case PacketType.AIR_FLUENT:
-                                    if (rawText_purepct_prt + machineinfo.AirFluPctLength == rawText_length)
-                                    {
-                                        if (appendCRLF())
+                                        break;
+                                    case PacketType.AIR_FLUENT:
+                                        if (rawText_purepct_prt + machineinfo.AirFluPctLength == rawText_length)
                                         {
-                                            rawText_length += "\r\n".Length;
-                                            rawText_bigpct_prt = rawText_length;
+                                            if (appendCRLF())
+                                            {
+                                                rawText_length += "\r\n".Length;
+                                                rawText_bigpct_prt = rawText_length;
+                                            }
                                         }
-                                    }
-                                    else
-                                    {
-                                        rawText_bigpct_prt = (rawText_purepct_prt + machineinfo.AirFluPctLength);
-                                    }
-                                    break;
-                                case PacketType.AIR_SAMPLE_TIME:
-                                    if (rawText_purepct_prt + machineinfo.AirSTPctLength == rawText_length)
-                                    {
-                                        if (appendCRLF())
+                                        else
                                         {
-                                            rawText_length += "\r\n".Length;
-                                            rawText_bigpct_prt = rawText_length;
+                                            rawText_bigpct_prt = (rawText_purepct_prt + machineinfo.AirFluPctLength);
                                         }
-                                    }
-                                    else
-                                    {
-                                        rawText_bigpct_prt = (rawText_purepct_prt + machineinfo.AirSTPctLength);
-                                    }
-                                    break;
-                                
-                            }
-                            break;
-                        case CheckError.CONTINUE: //碎片，不要拨动指针
-                            break;
-                        case CheckError.DATA_FORMAT_ERROR: //抛弃，拨动指针，跳过这个坏包，发出事件
-                            switch (out_ftype)
-                            {
-                                case PacketCombineStatus.FRAGMENT_CORRECT:
-                                    rawText_bigpct_prt = rawText_purepct_prt + machineinfo.CrtPctLength;
-                                    if(CombineError_Ev!=null) CombineError_Ev(CombineErrorInfo.CORRECT_PCT_DATA_FORMAT_ERROR);
-                                    break;
-                                case PacketCombineStatus.FRAGMENT_SEQUENCE:
-                                    rawText_bigpct_prt = rawText_purepct_prt + machineinfo.SrlPctLength;
-                                    if(CombineError_Ev != null) CombineError_Ev(CombineErrorInfo.SEQUENCE_PCT_DATA_FORMAT_ERROR);
-                                    break;
-                                case PacketCombineStatus.FRAGMENT_VALUE:
-                                    rawText_bigpct_prt = rawText_purepct_prt + machineinfo.DataPctLength;
-                                    if(CombineError_Ev != null) CombineError_Ev(CombineErrorInfo.VALUE_PCT_DATA_FORMAT_ERROR);
-                                    break;
-                                case PacketCombineStatus.FRAGMENT_AIR_FLUENT:
-                                    rawText_bigpct_prt = rawText_purepct_prt + machineinfo.AirFluPctLength;
-                                    if (CombineError_Ev != null) CombineError_Ev(CombineErrorInfo.AIR_FLUENT_PCT_DATA_FORMAT_ERROR);
-                                    break;
-                                case PacketCombineStatus.FRAGMENT_AIR_SAMPLE_TIME:
-                                    rawText_bigpct_prt = rawText_purepct_prt + machineinfo.AirSTPctLength;
-                                    if (CombineError_Ev != null) CombineError_Ev(CombineErrorInfo.AIR_SAMPLE_TIME_PCT_DATA_FORMAT_ERROR);
-                                    break;
-                            }
-                            rawText_frag_status = PacketCombineStatus.OK; //抛弃格式错误包
-                            break;
-                        case CheckError.PACKET_TPYE_ERROR: ////抛弃，拨动指针，发出事件
-                            rawText_bigpct_prt += 1; //跳过"S"
-                            if(CombineError_Ev != null) CombineError_Ev(CombineErrorInfo.INVALID_PACKET_TYPE);
-                            break;
+                                        break;
+                                    case PacketType.AIR_SAMPLE_TIME:
+                                        if (rawText_purepct_prt + machineinfo.AirSTPctLength == rawText_length)
+                                        {
+                                            if (appendCRLF())
+                                            {
+                                                rawText_length += "\r\n".Length;
+                                                rawText_bigpct_prt = rawText_length;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            rawText_bigpct_prt = (rawText_purepct_prt + machineinfo.AirSTPctLength);
+                                        }
+                                        break;
+
+                                }
+                                break;
+                            case CheckError.CONTINUE: //碎片，不要拨动指针
+                                break;
+                            case CheckError.DATA_FORMAT_ERROR: //抛弃，拨动指针，跳过这个坏包，发出事件
+                                switch (out_ftype)
+                                {
+                                    case PacketCombineStatus.FRAGMENT_CORRECT:
+                                        rawText_bigpct_prt = rawText_purepct_prt + machineinfo.CrtPctLength;
+                                        if (CombineError_Ev != null) CombineError_Ev(CombineErrorInfo.CORRECT_PCT_DATA_FORMAT_ERROR);
+                                        break;
+                                    case PacketCombineStatus.FRAGMENT_SEQUENCE:
+                                        rawText_bigpct_prt = rawText_purepct_prt + machineinfo.SrlPctLength;
+                                        if (CombineError_Ev != null) CombineError_Ev(CombineErrorInfo.SEQUENCE_PCT_DATA_FORMAT_ERROR);
+                                        break;
+                                    case PacketCombineStatus.FRAGMENT_VALUE:
+                                        rawText_bigpct_prt = rawText_purepct_prt + machineinfo.DataPctLength;
+                                        if (CombineError_Ev != null) CombineError_Ev(CombineErrorInfo.VALUE_PCT_DATA_FORMAT_ERROR);
+                                        break;
+                                    case PacketCombineStatus.FRAGMENT_AIR_FLUENT:
+                                        rawText_bigpct_prt = rawText_purepct_prt + machineinfo.AirFluPctLength;
+                                        if (CombineError_Ev != null) CombineError_Ev(CombineErrorInfo.AIR_FLUENT_PCT_DATA_FORMAT_ERROR);
+                                        break;
+                                    case PacketCombineStatus.FRAGMENT_AIR_SAMPLE_TIME:
+                                        rawText_bigpct_prt = rawText_purepct_prt + machineinfo.AirSTPctLength;
+                                        if (CombineError_Ev != null) CombineError_Ev(CombineErrorInfo.AIR_SAMPLE_TIME_PCT_DATA_FORMAT_ERROR);
+                                        break;
+                                }
+                                rawText_frag_status = PacketCombineStatus.OK; //抛弃格式错误包
+                                break;
+                            case CheckError.PACKET_TPYE_ERROR: ////抛弃，拨动指针，发出事件
+                                rawText_bigpct_prt += 1; //跳过"S"
+                                if (CombineError_Ev != null) CombineError_Ev(CombineErrorInfo.INVALID_PACKET_TYPE);
+                                break;
+                        }
                     }
+
                 }; return ;
                 #endregion
             };
