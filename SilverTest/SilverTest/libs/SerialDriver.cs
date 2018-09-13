@@ -50,9 +50,10 @@ namespace SilverTest.libs
         //读取端口收到的数据
         public byte[] Read()
         {
-            byte[] ReDatas = new byte[ComDevice.BytesToRead];
+
             if (ComDevice.IsOpen == (true))
             {
+                byte[] ReDatas = new byte[ComDevice.BytesToRead];
                 ComDevice.Read(ReDatas, 0, ReDatas.Length);
                 return ReDatas;
             }

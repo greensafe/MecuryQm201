@@ -49,6 +49,15 @@ namespace SilverTest
         public string responseTime { get; set; }
     }
 
+    //波形图绘制现场信息
+    public class WaveDrawSite
+    {
+        //绘制粒度。一次绘制2个点
+        public static int grain = 2;
+        //dots中待绘制点的位置
+        public static int to_pos_index_rel = 0; 
+    }
+
     //样本类型
     public enum SampleType
     {
@@ -59,14 +68,9 @@ namespace SilverTest
 
     public partial class MainWindow : Window
     {
-        //演示代码
-        //int seconds;
-        //DispatcherTimer demoTimer = new DispatcherTimer();
 
         //使用DynamicDataDisplay控件显示波形
         private ObservableDataSource<Point> realCptDs = new ObservableDataSource<Point>();
-        //private DispatcherTimer realCptTimer = new DispatcherTimer();
-        private int dots_start_abs = 0;
         bool mode = true;
         Random rd = new Random();
         private int currentSecond = 0;
@@ -89,6 +93,8 @@ namespace SilverTest
         XmlDocument AirDensityXml = new XmlDocument();
         //样本类型
         SampleType sampleType = SampleType.AIR;
+        //波形涮新timer
+        private DispatcherTimer waveFreshTimer;
 
         private SerialPort ComDevice = null;
         private ObservableCollection<NewTestTarget> newTestClt;
@@ -104,9 +110,6 @@ namespace SilverTest
             realCpt.AddLineGraph(realCptDs, Colors.Red, 2, "百分比");
             realCpt.LegendVisible = true;
             realCpt.Viewport.FitToView();
-            //realCptTimer.Interval = TimeSpan.FromSeconds(1);
-            //realCptTimer.Tick += realTck;
-            //realCptTimer.IsEnabled = true;
 
             //初始化xml文档
             AirDensityXml.Load(@"resources\ChinaAirDensity.xml");
@@ -138,29 +141,43 @@ namespace SilverTest
             string rs = Utility.GetValueFrXml("/config/QM201H/response/compute/R1", "pointstart");
             string re = Utility.GetValueFrXml("/config/QM201H/response/compute/R1", "end");
 
-            //初始化RS232驱动，注册回调函数
-            //ComDevice = new SerialPort();
-            //ComDevice.DataReceived += new SerialDataReceivedEventHandler(Com_DataReceived);
-
             //初始化串口数据分析模块
             SerialDriver.GetDriver().OnReceived(Com_DataReceived);
             DotManager.GetDotManger().onPacketCorrected(CorrectedPacketReceived);
             DotManager.GetDotManger().onPacketRecevied(PacketReceived);
             DotManager.GetDotManger().Start();
-            //drawWave_simulate(1001);
-
+            //波形刷新timer
+            waveFreshTimer = new DispatcherTimer();
+            waveFreshTimer.Interval = new TimeSpan(0, 0, 0, 0, 1);  //1 seconds
+            waveFreshTimer.Tick += new EventHandler(waveFreshTimer_tickHdr);
+            waveFreshTimer.Start();
         }
 
+        private void waveFreshTimer_tickHdr(object sender, EventArgs e)
+        {
+            refreshWaveUI();
+        }
+
+        private void refreshWaveUI()
+        {
+            int dotscount = DotManager.GetDotManger().GetDots().Count;
+            Collection<ADot> dots = DotManager.GetDotManger().GetDots();
+            if (WaveDrawSite.to_pos_index_rel > dotscount - 1)
+            {
+                return;
+            }
+            int todrawcount = WaveDrawSite.grain <= (dotscount  - WaveDrawSite.to_pos_index_rel) ? WaveDrawSite.grain : (dotscount - WaveDrawSite.to_pos_index_rel);
+            for(int i = WaveDrawSite.to_pos_index_rel; i< WaveDrawSite.to_pos_index_rel + todrawcount; i++)
+            {
+                //draw dot
+                realCptDs.AppendAsync(base.Dispatcher, new Point(WaveDrawSite.to_pos_index_rel, dots[WaveDrawSite.to_pos_index_rel].Rvalue));
+            }
+            WaveDrawSite.to_pos_index_rel += todrawcount;
+        }
 
 
         public void Com_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-
-            //接受数据
-            /*
-            byte[] ReDatas = new byte[ComDevice.BytesToRead];
-            ComDevice.Read(ReDatas, 0, ReDatas.Length);
-            */
 
             byte[] ReDatas = SerialDriver.GetDriver().Read();
             if (ReDatas == null) return;
@@ -171,75 +188,8 @@ namespace SilverTest
             }
             Console.WriteLine("serial received : " + re);
             DotManager.GetDotManger().GetDot(ReDatas);
-
-            //DataFormater.getDataFormater().GetDot(ReDatas);
         }
-        
-        /*
-        //打开端口
-        private bool openRSPort()
-        {
-            //打开端口
-            if (ComDevice.IsOpen == false)
-            {
-                ComDevice.PortName = "COM1";
-                ComDevice.BaudRate = 115200;
-                ComDevice.Parity = (Parity)0;
-                ComDevice.DataBits = 8;
-                ComDevice.StopBits = (StopBits)1;
-                try
-                {
-                    ComDevice.Open();
-                    //MessageBox.Show("打开成功");
-                    return true;
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "打开发生错误");
-                    return false;
-                }
-
-            }
-            //已经打开
-            return true;
-        }
-
-
-        private void closeRSPort()
-        {
-            if (ComDevice.IsOpen == true) {
-                try
-                {
-                    ComDevice.Close();
-                    MessageBox.Show("打开端口已经被关闭");
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "无法关闭");
-                };
-            }
-        }
-
-        //发送命令
-        private void sendRSCommand(byte[] data)
-        {
-            if (data == null) return;
-
-            if (!openRSPort())
-            {
-                return;
-            }
-            try
-            {
-                ComDevice.Write(data, 0, data.Length);//发送数据  
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("发送数据错误");
-            }
-        }
-
-        */
+       
 
         private void AddRowBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -268,20 +218,6 @@ namespace SilverTest
                             continue;
                         //找到一个可能的空洞
                         se = int.Parse(newTestClt[i].Code + 1);
-                        /*
-                        bool found = true;
-                        //看下剩下的数组是否被占用
-                        for(int j = i + 1; j < newTestClt.Count; i++)
-                        {
-                            if( int.Parse(newTestClt[i].Code) == int.Parse(newTestClt[j].Code))
-                            {
-                                //被占用
-                                found = false;
-                                break;
-                            }
-                        }
-                        */
-
                     }
                     newitem.Code = se.ToString();
                     newTestClt.Add(newitem);
@@ -487,9 +423,7 @@ namespace SilverTest
 
         private void modifyBtn_Click(object sender, RoutedEventArgs e)
         {
-            //newTestClt[1].Density = "0.333";
-            //NewTargetDgd.DataContext = null;
-            //NewTargetDgd.DataContext = newTestClt;
+
             Utility.SaveToNewXmlFileCls.SaveToNewXmlFile(newTestClt, "resources\\NewTestTarget_Table.xml");
             Utility.SaveToStandardXmlFileCls.SaveToStandardXmlFile(standardSampleClt, "resources\\StandardSamples_Table.xml");
         }
@@ -538,13 +472,12 @@ namespace SilverTest
 
                             statusBtn.Visibility = Visibility.Visible;
                             AnimatedColorButton.Visibility = Visibility.Visible;
-                            dots_start_abs = DotManager.GetDotManger().GetDots().Count;
                             //清空图形记录及DotManager中数据
                             realCptDs.Collection.Clear();
                             DotManager.GetDotManger().ReleaseData();
+                            //清理绘波现场
+                            WaveDrawSite.to_pos_index_rel = 0;
 
-                            //demoTimer.Start();
-                            //realCptTimer.Start();
                             startTestBtn.Content = "停止测试";
                             if (SerialDriver.GetDriver().isOpen() == false)
                             {
@@ -561,8 +494,7 @@ namespace SilverTest
                         case "停止测试":
                             statusBtn.Visibility = Visibility.Hidden;
                             AnimatedColorButton.Visibility = Visibility.Hidden;
-                            //demoTimer.Stop();
-                            //realCptTimer.Stop();
+
                             
                             startTestBtn.Content = "开始测试";
                             if (SerialDriver.GetDriver().isOpen() == true)
@@ -606,13 +538,10 @@ namespace SilverTest
 
                             statusBtn.Visibility = Visibility.Visible;
                             AnimatedColorButton.Visibility = Visibility.Visible;
-                            dots_start_abs = DotManager.GetDotManger().GetDots().Count;
                             //清空图形记录及DotManager中数据
                             realCptDs.Collection.Clear();
                             DotManager.GetDotManger().ReleaseData();
 
-                            //demoTimer.Start();
-                            //realCptTimer.Start();
                             startTestBtn.Content = "停止测试";
                             if (SerialDriver.GetDriver().isOpen() == false)
                             {
@@ -689,7 +618,7 @@ namespace SilverTest
             {
                 case PacketType.AIR_FLUENT:
                     Console.WriteLine("气体流量包: "+sequence.ToString());
-                    Dispatcher.Invoke(new Action(() =>
+                    Dispatcher.BeginInvoke(new Action(() =>
                     {
                         if (NewTargetDgd.SelectedIndex == -1)
                             return;
@@ -700,7 +629,7 @@ namespace SilverTest
                     break;
                 case PacketType.AIR_SAMPLE_TIME:
                     Console.WriteLine("气体采样时间包: " + sequence.ToString());
-                    Dispatcher.Invoke(new Action(() =>
+                    Dispatcher.BeginInvoke(new Action(() =>
                     {
                         if (NewTargetDgd.SelectedIndex == -1)
                             return;
@@ -718,7 +647,8 @@ namespace SilverTest
                         maxResponse = y;
 
                     Point point = new Point(x, y);
-                    realCptDs.AppendAsync(base.Dispatcher, point);
+                    //波形绘制太慢，移入UI线程使用定时器绘制
+                    //realCptDs.AppendAsync(base.Dispatcher, point);
                     
                     /*
                     if (false)
@@ -756,7 +686,7 @@ namespace SilverTest
                     //采样到达一定点数后，自动结束测试，计算并且显示测试结果。
                     if(sequence >= stop_test_position)
                     {
-                        Dispatcher.Invoke(new Action(() =>
+                        Dispatcher.BeginInvoke(new Action(() =>
                         { 
                             switch (sampletab.SelectedIndex)
                             {
@@ -919,8 +849,6 @@ namespace SilverTest
                 if (x[i] > maxX) maxX = x[i];
                 if (y[i] > maxY) maxY = y[i];
             }
-            //ratiox = (rCanvas.Width - rightmargin - leftmargin) / (maxX);
-            //ratioy = (rCanvas.Height - topmargin)/ (maxY);
 
             ScaleGapX = (rCanvas.Width - rightmargin - leftmargin) / maxX;
             ScaleGapY = (rCanvas.Height - topmargin - bottommargin) / maxY;
@@ -1010,12 +938,6 @@ namespace SilverTest
             }
 
             //画斜线
-            /*
-            double x1 = 0.01 * ratiox;
-            double y1 = (0.01*a+b)*ratioy;
-            double x2 = (maxX+10)*ratiox;
-            double y2 = ((maxX + 10) * a + b) * ratioy;
-            */
             double x1 = 0 + leftmargin;
             double y1 = validheight - b * ScaleGapY + topmargin;
             double x2 = maxX * ScaleGapX + leftmargin;

@@ -100,7 +100,7 @@ namespace SerialPortLab
             }
 
             //outputData.Text = ReDatas.ToString();
-            Dispatcher.Invoke(new Action(() =>
+            Dispatcher.BeginInvoke(new Action(() =>
             {
                 outputData.Text += sb.ToString();
                 wordcount.Text = outputData.Text.Length.ToString();
