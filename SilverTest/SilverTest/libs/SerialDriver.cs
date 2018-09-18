@@ -29,6 +29,7 @@ namespace SilverTest.libs
         public int databits = 8;
         public int stopbits = 1;
 
+        //事件处理函数数量
         private int  hdrcount = 0;
 
         private SerialDriver()
@@ -45,6 +46,12 @@ namespace SilverTest.libs
                 onlyone = new SerialDriver();
             }
             return onlyone;
+        }
+
+        //获取端口port，为nmodbus4， 将SerialPort暴露出来
+        static public SerialPort GetSerialPort()
+        {
+            return ComDevice;
         }
 
         //读取端口收到的数据

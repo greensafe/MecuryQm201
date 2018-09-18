@@ -28,5 +28,10 @@ namespace SilverTest
         {
             MessageBox.Show("hello");
         }
+
+        private void grabSampleBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

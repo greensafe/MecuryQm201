@@ -21,7 +21,7 @@
                     <Label Content="清洗" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Height="45"/>
                 </StackPanel>
                 <StackPanel Width="50" Height="300">
-                    <Button Width="40" Height="40" Style="{StaticResource MirrorStyle}" Margin="0,0,0,5"></Button>
+                    <Button x:Name="grabSampleBtn" Width="40" Height="40" Style="{StaticResource MirrorStyle}" Margin="0,0,0,5" Click="grabSampleBtn_Click"></Button>
                     <Button Width="40" Height="40" Style="{StaticResource MirrorStyle}" Margin="0,0,0,5"></Button>
                     <Button Width="40" Height="40" Style="{StaticResource MirrorStyle}" Margin="0,0,0,5"></Button>
                     <Button Width="40" Height="40" Style="{StaticResource MirrorStyle}" Margin="0,0,0,5"></Button>
