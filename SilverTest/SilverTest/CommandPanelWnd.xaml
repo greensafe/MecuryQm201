@@ -8,43 +8,79 @@
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
         
-        Title="命令面板" Height="450" Width="650">
+        Title="命令面板" Height="500" Width="650">
     <Grid>
         <Canvas>
-            <Border  Canvas.Left="171" Canvas.Top="70" CornerRadius="50" Width="30" Height="30" Background="Silver" RenderTransformOrigin="0.351,1.677" MouseLeftButtonDown="Border_MouseLeftButtonDown">
-
-            </Border>
-            <Label Content="采样" Canvas.Left="101" Canvas.Top="73" Height="30" Width="65"/>
-            <Label Content="测量" Height="30" Canvas.Left="101" Canvas.Top="147" Width="65" RenderTransformOrigin="0.067,0.716"/>
-            <Label Content="校准" Height="30" Canvas.Left="222" Canvas.Top="188" Width="40" RenderTransformOrigin="0.379,0.755"/>
-            <Label Content="通信" Height="30" Width="40" Canvas.Left="222" Canvas.Top="153"/>
-            <Border BorderBrush="Black" CornerRadius="5" BorderThickness="1" Height="170" Canvas.Left="318" Canvas.Top="48" Width="261"
-                    Background="LightGreen">
-                <StackPanel>
-                    <TextBlock>放大倍数</TextBlock>
-                    <TextBlock>高压值 -360v</TextBlock>
-                    <TextBlock>峰值</TextBlock>
-                    <TextBlock>实时 00000</TextBlock>
+            <StackPanel Canvas.Top="40" Canvas.Left="50" Orientation="Horizontal" Width="150" Height="300">
+                <StackPanel  Width="80" Height="300">
+                    <Label Content="采样" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Height="45" />
+                    <Label Content="测量" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Height="45"  />
+                    <Label Content="校准" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Height="45" />
+                    <Label Content="通信" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Height="45" />
+                    <Label Content="连续测量" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Height="45"/>
+                    <Label Content="清洗" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Height="45"/>
+                </StackPanel>
+                <StackPanel Width="50" Height="300">
+                    <Button Width="40" Height="40" Style="{StaticResource MirrorStyle}" Margin="0,0,0,5"></Button>
+                    <Button Width="40" Height="40" Style="{StaticResource MirrorStyle}" Margin="0,0,0,5"></Button>
+                    <Button Width="40" Height="40" Style="{StaticResource MirrorStyle}" Margin="0,0,0,5"></Button>
+                    <Button Width="40" Height="40" Style="{StaticResource MirrorStyle}" Margin="0,0,0,5"></Button>
+                    <Button Width="40" Height="40" Style="{StaticResource MirrorStyle}" Margin="0,0,0,5"></Button>
+                    <Button Width="40" Height="40" Style="{StaticResource MirrorStyle}" Margin="0,0,0,5"></Button>
+                </StackPanel>
+            </StackPanel>
+            <Border CornerRadius="5" BorderBrush="Gray" BorderThickness="3" Height="220" Canvas.Left="278" Canvas.Top="56" Width="261"
+                   >
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Color="White" Offset="0"></GradientStop>
+                        <GradientStop Color="Silver" Offset="1"></GradientStop>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <StackPanel Orientation="Vertical">
+                    <StackPanel Height="150" Orientation="Horizontal">
+                        <StackPanel Width="100">
+                            <Label Width="90" Height="30" HorizontalAlignment="Right" HorizontalContentAlignment="Right">
+                                放大倍数:
+                            </Label>
+                            <Label Width="90" Height="30" HorizontalAlignment="Right" HorizontalContentAlignment="Right">
+                                高压值:
+                            </Label>
+                            <Label Width="90" Height="30" HorizontalAlignment="Right" HorizontalContentAlignment="Right">
+                                高压值:
+                            </Label>
+                            <Label Width="90" Height="30" HorizontalAlignment="Right" HorizontalContentAlignment="Right">
+                                实时:
+                            </Label>
+                        </StackPanel>
+                        <StackPanel Width="150"></StackPanel>
+                    </StackPanel>
+                    <StackPanel Height="50">
+                        <TextBlock Height="50" HorizontalAlignment="Center" Width="200" >
+                            测试中...
+                        </TextBlock>
+                    </StackPanel>
                 </StackPanel>
             </Border>
-            <Label Content="连续测量" Canvas.Left="101" Canvas.Top="110" Height="30" Width="65"/>
-            <Label Content="清洗" Canvas.Left="101" Canvas.Top="188" Height="30" Width="65" RenderTransformOrigin="0.458,1.747"/>
-            <Border  Canvas.Left="171" Canvas.Top="110" CornerRadius="50" Width="30" Height="30" Background="Silver" RenderTransformOrigin="0.351,1.677"/>
-            <Border  Canvas.Left="171" Canvas.Top="150" CornerRadius="50" Width="30" Height="30" Background="Silver" RenderTransformOrigin="0.351,1.677"/>
-            <Border  Canvas.Left="171" Canvas.Top="185" CornerRadius="50" Width="30" Height="30" Background="Silver" RenderTransformOrigin="0.351,1.677"/>
-            <Border  Canvas.Left="262" Canvas.Top="153" CornerRadius="50" Width="30" Height="30" Background="Silver" RenderTransformOrigin="0.351,1.677"/>
-            <Border  Canvas.Left="262" Canvas.Top="188" CornerRadius="50" Width="30" Height="30" Background="Silver" RenderTransformOrigin="0.351,1.677"/>
-            <GroupBox Header="参数设置" Width="410" Height="110" Canvas.Left="129" Canvas.Top="259">
-                <Canvas>
-                    <TextBox Height="23" Canvas.Left="10" TextWrapping="Wrap" Text="时间" Canvas.Top="17" Width="80"/>
-                    <TextBox Height="23" Canvas.Left="136" TextWrapping="Wrap" Text="流量" Canvas.Top="17" Width="80"/>
-                    <TextBox Height="23" Canvas.Left="136" TextWrapping="Wrap" Text="清洗时长" Canvas.Top="55" Width="80"/>
-                    <TextBox Height="23" Canvas.Left="264" TextWrapping="Wrap" Text="高压" Canvas.Top="17" Width="80"/>
-                    <TextBox Height="23" Canvas.Left="10" TextWrapping="Wrap" Text="放大倍速" Canvas.Top="55" Width="80"/>
-                    <TextBox Height="23" Canvas.Left="264" TextWrapping="Wrap" Text="实时" Canvas.Top="55" Width="80"/>
-                    <Border  Canvas.Left="358" Canvas.Top="48" CornerRadius="50" Width="30" Height="30" Background="Silver"/>
-                </Canvas>
-            </GroupBox>
+            <Separator Height="14" Width="624" Canvas.Left="10" Margin="0" Canvas.Top="340"></Separator>
+            <StackPanel Canvas.Top="374" Canvas.Left="50" Orientation="Horizontal" Width="150" Height="50">
+                <StackPanel  Width="80" Height="50">
+                    <Label Content="参数设置" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Height="45" />
+                </StackPanel>
+                <StackPanel Width="50" Height="50">
+                    <Button Width="40" Height="40" Style="{StaticResource MirrorStyle}" Margin="0,0,0,5"></Button>
+                </StackPanel>
+            </StackPanel>
+
+            <Canvas Width="400" Height="100" Canvas.Left="200" Canvas.Top="345">
+                <TextBox Height="23" Canvas.Left="10" TextWrapping="Wrap" Text="时间" Canvas.Top="17" Width="80"/>
+                <TextBox Height="23" Canvas.Left="136" TextWrapping="Wrap" Text="流量" Canvas.Top="17" Width="80"/>
+                <TextBox Height="23" Canvas.Left="136" TextWrapping="Wrap" Text="清洗时长" Canvas.Top="55" Width="80"/>
+                <TextBox Height="23" Canvas.Left="264" TextWrapping="Wrap" Text="高压" Canvas.Top="17" Width="80"/>
+                <TextBox Height="23" Canvas.Left="10" TextWrapping="Wrap" Text="放大倍速" Canvas.Top="55" Width="80"/>
+                <TextBox Height="23" Canvas.Left="264" TextWrapping="Wrap" Text="实时" Canvas.Top="55" Width="80"/>
+            </Canvas>
+
         </Canvas>
     </Grid>
 </Window>

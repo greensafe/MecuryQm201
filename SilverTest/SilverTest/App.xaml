@@ -4,6 +4,57 @@
              xmlns:local="clr-namespace:SilverTest"
              StartupUri="login.xaml">
     <Application.Resources>
-         
+        <Style x:Key="MirrorStyle" TargetType="Button">
+            <Setter Property="Background" Value="Yellow"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button" >
+                        <Border x:Name="border" >
+                            <Grid>
+                                <Ellipse x:Name="shade" Margin="-5,3,3,-4">
+                                    <Ellipse.Fill>
+                                        <RadialGradientBrush>
+                                            <GradientStop Offset="0.8" Color="Gray"></GradientStop>
+                                            <GradientStop Offset="1" Color="White"></GradientStop>
+                                        </RadialGradientBrush>
+                                    </Ellipse.Fill>
+                                </Ellipse>
+                                <Ellipse x:Name="pan" >
+                                    <Ellipse.Fill>
+                                        <RadialGradientBrush RadiusX="1" RadiusY="1" GradientOrigin="0.7,0.3">
+                                            <GradientStop Color="White" Offset="0"></GradientStop>
+                                            <GradientStop Color="Gray" Offset="1"></GradientStop>
+                                        </RadialGradientBrush>
+                                    </Ellipse.Fill>
+                                </Ellipse>
+                                
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="pan" Property="RenderTransform" >
+                                    <Setter.Value>
+                                        <TranslateTransform X="2" Y="2"></TranslateTransform>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="pan" Property="Fill" Value="#FFF9F9F9"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="pan" Property="Fill">
+                                    <Setter.Value>
+                                        <RadialGradientBrush RadiusX="1" RadiusY="1" GradientOrigin="0.7,0.3">
+                                            <GradientStop Color="White" Offset="0"></GradientStop>
+                                            <GradientStop Color="Gray" Offset="1"></GradientStop>
+                                        </RadialGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Application.Resources>
 </Application>
