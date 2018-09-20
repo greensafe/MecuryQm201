@@ -1,0 +1,54 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+byMarc.Net2.Library.Crc
+</name>
+</assembly>
+<members>
+<member name="T:byMarc.Net2.Library.Crc.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:byMarc.Net2.Library.Crc.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:byMarc.Net2.Library.Crc.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
+<member name="T:byMarc.Net2.Library.Crc.Crc16">
+ <summary>
+ Implements routines used to calculate a CRC16 code for a block of data.
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="M:byMarc.Net2.Library.Crc.Crc16.Compute(System.String)">
+ <summary>
+ Computes the CRC16 of a string value.
+ </summary>
+ <param name="value">The string data to compute the CRC16 for.</param>
+ <returns></returns>
+</member>
+<member name="M:byMarc.Net2.Library.Crc.Crc16.Compute(System.Byte[])">
+ <summary>
+ Computes the CRC16 of an array of bytes.
+ </summary>
+ <param name="cp"></param>
+ <returns></returns>
+</member>
+<member name="M:byMarc.Net2.Library.Crc.Crc16.Compute(System.Byte[],System.Int32)">
+ <summary>
+ Computes the CRC16 of a specific number of bytes in an array.
+ </summary>
+ <param name="cp"></param>
+ <param name="size"></param>
+ <returns></returns>
+</member>
+</members>
+</doc>
