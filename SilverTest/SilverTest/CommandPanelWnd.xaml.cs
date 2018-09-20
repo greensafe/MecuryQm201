@@ -33,10 +33,10 @@ namespace SilverTest
             MessageBox.Show("hello");
         }
 
-        //命令-开始采样
+        //测量-采样
         private void grabSampleBtn_Click(object sender, RoutedEventArgs e)
         {
-            byte[] data = new byte[8] { 0x01,0x03,0x01,0x00,0x00,0x01,0,0 };
+            byte[] data = new byte[8] { 0x01,0x01,0x02,0x01,0x00,0x00,0,0 };
 
             ushort crc = (ushort)byMarc.Net2.Library.Crc.Crc16.Compute(data, 6);
             data[6] = (byte)(crc >> 8);
@@ -51,10 +51,10 @@ namespace SilverTest
             }
         }
 
-        //命令-开始测量
+        //测量-测量
         private void starttestBtn_Click(object sender, RoutedEventArgs e)
         {
-            byte[] data = new byte[8] { 0x01, 0x03, 0x02, 0x00, 0x00, 0x01, 0, 0 };
+            byte[] data = new byte[8] { 0x01, 0x01, 0x02, 0x03, 0x00, 0x00, 0, 0 };
 
             ushort crc = (ushort)byMarc.Net2.Library.Crc.Crc16.Compute(data, 6);
             data[6] = (byte)(crc >> 8);
@@ -69,10 +69,10 @@ namespace SilverTest
             };
         }
 
-        //命令-校准
+        //校准
         private void verifyBtn_Click(object sender, RoutedEventArgs e)
         {
-            byte[] data = new byte[8] { 0x01, 0x03, 0x06, 0x00, 0x00, 0x01, 0, 0 };
+            byte[] data = new byte[8] { 0x01, 0x01, 0x04, 0x00, 0x00, 0x00, 0, 0 };
 
             ushort crc = (ushort)byMarc.Net2.Library.Crc.Crc16.Compute(data, 6);
             data[6] = (byte)(crc >> 8);
@@ -88,10 +88,10 @@ namespace SilverTest
 
         }
 
-        //命令-通信
+        //通信
         private void communicateBtn_Click(object sender, RoutedEventArgs e)
         {
-            byte[] data = new byte[8] { 0x01, 0x03, 0x05, 0x00, 0x00, 0x01, 0, 0 };
+            byte[] data = new byte[8] { 0x01, 0x01, 0x05, 0x00, 0x00, 0x00, 0, 0 };
 
             ushort crc = (ushort)byMarc.Net2.Library.Crc.Crc16.Compute(data, 6);
             data[6] = (byte)(crc >> 8);
@@ -106,10 +106,10 @@ namespace SilverTest
             };
         }
 
-        //命令-清洗
+        //测量-清洗
         private void wash_Click(object sender, RoutedEventArgs e)
         {
-            byte[] data = new byte[8] { 0x01, 0x03, 0x03, 0x00, 0x00, 0x01, 0, 0 };
+            byte[] data = new byte[8] { 0x01, 0x01, 0x02, 0x02, 0x00, 0x00, 0, 0 };
 
             ushort crc = (ushort)byMarc.Net2.Library.Crc.Crc16.Compute(data, 6);
             data[6] = (byte)(crc >> 8);
@@ -124,27 +124,101 @@ namespace SilverTest
             };
         }
 
-        //名利-参数设置
+        //参数设置
         private void setParamBtn_Click(object sender, RoutedEventArgs e)
         {
-            byte[] data = new byte[17] { 0x01, 0x10, 0x07, 0x00, 0x00, 0x04, 0x08, 0x07,0x00,0x05,0x06,0x00,0x03,0x06,0x09,0,0 };
+            byte[] data = new byte[8] { 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0, 0 };
+            ushort crc;
 
-            ushort crc = (ushort)byMarc.Net2.Library.Crc.Crc16.Compute(data, 15);
-            data[15] = (byte)(crc >> 8);
-            data[16] = (byte)crc;
+            if (timeParamTxt.Text != null && timeParamTxt.Text!= "")
+            {
+                data[3] = 0x01; //子菜单
+                data[4] = 0x00;  //清空数据高位
+                data[5] = byte.Parse(timeParamTxt.Text);
+            }
+            crc = (ushort)byMarc.Net2.Library.Crc.Crc16.Compute(data, 6);
+            data[6] = (byte)(crc >> 8);
+            data[7] = (byte)crc;
             if (SerialDriver.GetDriver().Send(data))
             {
-                statustxt.Text = "参数设置命令已发出";
+                statustxt.Text = "时间设置命令已发出";
             }
-            else
+
+            if (fluParamTxt.Text != null && fluParamTxt.Text != "")
             {
-                MessageBox.Show("端口未打开");
-            };
+                data[3] = 0x02; //子菜单
+                data[4] = 0x00;  //清空数据高位
+                data[5] = byte.Parse(fluParamTxt.Text);
+            }
+            crc = (ushort)byMarc.Net2.Library.Crc.Crc16.Compute(data, 6);
+            data[6] = (byte)(crc >> 8);
+            data[7] = (byte)crc;
+            if (SerialDriver.GetDriver().Send(data))
+            {
+                statustxt.Text = "流量设置命令已发出";
+            }
+
+            if (presureParamTxt.Text != null && presureParamTxt.Text != "")
+            {
+                data[3] = 0x04; //子菜单
+                int pres = int.Parse(presureParamTxt.Text);
+                data[4] = (byte)(pres >> 8);
+                data[5] = (byte)pres;
+            }
+            crc = (ushort)byMarc.Net2.Library.Crc.Crc16.Compute(data, 6);
+            data[6] = (byte)(crc >> 8);
+            data[7] = (byte)crc;
+            if (SerialDriver.GetDriver().Send(data))
+            {
+                statustxt.Text = "高压设置命令已发出";
+            }
+
+            if (enlargeParamTxt.Text != null && enlargeParamTxt.Text != "")
+            {
+                data[3] = 0x05; //子菜单
+                data[4] = 0x00;  //清空数据高位
+                data[5] = byte.Parse(enlargeParamTxt.Text);
+            }
+            crc = (ushort)byMarc.Net2.Library.Crc.Crc16.Compute(data, 6);
+            data[6] = (byte)(crc >> 8);
+            data[7] = (byte)crc;
+            if (SerialDriver.GetDriver().Send(data))
+            {
+                statustxt.Text = "放大倍数设置命令已发出";
+            }
+
+            if (washtimeParamTxt.Text != null && washtimeParamTxt.Text != "")
+            {
+                data[3] = 0x03; //子菜单
+                data[4] = 0x00;  //清空数据高位
+                data[5] = byte.Parse(washtimeParamTxt.Text);
+            }
+            crc = (ushort)byMarc.Net2.Library.Crc.Crc16.Compute(data, 6);
+            data[6] = (byte)(crc >> 8);
+            data[7] = (byte)crc;
+            if (SerialDriver.GetDriver().Send(data))
+            {
+                statustxt.Text = "清洗时长设置命令已发出";
+            }
+
+            if (realtimeParamTxt.Text != null && realtimeParamTxt.Text != "")
+            {
+                data[3] = 0x06; //子菜单
+                data[4] = 0x00;  //清空数据高位
+                data[5] = byte.Parse(realtimeParamTxt.Text);
+            }
+            crc = (ushort)byMarc.Net2.Library.Crc.Crc16.Compute(data, 6);
+            data[6] = (byte)(crc >> 8);
+            data[7] = (byte)crc;
+            if (SerialDriver.GetDriver().Send(data))
+            {
+                statustxt.Text = "时间设置命令已发出";
+            }
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            byte[] data = new byte[8] { 0x01, 0x03, 0x08, 0x00, 0x00, 0x08, 0, 0 };
+            byte[] data = new byte[8] { 0x01, 0x01, 0xF0, 0x00, 0x00, 0x00, 0, 0 };
 
             ushort crc = (ushort)byMarc.Net2.Library.Crc.Crc16.Compute(data, 6);
             data[6] = (byte)(crc >> 8);
