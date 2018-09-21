@@ -87,8 +87,16 @@
             </Menu>
             <Separator DockPanel.Dock="Top" Height="3" Margin="0" VerticalAlignment="Top" Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}"/>
             <DockPanel DockPanel.Dock="Top">
-                <Button x:Name="checkerbtn" Width="32" DockPanel.Dock="Right" Panel.ZIndex="2" Background="Transparent" BorderThickness="0" ToolTip="审核者已经登陆" Visibility="Hidden">
+                <Button x:Name="checkerbtn" Width="32" DockPanel.Dock="Right" Panel.ZIndex="2" Background="Transparent" BorderThickness="0" ToolTip="审核者已经登陆" Visibility="Collapsed">
                     <Image Source="images\admin.png">
+                    </Image>
+                </Button>
+                <Button x:Name="rs232disconnectedbtn" Width="32" DockPanel.Dock="Right" Panel.ZIndex="2" Background="Transparent" BorderThickness="0" ToolTip="串口未打开" Visibility="Visible" Click="rs232disconnectedbtn_Click">
+                    <Image Source="images\disconnected.png">
+                    </Image>
+                </Button>
+                <Button x:Name="rs232connectedbtn" Width="32" DockPanel.Dock="Right" Panel.ZIndex="2" Background="Transparent" BorderThickness="0" ToolTip="串口已打开" Visibility="Collapsed" Click="rs232connectedbtn_Click">
+                    <Image Source="images\connected.png">
                     </Image>
                 </Button>
                 <ToolBarTray x:Name="toolBarTray" Height="32" Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}" DockPanel.Dock="Left">

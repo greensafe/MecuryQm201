@@ -228,6 +228,9 @@ namespace SilverTest
                 SerialDriver.GetDriver().parity,
                 SerialDriver.GetDriver().databits,
                 SerialDriver.GetDriver().stopbits).Send(data);
+
+            MainWindow parentwindow = (MainWindow)this.Owner;
+            parentwindow.showconnectedIcon();
             //todo: show the result
         }
 

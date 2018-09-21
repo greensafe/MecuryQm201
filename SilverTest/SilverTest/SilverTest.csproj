@@ -243,5 +243,9 @@
   <ItemGroup>
     <Resource Include="images\panel.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\connected.png" />
+    <Resource Include="images\disconnected.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

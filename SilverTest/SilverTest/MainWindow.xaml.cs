@@ -489,7 +489,9 @@ namespace SilverTest
                                     SerialDriver.GetDriver().parity,
                                     SerialDriver.GetDriver().databits,
                                     SerialDriver.GetDriver().stopbits);
+                                //
                             }
+                            showconnectedIcon();
                             break;
                         case "停止测试":
                             statusBtn.Visibility = Visibility.Hidden;
@@ -512,6 +514,7 @@ namespace SilverTest
                                     ;
                                 }
                             }
+                            showconnectedIcon();
                             break;
                         default:
 
@@ -554,6 +557,7 @@ namespace SilverTest
                                         SerialDriver.GetDriver().databits,
                                         SerialDriver.GetDriver().stopbits);
                             }
+                            showconnectedIcon();
                             break;
                         case "停止测试":
                             statusBtn.Visibility = Visibility.Hidden;
@@ -575,6 +579,7 @@ namespace SilverTest
                                 standardSampleClt[getStandardCltIndex( standardSampleDgd.SelectedIndex )].ResponseValue1 = Utility.ComputeResponseValue(
                                     dots_start_abs, DotManager.GetDotManger().GetDots().Count).ToString();
                             */
+                            showconnectedIcon();
                             break;
                         default:
 
@@ -584,12 +589,32 @@ namespace SilverTest
             }
         }
 
+        public void showconnectedIcon()
+        {
+            if (SerialDriver.GetDriver().isOpen() == true)
+            {
+                rs232disconnectedbtn.Visibility = Visibility.Collapsed;
+                rs232connectedbtn.Visibility = Visibility.Visible;
+                rs232connectedbtn.ToolTip = SerialDriver.GetDriver().portname + "已打开";
+            }
+            else
+            {
+                rs232disconnectedbtn.Visibility = Visibility.Visible;
+                rs232connectedbtn.Visibility = Visibility.Collapsed;
+            }
+        }
+
+
         /*
          * 新线程中关闭serialdriver，避免deadlock
          */
         private void closeSerialAsc()
         {
             SerialDriver.GetDriver().Close();
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                showconnectedIcon();
+            }));
         }
 
         private void exitBtn_Click(object sender, RoutedEventArgs e)
@@ -1545,6 +1570,23 @@ namespace SilverTest
             SetPortWnd w = new SetPortWnd();
             w.Owner = this;
             w.ShowDialog();
+        }
+
+        private void rs232connectedbtn_Click(object sender, RoutedEventArgs e)
+        {
+            SerialDriver.GetDriver().Close();
+            showconnectedIcon();
+        }
+
+        private void rs232disconnectedbtn_Click(object sender, RoutedEventArgs e)
+        {
+            SerialDriver.GetDriver().Open(
+                SerialDriver.GetDriver().portname,
+                SerialDriver.GetDriver().rate,
+                SerialDriver.GetDriver().parity,
+                SerialDriver.GetDriver().databits,
+                SerialDriver.GetDriver().stopbits);
+            showconnectedIcon();
         }
     }
 }

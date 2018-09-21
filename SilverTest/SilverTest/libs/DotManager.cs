@@ -121,7 +121,7 @@ namespace SilverTest.libs
                     break;
                 case CombineErrorInfo.NOT_FOUND_MACHINE_HEADER_LONG:
                     Console.WriteLine("长时间无法找到机器格式包");
-                    SerialDriver.GetDriver().Close();
+                    //SerialDriver.GetDriver().Close();  //机器格式写死，不需要协商
                     break;
                 case CombineErrorInfo.NOT_FOUND_START_TAG_LONG:
                     Console.WriteLine("长时间无法找到包起始标志");
