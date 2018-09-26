@@ -1,37 +1,39 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0"?>
 <ArrayOfNewTestTarget xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <NewTestTarget>
-    <NewName comment="新样名称">烟厂土123567</NewName>
-    <Code comment="样品编码">x1001</Code>
-    <Density comment="汞浓度">30</Density>
-    <Weight comment="样品重量(g)">10</Weight>
-    <Place comment="产地">昆山玉山镇</Place>
-    <LiquidSize comment="样品消化液总体积"></LiquidSize>
-    <ResponseValue1 comment="响应值1"></ResponseValue1>
-    <ResponseValue2 comment="响应值2"></ResponseValue2>
-    <ResponseValue3 comment="响应值3"></ResponseValue3>
-    <AverageValue comment="平均值"></AverageValue>
+    <NewName>蟹土</NewName>
+    <Code>0</Code>
+    <Weight>2</Weight>
+    <Place>昆山</Place>
+    <ResponseValue1>27721</ResponseValue1>
+    <AirTotolBulk>50</AirTotolBulk>
+    <AirSampleTime>5</AirSampleTime>
+    <AirFluent>10</AirFluent>
+    <AirG>6.339</AirG>
+    <GlobalID>N0001</GlobalID>
   </NewTestTarget>
   <NewTestTarget>
-    <NewName comment="新样名称">烟厂土2</NewName>
-    <Code comment="样品编码">x1002</Code>
-    <Density comment="汞浓度"></Density>
-    <Weight comment="样品重量(g)">20</Weight>
-    <Place comment="产地">昆山玉山镇</Place>
-    <ResponseValue1 comment="响应值1">100</ResponseValue1>
-    <ResponseValue2 comment="响应值2">103</ResponseValue2>
-    <ResponseValue3 comment="响应值3">105</ResponseValue3>
-    <AverageValue comment="平均值">103</AverageValue>
+    <NewName>鱼土</NewName>
+    <Code>1</Code>
+    <Weight>15</Weight>
+    <Place>苏州</Place>
+    <ResponseValue1>27700</ResponseValue1>
+    <AirTotolBulk>72</AirTotolBulk>
+    <AirSampleTime>6</AirSampleTime>
+    <AirFluent>12</AirFluent>
+    <AirG>8.439</AirG>
+    <GlobalID>S0002</GlobalID>
   </NewTestTarget>
   <NewTestTarget>
-    <NewName comment="新样名称">烟厂土3</NewName>
-    <Code comment="样品编码">x1003</Code>
-    <Density comment="汞浓度">39</Density>
-    <Weight comment="样品重量(g)">22</Weight>
-    <Place comment="产地">昆山玉山镇</Place>
-    <ResponseValue1 comment="响应值1"></ResponseValue1>
-    <ResponseValue2 comment="响应值2"></ResponseValue2>
-    <ResponseValue3 comment="响应值3"></ResponseValue3>
-    <AverageValue comment="平均值"></AverageValue>
+    <NewName>虾土</NewName>
+    <Code>2</Code>
+    <Weight>20</Weight>
+    <Place>扬州</Place>
+    <ResponseValue1>27710</ResponseValue1>
+    <AirTotolBulk>70</AirTotolBulk>
+    <AirSampleTime>7</AirSampleTime>
+    <AirFluent>10</AirFluent>
+    <AirG>7.439</AirG>
+    <GlobalID>S0003</GlobalID>
   </NewTestTarget>
 </ArrayOfNewTestTarget>

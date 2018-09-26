@@ -136,15 +136,24 @@ namespace SilverTest.libs
         static public ObservableCollection<NewTestTarget> getNewTestTargetDataFromXml(string filename)
         {
             ObservableCollection<NewTestTarget> newTestTargetData = new ObservableCollection<NewTestTarget>();
-
-            XmlSerializer serializer = new XmlSerializer(typeof(ObservableCollection<NewTestTarget>));
-            using (FileStream stream = new FileStream(filename, FileMode.Open))
+            XmlSerializer serializer;
+            try
             {
-                IEnumerable<NewTestTarget> xmldata = (IEnumerable<NewTestTarget>)serializer.Deserialize(stream);
-                foreach (NewTestTarget item in xmldata)
+                serializer = new XmlSerializer(typeof(ObservableCollection<NewTestTarget>));
+
+
+                using (FileStream stream = new FileStream(filename, FileMode.Open))
                 {
-                    newTestTargetData.Add(item);
+                    IEnumerable<NewTestTarget> xmldata = (IEnumerable<NewTestTarget>)serializer.Deserialize(stream);
+                    foreach (NewTestTarget item in xmldata)
+                    {
+                        newTestTargetData.Add(item);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                return newTestTargetData;
             }
             return newTestTargetData;
         }
@@ -155,15 +164,23 @@ namespace SilverTest.libs
         static public ObservableCollection<StandardSample> getStandardTargetDataFromXml(string filename)
         {
             ObservableCollection<StandardSample> standData = new ObservableCollection<StandardSample>();
-
-            XmlSerializer serializer = new XmlSerializer(typeof(ObservableCollection<StandardSample>));
-            using (FileStream stream = new FileStream(filename, FileMode.Open))
+            XmlSerializer serializer;
+            try
             {
-                IEnumerable<StandardSample> xmldata = (IEnumerable<StandardSample>)serializer.Deserialize(stream);
-                foreach (StandardSample item in xmldata)
+                serializer = new XmlSerializer(typeof(ObservableCollection<StandardSample>));
+
+                using (FileStream stream = new FileStream(filename, FileMode.Open))
                 {
-                    standData.Add(item);
+                    IEnumerable<StandardSample> xmldata = (IEnumerable<StandardSample>)serializer.Deserialize(stream);
+                    foreach (StandardSample item in xmldata)
+                    {
+                        standData.Add(item);
+                    }
                 }
+            }
+            catch(Exception ex)
+            {
+                return standData;
             }
             return standData;
         }
@@ -428,7 +445,7 @@ namespace SilverTest.libs
         }
 
         /*
-         * 从xml取值
+         * 从config.xml取值
          * @param
          *  xpath - 定位元素。 比如
          *              descendant::Ratio
@@ -438,16 +455,38 @@ namespace SilverTest.libs
             XmlDocument xdoc = new XmlDocument();
             xdoc.Load(@"config\config.xml");
 
-            //XmlElement root = xdoc.DocumentElement;
-            //XmlNode node = xdoc.SelectSingleNode(xpath);
+            XmlElement root = xdoc.DocumentElement;
+            XmlNode node = xdoc.SelectSingleNode(xpath);
             //XmlNode node = xdoc.SelectSingleNode("/config/QM201H/response/compute");
             //XmlNode node = xdoc.SelectSingleNode("/config/response/compute/R3");
-
-            //string t = node.Attributes[propertyname].Value;
+            //xdoc.RemoveAll();
+            xdoc = null;
+            string t = node.Attributes[propertyname].Value;
             
-            return "";
+            return t;
             
         }
+
+        /*
+         * 写config.xml
+         * @param
+         *  xpath - 定位元素。 比如
+         *              descendant::Ratio
+         */
+        static public void SetValueToXml(string xpath, string propertyname,string v)
+        {
+            XmlDocument xdoc = new XmlDocument();
+            xdoc.Load(@"config\config.xml");
+
+            XmlElement root = xdoc.DocumentElement;
+            XmlNode node = xdoc.SelectSingleNode(xpath);
+            //XmlNode node = xdoc.SelectSingleNode("/config/QM201H/response/compute");
+            //XmlNode node = xdoc.SelectSingleNode("/config/response/compute/R3");
+            node.Attributes[propertyname].Value = v;
+            xdoc.Save(@"config\config.xml");
+            xdoc = null;
+        }
+
 
         /*
          * 面积积分
@@ -457,7 +496,7 @@ namespace SilverTest.libs
          *      end_abs 结束位置
          *      
          */
-         static public double Integration(Collection<ADot> dots, int start_abs, int end_abs, double ratio)
+        static public double Integration(Collection<ADot> dots, int start_abs, int end_abs, double ratio)
         {
             double t = 0;
 

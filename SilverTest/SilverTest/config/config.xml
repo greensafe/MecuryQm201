@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <config>
+  <QM201H>
 	  <response>
 		  <compute>
 		    <R1 pointstart="2000" end="6000"></R1>
@@ -8,4 +9,8 @@
         <R4 pointstart="15000" end="22000"></R4>
 		  </compute>
 	  </response>
+    <wavehistory>
+      <fileid newsample="3" standardsample="3"/>
+    </wavehistory>
+  </QM201H>
 </config>

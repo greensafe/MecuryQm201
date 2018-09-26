@@ -197,9 +197,21 @@ namespace SilverTest
             }
         }
 
+        //全局唯一id
+        private string globalID;
+        public string GlobalID
+        {
+            get { return globalID; }
+            set
+            {
+                globalID = value;
+                NotifyPropertyChanged("globalID");
+            }
+        }
+
         //构造函数
         public StandardSample(string sampleName, string code, string density,
-            string weight, string providerCompany, string place, string buyDate, string a, string b,string grpname)
+            string weight, string providerCompany, string place, string buyDate, string a, string b,string grpname, string gid)
         {
             SampleName = sampleName;
             Code = code;
@@ -211,6 +223,7 @@ namespace SilverTest
             A = a;
             B = b;
             GroupName = grpname;
+            GlobalID = gid;
         }
         public StandardSample() { }
 
@@ -222,6 +235,8 @@ namespace SilverTest
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+
+
     }
 
     //新样表结构定义
@@ -391,10 +406,22 @@ namespace SilverTest
             }
         }
 
+        //全局唯一id
+        private string globalID;
+        public string GlobalID
+        {
+            get { return globalID; }
+            set
+            {
+                globalID = value;
+                NotifyPropertyChanged("globalID");
+            }
+        }
+
         //构造函数
         public NewTestTarget(string newName, string code, string weight, string place, string responseValue1,
             string responseValue2, string responseValue3, string density, string liquidSize, string airTotolBulk,
-            string airSampleTime, string airFluent, string airG)
+            string airSampleTime, string airFluent, string airG, string gid)
         {
             NewName = newName;
             Code = code;
@@ -409,6 +436,7 @@ namespace SilverTest
             AirSampleTime = airSampleTime;
             AirFluent = airFluent;
             AirG = airG;
+            GlobalID = gid;
         }
         public NewTestTarget() { }
     }

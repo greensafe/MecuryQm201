@@ -11,6 +11,7 @@ using System.IO.Ports;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Threading;
@@ -96,9 +97,17 @@ namespace SilverTest
         //波形涮新timer
         private DispatcherTimer waveFreshTimer;
 
-        private SerialPort ComDevice = null;
+        //表格条目样本全局id
+        private int newsample_item_globalid = 0;
+        private int standardsample_item_globalid = 0;
+
+
+        //private SerialPort ComDevice = null;
         private ObservableCollection<NewTestTarget> newTestClt;
         private ObservableCollection<StandardSample> standardSampleClt;
+
+        //正在测试中的条目id号
+        string testingitemgid = "";
 
         ICollectionView StandardCvw;
 
@@ -123,6 +132,9 @@ namespace SilverTest
             ;
             StandardCvw = CollectionViewSource.GetDefaultView(standardSampleClt);
             StandardCvw.GroupDescriptions.Add(new PropertyGroupDescription("GroupName"));
+
+
+            //Utility.SetValueToXml("/config/QM201H/wavehistory/fileid", "newsample","100");
 
         }
 
@@ -220,6 +232,7 @@ namespace SilverTest
                         se = int.Parse(newTestClt[i].Code + 1);
                     }
                     newitem.Code = se.ToString();
+                    newitem.GlobalID = GIDMaker.GetMaker().GetNId();
                     newTestClt.Add(newitem);
                     break;
                 //标样测试
@@ -241,7 +254,9 @@ namespace SilverTest
                         se = int.Parse(standardSampleClt[i].Code + 1);
                     }
                     standarditem.Code = se.ToString();
+                    standarditem.GlobalID = GIDMaker.GetMaker().GetSId();
                     standardSampleClt.Add(standarditem);
+
                     break;
                 default:
 
@@ -354,7 +369,7 @@ namespace SilverTest
 
         }
 
-        private int getNewCltIndex(int index)
+        public int getNewCltIndex(int index)
         {
             if (NewTargetDgd.SelectedItem is null)
                 return -1;
@@ -448,6 +463,7 @@ namespace SilverTest
             //SerialDriver.GetDriver().OnReceived(Com_DataReceived);
             switch (sampletab.SelectedIndex)
             {
+
                 case 0:     //新样
                     switch (startTestBtn.Content as string)
                     {
@@ -492,6 +508,10 @@ namespace SilverTest
                                 //
                             }
                             showconnectedIcon();
+
+                            this.testingitemgid = newTestClt[getNewCltIndex(NewTargetDgd.SelectedIndex)].GlobalID;
+                            NewTargetDgd.DataContext = null;
+                            NewTargetDgd.DataContext = newTestClt;
                             break;
                         case "停止测试":
                             statusBtn.Visibility = Visibility.Hidden;
@@ -558,6 +578,10 @@ namespace SilverTest
                                         SerialDriver.GetDriver().stopbits);
                             }
                             showconnectedIcon();
+
+                            testingitemgid = standardSampleClt[getStandardCltIndex(standardSampleDgd.SelectedIndex)].GlobalID;
+                            standardSampleDgd.DataContext = null;
+                            standardSampleDgd.DataContext = standardSampleClt;
                             break;
                         case "停止测试":
                             statusBtn.Visibility = Visibility.Hidden;
@@ -1032,7 +1056,7 @@ namespace SilverTest
         }
 
         //在标样选择中，将视图选中序号转变为数据源中序号
-        private int getStandardCltIndex(int index)
+        public int getStandardCltIndex(int index)
         {
             if (standardSampleDgd.SelectedItem is null) return -1;
             string code = (standardSampleDgd.SelectedItem as StandardSample).Code;
@@ -1587,6 +1611,113 @@ namespace SilverTest
                 SerialDriver.GetDriver().databits,
                 SerialDriver.GetDriver().stopbits);
             showconnectedIcon();
+        }
+
+        private void NewTargetDgd_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            ContextMenu cm1 = this.FindResource("newtableMenu") as ContextMenu;
+            cm1.PlacementTarget = sender as DataGrid;
+            cm1.IsOpen = true;
+            
+        }
+
+        private void standardSampleDgd_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            ContextMenu cm2 = this.FindResource("sampletableMenu") as ContextMenu;
+            cm2.PlacementTarget = sender as DataGrid;
+            cm2.IsOpen = true;
+        }
+        private void newtablemenu_showhistory(object sender, RoutedEventArgs e)
+        {
+            WaveHistoryWnd w = new WaveHistoryWnd();
+            w.Owner = this;
+            w.ShowDialog();
+        }
+        private void sampletableMenu_showhistory(object sender, RoutedEventArgs e)
+        {
+            WaveHistoryWnd w = new WaveHistoryWnd();
+            w.Owner = this;
+            w.ShowDialog();
+        }
+
+        /*
+        private void savedotsPMenu_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        */
+
+        private void newsavedotsPMenu_Click(object sender, RoutedEventArgs e)
+        {
+            if(NewTargetDgd.SelectedIndex == -1)
+            {
+                MessageBox.Show("请选择正在测试的样品");
+                return;
+            }
+            if (DotManager.GetDotManger().GetDots() is null || DotManager.GetDotManger().GetDots().Count == 0)
+            {
+                MessageBox.Show("当前样品没有测试数据");
+                return;
+            }
+            string filename = newTestClt[getNewCltIndex(NewTargetDgd.SelectedIndex)].GlobalID;
+            filename += "_" + DateTime.Now.Year+DateTime.Now.Month+DateTime.Now.Day+DateTime.Now.Hour+
+                            DateTime.Now.Minute+ 
+                            DateTime.Now.Second+".bin";
+
+            //Utility.SaveToNewXmlFileCls.SaveToNewXmlFile(newTestClt, "resources\\NewTestTarget_Table.xml");
+            saveNewDotsToFile(@"history\"+filename);
+
+            MessageBox.Show("数据已保存");
+        }
+
+        private void samplesavedotsPMenu_Click(object sender, RoutedEventArgs e)
+        {
+            if (standardSampleDgd.SelectedIndex == -1)
+            {
+                MessageBox.Show("请选择正在测试的标样");
+            }
+            if (DotManager.GetDotManger().GetDots() is null || DotManager.GetDotManger().GetDots().Count == 0)
+            {
+                MessageBox.Show("当前标样没有测试数据");
+            }
+
+            string filename = standardSampleClt[getStandardCltIndex(standardSampleDgd.SelectedIndex)].GlobalID;
+            filename += "_" + DateTime.Now.Year + DateTime.Now.Month + DateTime.Now.Day + DateTime.Now.Hour +
+                DateTime.Now.Minute +
+                DateTime.Now.Second + ".bin";
+
+            //Utility.SaveToNewXmlFileCls.SaveToNewXmlFile(newTestClt, "resources\\NewTestTarget_Table.xml");
+            saveNewDotsToFile(@"history\"+filename);
+
+            MessageBox.Show("数据已保存");
+        }
+
+        //将newTestClt中的点保存到文件中，以bin为扩展名
+        private void saveNewDotsToFile(string filename)
+        {
+            FileStream aFile = new FileStream(filename, FileMode.Create);
+            StreamWriter sr = new StreamWriter(aFile);
+            Collection<ADot> dots = DotManager.GetDotManger().GetDots();
+            foreach(ADot item in dots)
+            {
+                sr.Write(item.Rvalue.ToString() + "\r\n");
+            }
+            sr.Close();
+            aFile.Close();
+        }
+
+        private void NewTargetDgd_LoadingRow(object sender, DataGridRowEventArgs e)
+        {
+            string gid = (e.Row.Item as NewTestTarget).GlobalID;
+            if (gid == testingitemgid)
+                e.Row.Background = new SolidColorBrush(Colors.Yellow);
+        }
+
+        private void standardSampleDgd_LoadingRow(object sender, DataGridRowEventArgs e)
+        {
+            string gid = (e.Row.Item as StandardSample).GlobalID;
+            if (gid == testingitemgid)
+                e.Row.Background = new SolidColorBrush(Colors.Yellow);
         }
     }
 }

@@ -108,6 +108,7 @@
     <Compile Include="DataDB.cs" />
     <Compile Include="libs\DataFormater.cs" />
     <Compile Include="libs\DotManager.cs" />
+    <Compile Include="libs\GIDMaker.cs" />
     <Compile Include="libs\PhyCombine.cs" />
     <Compile Include="libs\ProduceFakeData.cs" />
     <Compile Include="libs\SerialDriver.cs" />
@@ -118,6 +119,9 @@
     <Compile Include="Requirement.cs" />
     <Compile Include="SetPortWnd.xaml.cs">
       <DependentUpon>SetPortWnd.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WaveHistoryWnd.xaml.cs">
+      <DependentUpon>WaveHistoryWnd.xaml</DependentUpon>
     </Compile>
     <Compile Include="WelcomeYou.xaml.cs">
       <DependentUpon>WelcomeYou.xaml</DependentUpon>
@@ -154,6 +158,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SetPortWnd.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WaveHistoryWnd.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -246,6 +254,9 @@
   <ItemGroup>
     <Resource Include="images\connected.png" />
     <Resource Include="images\disconnected.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\viewhistory.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,51 +1,51 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0"?>
 <ArrayOfStandardSample xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <StandardSample>
-    <SampleName comment="样品名称">标样1</SampleName>
-    <Code comment="样品编码">s1001</Code>
-    <Density comment="汞浓度">30</Density>
-    <Weight comment="样品重量(g)">10</Weight>
-    <ProviderCompany comment="样品出厂商">快乐净土公司</ProviderCompany>
-    <Place comment="产地">昆山玉山镇</Place>
-    <BuyDate comment="样品购买日期">2018.6.1</BuyDate>
-    <A comment="斜率">3</A>
-    <B comment="截距">2.5</B>
-    <GroupName comment="样品组">潘阳蟹土</GroupName>
+    <SampleName>1号</SampleName>
+    <GroupName>阳澄湖蟹土</GroupName>
+    <Code>0</Code>
+    <ResponseValue1>27780
+</ResponseValue1>
+    <Weight>7</Weight>
+    <Temperature>22</Temperature>
+    <AirML>3</AirML>
+    <AirG>46.65</AirG>
+    <BuyDate>2018.9.10</BuyDate>
+    <A>-0.01</A>
+    <B>27784.39</B>
+    <R>-0.114</R>
+    <GlobalID>S0001</GlobalID>
   </StandardSample>
   <StandardSample>
-    <SampleName comment="样品名称">标样2</SampleName>
-    <Code comment="样品编码">s1002</Code>
-    <Density comment="汞浓度">20</Density>
-    <Weight comment="样品重量(g)">10</Weight>
-    <ProviderCompany comment="样品出厂商">快乐蟹蟹公司</ProviderCompany>
-    <Place comment="产地">苏州潘阳湖</Place>
-    <BuyDate comment="样品购买日期">2018.6.3</BuyDate>
-    <A comment="斜率">4</A>
-    <B comment="截距">2.6</B>
-    <GroupName comment="样品组">潘阳蟹土</GroupName>
+    <SampleName>2号</SampleName>
+    <GroupName>阳澄湖蟹土</GroupName>
+    <Code>1</Code>
+    <ResponseValue1>27790
+</ResponseValue1>
+    <Weight>8</Weight>
+    <Temperature>23</Temperature>
+    <AirML>6</AirML>
+    <AirG>101.28</AirG>
+    <BuyDate>2018.9.25</BuyDate>
+    <A>-0.01</A>
+    <B>27784.39</B>
+    <R>-0.114</R>
+    <GlobalID>S0002</GlobalID>
   </StandardSample>
   <StandardSample>
-    <SampleName comment="样品名称">标样3</SampleName>
-    <Code comment="样品编码">s1003</Code>
-    <Density comment="汞浓度">21</Density>
-    <Weight comment="样品重量(g)">10</Weight>
-    <ProviderCompany comment="样品出厂商">安安公司</ProviderCompany>
-    <Place comment="产地">北京</Place>
-    <BuyDate comment="样品购买日期">2018.6.4</BuyDate>
-    <A comment="斜率">3</A>
-    <B comment="截距">3.2</B>
-    <GroupName comment="样品组">琉璃瓦土</GroupName>
-  </StandardSample>
-  <StandardSample>
-    <SampleName comment="样品名称">标样4</SampleName>
-    <Code comment="样品编码">s1004</Code>
-    <Density comment="汞浓度">22</Density>
-    <Weight comment="样品重量(g)">10</Weight>
-    <ProviderCompany comment="样品出厂商">安安公司</ProviderCompany>
-    <Place comment="产地">北京</Place>
-    <BuyDate comment="样品购买日期">2018.6.5</BuyDate>
-    <A comment="斜率">3.2</A>
-    <B comment="截距">6</B>
-    <GroupName comment="样品组">琉璃瓦土</GroupName>
+    <SampleName>3号</SampleName>
+    <GroupName>阳澄湖蟹土</GroupName>
+    <Code>2</Code>
+    <ResponseValue1>27780
+</ResponseValue1>
+    <Weight>10</Weight>
+    <Temperature>24</Temperature>
+    <AirML>10</AirML>
+    <AirG>183.1</AirG>
+    <BuyDate>2018.9.23</BuyDate>
+    <A>-0.01</A>
+    <B>27784.39</B>
+    <R>-0.114</R>
+    <GlobalID>S0003</GlobalID>
   </StandardSample>
 </ArrayOfStandardSample>

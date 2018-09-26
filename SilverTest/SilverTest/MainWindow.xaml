@@ -12,6 +12,32 @@
         mc:Ignorable="d"
         Title="QM201H" Height="850" Width="1000" Loaded="window_Loaded" WindowStartupLocation="CenterScreen">
     <Window.Resources>
+        <ContextMenu x:Key="newtableMenu">
+            <MenuItem Header="查看历史" Click="newtablemenu_showhistory">
+                <MenuItem.Icon>
+                    <Image Source="images\viewhistory.png" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem  x:Name="newsavedotsPMenu" Header="保存点值" Click="newsavedotsPMenu_Click">
+                <MenuItem.Icon>
+                    <Image Source="images\save.png" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <Separator />
+        </ContextMenu>
+        <ContextMenu x:Key="sampletableMenu">
+            <MenuItem Header="查看历史" Click="sampletableMenu_showhistory">
+                <MenuItem.Icon>
+                    <Image Source="images\viewhistory.png" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem  x:Name="samplesavedotsPMenu" Header="保存点值" Click="samplesavedotsPMenu_Click">
+                <MenuItem.Icon>
+                    <Image Source="images\save.png" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <Separator />
+        </ContextMenu>
         <XmlDataProvider IsAsynchronous="False" x:Key="standardSampleData" Source="/resources/StandardSamples_Table.xml" XPath="/StandardSamples/StandardSample"/>
         <XmlDataProvider IsAsynchronous="False" x:Key="newTargetData" Source="/resources/NewTestTarget_Table.xml" XPath="/NewTestTargets/NewTestTarget"/>
         <Style x:Key="GroupHeaderStyle" TargetType="{x:Type GroupItem}">
@@ -165,7 +191,7 @@
                                   Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}" 
                                   CanUserAddRows="False"
                                   ItemsSource="{Binding}"  
-                                  Margin="0,0,0,0" AutoGenerateColumns="False" CellEditEnding="NewTargetDgd_CellEditEnding">
+                                  Margin="0,0,0,0" AutoGenerateColumns="False" CellEditEnding="NewTargetDgd_CellEditEnding" MouseRightButtonDown="NewTargetDgd_MouseRightButtonDown" LoadingRow="NewTargetDgd_LoadingRow">
 
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="序号" Width="80" Binding="{Binding Code,Mode=TwoWay}" IsReadOnly="True"></DataGridTextColumn>
@@ -222,7 +248,7 @@
                                   Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}" 
                                   ItemsSource="{Binding}"
                                   CanUserAddRows="False"
-                                  Margin="0,0,0,0" AutoGenerateColumns="False" SelectionChanged="standardSampleDgd_SelectionChanged" CellEditEnding="standardSampleDgd_CellEditEnding">
+                                  Margin="0,0,0,0" AutoGenerateColumns="False" SelectionChanged="standardSampleDgd_SelectionChanged" CellEditEnding="standardSampleDgd_CellEditEnding" MouseRightButtonDown="standardSampleDgd_MouseRightButtonDown" LoadingRow="standardSampleDgd_LoadingRow">
                             <DataGrid.GroupStyle>
                                 <GroupStyle ContainerStyle="{StaticResource GroupHeaderStyle}">
                                     <GroupStyle.Panel>
