@@ -7,12 +7,17 @@
         xmlns:local="clr-namespace:SilverTest"
         mc:Ignorable="d"
         WindowStartupLocation="CenterOwner"
-        WindowStyle="SingleBorderWindow"
-        Title="历史数据" Height="450" Width="714.056" Loaded="Window_Loaded">
+        WindowStyle="None"
+        Title="历史数据" Height="481" Width="800" Loaded="Window_Loaded">
     <Grid>
         <StackPanel Orientation="Horizontal">
-            <StackPanel Width="200" Background="LightGray">
-                <ListBox x:Name="filelsb" DisplayMemberPath="Filename" SelectionChanged="filelsb_SelectionChanged">
+            <StackPanel Width="200" Height="469" VerticalAlignment="Top">
+                <StackPanel.Background>
+                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.MenuBarColorKey}}"/>
+                </StackPanel.Background>
+                <ListBox Width="196"  Height="465" x:Name="filelsb" DisplayMemberPath="Filename" 
+                         VerticalAlignment="Center" HorizontalAlignment="Center"
+                         SelectionChanged="filelsb_SelectionChanged">
                     <!--
                     <ListBox.ItemTemplate>
                         <DataTemplate>
@@ -26,9 +31,13 @@
                     -->
                 </ListBox>
             </StackPanel>
-            <StackPanel Width="500" Margin="5,0,0,0" Background="LightGray">
-                <dw:ChartPlotter x:Name="realCpt" Width="400" Height="200" DockPanel.Dock="Top" Margin="10,10,20,10"></dw:ChartPlotter>
-            </StackPanel>
+            <Canvas Width="586" Margin="5,0,0,4" Background="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}" >
+
+                <Border BorderBrush="Silver" BorderThickness="1" Height="465" Background="White" VerticalAlignment="Center" HorizontalAlignment="Center" Width="586">
+                    <dw:ChartPlotter x:Name="realCpt" Height="200" DockPanel.Dock="Top" Margin="9,97,9,165"/>
+                </Border>
+                <Button x:Name="exitbtn" Width="80" Height="40" Canvas.Left="453" Canvas.Top="390" Click="exitbtn_Click">退出</Button>
+            </Canvas>
         </StackPanel>
     </Grid>
 </Window>

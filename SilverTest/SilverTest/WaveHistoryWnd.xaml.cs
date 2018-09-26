@@ -104,6 +104,11 @@ namespace SilverTest
             sr.Close();
             aFile.Close();
         }
+
+        private void exitbtn_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 
     public class HistoryItem
