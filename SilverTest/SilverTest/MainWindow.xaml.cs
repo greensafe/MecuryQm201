@@ -687,6 +687,9 @@ namespace SilverTest
                         newTestClt[newcltindex].AirSampleTime = sequence.ToString();
                     }));
                     break;
+                case PacketType.GETSTATUS_RESPONSE:
+                    Console.WriteLine("获取状态命令回应包: " + dot.ToString());
+                    break;
                 case PacketType.DATA_VALUE:
 
                     double x = currentSecond;

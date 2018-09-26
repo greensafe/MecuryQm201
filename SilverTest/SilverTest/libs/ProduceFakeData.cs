@@ -51,141 +51,29 @@ namespace SilverTest.libs
         {
             tickcount++;
             string line = "";
-            char ch;
+            string ch;
             Console.WriteLine("tick " + tickcount.ToString());
             try
             {
                 //line = sr.ReadLine();
                 if (sr.EndOfStream == false)
                 {
-                    ch = (char)sr.Read();
+                    ch = sr.ReadLine();
                     line += ch;
                 }
-                if (sr.EndOfStream == false)
+                else
                 {
-                    ch = (char)sr.Read();
-                    line += ch;
+                    //clear context
+                    aFile.Close();
+                    aFile = null;
+                    sr.Close();
+                    sr = null;
+                    readDataTimer.Stop();
+                    readDataTimer.IsEnabled = false;
+                    readDataTimer = null;
+                    Console.WriteLine("end of file. env released !");
                 }
-                if (sr.EndOfStream == false)
-                {
-                    ch = (char)sr.Read();
-                    line += ch;
-                }
-                if (sr.EndOfStream == false)
-                {
-                    ch = (char)sr.Read();
-                    line += ch;
-                }
-                if (sr.EndOfStream == false)
-                {
-                    ch = (char)sr.Read();
-                    line += ch;
-                }
-                if (sr.EndOfStream == false)
-                {
-                    ch = (char)sr.Read();
-                    line += ch;
-                }
-                if (sr.EndOfStream == false)
-                {
-                    ch = (char)sr.Read();
-                    line += ch;
-                }
-                if (sr.EndOfStream == false)
-                {
-                    ch = (char)sr.Read();
-                    line += ch;
-                }
-                if (sr.EndOfStream == false)
-                {
-                    ch = (char)sr.Read();
-                    line += ch;
-                }
-                if (sr.EndOfStream == false)
-                {
-                    ch = (char)sr.Read();
-                    line += ch;
-                }
-                if (sr.EndOfStream == false)
-                {
-                    ch = (char)sr.Read();
-                    line += ch;
-                }
-                if (sr.EndOfStream == false)
-                {
-                    ch = (char)sr.Read();
-                    line += ch;
-                }
-                if (sr.EndOfStream == false)
-                {
-                    ch = (char)sr.Read();
-                    line += ch;
-                }
-                if (sr.EndOfStream == false)
-                {
-                    ch = (char)sr.Read();
-                    line += ch;
-                }
-                if (sr.EndOfStream == false)
-                {
-                    ch = (char)sr.Read();
-                    line += ch;
-                }
-                if (sr.EndOfStream == false)
-                {
-                    ch = (char)sr.Read();
-                    line += ch;
-                }
-                if (sr.EndOfStream == false)
-                {
-                    ch = (char)sr.Read();
-                    line += ch;
-                }
-                if (sr.EndOfStream == false)
-                {
-                    ch = (char)sr.Read();
-                    line += ch;
-                }
-                if (sr.EndOfStream == false)
-                {
-                    ch = (char)sr.Read();
-                    line += ch;
-                }
-                if (sr.EndOfStream == false)
-                {
-                    ch = (char)sr.Read();
-                    line += ch;
-                }
-                if (sr.EndOfStream == false)
-                {
-                    ch = (char)sr.Read();
-                    line += ch;
-                }
-                if (sr.EndOfStream == false)
-                {
-                    ch = (char)sr.Read();
-                    line += ch;
-                }
-                if (sr.EndOfStream == false)
-                {
-                    ch = (char)sr.Read();
-                    line += ch;
-                }
-                if (sr.EndOfStream == false)
-                {
-                    ch = (char)sr.Read();
-                    line += ch;
-                }
-                if (sr.EndOfStream == false)
-                {
-                    ch = (char)sr.Read();
-                    line += ch;
-                }
-                if (sr.EndOfStream == false)
-                {
-                    ch = (char)sr.Read();
-                    line += ch;
-                }
+      
                 // Read data in line by line.
                 if (line != null)
                 {

@@ -138,6 +138,9 @@ namespace SilverTest.libs
                 case CombineErrorInfo.AIR_SAMPLE_TIME_PCT_DATA_FORMAT_ERROR:
                     Console.WriteLine("气体采样时间包格式出错");
                     break;
+                case CombineErrorInfo.GETSTATUS_RESPONSE_FORMAT_ERROR:
+                    Console.WriteLine("获取状态命令回应包格式出错");
+                    break;
                 case CombineErrorInfo.UNKNOWN:
                 default:
                     Console.WriteLine("未知错误");
@@ -164,6 +167,9 @@ namespace SilverTest.libs
                     return;
                 case PacketType.AIR_SAMPLE_TIME:
                     Console.WriteLine("气体采样时间包校验出错");
+                    return;
+                case PacketType.GETSTATUS_RESPONSE:
+                    Console.WriteLine("状态获取命令回应包校验出错");
                     return;
             }
 

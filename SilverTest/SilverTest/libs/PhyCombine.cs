@@ -73,6 +73,16 @@ namespace SilverTest.libs
             public int AirFluPctDStart { get; set; } //气体流量包数据开始位置
             public int AirFluPctDataWidth { get; set; } //气体流量包数据长度
             public int AirFluPctVStart { get; set; } //气体流量包纠正包开始位置
+
+            //状态获取命令回应包 GetStatusResPct
+            public int GetStatusResPctLength { get; set; } //状态获取回应包长度
+            public int GetStatusResPctMiddleTag { get; set; }  //状态获取回应包中间标志
+            public int GetStatusResPctMiddleStart { get; set; }    //状态获取回应包中间标志位置
+            public int GetStatusResPctEndTag { get; set; } //状态获取回应包结束标志
+            public int GetStatusResPctEndStart { get; set; } //状态获取回应包结束标志位置
+            public int GetStatusResPctDStart { get; set; } //状态获取回应包数据开始位置
+            public int GetStatusResPctDataWidth { get; set; } //状态获取回应包数据长度
+            public int GetStatusResPctVStart { get; set; } //状态获取回应包纠正开始位置
         }
 
         //数据包类型
@@ -84,6 +94,7 @@ namespace SilverTest.libs
             CORRECT_RESPONSE,           //校验出错重发命令的响应包
             AIR_SAMPLE_TIME,            //气体取样时间包
             AIR_FLUENT,                 //气体流量包
+            GETSTATUS_RESPONSE,         //状态获取命令回应包
             FRAGMENT,                   //碎片
             UNKNOWN                     //未知格式
         }
@@ -97,6 +108,7 @@ namespace SilverTest.libs
                                     FRAGMENT_CORRECT,           //包是校验出错响应包碎片
                                     FRAGMENT_AIR_SAMPLE_TIME,   //包是气体取样时间包碎片
                                     FRAGMENT_AIR_FLUENT,        //包是气体流量包碎片
+                                    FRAGMENT_GETSTATUS_RESPONSE,//包是状态获取命令回应包
                                     FRAGMENT_UNKONWN            //碎片格式未知
         };
 
@@ -120,6 +132,7 @@ namespace SilverTest.libs
             CORRECT_PCT_DATA_FORMAT_ERROR,          //纠正包的格式有错，找不到数据包的结束位置,和中间标志位置
             AIR_SAMPLE_TIME_PCT_DATA_FORMAT_ERROR,          //气体取样时间包的格式有错，找不到数据包的结束位置,和中间标志位置
             AIR_FLUENT_PCT_DATA_FORMAT_ERROR,          //气体流量包的格式有错，找不到数据包的结束位置,和中间标志位置
+            GETSTATUS_RESPONSE_FORMAT_ERROR,           //状态获取命令回应包的格式有错，找不到数据包的结束位置,和中间标志位置
             INVALID_PACKET_TYPE,            //非法的包类型
             UNKNOWN,                        //程序算法出错 :<
         }
@@ -235,6 +248,16 @@ namespace SilverTest.libs
                         machineinfo.AirSTPctMiddleTag = 0x42;
                         machineinfo.AirSTPctVStart = 5;
 
+                        //状态获取命令回应包
+                        machineinfo.GetStatusResPctDataWidth = 8;
+                        machineinfo.GetStatusResPctDStart = 4;
+                        machineinfo.GetStatusResPctEndStart = 16;
+                        machineinfo.GetStatusResPctEndTag = 0x49;
+                        machineinfo.GetStatusResPctLength = 17;
+                        machineinfo.GetStatusResPctMiddleStart = 13;
+                        machineinfo.GetStatusResPctMiddleTag = 0x48;
+                        machineinfo.GetStatusResPctVStart = 14;
+
                         machineinfo.DataWidth = 5;
                         machineinfo.SequenceLength = 6;
                         machineinfo.Type = 0x01;
@@ -337,6 +360,20 @@ namespace SilverTest.libs
                                             rawText_bigpct_prt = (rawText_purepct_prt + machineinfo.AirSTPctLength);
                                         }
                                         break;
+                                    case PacketType.GETSTATUS_RESPONSE:
+                                        if (rawText_purepct_prt + machineinfo.GetStatusResPctLength == rawText_length)
+                                        {
+                                            if (appendCRLF())
+                                            {
+                                                rawText_length += "\r\n".Length;
+                                                rawText_bigpct_prt = rawText_length;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            rawText_bigpct_prt = (rawText_purepct_prt + machineinfo.GetStatusResPctLength);
+                                        }
+                                        break;
 
                                 }
                                 break;
@@ -364,6 +401,10 @@ namespace SilverTest.libs
                                     case PacketCombineStatus.FRAGMENT_AIR_SAMPLE_TIME:
                                         rawText_bigpct_prt = rawText_purepct_prt + machineinfo.AirSTPctLength;
                                         if (CombineError_Ev != null) CombineError_Ev(CombineErrorInfo.AIR_SAMPLE_TIME_PCT_DATA_FORMAT_ERROR);
+                                        break;
+                                    case PacketCombineStatus.FRAGMENT_GETSTATUS_RESPONSE:
+                                        rawText_bigpct_prt = rawText_purepct_prt + machineinfo.GetStatusResPctLength;
+                                        if (CombineError_Ev != null) CombineError_Ev(CombineErrorInfo.GETSTATUS_RESPONSE_FORMAT_ERROR);
                                         break;
                                 }
                                 rawText_frag_status = PacketCombineStatus.OK; //抛弃格式错误包
@@ -447,6 +488,7 @@ namespace SilverTest.libs
                 case PacketCombineStatus.FRAGMENT_VALUE:
                 case PacketCombineStatus.FRAGMENT_AIR_FLUENT:
                 case PacketCombineStatus.FRAGMENT_AIR_SAMPLE_TIME:
+                case PacketCombineStatus.FRAGMENT_GETSTATUS_RESPONSE:
                     return check_known_type_fn(cmbstus,out fragtype, out ptype);
                     
             }
@@ -515,6 +557,9 @@ namespace SilverTest.libs
                 case 0x44: //'D' 气体流量包
                     return cut(out ptype, out fragtype, PacketType.AIR_FLUENT, true, (byte)machineinfo.AirFluPctMiddleTag,  
                         machineinfo.AirFluPctMiddleStart, (byte)machineinfo.AirFluPctEndTag, machineinfo.AirFluPctEndStart, machineinfo.AirFluPctLength);
+                case 0x4A: //'J' 状态获取命令回应包
+                    return cut(out ptype, out fragtype, PacketType.GETSTATUS_RESPONSE, true, (byte)machineinfo.GetStatusResPctMiddleTag,
+                        machineinfo.GetStatusResPctMiddleStart, (byte)machineinfo.GetStatusResPctEndTag, machineinfo.GetStatusResPctEndStart, machineinfo.GetStatusResPctLength);
                 default:  //无法识别包的类型
                     ptype = PacketType.UNKNOWN;
                     fragtype = PacketCombineStatus.FRAGMENT_UNKONWN;
@@ -547,6 +592,9 @@ namespace SilverTest.libs
                 case PacketCombineStatus.FRAGMENT_AIR_SAMPLE_TIME:
                     return cut(out ptype, out fragtype, PacketType.AIR_SAMPLE_TIME, true, (byte)machineinfo.AirSTPctMiddleTag,
                         machineinfo.AirSTPctMiddleStart, (byte)machineinfo.AirSTPctEndTag, machineinfo.AirSTPctEndStart, machineinfo.AirSTPctLength);
+                case PacketCombineStatus.FRAGMENT_GETSTATUS_RESPONSE:
+                    return cut(out ptype, out fragtype, PacketType.GETSTATUS_RESPONSE, true, (byte)machineinfo.GetStatusResPctMiddleTag,
+                        machineinfo.GetStatusResPctMiddleStart, (byte)machineinfo.GetStatusResPctEndTag, machineinfo.GetStatusResPctEndStart, machineinfo.GetStatusResPctLength);
             }
             return CheckError.CONTINUE;
         }
@@ -607,6 +655,8 @@ namespace SilverTest.libs
                     return CombineErrorInfo.AIR_FLUENT_PCT_DATA_FORMAT_ERROR;
                 case PacketType.AIR_SAMPLE_TIME:
                     return CombineErrorInfo.AIR_SAMPLE_TIME_PCT_DATA_FORMAT_ERROR;
+                case PacketType.GETSTATUS_RESPONSE:
+                    return CombineErrorInfo.GETSTATUS_RESPONSE_FORMAT_ERROR;
                 default:
                     return CombineErrorInfo.UNKNOWN;
             }
@@ -626,6 +676,8 @@ namespace SilverTest.libs
                     return PacketCombineStatus.FRAGMENT_AIR_FLUENT;
                 case PacketType.AIR_SAMPLE_TIME:
                     return PacketCombineStatus.FRAGMENT_AIR_SAMPLE_TIME;
+                case PacketType.GETSTATUS_RESPONSE:
+                    return PacketCombineStatus.FRAGMENT_GETSTATUS_RESPONSE;
                 default:
                     return PacketCombineStatus.FRAGMENT_UNKONWN;
             }
