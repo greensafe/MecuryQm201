@@ -83,6 +83,16 @@ namespace SilverTest.libs
             public int GetStatusResPctDStart { get; set; } //状态获取回应包数据开始位置
             public int GetStatusResPctDataWidth { get; set; } //状态获取回应包数据长度
             public int GetStatusResPctVStart { get; set; } //状态获取回应包纠正开始位置
+
+            //普通命令回应包 
+            public int NorCmdResPctLength { get; set; } //普通命令回应包长度
+            public int NorCmdResPctMiddleTag { get; set; }  //普通命令回应包中间标志
+            public int NorCmdResPctMiddleStart { get; set; }    //普通命令回应包中间标志位置
+            public int NorCmdResPctEndTag { get; set; } //普通命令回应包结束标志
+            public int NorCmdResPctEndStart { get; set; } //普通命令回应包结束标志位置
+            public int NorCmdResPctDStart { get; set; } //普通命令回应包数据开始位置
+            public int NorCmdResPctDataWidth { get; set; } //普通命令回应包数据长度
+            public int NorCmdResPctVStart { get; set; } //普通命令回应包纠正包开始位置
         }
 
         //数据包类型
@@ -95,6 +105,7 @@ namespace SilverTest.libs
             AIR_SAMPLE_TIME,            //气体取样时间包
             AIR_FLUENT,                 //气体流量包
             GETSTATUS_RESPONSE,         //状态获取命令回应包
+            NORCMD_RESPONSE,           //普通命令回应包
             FRAGMENT,                   //碎片
             UNKNOWN                     //未知格式
         }
@@ -108,7 +119,8 @@ namespace SilverTest.libs
                                     FRAGMENT_CORRECT,           //包是校验出错响应包碎片
                                     FRAGMENT_AIR_SAMPLE_TIME,   //包是气体取样时间包碎片
                                     FRAGMENT_AIR_FLUENT,        //包是气体流量包碎片
-                                    FRAGMENT_GETSTATUS_RESPONSE,//包是状态获取命令回应包
+                                    FRAGMENT_GETSTATUS_RESPONSE,//包是状态获取命令回应包碎片
+                                    FRAGMENT_NORCMD_RESPONSE,   //包是普通命令回应包碎片
                                     FRAGMENT_UNKONWN            //碎片格式未知
         };
 
@@ -133,6 +145,7 @@ namespace SilverTest.libs
             AIR_SAMPLE_TIME_PCT_DATA_FORMAT_ERROR,          //气体取样时间包的格式有错，找不到数据包的结束位置,和中间标志位置
             AIR_FLUENT_PCT_DATA_FORMAT_ERROR,          //气体流量包的格式有错，找不到数据包的结束位置,和中间标志位置
             GETSTATUS_RESPONSE_FORMAT_ERROR,           //状态获取命令回应包的格式有错，找不到数据包的结束位置,和中间标志位置
+            NORCMD_RESPONSE_FORMAT_ERROR,           //普通命令回应包的格式有错，找不到数据包的结束位置,和中间标志位置
             INVALID_PACKET_TYPE,            //非法的包类型
             UNKNOWN,                        //程序算法出错 :<
         }
@@ -258,6 +271,16 @@ namespace SilverTest.libs
                         machineinfo.GetStatusResPctMiddleTag = 0x48;
                         machineinfo.GetStatusResPctVStart = 14;
 
+                        //普通命令回应包
+                        machineinfo.NorCmdResPctDataWidth =3 ;
+                        machineinfo.NorCmdResPctDStart = 2;
+                        machineinfo.NorCmdResPctEndStart = 8;
+                        machineinfo.NorCmdResPctEndTag = 0x49;
+                        machineinfo.NorCmdResPctLength = 9;
+                        machineinfo.NorCmdResPctMiddleStart = 5;
+                        machineinfo.NorCmdResPctMiddleTag = 0x48;
+                        machineinfo.NorCmdResPctVStart = 6;
+
                         machineinfo.DataWidth = 5;
                         machineinfo.SequenceLength = 6;
                         machineinfo.Type = 0x01;
@@ -375,6 +398,20 @@ namespace SilverTest.libs
                                         }
                                         break;
 
+                                    case PacketType.NORCMD_RESPONSE:
+                                        if (rawText_purepct_prt + machineinfo.NorCmdResPctLength == rawText_length)
+                                        {
+                                            if (appendCRLF())
+                                            {
+                                                rawText_length += "\r\n".Length;
+                                                rawText_bigpct_prt = rawText_length;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            rawText_bigpct_prt = (rawText_purepct_prt + machineinfo.NorCmdResPctLength);
+                                        }
+                                        break;
                                 }
                                 break;
                             case CheckError.CONTINUE: //碎片，不要拨动指针
@@ -405,6 +442,10 @@ namespace SilverTest.libs
                                     case PacketCombineStatus.FRAGMENT_GETSTATUS_RESPONSE:
                                         rawText_bigpct_prt = rawText_purepct_prt + machineinfo.GetStatusResPctLength;
                                         if (CombineError_Ev != null) CombineError_Ev(CombineErrorInfo.GETSTATUS_RESPONSE_FORMAT_ERROR);
+                                        break;
+                                    case PacketCombineStatus.FRAGMENT_NORCMD_RESPONSE:
+                                        rawText_bigpct_prt = rawText_purepct_prt + machineinfo.NorCmdResPctLength;
+                                        if (CombineError_Ev != null) CombineError_Ev(CombineErrorInfo.NORCMD_RESPONSE_FORMAT_ERROR);
                                         break;
                                 }
                                 rawText_frag_status = PacketCombineStatus.OK; //抛弃格式错误包
@@ -489,6 +530,7 @@ namespace SilverTest.libs
                 case PacketCombineStatus.FRAGMENT_AIR_FLUENT:
                 case PacketCombineStatus.FRAGMENT_AIR_SAMPLE_TIME:
                 case PacketCombineStatus.FRAGMENT_GETSTATUS_RESPONSE:
+                case PacketCombineStatus.FRAGMENT_NORCMD_RESPONSE:
                     return check_known_type_fn(cmbstus,out fragtype, out ptype);
                     
             }
@@ -560,6 +602,9 @@ namespace SilverTest.libs
                 case 0x4A: //'J' 状态获取命令回应包
                     return cut(out ptype, out fragtype, PacketType.GETSTATUS_RESPONSE, true, (byte)machineinfo.GetStatusResPctMiddleTag,
                         machineinfo.GetStatusResPctMiddleStart, (byte)machineinfo.GetStatusResPctEndTag, machineinfo.GetStatusResPctEndStart, machineinfo.GetStatusResPctLength);
+                case 0x5A:  //'Z'普通命令回应包
+                    return cut(out ptype, out fragtype, PacketType.NORCMD_RESPONSE, true, (byte)machineinfo.NorCmdResPctMiddleTag,
+                        machineinfo.NorCmdResPctMiddleStart, (byte)machineinfo.NorCmdResPctEndTag, machineinfo.NorCmdResPctEndStart, machineinfo.NorCmdResPctLength);
                 default:  //无法识别包的类型
                     ptype = PacketType.UNKNOWN;
                     fragtype = PacketCombineStatus.FRAGMENT_UNKONWN;
@@ -595,6 +640,9 @@ namespace SilverTest.libs
                 case PacketCombineStatus.FRAGMENT_GETSTATUS_RESPONSE:
                     return cut(out ptype, out fragtype, PacketType.GETSTATUS_RESPONSE, true, (byte)machineinfo.GetStatusResPctMiddleTag,
                         machineinfo.GetStatusResPctMiddleStart, (byte)machineinfo.GetStatusResPctEndTag, machineinfo.GetStatusResPctEndStart, machineinfo.GetStatusResPctLength);
+                case PacketCombineStatus.FRAGMENT_NORCMD_RESPONSE:
+                    return cut(out ptype, out fragtype, PacketType.NORCMD_RESPONSE, true, (byte)machineinfo.NorCmdResPctMiddleTag,
+                        machineinfo.NorCmdResPctMiddleStart, (byte)machineinfo.NorCmdResPctEndTag, machineinfo.NorCmdResPctEndStart, machineinfo.NorCmdResPctLength);
             }
             return CheckError.CONTINUE;
         }
@@ -657,6 +705,8 @@ namespace SilverTest.libs
                     return CombineErrorInfo.AIR_SAMPLE_TIME_PCT_DATA_FORMAT_ERROR;
                 case PacketType.GETSTATUS_RESPONSE:
                     return CombineErrorInfo.GETSTATUS_RESPONSE_FORMAT_ERROR;
+                case PacketType.NORCMD_RESPONSE:
+                    return CombineErrorInfo.NORCMD_RESPONSE_FORMAT_ERROR;
                 default:
                     return CombineErrorInfo.UNKNOWN;
             }
@@ -678,6 +728,8 @@ namespace SilverTest.libs
                     return PacketCombineStatus.FRAGMENT_AIR_SAMPLE_TIME;
                 case PacketType.GETSTATUS_RESPONSE:
                     return PacketCombineStatus.FRAGMENT_GETSTATUS_RESPONSE;
+                case PacketType.NORCMD_RESPONSE:
+                    return PacketCombineStatus.FRAGMENT_NORCMD_RESPONSE;
                 default:
                     return PacketCombineStatus.FRAGMENT_UNKONWN;
             }

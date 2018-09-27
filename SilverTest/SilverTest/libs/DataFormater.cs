@@ -223,6 +223,32 @@ namespace SilverTest.libs
 
                     }
                     break;
+                case PacketType.NORCMD_RESPONSE:
+                    if (validateData(packet, PhyCombine.GetPhyCombine().GetMachineInfo().NorCmdResPctDStart,
+                              PhyCombine.GetPhyCombine().GetMachineInfo().NorCmdResPctDataWidth,
+                              twoint(packet, PhyCombine.GetPhyCombine().GetMachineInfo().NorCmdResPctVStart)) == true)
+                    {
+                        if (PacketRecevied_Ev != null)
+                        {
+                            //通知收到一个包, 使用dot传递结果
+                            byte[] statusres_packt_data = new byte[3];
+                            for (int i = 0; i <3; i++)
+                            {
+                                statusres_packt_data[i] = packet[PhyCombine.GetPhyCombine().GetMachineInfo().NorCmdResPctDStart + i];
+                            }
+                            PacketRecevied_Ev(statusres_packt_data, -1, PacketType.NORCMD_RESPONSE);
+                        }
+                    }
+                    else
+                    {
+                        //发生错误
+                        if (PacketCheckError_Ev != null)
+                        {
+                            PacketCheckError_Ev(0, PacketType.NORCMD_RESPONSE);
+                        }
+
+                    }
+                    break;
                 default:
                     Console.WriteLine("DataFormater:未知包");
                     break;

@@ -141,6 +141,9 @@ namespace SilverTest.libs
                 case CombineErrorInfo.GETSTATUS_RESPONSE_FORMAT_ERROR:
                     Console.WriteLine("获取状态命令回应包格式出错");
                     break;
+                case CombineErrorInfo.NORCMD_RESPONSE_FORMAT_ERROR:
+                    Console.WriteLine("普通命令回应包格式出错");
+                    break;
                 case CombineErrorInfo.UNKNOWN:
                 default:
                     Console.WriteLine("未知错误");
@@ -170,6 +173,9 @@ namespace SilverTest.libs
                     return;
                 case PacketType.GETSTATUS_RESPONSE:
                     Console.WriteLine("状态获取命令回应包校验出错");
+                    return;
+                case PacketType.NORCMD_RESPONSE:
+                    Console.WriteLine("普通命令回应包校验出错");
                     return;
             }
 
