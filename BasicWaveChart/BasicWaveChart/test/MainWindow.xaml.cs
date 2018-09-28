@@ -24,5 +24,19 @@ namespace test
         {
             InitializeComponent();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            wc.RatioS = "1:10";
+            //wc.Height = 100;
+            //wc.Width = 400;
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+
+            //wc.Height = 400;
+            //wc.Width = 400;
+        }
     }
 }

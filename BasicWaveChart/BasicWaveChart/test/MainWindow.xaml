@@ -6,9 +6,11 @@
         xmlns:local="clr-namespace:test"
         xmlns:BasicWaveChart="clr-namespace:BasicWaveChart;assembly=BasicWaveChart" x:Class="test.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="650" Width="800">
     <Grid>
-        <BasicWaveChart:BasicWaveChartUC HorizontalAlignment="Left" Height="170" Margin="214,74,0,0" VerticalAlignment="Top" Width="339"/>
+        <BasicWaveChart:BasicWaveChartUC x:Name="wc"  RatioS="1:2" HorizontalAlignment="Left" Height="378" Margin="181,34,0,0" VerticalAlignment="Top" Width="560"/>
+        <Button Content="right" HorizontalAlignment="Left" Height="38" Margin="75,158,0,0" VerticalAlignment="Top" Width="87" Click="Button_Click"/>
+        <Button Content="narrow" HorizontalAlignment="Left" Height="38" Margin="75,229,0,0" VerticalAlignment="Top" Width="87" Click="Button_Click_1"/>
 
     </Grid>
 </Window>

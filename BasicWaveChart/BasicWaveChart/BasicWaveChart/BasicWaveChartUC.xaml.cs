@@ -20,9 +20,38 @@ namespace BasicWaveChart
     /// </summary>
     public partial class BasicWaveChartUC : UserControl
     {
+        public string RatioS
+        {
+            get
+            {
+                return (string)GetValue(RatioSProperty);
+            }
+            set
+            {
+                SetValue(RatioSProperty, value);
+            }
+        }
+        DependencyProperty RatioSProperty = DependencyProperty.Register("RatioS", typeof(string),typeof(BasicWaveChartUC),
+            new UIPropertyMetadata("1:1", new PropertyChangedCallback(RatioSChanged)),
+                new ValidateValueCallback(RatioSNumber)
+        );
+
+        private static bool RatioSNumber(object value)
+        {
+            return true;
+            //throw new NotImplementedException();
+        }
+
+        private static void RatioSChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            return;
+            //throw new NotImplementedException();
+        }
+
         public BasicWaveChartUC()
         {
             InitializeComponent();
         }
+
     }
 }
