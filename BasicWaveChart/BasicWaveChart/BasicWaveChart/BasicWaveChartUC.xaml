@@ -7,8 +7,7 @@
              xmlns:widget="clr-namespace:BasicWaveChart.widget" 
              x:Name="ControlContainer" 
              x:Class="BasicWaveChart.BasicWaveChartUC"
-             mc:Ignorable="d" 
-             d:DesignHeight="411.888" d:DesignWidth="322.532">
+             mc:Ignorable="d" Height="419.424" Width="608.922">
     <UserControl.Resources>
         <DrawingBrush x:Key="gridbrush" Viewport="0,0,50,50" ViewportUnits="Absolute" TileMode="Tile">
             <DrawingBrush.Drawing>
@@ -68,8 +67,16 @@
                 </DrawingGroup>
             </DrawingBrush.Drawing >
         </DrawingBrush>
+
     </UserControl.Resources>
-    <widget:ZoomPanel x:Name="zoompanel" Ratio="{Binding RatioS, ElementName=ControlContainer}" >
-        <Canvas Background="{StaticResource gridbrush}"></Canvas>
+    <widget:ZoomPanel x:Name="zoompanel" Background="Yellow" Ratio="{Binding RatioS, ElementName=ControlContainer}">
+        <Canvas x:Name="canvas" Background="{StaticResource gridbrush}">
+            <Canvas.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleY="-1"/>
+                    <TranslateTransform Y="{Binding ActualHeight, ElementName=canvas, Mode=OneWay}"/>
+                </TransformGroup>
+            </Canvas.RenderTransform>
+        </Canvas>
     </widget:ZoomPanel>
 </UserControl>

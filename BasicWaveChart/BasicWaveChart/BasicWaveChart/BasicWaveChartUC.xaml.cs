@@ -33,10 +33,10 @@ namespace BasicWaveChart
         }
         DependencyProperty RatioSProperty = DependencyProperty.Register("RatioS", typeof(string),typeof(BasicWaveChartUC),
             new UIPropertyMetadata("1:1", new PropertyChangedCallback(RatioSChanged)),
-                new ValidateValueCallback(RatioSNumber)
+                new ValidateValueCallback(RatioSIsNumber)
         );
 
-        private static bool RatioSNumber(object value)
+        private static bool RatioSIsNumber(object value)
         {
             return true;
             //throw new NotImplementedException();
