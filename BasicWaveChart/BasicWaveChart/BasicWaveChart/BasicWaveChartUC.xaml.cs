@@ -20,6 +20,7 @@ namespace BasicWaveChart
     /// </summary>
     public partial class BasicWaveChartUC : UserControl
     {
+        #region DependencyProperty
         public string RatioS
         {
             get
@@ -39,14 +40,56 @@ namespace BasicWaveChart
         private static bool RatioSIsNumber(object value)
         {
             return true;
-            //throw new NotImplementedException();
+            
         }
 
         private static void RatioSChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             return;
-            //throw new NotImplementedException();
+            
         }
+
+        //the blank area on top of y axis
+        public int TopBlankZone
+        {
+            get
+            {
+                return (int)GetValue(TopBlankZoneProperty);
+            }
+            set
+            {
+                SetValue(TopBlankZoneProperty, value);
+            }
+        }
+        DependencyProperty TopBlankZoneProperty = DependencyProperty.Register("TopBlankZone", typeof(int), typeof(BasicWaveChartUC),
+            new UIPropertyMetadata(0, new PropertyChangedCallback(TopBlankZone_Changed)));
+
+        private static void TopBlankZone_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            return;
+            
+        }
+
+        //the blank area on right of x axis
+        public int RightBlankZone
+        {
+            get
+            {
+                return (int)GetValue(RightBlankZoneProperty);
+            }
+            set
+            {
+                SetValue(RightBlankZoneProperty, value);
+            }
+        }
+        DependencyProperty RightBlankZoneProperty = DependencyProperty.Register("RightBlankZone", typeof(int), typeof(BasicWaveChartUC),
+            new UIPropertyMetadata(0, new PropertyChangedCallback(RightBlankZone_Changed)));
+        private static void RightBlankZone_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            return;
+            
+        }
+        #endregion
 
         public BasicWaveChartUC()
         {

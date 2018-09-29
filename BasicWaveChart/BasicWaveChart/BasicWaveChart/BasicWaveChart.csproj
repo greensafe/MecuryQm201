@@ -48,6 +48,9 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="widget\SomeType.cs" />
+    <Compile Include="widget\XAxisCtl.cs" />
+    <Compile Include="widget\YAxisCtl.cs" />
     <Compile Include="widget\ZoomPanel.cs" />
     <Page Include="BasicWaveChartUC.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -6,6 +6,8 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace BasicWaveChart.widget
 {
@@ -27,6 +29,7 @@ namespace BasicWaveChart.widget
             set
             {
                 SetValue(RatioProperty, value);
+                /*
                 if (value == null) { Console.WriteLine("ZoomPanel: RatioProperty is null");return; }
                 Regex regex = new Regex(@"\d[:]\d");
                 if (regex.IsMatch(value)){
@@ -42,6 +45,7 @@ namespace BasicWaveChart.widget
                     zoomx = 2;
                     Console.WriteLine("BasicWaveChart: ratio's format is not valid");
                 }
+                */
             }
         }
         public static readonly DependencyProperty RatioProperty =
@@ -57,6 +61,7 @@ namespace BasicWaveChart.widget
             ZoomPanel panel = d as ZoomPanel;
             string ratio = e.NewValue as string;
             Regex regex = new Regex(@"\d[:]\d");
+
             
             if (regex.IsMatch(ratio))
             {
@@ -107,6 +112,73 @@ namespace BasicWaveChart.widget
         protected override Size MeasureOverride(Size availableSize)
         {
             return base.MeasureOverride(availableSize);
+        }
+    }
+
+
+ 
+
+    //try
+    public class Star : Shape
+    {
+        protected PathGeometry pg;
+        PathFigure pf;
+        PolyLineSegment pls;
+
+        public Star()
+        {
+            pg = new PathGeometry();
+            pf = new PathFigure();
+            pls = new PolyLineSegment();
+            pg.Figures.Add(pf);
+        }
+
+        // Specify the center of the star
+        public static readonly DependencyProperty CenterProperty =
+            DependencyProperty.Register("Center", typeof(Point), typeof(Star),
+            new FrameworkPropertyMetadata(new Point(20.0, 20.0),
+            FrameworkPropertyMetadataOptions.AffectsMeasure));
+        public Point Center
+        {
+            set { SetValue(CenterProperty, value); }
+            get { return (Point)GetValue(CenterProperty); }
+        }
+
+        // Specify the size of the star:
+        public static readonly DependencyProperty SizeRProperty =
+            DependencyProperty.Register("SizeR", typeof(double), typeof(Star),
+            new FrameworkPropertyMetadata(10.0,
+            FrameworkPropertyMetadataOptions.AffectsMeasure));
+        public double SizeR
+        {
+            set { SetValue(SizeRProperty, value); }
+            get { return (double)GetValue(SizeRProperty); }
+        }
+
+        protected override Geometry DefiningGeometry
+        {
+            get
+            {
+                double r = SizeR;
+                double x = Center.X;
+                double y = Center.Y;
+                double sn36 = Math.Sin(36.0 * Math.PI / 180.0);
+                double sn72 = Math.Sin(72.0 * Math.PI / 180.0);
+                double cs36 = Math.Cos(36.0 * Math.PI / 180.0);
+                double cs72 = Math.Cos(72.0 * Math.PI / 180.0);
+
+                pf.StartPoint = new Point(x, y - r);
+                pls.Points.Add(new Point(x + r * sn36, y + r * cs36));
+                pls.Points.Add(new Point(x - r * sn72, y - r * cs72));
+                pls.Points.Add(new Point(x + r * sn72, y - r * cs72));
+                pls.Points.Add(new Point(x - r * sn36, y + r * cs36));
+                pls.Points.Add(new Point(x, y - r));
+                pf.Segments.Add(pls);
+                pf.IsClosed = true;
+                pg.FillRule = FillRule.Nonzero;
+
+                return pg;
+            }
         }
     }
 }
