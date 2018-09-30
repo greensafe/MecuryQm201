@@ -38,5 +38,10 @@ namespace test
             //wc.Height = 400;
             //wc.Width = 400;
         }
+
+        private void drawxaxis_Click(object sender, RoutedEventArgs e)
+        {
+            wc.SetScale(200, 4000, 0, 0);
+        }
     }
 }

@@ -17,6 +17,7 @@
         <Button Content="narrow" HorizontalAlignment="Left" Height="38" Margin="75,229,0,0" VerticalAlignment="Top" Width="87" Click="Button_Click_1"/>
 
         <widget:Star Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="152" Margin="238,308,0,0" Stroke="Black" VerticalAlignment="Top" Width="304"/>
+        <Button x:Name="drawxaxis" Content="redraw xaxis" HorizontalAlignment="Left" Margin="75,111,0,0" VerticalAlignment="Top" Width="87" Height="24" Click="drawxaxis_Click"/>
 
     </Grid>
 </Window>

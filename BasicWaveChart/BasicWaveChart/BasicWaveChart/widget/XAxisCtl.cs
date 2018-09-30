@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
@@ -62,6 +63,8 @@ namespace BasicWaveChart.widget
             XAxisCtl self = d as XAxisCtl;
             YAxisCtl yaxisctl = self.FindName("yaxis") as YAxisCtl;
             BasicWaveChartUC wavechartuc = self.FindName("ControlContainer") as BasicWaveChartUC;
+            self.granulity_width = 
+                (self.Width - self.arrowheight - yaxisctl.Width - wavechartuc.RightBlankZone) / self.XScaleMaxValue;
         }
 
         //how many dvalue that a scale include
@@ -131,13 +134,6 @@ namespace BasicWaveChart.widget
                 pg.Figures.Add(pf);
 
                 double hlinevalue = this.Height - topblank;
-                /*
-                PolyLineSegment axisSeg = new PolyLineSegment();
-                //pf.StartPoint = new Point(yaxisctl.Width, this.Height - topblank);
-                axisSeg.Points.Add(new Point(yaxisctl.Width, hlinevalue));
-                axisSeg.Points.Add(new Point(this.Width - arrowheight, hlinevalue));
-                pf.Segments.Add(axisSeg);
-                */
 
                 PolyLineSegment ScaleSeg = new PolyLineSegment();
                 if (this.XScaleLineNumber == 0) this.XScaleLineNumber = 100;
@@ -189,17 +185,6 @@ namespace BasicWaveChart.widget
                 
 
                 /*
-                PathGeometry pg = new PathGeometry();
-                PathFigure pf = new PathFigure();
-                PolyLineSegment pls = new PolyLineSegment();
-                pg.Figures.Add(pf);
-                pf.StartPoint = new Point(1, 1);
-                pls.Points.Add(new Point(10, 15));
-                pls.Points.Add(new Point(14, 20));
-                pls.Points.Add(new Point(20, 5));
-                pls.Points.Add(new Point(30, 40));
-                pls.Points.Add(new Point(45, 10));
-                pf.Segments.Add(pls);
                 pf.IsClosed = true;
                 pg.FillRule = FillRule.Nonzero;
                 */
@@ -213,7 +198,50 @@ namespace BasicWaveChart.widget
             return granulity_width;
         }
 
-    }
+        // get the drawing value in y axis according to dvalue
+        public double GetXX(int dvalue)
+        {
+            return dvalue * granulity_width;
+        }
 
+        //redraw command
+        public void ReDrawTextCommentCmd()
+        {
+
+            Canvas xaxis_text_canvas = this.FindName("xaxis_text_canvas") as Canvas;
+            BasicWaveChartUC wavechartuc = this.FindName("ControlContainer") as BasicWaveChartUC;
+            XAxisCtl xaxis = this.FindName("xaxis") as XAxisCtl;
+            YAxisCtl yaxis = this.FindName("yaxis") as YAxisCtl;
+
+            //add the scale text
+            xaxis_text_canvas.Children.Clear();
+
+            //0
+            xaxis_text_canvas.Children.Add(new TextBlock());
+            (xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock).Text = "0";
+            (xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock).FontSize = 8;
+            Canvas.SetLeft((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), yaxis.Width);
+            Canvas.SetBottom((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), 0);
+            int loop = (int)(xaxis.XScaleMaxValue / xaxis.XScaleLineNumber / xaxis.XCommentNumber);
+
+            for (int i = 1; i < loop; i++)
+            {
+                xaxis_text_canvas.Children.Add(new TextBlock());
+                (xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock).Text =
+                    (i * xaxis.XScaleLineNumber * xaxis.XCommentNumber).ToString();
+                (xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock).FontSize = 8;
+                Canvas.SetLeft((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), (i * xaxis.XScaleLineNumber * xaxis.XCommentNumber) * xaxis.GetGranulity() + yaxis.Width);
+                Canvas.SetBottom((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), 0);
+            }
+
+            //the text of last big scale
+            xaxis_text_canvas.Children.Add(new TextBlock());
+            (xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock).Text =
+                (loop * xaxis.XScaleLineNumber * xaxis.XCommentNumber).ToString();
+            (xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock).FontSize = 8;
+            Canvas.SetLeft((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), (loop * xaxis.XScaleLineNumber * xaxis.XCommentNumber) * xaxis.GetGranulity() + yaxis.Width);
+            Canvas.SetBottom((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), 0);
+        }
+    }
 }
 

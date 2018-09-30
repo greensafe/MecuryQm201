@@ -187,5 +187,17 @@ namespace BasicWaveChart.widget
         {
             return granulity_width;
         }
+
+        // get the drawing value in y axis according to dvalue
+        public double GetYY(int dvalue)
+        {
+            return dvalue * granulity_width;
+        }
+
+        //redraw command
+        public void ReDrawCmd()
+        {
+
+        }
     }
 }
