@@ -9,10 +9,38 @@ using System.Windows.Shapes;
 
 namespace BasicWaveChart.widget
 {
+    /*
+     * say together.
+     * dot - a real dot in screen
+     * dvalue - value of data, the min value is "1" . if it's 0.01, 0.002,0.003, should first convert to 1,2,3
+     */
     class YAxisCtl : Shape
     {
-        #region DependencyProperty
+        protected double granulity_width = 1;               //the width of expected granulity
+        private double littleScaleHeight = 6;               //height of little scale
+        private double bigScaleHeight = 10;                 //height of big scale
+        private double axisThickness = 3;                   //the thickness of axis 
+        private double littleScaleThickness = 3;            //thickness of little scale
+        private double bigScaleThickness = 3;               //thickness of big scale
+        private double rightblank = 3;                        //magin at right of axis
+        private double arrowheight = 10;                     //size of arrow
 
+        #region DependencyProperty
+        //arrow height
+        public double YArrowheight
+        {
+            get
+            {
+                return (double)GetValue(YArrowheightProperty);
+            }
+            set
+            {
+                SetValue(YArrowheightProperty, value);
+            }
+        }
+        public DependencyProperty YArrowheightProperty = DependencyProperty.Register("YArrowheight", typeof(double), typeof(YAxisCtl));
+
+        //max dvalue to draw
         public int YScaleMaxValue
         {
             get
@@ -27,7 +55,7 @@ namespace BasicWaveChart.widget
 
         public DependencyProperty YScaleMaxValueProperty = DependencyProperty.Register("YScaleMaxValue", typeof(int), typeof(YAxisCtl));
 
-        //to draw scale after how many number
+        //how many dvalue that a scale include
         public int YScaleLineNumber
         {
             get
@@ -42,7 +70,7 @@ namespace BasicWaveChart.widget
 
         public DependencyProperty YScaleLineNumberProperty = DependencyProperty.Register("YScaleLineNumber", typeof(int), typeof(YAxisCtl));
 
-        //to comment text after how many number
+        //to comment text after how many YScaleLineNumber
         public int YCommentNumber
         {
             get
@@ -77,19 +105,80 @@ namespace BasicWaveChart.widget
         {
             get
             {
+
+                XAxisCtl xaxisctl = this.FindName("xaxis") as XAxisCtl;
+                BasicWaveChartUC wavechartuc = this.FindName("ControlContainer") as BasicWaveChartUC;
+
+
+                if (xaxisctl is null || wavechartuc is null)
+                {
+                    this.granulity_width = 1;
+                    return new PathGeometry();
+                }
+                this.granulity_width = (this.Height - xaxisctl.Height - this.arrowheight  - wavechartuc.TopBlankZone) / (int)GetValue(YScaleMaxValueProperty);
+
                 PathGeometry pg = new PathGeometry();
+
                 PathFigure pf = new PathFigure();
-                PolyLineSegment pls = new PolyLineSegment();
                 pg.Figures.Add(pf);
-                pf.StartPoint = new Point(11, 101);
-                pls.Points.Add(new Point(10, 115));
-                pls.Points.Add(new Point(14, 120));
-                pls.Points.Add(new Point(20, 15));
-                pls.Points.Add(new Point(30, 140));
-                pls.Points.Add(new Point(45, 110));
-                pf.Segments.Add(pls);
-                pf.IsClosed = true;
-                pg.FillRule = FillRule.Nonzero;
+
+                double vlinevalue = this.Width - rightblank;
+                /*
+                PolyLineSegment axisSeg = new PolyLineSegment();
+                //pf.StartPoint = new Point(yaxisctl.Width, this.Height - topblank);
+                axisSeg.Points.Add(new Point(yaxisctl.Width, hlinevalue));
+                axisSeg.Points.Add(new Point(this.Width - arrowheight, hlinevalue));
+                pf.Segments.Add(axisSeg);
+                */
+
+                PolyLineSegment ScaleSeg = new PolyLineSegment();
+                if (this.YScaleLineNumber == 0) this.YScaleLineNumber = 100;
+                int scalenumber = (int)(this.YScaleMaxValue / this.YScaleLineNumber);
+                for (int i = 0; i < scalenumber; i++)
+                {
+                    ScaleSeg.Points.Add(new Point(vlinevalue, i * YScaleLineNumber * granulity_width + xaxisctl.Height));
+                    if (i % this.YCommentNumber == 0)
+                    {
+                        ScaleSeg.Points.Add(new Point(vlinevalue - bigScaleHeight, i * YScaleLineNumber * granulity_width + xaxisctl.Height));
+                    }
+                    else
+                    {
+                        ScaleSeg.Points.Add(new Point(vlinevalue - littleScaleHeight, i * YScaleLineNumber * granulity_width + xaxisctl.Height));
+                    }
+                    ScaleSeg.Points.Add(new Point(vlinevalue, i * YScaleLineNumber * granulity_width + xaxisctl.Height));
+                }
+
+                ScaleSeg.Points.Add(new Point( vlinevalue, YScaleLineNumber * scalenumber * granulity_width + xaxisctl.Height));
+                ScaleSeg.Points.Add(new Point(vlinevalue + 20, YScaleLineNumber * scalenumber * granulity_width + xaxisctl.Height));
+                ScaleSeg.Points.Add(new Point(vlinevalue - 20, YScaleLineNumber * scalenumber * granulity_width + xaxisctl.Height));
+
+                pf.Segments.Add(ScaleSeg);
+                PolyLineSegment arrowseg = new PolyLineSegment();
+
+                switch (this.YArrowStyle)
+                {
+                    case ArrowStyleEnm.SOLID:
+                    case ArrowStyleEnm.HOLLOW:
+                        {
+                            arrowseg.Points.Add(new Point(vlinevalue, this.Height - wavechartuc.TopBlankZone - this.arrowheight));
+                            arrowseg.Points.Add(new Point(vlinevalue - this.arrowheight / 2, this.Height - wavechartuc.TopBlankZone - this.arrowheight));
+                            arrowseg.Points.Add(new Point(vlinevalue + this.arrowheight / 2, this.Height - wavechartuc.TopBlankZone - this.arrowheight));
+                            arrowseg.Points.Add(new Point(vlinevalue, this.Height - wavechartuc.TopBlankZone));
+                            arrowseg.Points.Add(new Point(vlinevalue - this.arrowheight / 2, this.Height - wavechartuc.TopBlankZone - this.arrowheight));
+                            pf.IsFilled = true;
+                            break;
+                        }
+                    case ArrowStyleEnm.NONE:
+                    default:
+                        {
+                            arrowseg.Points.Add(new Point(vlinevalue, this.Height - wavechartuc.TopBlankZone - this.arrowheight));
+                            arrowseg.Points.Add(new Point(vlinevalue, this.Height - wavechartuc.TopBlankZone));
+                            break;
+                        }
+
+                }
+                pf.Segments.Add(arrowseg);
+
                 return pg;
             }
         }

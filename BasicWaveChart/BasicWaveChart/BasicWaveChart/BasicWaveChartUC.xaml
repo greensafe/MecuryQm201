@@ -7,84 +7,95 @@
              xmlns:widget="clr-namespace:BasicWaveChart.widget" 
              x:Name="ControlContainer" 
              x:Class="BasicWaveChart.BasicWaveChartUC"
-             mc:Ignorable="d" Height="419.424" Width="608.922">
+             mc:Ignorable="d" Height="419.424" Width="608.922" Loaded="ControlContainer_Loaded" Initialized="ControlContainer_Initialized">
     <UserControl.Resources>
+        <AlternationConverter x:Key="AlternationConverter"/>
+        <ZoomPercentageConverter x:Key="ZoomPercentageConverter"/>
         <DrawingBrush x:Key="gridbrush" Viewport="0,0,50,50" ViewportUnits="Absolute" TileMode="Tile">
             <DrawingBrush.Drawing>
                 <DrawingGroup>
-                    <DrawingGroup.Children>
-                        <GeometryDrawing Geometry="M0,0 L50,0">
-                            <GeometryDrawing.Pen>
-                                <Pen Thickness="2" Brush="LightGreen"/>
-                            </GeometryDrawing.Pen>
-                        </GeometryDrawing>
-                        <GeometryDrawing Geometry="M0,10 L50,10">
-                            <GeometryDrawing.Pen>
-                                <Pen Thickness="1" Brush="LightGreen"/>
-                            </GeometryDrawing.Pen>
-                        </GeometryDrawing>
-                        <GeometryDrawing Geometry="M0,20 L50,20">
-                            <GeometryDrawing.Pen>
-                                <Pen Thickness="1" Brush="LightGreen"/>
-                            </GeometryDrawing.Pen>
-                        </GeometryDrawing>
-                        <GeometryDrawing Geometry="M0,30 L50,30">
-                            <GeometryDrawing.Pen>
-                                <Pen Thickness="1" Brush="LightGreen"/>
-                            </GeometryDrawing.Pen>
-                        </GeometryDrawing>
-                        <GeometryDrawing Geometry="M0,40 L50,40">
-                            <GeometryDrawing.Pen>
-                                <Pen Thickness="1" Brush="LightGreen"/>
-                            </GeometryDrawing.Pen>
-                        </GeometryDrawing>
-                        <GeometryDrawing Geometry="M0,0 L0,50">
-                            <GeometryDrawing.Pen>
-                                <Pen Thickness="2" Brush="LightGreen"/>
-                            </GeometryDrawing.Pen>
-                        </GeometryDrawing>
-                        <GeometryDrawing Geometry="M10,0 L10,50">
-                            <GeometryDrawing.Pen>
-                                <Pen Thickness="1" Brush="LightGreen"/>
-                            </GeometryDrawing.Pen>
-                        </GeometryDrawing>
-                        <GeometryDrawing Geometry="M20,0 L20,50">
-                            <GeometryDrawing.Pen>
-                                <Pen Thickness="1" Brush="LightGreen"/>
-                            </GeometryDrawing.Pen>
-                        </GeometryDrawing>
-                        <GeometryDrawing Geometry="M30,0 L30,50">
-                            <GeometryDrawing.Pen>
-                                <Pen Thickness="1" Brush="LightGreen"/>
-                            </GeometryDrawing.Pen>
-                        </GeometryDrawing>
-                        <GeometryDrawing Geometry="M40,0 L40,50">
-                            <GeometryDrawing.Pen>
-                                <Pen Thickness="1" Brush="LightGreen"/>
-                            </GeometryDrawing.Pen>
-                        </GeometryDrawing>
-                    </DrawingGroup.Children>
+                    <GeometryDrawing Geometry="M0,0 L50,0">
+                        <GeometryDrawing.Pen>
+                            <Pen Thickness="2" Brush="LightGreen"/>
+                        </GeometryDrawing.Pen>
+                    </GeometryDrawing>
+                    <GeometryDrawing Geometry="M0,10 L50,10">
+                        <GeometryDrawing.Pen>
+                            <Pen Thickness="1" Brush="LightGreen"/>
+                        </GeometryDrawing.Pen>
+                    </GeometryDrawing>
+                    <GeometryDrawing Geometry="M0,20 L50,20">
+                        <GeometryDrawing.Pen>
+                            <Pen Thickness="1" Brush="LightGreen"/>
+                        </GeometryDrawing.Pen>
+                    </GeometryDrawing>
+                    <GeometryDrawing Geometry="M0,30 L50,30">
+                        <GeometryDrawing.Pen>
+                            <Pen Thickness="1" Brush="LightGreen"/>
+                        </GeometryDrawing.Pen>
+                    </GeometryDrawing>
+                    <GeometryDrawing Geometry="M0,40 L50,40">
+                        <GeometryDrawing.Pen>
+                            <Pen Thickness="1" Brush="LightGreen"/>
+                        </GeometryDrawing.Pen>
+                    </GeometryDrawing>
+                    <GeometryDrawing Geometry="M0,0 L0,50">
+                        <GeometryDrawing.Pen>
+                            <Pen Thickness="2" Brush="LightGreen"/>
+                        </GeometryDrawing.Pen>
+                    </GeometryDrawing>
+                    <GeometryDrawing Geometry="M10,0 L10,50">
+                        <GeometryDrawing.Pen>
+                            <Pen Thickness="1" Brush="LightGreen"/>
+                        </GeometryDrawing.Pen>
+                    </GeometryDrawing>
+                    <GeometryDrawing Geometry="M20,0 L20,50">
+                        <GeometryDrawing.Pen>
+                            <Pen Thickness="1" Brush="LightGreen"/>
+                        </GeometryDrawing.Pen>
+                    </GeometryDrawing>
+                    <GeometryDrawing Geometry="M30,0 L30,50">
+                        <GeometryDrawing.Pen>
+                            <Pen Thickness="1" Brush="LightGreen"/>
+                        </GeometryDrawing.Pen>
+                    </GeometryDrawing>
+                    <GeometryDrawing Geometry="M40,0 L40,50">
+                        <GeometryDrawing.Pen>
+                            <Pen Thickness="1" Brush="LightGreen"/>
+                        </GeometryDrawing.Pen>
+                    </GeometryDrawing>
                 </DrawingGroup>
-            </DrawingBrush.Drawing >
+            </DrawingBrush.Drawing>
         </DrawingBrush>
 
     </UserControl.Resources>
     <widget:ZoomPanel x:Name="zoompanel" Background="Yellow" Ratio="{Binding RatioS, ElementName=ControlContainer}">
-        <Canvas x:Name="canvas" Background="{StaticResource gridbrush}">
+        <Canvas x:Name="basecanvas" Background="{StaticResource gridbrush}" Loaded="basecanvas_Loaded">
             <Canvas.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleY="-1"/>
-                    <TranslateTransform Y="{Binding ActualHeight, ElementName=canvas, Mode=OneWay}"/>
+                    <TranslateTransform Y="{Binding ActualHeight, ElementName=basecanvas, Mode=OneWay}"/>
                 </TransformGroup>
             </Canvas.RenderTransform>
-            <widget:YAxisCtl x:Name="yaxis" Stroke="Red" StrokeThickness="1" Width="30" Height="{Binding ActualHeight, ElementName=canvas, Mode=OneWay}"  />
+            <widget:YAxisCtl x:Name="yaxis" Stroke="Red" StrokeThickness="1" Width="30" 
+                             ClipToBounds="False"
+                             YScaleMaxValue="2500"
+                             YScaleLineNumber="100"
+                             YCommentNumber="10"
+                             YArrowStyle="HOLLOW"
+                             YArrowheight="10"
+                             Height="{Binding ActualHeight, ElementName=basecanvas, Mode=OneWay}"  />
+
             <widget:XAxisCtl x:Name="xaxis" Stroke="Black" StrokeThickness="1" Height="30" 
                              ClipToBounds="False"
                              XScaleMaxValue="3000"
                              XScaleLineNumber="100"
                              XCommentNumber="10"
                              XArrowStyle="HOLLOW"
-                             Width="{Binding ActualWidth, ElementName=canvas, Mode=OneWay}" />
+                             XArrowheight="10"
+                             Width="{Binding ActualWidth, ElementName=basecanvas, Mode=OneWay}" />
+            <widget:OptimizeCanvas x:Name="optimizeCanvas" Background="LightBlue" Opacity="0.5" Loaded="optimizeCanvas_Loaded" 
+                                   Canvas.Left="{Binding Width, ElementName=yaxis}" Canvas.Top="{Binding Height, ElementName=xaxis}" ></widget:OptimizeCanvas>
         </Canvas>
     </widget:ZoomPanel>
 </UserControl>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BasicWaveChart.widget;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -96,5 +97,25 @@ namespace BasicWaveChart
             InitializeComponent();
         }
 
+        private void optimizeCanvas_Loaded(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void ControlContainer_Loaded(object sender, RoutedEventArgs e)
+        {
+            optimizeCanvas.Width = xaxis.Width - yaxis.Width - this.RightBlankZone - xaxis.XArrowheight;
+            optimizeCanvas.Height = yaxis.Height - xaxis.Height - this.TopBlankZone - yaxis.YArrowheight;
+            ;
+        }
+
+        private void ControlContainer_Initialized(object sender, EventArgs e)
+        {
+
+        }
+
+        private void basecanvas_Loaded(object sender, RoutedEventArgs e)
+        {
+            ;
+        }
     }
 }

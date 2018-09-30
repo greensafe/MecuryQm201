@@ -28,7 +28,21 @@ namespace BasicWaveChart.widget
         private double arrowheight = 10;                     //size of arrow
         
         #region DependencyProperty
-        
+        //height of arrow
+        public double XArrowheight
+        {
+            get
+            {
+                return (double)GetValue(XArrowheightProperty);
+            }
+            set
+            {
+                SetValue(XArrowheightProperty, value);
+            }
+        }
+        public DependencyProperty XArrowheightProperty = DependencyProperty.Register("XArrowheight", typeof(double), 
+            typeof(XAxisCtl));
+
         //max dvalue to draw
         public int XScaleMaxValue
         {
