@@ -77,8 +77,14 @@
                     <TranslateTransform Y="{Binding ActualHeight, ElementName=canvas, Mode=OneWay}"/>
                 </TransformGroup>
             </Canvas.RenderTransform>
-            <widget:YAxisCtl Stroke="Red" StrokeThickness="1" Width="30" Height="{Binding ActualHeight, ElementName=canvas, Mode=OneWay}"  />
-            <widget:XAxisCtl Stroke="Black" StrokeThickness="1" Height="30" Width="{Binding ActualWidth, ElementName=canvas, Mode=OneWay}" />
+            <widget:YAxisCtl x:Name="yaxis" Stroke="Red" StrokeThickness="1" Width="30" Height="{Binding ActualHeight, ElementName=canvas, Mode=OneWay}"  />
+            <widget:XAxisCtl x:Name="xaxis" Stroke="Black" StrokeThickness="1" Height="30" 
+                             ClipToBounds="False"
+                             XScaleMaxValue="3000"
+                             XScaleLineNumber="100"
+                             XCommentNumber="10"
+                             XArrowStyle="HOLLOW"
+                             Width="{Binding ActualWidth, ElementName=canvas, Mode=OneWay}" />
         </Canvas>
     </widget:ZoomPanel>
 </UserControl>

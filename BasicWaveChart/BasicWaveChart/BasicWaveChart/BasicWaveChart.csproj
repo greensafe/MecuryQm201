@@ -48,6 +48,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="widget\DrawingCanvas.cs" />
     <Compile Include="widget\SomeType.cs" />
     <Compile Include="widget\XAxisCtl.cs" />
     <Compile Include="widget\YAxisCtl.cs" />

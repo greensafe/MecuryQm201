@@ -106,6 +106,7 @@ namespace BasicWaveChart.widget
                 start.Y = (finalSize.Height - rsize.Height) / 2;
             }
             this.InternalChildren[0].Arrange(new Rect(start, rsize));
+           
             return finalSize;
         }
 
