@@ -12,11 +12,11 @@
                                          HorizontalAlignment="Left" Height="250" Margin="181,34,0,0" 
                                          TopBlankZone="20"
                                          RightBlankZone="30"
-                                         VerticalAlignment="Top" Width="400"/>
+                                         VerticalAlignment="Top" Width="601"/>
         <Button Content="right" HorizontalAlignment="Left" Height="38" Margin="75,158,0,0" VerticalAlignment="Top" Width="87" Click="Button_Click"/>
         <Button Content="narrow" HorizontalAlignment="Left" Height="38" Margin="75,229,0,0" VerticalAlignment="Top" Width="87" Click="Button_Click_1"/>
 
-        <widget:Star Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="152" Margin="253,457,0,0" Stroke="Black" VerticalAlignment="Top" Width="304"/>
+        <widget:Star Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="152" Margin="238,308,0,0" Stroke="Black" VerticalAlignment="Top" Width="304"/>
 
     </Grid>
 </Window>

@@ -107,15 +107,67 @@ namespace BasicWaveChart
             optimizeCanvas.Height = yaxis.Height - xaxis.Height - this.TopBlankZone - yaxis.YArrowheight;
             ;
         }
-
-        private void ControlContainer_Initialized(object sender, EventArgs e)
+        
+        private void yaxis_text_canvas_Loaded(object sender, RoutedEventArgs e)
         {
+            //add the scale text
 
+            //0
+            yaxis_text_canvas.Children.Add(new TextBlock());
+            (yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock).Text = "0";
+            (yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock).FontSize = 8;
+            Canvas.SetLeft((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock),0);
+            Canvas.SetBottom((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock), xaxis.Height);
+            int loop = (int)(yaxis.YScaleMaxValue / yaxis.YScaleLineNumber / yaxis.YCommentNumber);
+
+            for (int i = 1; i < loop; i++)
+            {
+                yaxis_text_canvas.Children.Add(new TextBlock());
+                (yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock).Text =
+                    (i * yaxis.YScaleLineNumber * yaxis.YCommentNumber).ToString();
+                (yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock).FontSize = 8;
+                Canvas.SetLeft((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock), 0);
+                Canvas.SetBottom((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock), xaxis.Height + i*yaxis.YScaleLineNumber*yaxis.YCommentNumber*yaxis.GetGranulity());
+            }
+
+            //the text of last big scale
+            yaxis_text_canvas.Children.Add(new TextBlock());
+            (yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock).Text =
+                (loop * yaxis.YScaleLineNumber * yaxis.YCommentNumber).ToString();
+            (yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock).FontSize = 8;
+            Canvas.SetLeft((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock), 0);
+            Canvas.SetBottom((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock), xaxis.Height + loop * yaxis.YScaleLineNumber * yaxis.YCommentNumber * yaxis.GetGranulity());
         }
 
-        private void basecanvas_Loaded(object sender, RoutedEventArgs e)
+        private void xaxis_text_canvas_Loaded(object sender, RoutedEventArgs e)
         {
-            ;
+            //add the scale text
+            
+            //0
+            xaxis_text_canvas.Children.Add(new TextBlock());
+            (xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock).Text ="0";
+            (xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock).FontSize = 8;
+            Canvas.SetLeft((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), yaxis.Width);
+            Canvas.SetBottom((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), 0);
+            int loop = (int)(xaxis.XScaleMaxValue / xaxis.XScaleLineNumber / xaxis.XCommentNumber);
+
+            for (int i = 1; i < loop; i++)
+            {
+                xaxis_text_canvas.Children.Add(new TextBlock());
+                (xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock).Text =
+                    (i * xaxis.XScaleLineNumber*xaxis.XCommentNumber).ToString();
+                (xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock).FontSize = 8;
+                Canvas.SetLeft((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), (i * xaxis.XScaleLineNumber*xaxis.XCommentNumber)*xaxis.GetGranulity()+yaxis.Width);
+                Canvas.SetBottom((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), 0);
+            }
+
+            //the text of last big scale
+            xaxis_text_canvas.Children.Add(new TextBlock());
+            (xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock).Text =
+                (loop * xaxis.XScaleLineNumber * xaxis.XCommentNumber).ToString();
+            (xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock).FontSize = 8;
+            Canvas.SetLeft((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), (loop * xaxis.XScaleLineNumber * xaxis.XCommentNumber) * xaxis.GetGranulity() + yaxis.Width);
+            Canvas.SetBottom((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), 0);
         }
     }
 }

@@ -182,5 +182,10 @@ namespace BasicWaveChart.widget
                 return pg;
             }
         }
+
+        public double GetGranulity()
+        {
+            return granulity_width;
+        }
     }
 }

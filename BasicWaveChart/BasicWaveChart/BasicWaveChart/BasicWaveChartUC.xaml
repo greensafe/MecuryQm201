@@ -7,7 +7,7 @@
              xmlns:widget="clr-namespace:BasicWaveChart.widget" 
              x:Name="ControlContainer" 
              x:Class="BasicWaveChart.BasicWaveChartUC"
-             mc:Ignorable="d" Height="419.424" Width="608.922" Loaded="ControlContainer_Loaded" Initialized="ControlContainer_Initialized">
+             mc:Ignorable="d" Height="419.424" Width="608.922" Loaded="ControlContainer_Loaded">
     <UserControl.Resources>
         <AlternationConverter x:Key="AlternationConverter"/>
         <ZoomPercentageConverter x:Key="ZoomPercentageConverter"/>
@@ -70,14 +70,14 @@
 
     </UserControl.Resources>
     <widget:ZoomPanel x:Name="zoompanel" Background="Yellow" Ratio="{Binding RatioS, ElementName=ControlContainer}">
-        <Canvas x:Name="basecanvas" Background="{StaticResource gridbrush}" Loaded="basecanvas_Loaded">
+        <Canvas x:Name="basecanvas" Background="{StaticResource gridbrush}">
             <Canvas.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleY="-1"/>
                     <TranslateTransform Y="{Binding ActualHeight, ElementName=basecanvas, Mode=OneWay}"/>
                 </TransformGroup>
             </Canvas.RenderTransform>
-            <widget:YAxisCtl x:Name="yaxis" Stroke="Red" StrokeThickness="1" Width="30" 
+            <widget:YAxisCtl x:Name="yaxis" Stroke="Red" StrokeThickness="1" Width="50" 
                              ClipToBounds="False"
                              YScaleMaxValue="2500"
                              YScaleLineNumber="100"
@@ -85,7 +85,16 @@
                              YArrowStyle="HOLLOW"
                              YArrowheight="10"
                              Height="{Binding ActualHeight, ElementName=basecanvas, Mode=OneWay}"  />
-
+            <Canvas x:Name="yaxis_text_canvas" Background="LightPink" Width="50" Opacity="0.5"
+                    Height="{Binding ActualHeight, ElementName=basecanvas, Mode=OneWay}" Loaded="yaxis_text_canvas_Loaded" 
+                    >
+                <Canvas.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <TranslateTransform Y="{Binding ActualHeight, ElementName=yaxis_text_canvas, Mode=OneWay}"/>
+                    </TransformGroup>
+                </Canvas.RenderTransform>
+            </Canvas>
             <widget:XAxisCtl x:Name="xaxis" Stroke="Black" StrokeThickness="1" Height="30" 
                              ClipToBounds="False"
                              XScaleMaxValue="3000"
@@ -94,8 +103,18 @@
                              XArrowStyle="HOLLOW"
                              XArrowheight="10"
                              Width="{Binding ActualWidth, ElementName=basecanvas, Mode=OneWay}" />
-            <widget:OptimizeCanvas x:Name="optimizeCanvas" Background="LightBlue" Opacity="0.5" Loaded="optimizeCanvas_Loaded" 
-                                   Canvas.Left="{Binding Width, ElementName=yaxis}" Canvas.Top="{Binding Height, ElementName=xaxis}" ></widget:OptimizeCanvas>
+            <Canvas x:Name="xaxis_text_canvas" Height="30"
+                    Width="{Binding ActualWidth, ElementName=basecanvas, Mode=OneWay}" Loaded="xaxis_text_canvas_Loaded" 
+                    >
+                <Canvas.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <TranslateTransform Y="{Binding ActualHeight, ElementName=xaxis_text_canvas, Mode=OneWay}"/>
+                    </TransformGroup>
+                </Canvas.RenderTransform>
+            </Canvas>
+            <widget:OptimizeCanvas x:Name="optimizeCanvas" Background="LightBlue" Opacity="0.5" 
+                                   Canvas.Left="{Binding Width, ElementName=yaxis}" Canvas.Top="{Binding Height, ElementName=xaxis}" />
         </Canvas>
     </widget:ZoomPanel>
 </UserControl>
