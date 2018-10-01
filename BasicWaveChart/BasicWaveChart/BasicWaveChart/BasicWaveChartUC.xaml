@@ -103,7 +103,7 @@
                              XArrowStyle="HOLLOW"
                              XArrowheight="10"
                              Width="{Binding ActualWidth, ElementName=basecanvas, Mode=OneWay}" />
-            <Canvas x:Name="xaxis_text_canvas" Height="30"
+            <Canvas x:Name="xaxis_text_canvas" Height="30" Background="LightCyan" Opacity="0.5"
                     Width="{Binding ActualWidth, ElementName=basecanvas, Mode=OneWay}" Loaded="xaxis_text_canvas_Loaded" Unloaded="xaxis_text_canvas_Unloaded" SizeChanged="xaxis_text_canvas_SizeChanged" 
                     >
                 <Canvas.RenderTransform>

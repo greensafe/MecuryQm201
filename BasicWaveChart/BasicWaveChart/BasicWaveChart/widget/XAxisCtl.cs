@@ -63,6 +63,8 @@ namespace BasicWaveChart.widget
             XAxisCtl self = d as XAxisCtl;
             YAxisCtl yaxisctl = self.FindName("yaxis") as YAxisCtl;
             BasicWaveChartUC wavechartuc = self.FindName("ControlContainer") as BasicWaveChartUC;
+            if (self == null || yaxisctl == null) return;
+
             self.granulity_width = 
                 (self.Width - self.arrowheight - yaxisctl.Width - wavechartuc.RightBlankZone) / self.XScaleMaxValue;
         }

@@ -41,7 +41,7 @@ namespace test
 
         private void drawxaxis_Click(object sender, RoutedEventArgs e)
         {
-            wc.SetScale(200, 4000, 0, 0);
+            wc.SetScale(200, 4000, 300, 9000);
         }
     }
 }

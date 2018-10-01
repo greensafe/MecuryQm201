@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
@@ -53,7 +54,18 @@ namespace BasicWaveChart.widget
             }
         }
 
-        public DependencyProperty YScaleMaxValueProperty = DependencyProperty.Register("YScaleMaxValue", typeof(int), typeof(YAxisCtl));
+        public DependencyProperty YScaleMaxValueProperty = DependencyProperty.Register("YScaleMaxValue", typeof(int), typeof(YAxisCtl),
+            new UIPropertyMetadata(30000,new PropertyChangedCallback(YScaleMaxValue_Changed)));
+
+        private static void YScaleMaxValue_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            YAxisCtl self = d as YAxisCtl;
+            XAxisCtl xaxisctl = self.FindName("xaxis") as XAxisCtl;
+            BasicWaveChartUC wavechartuc = self.FindName("ControlContainer") as BasicWaveChartUC;
+            if (xaxisctl == null || wavechartuc == null) return;
+
+            self.granulity_width = (self.Height - xaxisctl.Height - self.arrowheight - wavechartuc.TopBlankZone) / self.YScaleMaxValue;
+        }
 
         //how many dvalue that a scale include
         public int YScaleLineNumber
@@ -197,7 +209,37 @@ namespace BasicWaveChart.widget
         //redraw command
         public void ReDrawCmd()
         {
+            Canvas yaxis_text_canvas = this.FindName("yaxis_text_canvas") as Canvas;
+            YAxisCtl yaxis = this.FindName("yaxis") as YAxisCtl;
+            XAxisCtl xaxis = this.FindName("xaxis") as XAxisCtl;
 
+            //add the scale text
+            yaxis_text_canvas.Children.Clear();
+            //0
+            yaxis_text_canvas.Children.Add(new TextBlock());
+            (yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock).Text = "0";
+            (yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock).FontSize = 8;
+            Canvas.SetLeft((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock), 0);
+            Canvas.SetBottom((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock), xaxis.Height);
+            int loop = (int)(yaxis.YScaleMaxValue / yaxis.YScaleLineNumber / yaxis.YCommentNumber);
+
+            for (int i = 1; i < loop; i++)
+            {
+                yaxis_text_canvas.Children.Add(new TextBlock());
+                (yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock).Text =
+                    (i * yaxis.YScaleLineNumber * yaxis.YCommentNumber).ToString();
+                (yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock).FontSize = 8;
+                Canvas.SetLeft((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock), 0);
+                Canvas.SetBottom((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock), xaxis.Height + i * yaxis.YScaleLineNumber * yaxis.YCommentNumber * yaxis.GetGranulity());
+            }
+
+            //the text of last big scale
+            yaxis_text_canvas.Children.Add(new TextBlock());
+            (yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock).Text =
+                (loop * yaxis.YScaleLineNumber * yaxis.YCommentNumber).ToString();
+            (yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock).FontSize = 8;
+            Canvas.SetLeft((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock), 0);
+            Canvas.SetBottom((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock), xaxis.Height + loop * yaxis.YScaleLineNumber * yaxis.YCommentNumber * yaxis.GetGranulity());
         }
     }
 }

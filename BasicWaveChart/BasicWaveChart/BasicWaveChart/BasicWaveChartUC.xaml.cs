@@ -112,7 +112,7 @@ namespace BasicWaveChart
         private void yaxis_text_canvas_Loaded(object sender, RoutedEventArgs e)
         {
             //add the scale text
-
+            yaxis_text_canvas.Children.Clear();
             //0
             yaxis_text_canvas.Children.Add(new TextBlock());
             (yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock).Text = "0";
@@ -142,35 +142,7 @@ namespace BasicWaveChart
 
         private void xaxis_text_canvas_Loaded(object sender, RoutedEventArgs e)
         {
-            //add the scale text
-            /*
-            //0
-            xaxis_text_canvas.Children.Add(new TextBlock());
-            (xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock).Text ="0";
-            (xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock).FontSize = 8;
-            Canvas.SetLeft((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), yaxis.Width);
-            Canvas.SetBottom((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), 0);
-            int loop = (int)(xaxis.XScaleMaxValue / xaxis.XScaleLineNumber / xaxis.XCommentNumber);
-
-            for (int i = 1; i < loop; i++)
-            {
-                xaxis_text_canvas.Children.Add(new TextBlock());
-                (xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock).Text =
-                    (i * xaxis.XScaleLineNumber*xaxis.XCommentNumber).ToString();
-                (xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock).FontSize = 8;
-                Canvas.SetLeft((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), (i * xaxis.XScaleLineNumber*xaxis.XCommentNumber)*xaxis.GetGranulity()+yaxis.Width);
-                Canvas.SetBottom((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), 0);
-            }
-
-            //the text of last big scale
-            xaxis_text_canvas.Children.Add(new TextBlock());
-            (xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock).Text =
-                (loop * xaxis.XScaleLineNumber * xaxis.XCommentNumber).ToString();
-            (xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock).FontSize = 8;
-            Canvas.SetLeft((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), (loop * xaxis.XScaleLineNumber * xaxis.XCommentNumber) * xaxis.GetGranulity() + yaxis.Width);
-            Canvas.SetBottom((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), 0);
-
-            */
+            
         }
 
         #endregion
@@ -215,8 +187,9 @@ namespace BasicWaveChart
 
             if(yaxis.YScaleLineNumber != oldYScaleLineNumber || yaxis.YScaleMaxValue != oldYScaleMaxValue)
             {
-                //notify the axis to redraw
-                //yaxis.ReDrawCmd();
+                basecanvas.Children.Remove(yaxis);
+                basecanvas.Children.Add(yaxis);
+                yaxis.ReDrawCmd();
             }
 
         }
