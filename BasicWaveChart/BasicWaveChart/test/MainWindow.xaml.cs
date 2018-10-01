@@ -27,7 +27,8 @@ namespace test
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            wc.RatioS = "1:10";
+            wc.SetScale(200, 4000, 300, 30000);
+            //wc.RatioS = "1:10";
             //wc.Height = 100;
             //wc.Width = 400;
         }
