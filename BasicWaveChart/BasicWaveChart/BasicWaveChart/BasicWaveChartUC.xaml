@@ -80,8 +80,8 @@
             <widget:YAxisCtl x:Name="yaxis" Stroke="Red" StrokeThickness="1" Width="50" 
                              ClipToBounds="False"
                              YScaleMaxValue="200"
-                             YScaleLineNumber="10"
-                             YCommentNumber="5"
+                             YScaleLineNumber="200"
+                             YCommentNumber="10"
                              YArrowStyle="HOLLOW"
                              YArrowheight="10"
                              Height="{Binding ActualHeight, ElementName=basecanvas, Mode=OneWay}"  />
@@ -97,7 +97,7 @@
             </Canvas>
             <widget:XAxisCtl x:Name="xaxis" Stroke="Black" StrokeThickness="1" Height="30" 
                              ClipToBounds="False"
-                             XScaleMaxValue="3000"
+                             XScaleMaxValue="300"
                              XScaleLineNumber="10"
                              XCommentNumber="10"
                              XArrowStyle="HOLLOW"

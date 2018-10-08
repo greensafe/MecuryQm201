@@ -64,7 +64,8 @@ namespace BasicWaveChart.widget
                             
                             if (dvalue.Y > yaxis.YScaleMaxValue)
                             {
-                                parent.SetScale(0, 0, 0, (int)(dvalue.Y / maxy_step + 1)*maxy_step); // the scalechanged_ev will trigger draw action
+                                int temp = (int)(dvalue.Y / maxy_step + 1) * maxy_step;
+                                parent.SetScale(0, 0, 0, temp); // the scalechanged_ev will trigger draw action
                             }
                             else
                             {

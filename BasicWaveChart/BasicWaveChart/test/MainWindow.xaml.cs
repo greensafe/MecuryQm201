@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,10 +24,16 @@ namespace test
     {
         Random random;
         int ticker = 0;
+        FileStream readFile;
+        StreamReader readstream;
+
         public MainWindow()
         {
             random = new Random();
             InitializeComponent();
+
+            readFile = new FileStream("realdata.bin", FileMode.Open);
+            readstream = new StreamReader(readFile);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -76,15 +83,29 @@ namespace test
             
         }
 
-        private void timer_hdlr(object sender, EventArgs e)
+        private void sendtestdata()
         {
-            DispatcherTimer selft = sender as DispatcherTimer;
+            string data;
+            if (readstream.EndOfStream == false)
+            {
+                data = readstream.ReadLine();
+            }
+            else
+            {
+                return;
+            }
             Point p = new Point(
                 ticker,
-                random.Next(100, 200)
+                int.Parse(data)
                 );
             wc.AddPoint(p);
             Console.WriteLine(p.ToString());
+        }
+
+        private void timer_hdlr(object sender, EventArgs e)
+        {
+            DispatcherTimer selft = sender as DispatcherTimer;
+            sendtestdata();
             ticker++;
         }
     }
