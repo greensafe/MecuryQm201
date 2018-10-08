@@ -113,8 +113,11 @@
                     </TransformGroup>
                 </Canvas.RenderTransform>
             </Canvas>
-            <widget:OptimizeCanvas x:Name="optimizeCanvas" Background="LightBlue" Opacity="0.5" 
-                                   Canvas.Left="{Binding Width, ElementName=yaxis}" Canvas.Top="{Binding Height, ElementName=xaxis}" />
+
+            <Canvas x:Name="WindowCanvas" Background="LightBlue" Opacity="0.5"
+                                   Canvas.Left="{Binding Width, ElementName=yaxis}" Canvas.Top="{Binding Height, ElementName=xaxis}">
+                <widget:OptimizeCanvas x:Name="optimizeCanvas" Background="LightSeaGreen" Opacity="0.6" />
+            </Canvas>
         </Canvas>
     </widget:ZoomPanel>
 </UserControl>

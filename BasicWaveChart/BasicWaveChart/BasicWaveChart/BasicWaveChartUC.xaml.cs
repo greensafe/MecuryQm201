@@ -21,6 +21,8 @@ namespace BasicWaveChart
     /// </summary>
     public partial class BasicWaveChartUC : UserControl
     {
+        private readonly int NumberOfDValue = 100000;
+
         #region DependencyProperty
         public string RatioS
         {
@@ -105,8 +107,15 @@ namespace BasicWaveChart
 
         private void ControlContainer_Loaded(object sender, RoutedEventArgs e)
         {
+            /*
             optimizeCanvas.Width = xaxis.Width - yaxis.Width - this.RightBlankZone - xaxis.XArrowheight;
             optimizeCanvas.Height = yaxis.Height - xaxis.Height - this.TopBlankZone - yaxis.YArrowheight;
+            */
+            optimizeCanvas.Width = xaxis.GetGranulity() * NumberOfDValue;
+            optimizeCanvas.Height = yaxis.Height - xaxis.Height - this.TopBlankZone - yaxis.YArrowheight;
+
+            WindowCanvas.Width = xaxis.Width - yaxis.Width - this.RightBlankZone - xaxis.XArrowheight;
+            WindowCanvas.Height = yaxis.Height - xaxis.Height - this.TopBlankZone - yaxis.YArrowheight;
             ;
             this.OnScaleChanged(optimizeCanvas.ScaleChangedHdlr);
         }
