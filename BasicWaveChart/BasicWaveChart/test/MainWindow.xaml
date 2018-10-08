@@ -6,9 +6,10 @@
         xmlns:local="clr-namespace:test"
         xmlns:BasicWaveChart="clr-namespace:BasicWaveChart;assembly=BasicWaveChart" xmlns:widget="clr-namespace:BasicWaveChart.widget;assembly=BasicWaveChart" x:Class="test.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="650" Width="800">
+        Title="MainWindow" Height="650" Width="800" Loaded="Window_Loaded">
     <Grid>
         <BasicWaveChart:BasicWaveChartUC x:Name="wc"  RatioS="1:2" 
+                                         MoveMode ="HORIZONTAL"
                                          HorizontalAlignment="Left" Height="250" Margin="181,34,0,0" 
                                          TopBlankZone="20"
                                          RightBlankZone="30"

@@ -13,4 +13,9 @@ namespace BasicWaveChart.widget
         HOLLOW,
         SOLID
     }
+    public enum WaveMoveMode
+    {
+        PACKED,
+        HORIZONTAL
+    }
 }

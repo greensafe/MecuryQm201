@@ -79,9 +79,9 @@
             </Canvas.RenderTransform>
             <widget:YAxisCtl x:Name="yaxis" Stroke="Red" StrokeThickness="1" Width="50" 
                              ClipToBounds="False"
-                             YScaleMaxValue="2500"
-                             YScaleLineNumber="100"
-                             YCommentNumber="10"
+                             YScaleMaxValue="200"
+                             YScaleLineNumber="10"
+                             YCommentNumber="5"
                              YArrowStyle="HOLLOW"
                              YArrowheight="10"
                              Height="{Binding ActualHeight, ElementName=basecanvas, Mode=OneWay}"  />
@@ -98,7 +98,7 @@
             <widget:XAxisCtl x:Name="xaxis" Stroke="Black" StrokeThickness="1" Height="30" 
                              ClipToBounds="False"
                              XScaleMaxValue="3000"
-                             XScaleLineNumber="100"
+                             XScaleLineNumber="10"
                              XCommentNumber="10"
                              XArrowStyle="HOLLOW"
                              XArrowheight="10"
@@ -115,8 +115,12 @@
             </Canvas>
 
             <Canvas x:Name="WindowCanvas" Background="LightBlue" Opacity="0.5"
-                                   Canvas.Left="{Binding Width, ElementName=yaxis}" Canvas.Top="{Binding Height, ElementName=xaxis}">
-                <widget:OptimizeCanvas x:Name="optimizeCanvas" Background="LightSeaGreen" Opacity="0.6" />
+                    ClipToBounds="True"
+                    Canvas.Left="{Binding Width, ElementName=yaxis}" 
+                    Canvas.Top="{Binding Height, ElementName=xaxis}">
+                <Rectangle x:Name="NailRec" Width="0" Height="0" Canvas.Left="0" Canvas.Top="0"></Rectangle>
+                <widget:OptimizeCanvas x:Name="optimizeCanvas" Background="LightSeaGreen" Opacity="0.6"
+                                       Loaded="optimizeCanvas_Loaded_1" />
             </Canvas>
         </Canvas>
     </widget:ZoomPanel>

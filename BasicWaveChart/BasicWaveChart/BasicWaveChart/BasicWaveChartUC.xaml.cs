@@ -92,6 +92,22 @@ namespace BasicWaveChart
             return;
             
         }
+
+        //how to draw the wave , packed or horizontal move
+        public WaveMoveMode MoveMode
+        {
+            get
+            {
+                return (WaveMoveMode)GetValue(MoveModeProperty);
+            }
+            set
+            {
+                SetValue(MoveModeProperty, value);
+            }
+        }
+        DependencyProperty MoveModeProperty = DependencyProperty.Register("MoveMode", typeof(WaveMoveMode), typeof(BasicWaveChartUC),
+            new UIPropertyMetadata(WaveMoveMode.HORIZONTAL));
+
         #endregion
 
         public BasicWaveChartUC()
@@ -100,10 +116,6 @@ namespace BasicWaveChart
         }
 
         #region self event handler
-
-        private void optimizeCanvas_Loaded(object sender, RoutedEventArgs e)
-        {
-        }
 
         private void ControlContainer_Loaded(object sender, RoutedEventArgs e)
         {
@@ -245,6 +257,12 @@ namespace BasicWaveChart
         }
         #endregion
 
+        //add point to draw
+        public void AddPoint(Point dvalue)
+        {
+            optimizeCanvas.AddPoint(dvalue);
+        }
+
         #region event define
         public delegate void ScaleChangeDelegate();
         ScaleChangeDelegate ScaleChanged_Ev;
@@ -253,5 +271,10 @@ namespace BasicWaveChart
             ScaleChanged_Ev += ScaleChangedHdr;
         }
         #endregion
+
+        private void optimizeCanvas_Loaded_1(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
