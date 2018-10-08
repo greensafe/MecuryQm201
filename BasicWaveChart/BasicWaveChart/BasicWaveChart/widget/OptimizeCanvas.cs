@@ -21,12 +21,13 @@ namespace BasicWaveChart.widget
         //effective point that can draw
         readonly double effectiveW = 0.5;
         readonly double effectiveH = 0.5;
+
         //context info
         BasicWaveChartUC parent;
         XAxisCtl xaxis ;
         YAxisCtl yaxis ;
-        Rectangle nailrec;  //canvas.getleft() cann't get the position of canvas self. use the rectangle to 
-                            //trace the position of optimizecanvas
+        double OptimizeCanvas_Canvas_Left = 0;  //canvas.getleft() cann't get the position of canvas self. use the var to 
+                            //save the position of optimizecanvas
 
         Polyline waveply = new Polyline();
         PointCollection datas_ = new PointCollection();
@@ -125,7 +126,6 @@ namespace BasicWaveChart.widget
             parent = this.FindName("ControlContainer") as BasicWaveChartUC;
             xaxis = this.FindName("xaxis") as XAxisCtl;
             yaxis = this.FindName("yaxis") as YAxisCtl;
-            nailrec =this.FindName("NailRec") as Rectangle;
             ;
         }
 
@@ -140,9 +140,12 @@ namespace BasicWaveChart.widget
             comparepoint_y = 0;
             foreach(Point dvalue in dvalues)
             {
-                if(isEffected(dvalue))
-                    datas_.Add(new Point(xaxis.GetXX((int)dvalue.X),
-                        yaxis.GetYY((int)dvalue.Y)));
+                if (isEffected(dvalue))
+                {
+                    double x = xaxis.GetXX((int)dvalue.X);
+                    double y = yaxis.GetYY((int)dvalue.Y);
+                    datas_.Add(new Point(x,y));
+                }
             }
         }
         #endregion
@@ -152,6 +155,14 @@ namespace BasicWaveChart.widget
         public void AddPoint(Point dvalue)
         {
             AddPointRocket(dvalue);
+        }
+
+        //show full view of wave
+        public void ShowFullView()
+        {
+            Canvas.SetLeft(this, 0);
+            int all = dvalues.Count;
+            parent.SetScale(0, all, 0,0);
         }
         #endregion
 
@@ -187,11 +198,8 @@ namespace BasicWaveChart.widget
         //move the optimizecanvas to left according to the dvalue
         private void moveleft(Point dvalue)
         {
-            double tempx;
-            tempx = Canvas.GetLeft(nailrec);
-            tempx += (xaxis.GetXX((int)dvalue.X) - datas_[datas_.Count - 1].X);
-            Canvas.SetLeft(nailrec, tempx);
-            Canvas.SetLeft(this, -tempx);
+            OptimizeCanvas_Canvas_Left -= (xaxis.GetXX((int)dvalue.X) - datas_[datas_.Count - 1].X);
+            Canvas.SetLeft(this, OptimizeCanvas_Canvas_Left);
         }
         #endregion
     }

@@ -128,7 +128,10 @@ namespace BasicWaveChart
 
             WindowCanvas.Width = xaxis.Width - yaxis.Width - this.RightBlankZone - xaxis.XArrowheight;
             WindowCanvas.Height = yaxis.Height - xaxis.Height - this.TopBlankZone - yaxis.YArrowheight;
-            ;
+
+            ContextMenu wavemenu = this.FindResource("wavemenu") as ContextMenu;
+            wavemenu.PlacementTarget = optimizeCanvas;
+
             this.OnScaleChanged(optimizeCanvas.ScaleChangedHdlr);
         }
 
@@ -275,6 +278,17 @@ namespace BasicWaveChart
         private void optimizeCanvas_Loaded_1(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void optimizeCanvas_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            ContextMenu wavemenu = this.FindResource("wavemenu") as ContextMenu;
+            wavemenu.IsOpen = true;
+        }
+
+        private void fullshowmenu_Click(object sender, RoutedEventArgs e)
+        {
+            optimizeCanvas.ShowFullView();
         }
     }
 }

@@ -67,7 +67,9 @@
                 </DrawingGroup>
             </DrawingBrush.Drawing>
         </DrawingBrush>
-
+        <ContextMenu x:Key="wavemenu">
+            <MenuItem x:Name="fullshowmenu" Header="全景" Click="fullshowmenu_Click"></MenuItem>
+        </ContextMenu>
     </UserControl.Resources>
     <widget:ZoomPanel x:Name="zoompanel" Background="Yellow" Ratio="{Binding RatioS, ElementName=ControlContainer}">
         <Canvas x:Name="basecanvas" Background="{StaticResource gridbrush}">
@@ -115,12 +117,11 @@
             </Canvas>
 
             <Canvas x:Name="WindowCanvas" Background="LightBlue" Opacity="0.5"
-                    ClipToBounds="True"
+                    ClipToBounds="False"
                     Canvas.Left="{Binding Width, ElementName=yaxis}" 
                     Canvas.Top="{Binding Height, ElementName=xaxis}">
-                <Rectangle x:Name="NailRec" Width="0" Height="0" Canvas.Left="0" Canvas.Top="0"></Rectangle>
                 <widget:OptimizeCanvas x:Name="optimizeCanvas" Background="LightSeaGreen" Opacity="0.6"
-                                       Loaded="optimizeCanvas_Loaded_1" />
+                                       Loaded="optimizeCanvas_Loaded_1" MouseRightButtonDown="optimizeCanvas_MouseRightButtonDown" />
             </Canvas>
         </Canvas>
     </widget:ZoomPanel>
