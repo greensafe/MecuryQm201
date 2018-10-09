@@ -26,6 +26,7 @@ namespace BasicWaveChart.widget
         BasicWaveChartUC parent;
         XAxisCtl xaxis ;
         YAxisCtl yaxis ;
+        Slider moveslider;
         double OptimizeCanvas_Canvas_Left = 0;  //canvas.getleft() cann't get the position of canvas self. use the var to 
                             //save the position of optimizecanvas
 
@@ -126,6 +127,7 @@ namespace BasicWaveChart.widget
             parent = this.FindName("ControlContainer") as BasicWaveChartUC;
             xaxis = this.FindName("xaxis") as XAxisCtl;
             yaxis = this.FindName("yaxis") as YAxisCtl;
+            moveslider = this.FindName("moveslider") as Slider;
             ;
         }
 
@@ -160,7 +162,11 @@ namespace BasicWaveChart.widget
         //show full view of wave
         public void ShowFullView()
         {
-            Canvas.SetLeft(this, 0);
+            //Canvas.SetLeft(this, 0);
+            moveslider.Maximum = 3000;
+            moveslider.Minimum = 0;
+            moveslider.Value = 0;
+            moveslider.Visibility = Visibility.Hidden;
             int all = dvalues.Count;
             parent.SetScale(0, all, 0,0);
         }
@@ -199,7 +205,8 @@ namespace BasicWaveChart.widget
         private void moveleft(Point dvalue)
         {
             OptimizeCanvas_Canvas_Left -= (xaxis.GetXX((int)dvalue.X) - datas_[datas_.Count - 1].X);
-            Canvas.SetLeft(this, OptimizeCanvas_Canvas_Left);
+            moveslider.Value = OptimizeCanvas_Canvas_Left;
+            //Canvas.SetLeft(this, OptimizeCanvas_Canvas_Left);
         }
         #endregion
     }

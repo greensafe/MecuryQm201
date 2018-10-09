@@ -6,11 +6,11 @@
         xmlns:local="clr-namespace:test"
         xmlns:BasicWaveChart="clr-namespace:BasicWaveChart;assembly=BasicWaveChart" xmlns:widget="clr-namespace:BasicWaveChart.widget;assembly=BasicWaveChart" x:Class="test.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="650" Width="800" Loaded="Window_Loaded">
+        Title="MainWindow" Height="650" Width="1800" Loaded="Window_Loaded">
     <Grid>
         <BasicWaveChart:BasicWaveChartUC x:Name="wc"  RatioS="1:2" 
                                          MoveMode ="HORIZONTAL"
-                                         HorizontalAlignment="Left" Height="250" Margin="181,34,0,0" 
+                                         HorizontalAlignment="Left" Height="250" Margin="1050,34,0,0" 
                                          TopBlankZone="20"
                                          RightBlankZone="30"
                                          VerticalAlignment="Top" Width="601"/>
@@ -19,6 +19,7 @@
 
         <widget:Star Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="152" Margin="238,308,0,0" Stroke="Black" VerticalAlignment="Top" Width="304"/>
         <Button x:Name="drawxaxis" Content="redraw xaxis" HorizontalAlignment="Left" Margin="75,111,0,0" VerticalAlignment="Top" Width="87" Height="24" Click="drawxaxis_Click"/>
+        <Button Content="sliderbtn" HorizontalAlignment="Left" Margin="81,300,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_2"/>
 
     </Grid>
 </Window>

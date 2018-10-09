@@ -69,6 +69,7 @@
         </DrawingBrush>
         <ContextMenu x:Key="wavemenu">
             <MenuItem x:Name="fullshowmenu" Header="全景" Click="fullshowmenu_Click"></MenuItem>
+            <MenuItem x:Name="movemenu" Header="移动" Click="movemenu_Click"></MenuItem>
         </ContextMenu>
     </UserControl.Resources>
     <widget:ZoomPanel x:Name="zoompanel" Background="Yellow" Ratio="{Binding RatioS, ElementName=ControlContainer}">
@@ -115,13 +116,17 @@
                     </TransformGroup>
                 </Canvas.RenderTransform>
             </Canvas>
-
+            <Slider x:Name="moveslider" Width="{Binding ActualWidth, ElementName=basecanvas, Mode=OneWay}" 
+                    Visibility="Hidden"
+                    Maximum="0"
+                    Height="10" Minimum="-30000" ValueChanged="moveslider_ValueChanged"></Slider>
             <Canvas x:Name="WindowCanvas" Background="LightBlue" Opacity="0.5"
                     ClipToBounds="False"
                     Canvas.Left="{Binding Width, ElementName=yaxis}" 
                     Canvas.Top="{Binding Height, ElementName=xaxis}">
                 <widget:OptimizeCanvas x:Name="optimizeCanvas" Background="LightSeaGreen" Opacity="0.6"
-                                       Loaded="optimizeCanvas_Loaded_1" MouseRightButtonDown="optimizeCanvas_MouseRightButtonDown" />
+                                       Loaded="optimizeCanvas_Loaded_1" MouseRightButtonDown="optimizeCanvas_MouseRightButtonDown"
+                                       Canvas.Left="{Binding Value, ElementName=moveslider}" />
             </Canvas>
         </Canvas>
     </widget:ZoomPanel>
