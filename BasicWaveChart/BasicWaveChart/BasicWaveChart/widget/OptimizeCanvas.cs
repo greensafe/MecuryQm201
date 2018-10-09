@@ -93,8 +93,8 @@ namespace BasicWaveChart.widget
                             dvalues.Add(dvalue_move);
                             if(dvalue_move.Y > yaxis.YScaleMaxValue)
                             {
-                                parent.SetScale(0, 0, 0, (int)(dvalue_move.Y / maxy_step + 1)* maxy_step); //scalechanged_ev will call draw action
                                 moveleft(dvalue_move);
+                                parent.SetScale(0, 0, 0, (int)(dvalue_move.Y / maxy_step + 1)* maxy_step); //scalechanged_ev will call draw action
                             }
                             else
                             {
@@ -170,6 +170,18 @@ namespace BasicWaveChart.widget
             int all = dvalues.Count;
             parent.SetScale(0, all, 0,0);
         }
+
+        //
+        public PointCollection GetDValues()
+        {
+            return dvalues;
+        }
+
+        public PointCollection GetDatas()
+        {
+            return datas_;
+        }
+
         #endregion
 
 

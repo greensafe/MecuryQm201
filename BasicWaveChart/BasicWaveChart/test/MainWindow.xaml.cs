@@ -92,6 +92,8 @@ namespace test
             }
             else
             {
+                PointCollection dvalus = wc.GetDValues();
+                PointCollection datas = wc.GetDatas();
                 return;
             }
             Point p = new Point(
@@ -111,6 +113,10 @@ namespace test
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
+            dynamic p = new Point();
+            p.X = 100;
+            p.Y = 200;
+            
             
         }
     }

@@ -10,7 +10,7 @@
     <Grid>
         <BasicWaveChart:BasicWaveChartUC x:Name="wc"  RatioS="1:2" 
                                          MoveMode ="HORIZONTAL"
-                                         HorizontalAlignment="Left" Height="250" Margin="1050,34,0,0" 
+                                         HorizontalAlignment="Left" Height="250" Margin="950,34,0,0" 
                                          TopBlankZone="20"
                                          RightBlankZone="30"
                                          VerticalAlignment="Top" Width="601"/>

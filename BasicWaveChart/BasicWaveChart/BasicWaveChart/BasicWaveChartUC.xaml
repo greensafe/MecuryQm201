@@ -82,7 +82,7 @@
             </Canvas.RenderTransform>
             <widget:YAxisCtl x:Name="yaxis" Stroke="Red" StrokeThickness="1" Width="50" 
                              ClipToBounds="False"
-                             YScaleMaxValue="200"
+                             YScaleMaxValue="20000"
                              YScaleLineNumber="200"
                              YCommentNumber="10"
                              YArrowStyle="HOLLOW"

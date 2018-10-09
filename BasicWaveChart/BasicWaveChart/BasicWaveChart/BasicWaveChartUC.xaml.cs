@@ -212,6 +212,17 @@ namespace BasicWaveChart
 
         #region public function
 
+        //
+        public PointCollection GetDValues()
+        {
+            return optimizeCanvas.GetDValues();
+        }
+
+        public PointCollection GetDatas()
+        {
+            return optimizeCanvas.GetDatas();
+        }
+
         //set the value of x, y axis
         public void SetScale(int xscaleLineNumber, int xscaleMaxValue, int yscaleLineNumber, int yscaleMaxValue)
         {
