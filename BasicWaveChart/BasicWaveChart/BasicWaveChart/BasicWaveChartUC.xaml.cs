@@ -248,7 +248,17 @@ namespace BasicWaveChart
 
         private void movemenu_Click(object sender, RoutedEventArgs e)
         {
-            moveslider.Visibility = Visibility.Visible;
+            MenuItem menu = sender as MenuItem;
+            if (menu.Header.ToString() == "移动")
+            {
+                moveslider.Visibility = Visibility.Visible;
+                menu.Header = "关闭移动";
+            }
+            else
+            {
+                moveslider.Visibility = Visibility.Hidden;
+                menu.Header = "移动";
+            }
         }
 
         #endregion
