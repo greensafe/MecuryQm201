@@ -21,7 +21,23 @@ namespace BasicWaveChart
     /// </summary>
     public partial class BasicWaveChartUC : UserControl
     {
-        private readonly int NumberOfDValue = 100000;
+        //private readonly int NumberOfDValue = 100000;
+        int numberOfDValue;
+        public int NumberOfDValue
+        {
+            get
+            {
+                return numberOfDValue;
+            }
+            set
+            {
+                numberOfDValue = value;
+                moveslider.Minimum = -(xaxis.GetGranulity() * numberOfDValue - WindowCanvas.Width);
+                moveslider.Value = 0;
+                moveslider.Width = WindowCanvas.Width;
+                optimizeCanvas.Width = xaxis.GetGranulity() * NumberOfDValue;
+            }
+        }
 
         #region DependencyProperty
         public string RatioS
@@ -123,7 +139,7 @@ namespace BasicWaveChart
             optimizeCanvas.Width = xaxis.Width - yaxis.Width - this.RightBlankZone - xaxis.XArrowheight;
             optimizeCanvas.Height = yaxis.Height - xaxis.Height - this.TopBlankZone - yaxis.YArrowheight;
             */
-            optimizeCanvas.Width = xaxis.GetGranulity() * NumberOfDValue;
+            //optimizeCanvas.Width = xaxis.GetGranulity() * NumberOfDValue;
             optimizeCanvas.Height = yaxis.Height - xaxis.Height - this.TopBlankZone - yaxis.YArrowheight;
 
             WindowCanvas.Width = xaxis.Width - yaxis.Width - this.RightBlankZone - xaxis.XArrowheight;
@@ -208,6 +224,33 @@ namespace BasicWaveChart
             
         }
 
+        private void optimizeCanvas_Loaded_1(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void optimizeCanvas_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            ContextMenu wavemenu = this.FindResource("wavemenu") as ContextMenu;
+            wavemenu.IsOpen = true;
+        }
+
+        private void fullshowmenu_Click(object sender, RoutedEventArgs e)
+        {
+            optimizeCanvas.ShowFullView();
+        }
+
+        private void moveslider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            Console.WriteLine("old:" + e.OldValue);
+            Console.WriteLine("new:" + e.NewValue);
+        }
+
+        private void movemenu_Click(object sender, RoutedEventArgs e)
+        {
+            moveslider.Visibility = Visibility.Visible;
+        }
+
         #endregion
 
         #region public function
@@ -284,33 +327,12 @@ namespace BasicWaveChart
         {
             ScaleChanged_Ev += ScaleChangedHdr;
         }
+
         #endregion
 
-        private void optimizeCanvas_Loaded_1(object sender, RoutedEventArgs e)
+        private void ControlContainer_Initialized(object sender, EventArgs e)
         {
 
-        }
-
-        private void optimizeCanvas_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            ContextMenu wavemenu = this.FindResource("wavemenu") as ContextMenu;
-            wavemenu.IsOpen = true;
-        }
-
-        private void fullshowmenu_Click(object sender, RoutedEventArgs e)
-        {
-            optimizeCanvas.ShowFullView();
-        }
-
-        private void moveslider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            Console.WriteLine("old:"+e.OldValue);
-            Console.WriteLine("new:"+e.NewValue);
-        }
-
-        private void movemenu_Click(object sender, RoutedEventArgs e)
-        {
-            moveslider.Visibility = Visibility.Visible;
         }
     }
 }

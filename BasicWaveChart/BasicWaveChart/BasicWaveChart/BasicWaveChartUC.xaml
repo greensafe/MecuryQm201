@@ -7,7 +7,7 @@
              xmlns:widget="clr-namespace:BasicWaveChart.widget" 
              x:Name="ControlContainer" 
              x:Class="BasicWaveChart.BasicWaveChartUC"
-             mc:Ignorable="d" Height="419.424" Width="608.922" Loaded="ControlContainer_Loaded">
+             mc:Ignorable="d" Height="419.424" Width="608.922" Loaded="ControlContainer_Loaded" Initialized="ControlContainer_Initialized">
     <UserControl.Resources>
         <AlternationConverter x:Key="AlternationConverter"/>
         <ZoomPercentageConverter x:Key="ZoomPercentageConverter"/>
@@ -116,9 +116,10 @@
                     </TransformGroup>
                 </Canvas.RenderTransform>
             </Canvas>
-            <Slider x:Name="moveslider" Width="{Binding ActualWidth, ElementName=basecanvas, Mode=OneWay}" 
+            <Slider x:Name="moveslider"
                     Visibility="Hidden"
                     Maximum="0"
+                    Canvas.Left="{Binding Width, ElementName=yaxis}"
                     Height="10" Minimum="-30000" ValueChanged="moveslider_ValueChanged"></Slider>
             <Canvas x:Name="WindowCanvas" Background="LightBlue" Opacity="0.5"
                     ClipToBounds="False"
