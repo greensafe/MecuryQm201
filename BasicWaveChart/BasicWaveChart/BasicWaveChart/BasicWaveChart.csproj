@@ -48,6 +48,9 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Feature\basic\MoveFeature.cs" />
+    <Compile Include="Feature\integral\HandlerCtl.cs" />
+    <Compile Include="Feature\integral\IntegralFeature.cs" />
     <Compile Include="widget\OptimizeCanvas.cs" />
     <Compile Include="widget\SomeType.cs" />
     <Compile Include="widget\XAxisCtl.cs" />
@@ -85,5 +88,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

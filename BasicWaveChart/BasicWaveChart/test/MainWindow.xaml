@@ -4,7 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:test"
-        xmlns:BasicWaveChart="clr-namespace:BasicWaveChart;assembly=BasicWaveChart" xmlns:widget="clr-namespace:BasicWaveChart.widget;assembly=BasicWaveChart" x:Class="test.MainWindow"
+        xmlns:BasicWaveChart="clr-namespace:BasicWaveChart;assembly=BasicWaveChart" 
+        xmlns:widget="clr-namespace:BasicWaveChart.widget;assembly=BasicWaveChart" 
+        xmlns:Feature="clr-namespace:BasicWaveChart.Feature.integral;assembly=BasicWaveChart"
+        x:Class="test.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" Height="650" Width="1800" Loaded="Window_Loaded">
     <Grid>
@@ -13,6 +16,7 @@
                                          HorizontalAlignment="Left" Height="250" Margin="950,34,0,0" 
                                          TopBlankZone="20"
                                          RightBlankZone="30"
+                                         Feature:IntegralFeature.Enable="True"
                                          VerticalAlignment="Top" Width="601"/>
         <Button Content="right" HorizontalAlignment="Left" Height="38" Margin="75,158,0,0" VerticalAlignment="Top" Width="87" Click="Button_Click"/>
         <Button Content="narrow" HorizontalAlignment="Left" Height="38" Margin="75,229,0,0" VerticalAlignment="Top" Width="87" Click="Button_Click_1"/>
