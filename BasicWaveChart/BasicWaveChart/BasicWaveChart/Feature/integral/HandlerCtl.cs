@@ -68,7 +68,8 @@ namespace BasicWaveChart.Feature.integral
 
         public double GetXm()
         {
-            return this.Width / 2 - 1;
+            double x = Canvas.GetLeft(this);
+            return x + this.Width / 2 - 1;
         }
 
         public double GetYm()

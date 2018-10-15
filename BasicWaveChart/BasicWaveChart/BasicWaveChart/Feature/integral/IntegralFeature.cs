@@ -46,6 +46,7 @@ namespace BasicWaveChart.Feature.integral
     internal class IntegralWorker
     {
         BasicWaveChartUC ucctl;
+        
         Polygon areagon;
         private static dynamic hostcontext = new HostContext();
 
@@ -73,8 +74,9 @@ namespace BasicWaveChart.Feature.integral
             hostcontext.container = ucctl.FindName("WindowCanvas");
             hostcontext.xaxis = ucctl.FindName("xaxis");
             hostcontext.yaxis = ucctl.FindName("yaxis");
-            hostcontext.datas_ = (ucctl.FindName("optimizeCanvas") as OptimizeCanvas).GetDatas();
-            hostcontext.dvalues = (ucctl.FindName("optimizeCanvas") as OptimizeCanvas).GetDValues();
+            hostcontext.optimizeCanvas = ucctl.FindName("optimizeCanvas") as OptimizeCanvas;
+            //hostcontext.datas_ = (ucctl.FindName("optimizeCanvas") as OptimizeCanvas).GetDatas();
+            //hostcontext.dvalues = (ucctl.FindName("optimizeCanvas") as OptimizeCanvas).GetDValues();
             //install handle
             (hostcontext.container as Canvas).Children.Add(mainhandle);
             (hostcontext.container as Canvas).Children.Add(mainhandle.GetBrother());
@@ -102,6 +104,12 @@ namespace BasicWaveChart.Feature.integral
             //register move handle
             mainhandle.Move_Ev += MainHandleMoveHdlr;
             mainhandle.GetBrother().Move_Ev += brotherHandleMoveHdlr;
+            //polygon
+            hostcontext.optimizeCanvas.Children.Add(areagon);
+            areagon.Stroke = new SolidColorBrush(Colors.Black);
+            areagon.StrokeThickness = 4;
+            areagon.Fill = new SolidColorBrush(Colors.Red);
+
         }
 
         private void brotherHandleMoveHdlr(double pos)
@@ -126,9 +134,48 @@ namespace BasicWaveChart.Feature.integral
 
         #region private function
         //make the area polygon
-        private void makepg(double x, double y)
+        private void makepg(double bigx, double brotherx)
         {
-            ;
+            hostcontext.datas_ = hostcontext.optimizeCanvas.GetDatas();
+            hostcontext.dvalues = hostcontext.optimizeCanvas.GetDValues();
+
+            areagon.Points.Clear();
+
+            double startx = Canvas.GetLeft(hostcontext.optimizeCanvas);
+            startx = startx * (-1) + bigx;
+            double endx = startx + (brotherx - bigx);
+            double px = startx;
+            
+            int startx_index = findIndexInDatas_(startx);
+            int end_index = findIndexInDatas_(endx);
+            int index = startx_index;
+            //int index = 0;
+            areagon.Points.Add(new Point(hostcontext.datas_[startx_index].X,0));
+            while ( index >= startx_index && index < end_index)
+            //while (index >= 0 && index < hostcontext.datas_.Count)
+            {
+                areagon.Points.Add(hostcontext.datas_[index]);
+                index++;
+            }
+            areagon.Points.Add(new Point(hostcontext.datas_[end_index].X, 0));
+            //areagon.Points.Add(new Point(hostcontext.datas_[hostcontext.datas_.Count-1].X,0));
+        }
+
+        private int findIndexInDatas_(double x)
+        {
+            int index = 0;
+            //looking for the start in data_
+            foreach (Point p in (hostcontext.datas_ as PointCollection))
+            {
+                if (index >= hostcontext.datas_.Count - 1)
+                    break;
+                if ((int)hostcontext.datas_[index].X == (int)x)
+                {
+                    break;
+                }
+                index++;
+            }
+            return index;
         }
 
         //show the comment 
