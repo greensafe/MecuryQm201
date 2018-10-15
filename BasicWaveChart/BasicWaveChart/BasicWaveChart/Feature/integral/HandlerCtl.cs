@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BasicWaveChart.Feature.basic;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,9 +12,12 @@ using System.Windows.Shapes;
 
 namespace BasicWaveChart.Feature.integral
 {
-    class HandleCtl : Canvas
+    class HandleCtl : Canvas, IMoveFeature
     {
         private HandleCtl RightBrother = null;
+
+        public event MoveDlg Move_Ev;
+
         private void init()
         {
             this.Width = 50;
@@ -45,7 +49,7 @@ namespace BasicWaveChart.Feature.integral
             init();
             RightBrother = rightbrother;
             Canvas.SetLeft(RightBrother, Canvas.GetLeft(this) + 100);
-            Canvas.SetTop(RightBrother, 200);
+            Canvas.SetTop(RightBrother, 200); 
         }
 
         public HandleCtl()
@@ -60,6 +64,21 @@ namespace BasicWaveChart.Feature.integral
         public double GetRayX()
         {
             return Canvas.GetLeft(this) + this.Width / 2;
+        }
+
+        public double GetXm()
+        {
+            return this.Width / 2 - 1;
+        }
+
+        public double GetYm()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void TriggerMove()
+        {
+            Move_Ev( Canvas.GetLeft(this) + this.Width / 2 - 1);
         }
     }
 }

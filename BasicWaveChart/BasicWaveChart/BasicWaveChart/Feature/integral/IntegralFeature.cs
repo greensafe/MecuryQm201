@@ -53,6 +53,7 @@ namespace BasicWaveChart.Feature.integral
         private IntegralWorker(BasicWaveChartUC param)
         {
             ucctl = param;
+            areagon = new Polygon();
             //main handle
             mainhandle = new HandleCtl(new HandleCtl());
         }
@@ -98,7 +99,24 @@ namespace BasicWaveChart.Feature.integral
             mainhandle.Visibility = Visibility.Hidden;
             mainhandle.GetBrother().Visibility = Visibility.Hidden;
             mainhandle.Name = "twohandle";
+            //register move handle
+            mainhandle.Move_Ev += MainHandleMoveHdlr;
+            mainhandle.GetBrother().Move_Ev += brotherHandleMoveHdlr;
         }
+
+        private void brotherHandleMoveHdlr(double pos)
+        {
+            makepg(mainhandle.GetXm(), pos);
+            showcomment(mainhandle.GetXm(), pos);
+        }
+
+        private void MainHandleMoveHdlr(double pos)
+        {
+            makepg(pos, mainhandle.GetBrother().GetXm());
+            showcomment(pos, mainhandle.GetBrother().GetXm());
+        }
+
+
 
         //面积积分方法可以重写
         public virtual double IntegrateData()
@@ -108,13 +126,13 @@ namespace BasicWaveChart.Feature.integral
 
         #region private function
         //make the area polygon
-        private void makepg()
+        private void makepg(double x, double y)
         {
             ;
         }
 
         //show the comment 
-        private void showcomment()
+        private void showcomment(double x, double y)
         {
             ;
         }

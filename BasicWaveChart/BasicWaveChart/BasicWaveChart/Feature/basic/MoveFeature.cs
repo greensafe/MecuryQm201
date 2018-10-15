@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BasicWaveChart.Feature.basic;
+using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
@@ -75,11 +76,17 @@ namespace featurefactory.Basic
 
         private void MouseMoveHdlr(object sender, MouseEventArgs e)
         {
+            //only send x 
+            double x;
             if (moving == true)
             {
+                //only move in horital direction
+                x = e.GetPosition(targetcontext.container).X - target.ActualWidth / 2;
+                Canvas.SetLeft(target, x);
+                //Canvas.SetTop(target, e.GetPosition(targetcontext.container).Y -target.ActualHeight / 2);
 
-                Canvas.SetLeft(target, e.GetPosition(targetcontext.container).X -target.ActualWidth / 2);
-                Canvas.SetTop(target, e.GetPosition(targetcontext.container).Y -target.ActualHeight / 2);
+                //trigger move event
+                (sender as IMoveFeature).TriggerMove();
                 return;
             }
             if (e.LeftButton == MouseButtonState.Pressed)

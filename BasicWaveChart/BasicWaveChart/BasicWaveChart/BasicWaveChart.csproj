@@ -48,6 +48,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Feature\basic\IMoveFeature.cs" />
     <Compile Include="Feature\basic\MoveFeature.cs" />
     <Compile Include="Feature\integral\HandlerCtl.cs" />
     <Compile Include="Feature\integral\IntegralFeature.cs" />
