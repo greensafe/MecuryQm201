@@ -94,6 +94,10 @@ namespace BasicWaveChart.Feature.integral
             //open move feature
             MoveFeature.SetEnble(mainhandle, true);
             MoveFeature.SetEnble(mainhandle.GetBrother(), true);
+            //hidden
+            mainhandle.Visibility = Visibility.Hidden;
+            mainhandle.GetBrother().Visibility = Visibility.Hidden;
+            mainhandle.Name = "twohandle";
         }
 
         //面积积分方法可以重写

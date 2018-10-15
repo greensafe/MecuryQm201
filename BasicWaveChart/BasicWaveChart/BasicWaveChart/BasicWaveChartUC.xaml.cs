@@ -344,5 +344,45 @@ namespace BasicWaveChart
         {
 
         }
+
+        private void integralmenu_Click(object sender, RoutedEventArgs e)
+        {
+            //cann't find the twohandle through FindName, maybe need register
+            //
+            dynamic bigbrother = null;
+            foreach (dynamic obj in WindowCanvas.Children)
+            {
+                if(obj.Name == "twohandle")
+                {
+                    //
+                    bigbrother = obj;
+                    //showbigbrother(obj);
+                    break;
+                }
+            }
+            if( (sender as MenuItem).Header.ToString() == "积分")
+            {
+                showbigbrother(bigbrother);
+                (sender as MenuItem).Header = "关闭积分";
+            }
+            else
+            {
+                closebigbrother(bigbrother);
+                (sender as MenuItem).Header = "积分";
+            }
+
+        }
+
+        private void closebigbrother(dynamic bigbrother)
+        {
+            bigbrother.Visibility = Visibility.Hidden;
+            bigbrother.GetBrother().Visibility = Visibility.Hidden;
+        }
+
+        private void showbigbrother(dynamic obj)
+        {
+            obj.Visibility = Visibility.Visible;
+            obj.GetBrother().Visibility = Visibility.Visible;
+        }
     }
 }
