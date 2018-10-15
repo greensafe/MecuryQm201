@@ -19,8 +19,11 @@ namespace BasicWaveChart.Feature.integral
             this.Width = 50;
             this.Height = 50;
 
+            this.RenderTransform = new TransformGroup();
+            
+
             ImageBrush brush = new ImageBrush();
-            brush.ImageSource = new BitmapImage(new Uri("pillar.png", UriKind.Relative));
+            brush.ImageSource = new BitmapImage(new Uri(@"Feature\integral\images\pillar.png", UriKind.Relative));
             this.Background = brush;
 
             Canvas.SetLeft((this), 100);

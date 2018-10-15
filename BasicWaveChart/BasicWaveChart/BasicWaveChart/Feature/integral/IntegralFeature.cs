@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BasicWaveChart.widget;
+using featurefactory.Basic;
+using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
@@ -47,31 +49,40 @@ namespace BasicWaveChart.Feature.integral
         private static dynamic hostcontext = new HostContext();
 
         HandleCtl mainhandle;
-        private IntegralWorker()
+        private IntegralWorker(BasicWaveChartUC param)
         {
+            ucctl = param;
             //main handle
             mainhandle = new HandleCtl(new HandleCtl());
-            ;
         }
         public static IntegralWorker Create(BasicWaveChartUC param)
         {
-            IntegralWorker w = new IntegralWorker();
-            w.ucctl = param;
+            IntegralWorker w = new IntegralWorker(param);
             return w;
         }
         public void Enable()
         {
             //context info
             //container
-
             //dvalues
-
             //datas_ of ployline
-
             //xaxis
-        
             //yaxis
-            ;
+            hostcontext.container = ucctl.FindName("WindowCanvas");
+            hostcontext.xaxis = ucctl.FindName("xaxis");
+            hostcontext.yaxis = ucctl.FindName("yaxis");
+            hostcontext.datas_ = (ucctl.FindName("optimizeCanvas") as OptimizeCanvas).GetDatas();
+            hostcontext.dvalues = (ucctl.FindName("optimizeCanvas") as OptimizeCanvas).GetDValues();
+            //install handle
+            (hostcontext.container as Canvas).Children.Add(mainhandle);
+            (hostcontext.container as Canvas).Children.Add(mainhandle.GetBrother());
+            Canvas.SetLeft(mainhandle, hostcontext.container.Width / 3);
+            Canvas.SetTop(mainhandle, 0);
+            Canvas.SetLeft(mainhandle.GetBrother(), hostcontext.container.Width / 3 + 100);
+            Canvas.SetTop(mainhandle.GetBrother(), 0);
+            //open move feature
+            MoveFeature.SetEnble(mainhandle, true);
+            MoveFeature.SetEnble(mainhandle.GetBrother(), true);
         }
 
         //面积积分方法可以重写

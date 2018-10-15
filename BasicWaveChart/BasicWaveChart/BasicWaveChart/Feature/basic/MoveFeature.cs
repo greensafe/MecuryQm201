@@ -22,9 +22,13 @@ namespace featurefactory.Basic
         private static void OnEnableChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             //target = d;
-            findParent(d as FrameworkElement).Loaded += delegate (object sender, RoutedEventArgs epr) {
+            /*findParent(d as FrameworkElement).Loaded += delegate (object sender, RoutedEventArgs epr) {
+                MoveWorker.Create(d).Enable();
+            };*/
+            (d as FrameworkElement).Loaded += delegate (object sender, RoutedEventArgs epr) {
                 MoveWorker.Create(d).Enable();
             };
+
         }
         public static void SetEnble(DependencyObject d, bool use)
         {
@@ -62,7 +66,8 @@ namespace featurefactory.Basic
         //enable the feature
         public void Enable()
         {
-            targetcontext.container = target.FindName("container") as Canvas;
+            //targetcontext.container = target.FindName("container") as Canvas;
+            targetcontext.container = target.Parent as Canvas;
             target.MouseLeftButtonDown += new MouseButtonEventHandler(MouseleftdownHdlr);
             target.MouseLeftButtonUp += new MouseButtonEventHandler(MouseLeftUpHdlr);
             target.MouseMove += new MouseEventHandler(MouseMoveHdlr);
