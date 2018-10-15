@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Shapes;
 
 namespace BasicWaveChart.Feature.integral
@@ -80,6 +81,16 @@ namespace BasicWaveChart.Feature.integral
             Canvas.SetTop(mainhandle, 0);
             Canvas.SetLeft(mainhandle.GetBrother(), hostcontext.container.Width / 3 + 100);
             Canvas.SetTop(mainhandle.GetBrother(), 0);
+            //convert the handle
+            ScaleTransform scaletrs = new ScaleTransform();
+            scaletrs.ScaleY = -1;
+            TranslateTransform movetrs = new TranslateTransform();
+            movetrs.Y = mainhandle.Height;
+            TransformGroup grouptrs = new TransformGroup();
+            grouptrs.Children.Add(scaletrs);
+            grouptrs.Children.Add(movetrs);
+            mainhandle.RenderTransform = grouptrs;
+            mainhandle.GetBrother().RenderTransform = grouptrs;
             //open move feature
             MoveFeature.SetEnble(mainhandle, true);
             MoveFeature.SetEnble(mainhandle.GetBrother(), true);
