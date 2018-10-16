@@ -23,7 +23,7 @@ namespace BasicWaveChart.widget
         private double axisThickness = 3;                   //the thickness of axis 
         private double littleScaleThickness = 3;            //thickness of little scale
         private double bigScaleThickness = 3;               //thickness of big scale
-        private double rightblank = 3;                        //magin at right of axis
+        private double rightblank = 0;                        //magin at right of axis
         private double arrowheight = 10;                     //size of arrow
 
         #region DependencyProperty
@@ -146,7 +146,7 @@ namespace BasicWaveChart.widget
                 PolyLineSegment ScaleSeg = new PolyLineSegment();
                 if (this.YScaleLineNumber == 0) this.YScaleLineNumber = 100;
                 int scalenumber = (int)(this.YScaleMaxValue / this.YScaleLineNumber);
-                for (int i = 0; i < scalenumber; i++)
+                for (int i = 0; i <= scalenumber; i++)
                 {
                     ScaleSeg.Points.Add(new Point(vlinevalue, i * YScaleLineNumber * granulity_width + xaxisctl.Height));
                     if (i % this.YCommentNumber == 0)
@@ -160,10 +160,10 @@ namespace BasicWaveChart.widget
                     ScaleSeg.Points.Add(new Point(vlinevalue, i * YScaleLineNumber * granulity_width + xaxisctl.Height));
                 }
 
-                ScaleSeg.Points.Add(new Point( vlinevalue, YScaleLineNumber * scalenumber * granulity_width + xaxisctl.Height));
-                //ScaleSeg.Points.Add(new Point(vlinevalue + 20, YScaleLineNumber * scalenumber * granulity_width + xaxisctl.Height));
-                ScaleSeg.Points.Add(new Point(vlinevalue - 20, YScaleLineNumber * scalenumber * granulity_width + xaxisctl.Height));
-                ScaleSeg.Points.Add(new Point(vlinevalue, YScaleLineNumber * scalenumber * granulity_width + xaxisctl.Height));
+                ScaleSeg.Points.Add(new Point( vlinevalue, YScaleMaxValue * granulity_width + xaxisctl.Height));
+                //ScaleSeg.Points.Add(new Point(vlinevalue + 20, YScaleMaxValue * granulity_width + xaxisctl.Height));
+                ScaleSeg.Points.Add(new Point(vlinevalue - 20, YScaleMaxValue * granulity_width + xaxisctl.Height));
+                ScaleSeg.Points.Add(new Point(vlinevalue, YScaleMaxValue * granulity_width + xaxisctl.Height));
 
                 pf.Segments.Add(ScaleSeg);
                 PolyLineSegment arrowseg = new PolyLineSegment();
@@ -241,6 +241,15 @@ namespace BasicWaveChart.widget
             (yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock).FontSize = 8;
             Canvas.SetLeft((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock), 0);
             Canvas.SetBottom((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock), xaxis.Height + loop * yaxis.YScaleLineNumber * yaxis.YCommentNumber * yaxis.GetGranulity());
+
+            //set the max value
+            yaxis_text_canvas.Children.Add(new TextBlock());
+            (yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock).Text =
+                yaxis.YScaleMaxValue.ToString();
+            (yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock).FontSize = 8;
+            Canvas.SetLeft((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock), 0);
+            //Canvas.SetBottom((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock), xaxis.Height + yaxis.YScaleMaxValue * yaxis.GetGranulity()-20);
+            Canvas.SetBottom((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock), xaxis.Height + yaxis.YScaleMaxValue * yaxis.GetGranulity());
         }
     }
 }

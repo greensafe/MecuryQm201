@@ -83,9 +83,9 @@
             </Canvas.RenderTransform>
             <widget:YAxisCtl x:Name="yaxis" Stroke="Red" StrokeThickness="1" Width="50" 
                              ClipToBounds="False"
-                             YScaleMaxValue="20000"
-                             YScaleLineNumber="200"
-                             YCommentNumber="10"
+                             YScaleMaxValue="50"
+                             YScaleLineNumber="1000"
+                             YCommentNumber="5"
                              YArrowStyle="NONE"
                              YArrowheight="10"
                              Height="{Binding ActualHeight, ElementName=basecanvas, Mode=OneWay}"  />
@@ -101,9 +101,9 @@
             </Canvas>
             <widget:XAxisCtl x:Name="xaxis" Stroke="Black" StrokeThickness="1" Height="30" 
                              ClipToBounds="False"
-                             XScaleMaxValue="800"
-                             XScaleLineNumber="80"
-                             XCommentNumber="10"
+                             XScaleMaxValue="530"
+                             XScaleLineNumber="50"
+                             XCommentNumber="5"
                              XArrowStyle="NONE"
                              XArrowheight="10"
                              Width="{Binding ActualWidth, ElementName=basecanvas, Mode=OneWay}" />

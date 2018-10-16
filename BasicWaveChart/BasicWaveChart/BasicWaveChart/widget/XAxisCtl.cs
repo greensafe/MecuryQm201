@@ -25,7 +25,7 @@ namespace BasicWaveChart.widget
         private double axisThickness = 3;                   //the thickness of axis 
         private double littleScaleThickness = 3;            //thickness of little scale
         private double bigScaleThickness = 3;               //thickness of big scale
-        private double topblank = 3;                        //top magin above axis
+        private double topblank = 0;                        //top magin above axis
         private double arrowheight = 10;                     //size of arrow
         
         #region DependencyProperty
@@ -138,9 +138,10 @@ namespace BasicWaveChart.widget
                 double hlinevalue = this.Height - topblank;
 
                 PolyLineSegment ScaleSeg = new PolyLineSegment();
+                
                 if (this.XScaleLineNumber == 0) this.XScaleLineNumber = 100;
                 int scalenumber = (int)(this.XScaleMaxValue / this.XScaleLineNumber);
-                for(int i = 0; i< scalenumber; i++)
+                for(int i = 0; i<= scalenumber; i++)
                 {
                     ScaleSeg.Points.Add(new Point(i*XScaleLineNumber*granulity_width + yaxisctl.Width,hlinevalue));
                     if (i % this.XCommentNumber == 0)
@@ -154,10 +155,10 @@ namespace BasicWaveChart.widget
                     ScaleSeg.Points.Add(new Point(i * XScaleLineNumber * granulity_width + yaxisctl.Width, hlinevalue));
                 }
                 
-                ScaleSeg.Points.Add(new Point(XScaleLineNumber * scalenumber * granulity_width + yaxisctl.Width, hlinevalue));
-                //ScaleSeg.Points.Add(new Point(XScaleLineNumber * scalenumber * granulity_width + yaxisctl.Width, hlinevalue+20));
-                ScaleSeg.Points.Add(new Point(XScaleLineNumber * scalenumber * granulity_width + yaxisctl.Width, hlinevalue - 20));
-                ScaleSeg.Points.Add(new Point(XScaleLineNumber * scalenumber * granulity_width + yaxisctl.Width, hlinevalue));
+                ScaleSeg.Points.Add(new Point(XScaleMaxValue * granulity_width + yaxisctl.Width, hlinevalue));
+                //ScaleSeg.Points.Add(new Point(XScaleMaxValue* granulity_width + yaxisctl.Width, hlinevalue+20));
+                ScaleSeg.Points.Add(new Point(XScaleMaxValue * granulity_width + yaxisctl.Width, hlinevalue - 20));
+                ScaleSeg.Points.Add(new Point(XScaleMaxValue * granulity_width + yaxisctl.Width, hlinevalue));
 
                 pf.Segments.Add(ScaleSeg);
                 PolyLineSegment arrowseg = new PolyLineSegment();
