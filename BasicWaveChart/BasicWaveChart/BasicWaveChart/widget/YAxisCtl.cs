@@ -161,8 +161,9 @@ namespace BasicWaveChart.widget
                 }
 
                 ScaleSeg.Points.Add(new Point( vlinevalue, YScaleLineNumber * scalenumber * granulity_width + xaxisctl.Height));
-                ScaleSeg.Points.Add(new Point(vlinevalue + 20, YScaleLineNumber * scalenumber * granulity_width + xaxisctl.Height));
+                //ScaleSeg.Points.Add(new Point(vlinevalue + 20, YScaleLineNumber * scalenumber * granulity_width + xaxisctl.Height));
                 ScaleSeg.Points.Add(new Point(vlinevalue - 20, YScaleLineNumber * scalenumber * granulity_width + xaxisctl.Height));
+                ScaleSeg.Points.Add(new Point(vlinevalue, YScaleLineNumber * scalenumber * granulity_width + xaxisctl.Height));
 
                 pf.Segments.Add(ScaleSeg);
                 PolyLineSegment arrowseg = new PolyLineSegment();

@@ -86,7 +86,7 @@
                              YScaleMaxValue="20000"
                              YScaleLineNumber="200"
                              YCommentNumber="10"
-                             YArrowStyle="HOLLOW"
+                             YArrowStyle="NONE"
                              YArrowheight="10"
                              Height="{Binding ActualHeight, ElementName=basecanvas, Mode=OneWay}"  />
             <Canvas x:Name="yaxis_text_canvas" Background="LightPink" Width="50" Opacity="0.5"
@@ -104,7 +104,7 @@
                              XScaleMaxValue="800"
                              XScaleLineNumber="80"
                              XCommentNumber="10"
-                             XArrowStyle="HOLLOW"
+                             XArrowStyle="NONE"
                              XArrowheight="10"
                              Width="{Binding ActualWidth, ElementName=basecanvas, Mode=OneWay}" />
             <Canvas x:Name="xaxis_text_canvas" Height="30" Background="LightCyan" Opacity="0.5"
