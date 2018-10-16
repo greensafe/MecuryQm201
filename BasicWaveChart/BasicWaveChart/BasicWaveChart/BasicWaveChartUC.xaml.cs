@@ -377,12 +377,32 @@ namespace BasicWaveChart
         {
             bigbrother.Visibility = Visibility.Hidden;
             bigbrother.GetBrother().Visibility = Visibility.Hidden;
+            //hide comment
+            foreach (dynamic cm in WindowCanvas.Children)
+            {
+                if (cm.Name == "commenttx")
+                {
+                    //
+                    cm.Visibility = Visibility.Hidden;
+                    break;
+                }
+            }
         }
 
         private void showbigbrother(dynamic obj)
         {
             obj.Visibility = Visibility.Visible;
             obj.GetBrother().Visibility = Visibility.Visible;
+            //show comment
+            foreach (dynamic cm in WindowCanvas.Children)
+            {
+                if (cm.Name == "commenttx")
+                {
+                    //
+                    cm.Visibility = Visibility.Visible;
+                    break;
+                }
+            }
         }
     }
 }

@@ -101,8 +101,8 @@
             </Canvas>
             <widget:XAxisCtl x:Name="xaxis" Stroke="Black" StrokeThickness="1" Height="30" 
                              ClipToBounds="False"
-                             XScaleMaxValue="300"
-                             XScaleLineNumber="10"
+                             XScaleMaxValue="800"
+                             XScaleLineNumber="80"
                              XCommentNumber="10"
                              XArrowStyle="HOLLOW"
                              XArrowheight="10"

@@ -48,6 +48,7 @@ namespace BasicWaveChart.Feature.integral
         BasicWaveChartUC ucctl;
         
         Polygon areagon;
+        TextBlock commenttx;
         private static dynamic hostcontext = new HostContext();
 
         HandleCtl mainhandle;
@@ -55,6 +56,15 @@ namespace BasicWaveChart.Feature.integral
         {
             ucctl = param;
             areagon = new Polygon();
+            areagon.Name = "areagon";
+            areagon.Visibility = Visibility.Visible;
+            commenttx = new TextBlock();
+            commenttx.Width = 80;
+            commenttx.Height = 20;
+            commenttx.Visibility = Visibility.Visible;
+            commenttx.Name = "commenttx";
+            //commenttx.Background = new SolidColorBrush(Colors.Red);
+            commenttx.TextAlignment = TextAlignment.Center;
             //main handle
             mainhandle = new HandleCtl(new HandleCtl());
         }
@@ -109,7 +119,16 @@ namespace BasicWaveChart.Feature.integral
             areagon.Stroke = new SolidColorBrush(Colors.Black);
             areagon.StrokeThickness = 4;
             areagon.Fill = new SolidColorBrush(Colors.Red);
-
+            //comment
+            hostcontext.container.Children.Add(commenttx);
+            ScaleTransform scaletrs_comment = new ScaleTransform();
+            scaletrs_comment.ScaleY = -1;
+            TranslateTransform movetrs_comment = new TranslateTransform();
+            movetrs_comment.Y = commenttx.Height;
+            TransformGroup grouptrs_comment = new TransformGroup();
+            grouptrs_comment.Children.Add(scaletrs_comment);
+            grouptrs_comment.Children.Add(movetrs_comment);
+            commenttx.RenderTransform = grouptrs_comment;
         }
 
         private void brotherHandleMoveHdlr(double pos)
@@ -129,7 +148,7 @@ namespace BasicWaveChart.Feature.integral
         //面积积分方法可以重写
         public virtual double IntegrateData()
         {
-            return 1;
+            return 29990;
         }
 
         #region private function
@@ -181,9 +200,10 @@ namespace BasicWaveChart.Feature.integral
         //show the comment 
         private void showcomment(double x, double y)
         {
-            ;
+            commenttx.Text = IntegrateData().ToString();
+            Canvas.SetLeft(commenttx,(x + y )/2 - commenttx.Width/2);
+            Canvas.SetTop(commenttx, 10);
         }
-        
         #endregion
     }
 
