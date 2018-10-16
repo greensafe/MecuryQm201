@@ -123,7 +123,7 @@
                     Canvas.Left="{Binding Width, ElementName=yaxis}"
                     Height="10" Minimum="-30000" ValueChanged="moveslider_ValueChanged"></Slider>
             <Canvas x:Name="WindowCanvas" Background="LightBlue" Opacity="0.5"
-                    ClipToBounds="False"
+                    ClipToBounds="True"
                     Canvas.Left="{Binding Width, ElementName=yaxis}" 
                     Canvas.Top="{Binding Height, ElementName=xaxis}">
                 <widget:OptimizeCanvas x:Name="optimizeCanvas" Background="LightSeaGreen" Opacity="0.6"

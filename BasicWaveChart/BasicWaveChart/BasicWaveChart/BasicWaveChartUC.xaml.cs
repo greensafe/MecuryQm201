@@ -38,6 +38,22 @@ namespace BasicWaveChart
                 optimizeCanvas.Width = xaxis.GetGranulity() * NumberOfDValue;
             }
         }
+        //DependencyProperty NumberOfDValueProperty = DependencyProperty.Register("NumberOfDValue",typeof(int),typeof(BasicWaveChartUC),
+          //  new UIPropertyMetadata(3000,new PropertyChangedCallback(NumberOfDValueChanged)));
+
+        private static void NumberOfDValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {/*
+            BasicWaveChartUC uc = d as BasicWaveChartUC;
+            Slider sl = uc.FindName("moveslider") as Slider;
+            XAxisCtl xaxis_s = uc.FindName("xaxis") as XAxisCtl;
+            Canvas WindowCanvas_s = uc.FindName("WindowCanvas") as Canvas;
+            Canvas optimizeCanvas_s = uc.FindName("optimizeCanvas") as Canvas;
+            sl.Minimum = -(xaxis_s.GetGranulity() * (int)e.NewValue - WindowCanvas_s.Width);
+            sl.Value = 0;
+            sl.Width = WindowCanvas_s.Width;
+            optimizeCanvas_s.Width = xaxis_s.GetGranulity() * (int)e.NewValue;
+            */
+        }
 
         #region DependencyProperty
         public string RatioS
