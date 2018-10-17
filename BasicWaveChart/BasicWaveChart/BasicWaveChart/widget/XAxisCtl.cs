@@ -27,7 +27,9 @@ namespace BasicWaveChart.widget
         private double bigScaleThickness = 3;               //thickness of big scale
         private double topblank = 0;                        //top magin above axis
         private double arrowheight = 10;                     //size of arrow
-        
+        private double windowwidth = 0;                     //the width to show and to compute granulity_width,
+                                                            //
+
         #region DependencyProperty
         //height of arrow
         public double XArrowheight
@@ -65,8 +67,8 @@ namespace BasicWaveChart.widget
             BasicWaveChartUC wavechartuc = self.FindName("ControlContainer") as BasicWaveChartUC;
             if (self == null || yaxisctl == null) return;
 
-            self.granulity_width = 
-                (self.Width - self.arrowheight - yaxisctl.Width - wavechartuc.RightBlankZone) / self.XScaleMaxValue;
+            //self.granulity_width = 
+            //  (self.Width - self.arrowheight - yaxisctl.Width - wavechartuc.RightBlankZone) / self.XScaleMaxValue;
         }
 
         //how many dvalue that a scale include
@@ -121,27 +123,41 @@ namespace BasicWaveChart.widget
                 
                 YAxisCtl yaxisctl = this.FindName("yaxis") as YAxisCtl;
                 BasicWaveChartUC wavechartuc = this.FindName("ControlContainer") as BasicWaveChartUC;
+                Canvas windowcanvas = wavechartuc.FindName("WindowCanvas") as Canvas;
+                MarkLine xmark = wavechartuc.FindName("xmark") as MarkLine;
 
+                PathGeometry pg = new PathGeometry();
+
+                PathFigure pf = new PathFigure();
+                pg.Figures.Add(pf);
+                PolyLineSegment ScaleSeg = new PolyLineSegment();
 
                 if (yaxisctl is null || wavechartuc is null)
                 {
                     this.granulity_width = 1;
                     return new PathGeometry();
                 }
-                this.granulity_width = (this.Width - this.arrowheight - yaxisctl.Width - wavechartuc.RightBlankZone) / (int)GetValue(XScaleMaxValueProperty);
-
-                PathGeometry pg = new PathGeometry();
-
-                PathFigure pf = new PathFigure();
-                pg.Figures.Add(pf);
+                try
+                {
+                    //this.windowwidth = (this.Width - this.arrowheight - yaxisctl.Width - wavechartuc.RightBlankZone);
+                    this.windowwidth = xmark.lineinfo.observeWinWidth;
+                }
+                catch
+                {
+                    ScaleSeg.Points.Add(new Point(0,0));
+                    return pg;
+                }
+                //this.windowwidth = xmark.lineinfo.observeWinWidth;
+                this.granulity_width =  this.windowwidth / this.XScaleMaxValue;
+                //this.granulity_width = (this.Width - this.arrowheight - yaxisctl.Width - wavechartuc.RightBlankZone) / (int)GetValue(XScaleMaxValueProperty);
+                this.Width = this.granulity_width * 1187 + xmark.lineinfo.arrowheight + xmark.lineinfo.ostart; //todo relace with numberofdvalues
 
                 double hlinevalue = this.Height - topblank;
-
-                PolyLineSegment ScaleSeg = new PolyLineSegment();
                 
                 if (this.XScaleLineNumber == 0) this.XScaleLineNumber = 100;
-                int scalenumber = (int)(this.XScaleMaxValue / this.XScaleLineNumber);
-                for(int i = 0; i<= scalenumber; i++)
+                //int scalenumber = (int)(this.XScaleMaxValue / this.XScaleLineNumber);
+                int scalenumber = (int)(1187 / this.XScaleLineNumber); //todo relace 1187
+                for (int i = 0; i<= scalenumber; i++)
                 {
                     ScaleSeg.Points.Add(new Point(i*XScaleLineNumber*granulity_width + yaxisctl.Width,hlinevalue));
                     if (i % this.XCommentNumber == 0)
@@ -154,11 +170,14 @@ namespace BasicWaveChart.widget
                     }
                     ScaleSeg.Points.Add(new Point(i * XScaleLineNumber * granulity_width + yaxisctl.Width, hlinevalue));
                 }
-                
-                ScaleSeg.Points.Add(new Point(XScaleMaxValue * granulity_width + yaxisctl.Width, hlinevalue));
+
+                //ScaleSeg.Points.Add(new Point(XScaleMaxValue * granulity_width + yaxisctl.Width, hlinevalue));
+                ScaleSeg.Points.Add(new Point(1187 * granulity_width + yaxisctl.Width, hlinevalue)); //todo replace
                 //ScaleSeg.Points.Add(new Point(XScaleMaxValue* granulity_width + yaxisctl.Width, hlinevalue+20));
-                ScaleSeg.Points.Add(new Point(XScaleMaxValue * granulity_width + yaxisctl.Width, hlinevalue - 20));
-                ScaleSeg.Points.Add(new Point(XScaleMaxValue * granulity_width + yaxisctl.Width, hlinevalue));
+                //ScaleSeg.Points.Add(new Point(XScaleMaxValue * granulity_width + yaxisctl.Width, hlinevalue - 20));
+                ScaleSeg.Points.Add(new Point(1187 * granulity_width + yaxisctl.Width, hlinevalue - 20));  //todo replace
+                //ScaleSeg.Points.Add(new Point(XScaleMaxValue * granulity_width + yaxisctl.Width, hlinevalue));
+                ScaleSeg.Points.Add(new Point(1187 * granulity_width + yaxisctl.Width, hlinevalue)); //todo replace
 
                 pf.Segments.Add(ScaleSeg);
                 PolyLineSegment arrowseg = new PolyLineSegment();

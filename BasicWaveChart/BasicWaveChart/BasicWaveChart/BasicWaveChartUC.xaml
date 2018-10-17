@@ -74,13 +74,17 @@
         </ContextMenu>
     </UserControl.Resources>
     <widget:ZoomPanel x:Name="zoompanel" Background="Yellow" Ratio="{Binding RatioS, ElementName=ControlContainer}">
-        <Canvas x:Name="basecanvas" Background="{StaticResource gridbrush}">
+        <Canvas x:Name="basecanvas" Background="{StaticResource gridbrush}" ClipToBounds="True">
             <Canvas.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleY="-1"/>
                     <TranslateTransform Y="{Binding ActualHeight, ElementName=basecanvas, Mode=OneWay}"/>
                 </TransformGroup>
             </Canvas.RenderTransform>
+            <widget:MarkLine x:Name="ymark" Height="{Binding ActualHeight, ElementName=basecanvas, Mode=OneWay}" 
+                              Width="50"></widget:MarkLine>
+            <widget:MarkLine x:Name="xmark" Width="{Binding ActualWidth, ElementName=basecanvas, Mode=OneWay}"
+                             Height="30" ></widget:MarkLine>
             <widget:YAxisCtl x:Name="yaxis" Stroke="Red" StrokeThickness="1" Width="50" 
                              ClipToBounds="False"
                              YScaleMaxValue="50"
@@ -103,11 +107,14 @@
                              ClipToBounds="False"
                              XScaleMaxValue="530"
                              XScaleLineNumber="50"
-                             XCommentNumber="5"
+                             XCommentNumber="2"
                              XArrowStyle="NONE"
                              XArrowheight="10"
-                             Width="{Binding ActualWidth, ElementName=basecanvas, Mode=OneWay}" />
+                             Panel.ZIndex="1"
+                             Width="{Binding ActualWidth, ElementName=basecanvas, Mode=OneWay}" Loaded="xaxis_Loaded" Canvas.Left="{Binding Value, ElementName=moveslider}" />
             <Canvas x:Name="xaxis_text_canvas" Height="30" Background="LightCyan" Opacity="0.5"
+                    Canvas.Left="{Binding Value, ElementName=moveslider}"
+                    Panel.ZIndex="1"
                     Width="{Binding ActualWidth, ElementName=basecanvas, Mode=OneWay}" Loaded="xaxis_text_canvas_Loaded" Unloaded="xaxis_text_canvas_Unloaded" SizeChanged="xaxis_text_canvas_SizeChanged" 
                     >
                 <Canvas.RenderTransform>
@@ -117,7 +124,7 @@
                     </TransformGroup>
                 </Canvas.RenderTransform>
             </Canvas>
-            <Slider x:Name="moveslider"
+            <Slider Panel.ZIndex="10" x:Name="moveslider"
                     Visibility="Hidden"
                     Maximum="0"
                     Canvas.Left="{Binding Width, ElementName=yaxis}"
@@ -125,11 +132,12 @@
             <Canvas x:Name="WindowCanvas" Background="LightBlue" Opacity="0.5"
                     ClipToBounds="True"
                     Canvas.Left="{Binding Width, ElementName=yaxis}" 
-                    Canvas.Top="{Binding Height, ElementName=xaxis}">
+                    Canvas.Top="{Binding Height, ElementName=xaxis}" Loaded="WindowCanvas_Loaded">
                 <widget:OptimizeCanvas x:Name="optimizeCanvas" Background="LightSeaGreen" Opacity="0.6"
                                        Loaded="optimizeCanvas_Loaded_1" MouseRightButtonDown="optimizeCanvas_MouseRightButtonDown"
                                        Canvas.Left="{Binding Value, ElementName=moveslider}" />
             </Canvas>
+            <Canvas Panel.ZIndex="9" Background="Red" Width="{Binding Width, ElementName=yaxis}" Height="{Binding Height, ElementName=xaxis}"></Canvas>
         </Canvas>
     </widget:ZoomPanel>
 </UserControl>

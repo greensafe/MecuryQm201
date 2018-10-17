@@ -145,6 +145,7 @@ namespace BasicWaveChart
         public BasicWaveChartUC()
         {
             InitializeComponent();
+
         }
 
         #region self event handler
@@ -164,12 +165,24 @@ namespace BasicWaveChart
             ContextMenu wavemenu = this.FindResource("wavemenu") as ContextMenu;
             wavemenu.PlacementTarget = optimizeCanvas;
 
+            //init marker
+            xmark.lineinfo.RightBlankZone = this.RightBlankZone;
+            xmark.lineinfo.arrowheight = 10;
+            xmark.lineinfo.observeWinWidth = basecanvas.ActualWidth - yaxis.Width - xmark.lineinfo.arrowheight
+                - this.RightBlankZone;
+            xmark.lineinfo.ostart = yaxis.Width;
+            //refresh xaxis
+            XAxisCtl xa = xaxis;
+            basecanvas.Children.Remove(xaxis);
+            basecanvas.Children.Add(xa);
+
             this.OnScaleChanged(optimizeCanvas.ScaleChangedHdlr);
+
         }
 
         private void xaxis_text_canvas_Unloaded(object sender, RoutedEventArgs e)
         {
-            ;
+            
         }
 
         private void xaxis_text_canvas_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -183,7 +196,7 @@ namespace BasicWaveChart
             (xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock).FontSize = 8;
             Canvas.SetLeft((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), yaxis.Width);
             Canvas.SetBottom((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), 0);
-            int loop = (int)(xaxis.XScaleMaxValue / xaxis.XScaleLineNumber / xaxis.XCommentNumber);
+            int loop = (int)(1187 / xaxis.XScaleLineNumber / xaxis.XCommentNumber); //todo relace 1187
 
             for (int i = 1; i < loop; i++)
             {
@@ -206,6 +219,7 @@ namespace BasicWaveChart
 
         private void yaxis_text_canvas_Loaded(object sender, RoutedEventArgs e)
         {
+          
             //add the scale text
             yaxis_text_canvas.Children.Clear();
             //0
@@ -246,7 +260,7 @@ namespace BasicWaveChart
 
         private void xaxis_text_canvas_Loaded(object sender, RoutedEventArgs e)
         {
-            
+            xaxis_text_canvas.Width = xaxis.GetGranulity() * 1187 + yaxis.Width ;  //todo:replace 1187
         }
 
         private void optimizeCanvas_Loaded_1(object sender, RoutedEventArgs e)
@@ -428,6 +442,16 @@ namespace BasicWaveChart
                     break;
                 }
             }
+        }
+
+        private void xaxis_Loaded(object sender, RoutedEventArgs e)
+        {
+            ;
+        }
+
+        private void WindowCanvas_Loaded(object sender, RoutedEventArgs e)
+        {
+            xmark.lineinfo.RightBlankZone = this.RightBlankZone;
         }
     }
 }
