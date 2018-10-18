@@ -13,15 +13,13 @@
     <Grid>
         <BasicWaveChart:BasicWaveChartUC x:Name="wc"  RatioS="1:2" 
                                          MoveMode ="HORIZONTAL"
-                                         HorizontalAlignment="Left" Height="250" Margin="950,34,0,0" 
+                                         HorizontalAlignment="Left" Height="250" Margin="350,111,0,0" 
                                          TopBlankZone="20"
                                          RightBlankZone="30"
                                          Feature:IntegralFeature.Enable="True"
                                          VerticalAlignment="Top" Width="601"/>
         <Button Content="right" HorizontalAlignment="Left" Height="38" Margin="75,158,0,0" VerticalAlignment="Top" Width="87" Click="Button_Click"/>
         <Button Content="narrow" HorizontalAlignment="Left" Height="38" Margin="75,229,0,0" VerticalAlignment="Top" Width="87" Click="Button_Click_1"/>
-
-        <widget:Star Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="152" Margin="238,308,0,0" Stroke="Black" VerticalAlignment="Top" Width="304"/>
         <Button x:Name="drawxaxis" Content="redraw xaxis" HorizontalAlignment="Left" Margin="75,111,0,0" VerticalAlignment="Top" Width="87" Height="24" Click="drawxaxis_Click"/>
         <Button Content="sliderbtn" HorizontalAlignment="Left" Margin="81,300,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_2"/>
 
