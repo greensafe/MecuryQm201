@@ -38,6 +38,7 @@ namespace test
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            //wc.NumberOfDValue = 1187;
             wc.SetScale(200, 4000, 300, 30000);
             //wc.RatioS = "1:10";
             //wc.Height = 100;
@@ -63,8 +64,10 @@ namespace test
             //wc.AddPoint(new Point(24, 190));
             //wc.AddPoint(new Point(25, 158));
             //wc.AddPoint(new Point(26, 129));
+            
+            //wc.AddPoint(new Point(0, 0));
             wc.NumberOfDValue = 1187;
-            wc.AddPoint(new Point(0, 0));
+            //wc.SetScale(200, 4000, 300, 30000);
             DispatcherTimer drawtimer = new DispatcherTimer();
             drawtimer.Tick += new EventHandler(timer_hdlr);
             drawtimer.Interval = new TimeSpan(0, 0, 0,0, 1);

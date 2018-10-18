@@ -129,7 +129,6 @@ namespace BasicWaveChart.widget
         {
             get
             {
-                
                 YAxisCtl yaxisctl = this.FindName("yaxis") as YAxisCtl;
                 BasicWaveChartUC wavechartuc = this.FindName("ControlContainer") as BasicWaveChartUC;
                 Canvas windowcanvas = wavechartuc.FindName("WindowCanvas") as Canvas;
@@ -159,13 +158,13 @@ namespace BasicWaveChart.widget
                 //this.windowwidth = xmark.lineinfo.observeWinWidth;
                 this.granulity_width =  this.windowwidth / this.XScaleMaxValue;
                 //this.granulity_width = (this.Width - this.arrowheight - yaxisctl.Width - wavechartuc.RightBlankZone) / (int)GetValue(XScaleMaxValueProperty);
-                this.Width = this.granulity_width * 1187 + xmark.lineinfo.arrowheight + xmark.lineinfo.ostart; //todo relace with numberofdvalues
+                this.Width = this.granulity_width * wavechartuc.NumberOfDValue + xmark.lineinfo.arrowheight + xmark.lineinfo.ostart; //todo relace with numberofdvalues
 
                 double hlinevalue = this.Height - topblank;
                 
                 if (this.XScaleLineNumber == 0) this.XScaleLineNumber = 100;
                 //int scalenumber = (int)(this.XScaleMaxValue / this.XScaleLineNumber);
-                int scalenumber = (int)(1187 / this.XScaleLineNumber); //todo relace 1187
+                int scalenumber = (int)(wavechartuc.NumberOfDValue / this.XScaleLineNumber); //todo relace 1187
                 for (int i = 0; i<= scalenumber; i++)
                 {
                     ScaleSeg.Points.Add(new Point(i*XScaleLineNumber*granulity_width + yaxisctl.Width,hlinevalue));
@@ -181,12 +180,12 @@ namespace BasicWaveChart.widget
                 }
 
                 //ScaleSeg.Points.Add(new Point(XScaleMaxValue * granulity_width + yaxisctl.Width, hlinevalue));
-                ScaleSeg.Points.Add(new Point(1187 * granulity_width + yaxisctl.Width, hlinevalue)); //todo replace
+                ScaleSeg.Points.Add(new Point(wavechartuc.NumberOfDValue * granulity_width + yaxisctl.Width, hlinevalue)); //todo replace
                 //ScaleSeg.Points.Add(new Point(XScaleMaxValue* granulity_width + yaxisctl.Width, hlinevalue+20));
                 //ScaleSeg.Points.Add(new Point(XScaleMaxValue * granulity_width + yaxisctl.Width, hlinevalue - 20));
-                ScaleSeg.Points.Add(new Point(1187 * granulity_width + yaxisctl.Width, hlinevalue - 20));  //todo replace
+                ScaleSeg.Points.Add(new Point(wavechartuc.NumberOfDValue * granulity_width + yaxisctl.Width, hlinevalue - 20));  //todo replace
                 //ScaleSeg.Points.Add(new Point(XScaleMaxValue * granulity_width + yaxisctl.Width, hlinevalue));
-                ScaleSeg.Points.Add(new Point(1187 * granulity_width + yaxisctl.Width, hlinevalue)); //todo replace
+                ScaleSeg.Points.Add(new Point(wavechartuc.NumberOfDValue * granulity_width + yaxisctl.Width, hlinevalue)); //todo replace
 
                 pf.Segments.Add(ScaleSeg);
                 PolyLineSegment arrowseg = new PolyLineSegment();
@@ -254,7 +253,7 @@ namespace BasicWaveChart.widget
             (xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock).FontSize = 8;
             Canvas.SetLeft((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), yaxis.Width);
             Canvas.SetBottom((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), 0);
-            int loop = (int)(xaxis.XScaleMaxValue / xaxis.XScaleLineNumber / xaxis.XCommentNumber);
+            int loop = (int)(wavechartuc.NumberOfDValue / xaxis.XScaleLineNumber / xaxis.XCommentNumber);
 
             for (int i = 1; i < loop; i++)
             {
@@ -277,9 +276,9 @@ namespace BasicWaveChart.widget
             //the max of dvalue
             xaxis_text_canvas.Children.Add(new TextBlock());
             (xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock).Text =
-                "1187";  //todo replace 1187
+                wavechartuc.NumberOfDValue.ToString();  //todo replace 1187
             (xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock).FontSize = 8;
-            Canvas.SetLeft((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), 1187 * xaxis.GetGranulity() + yaxis.Width); //todo replace the 1187
+            Canvas.SetLeft((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), wavechartuc.NumberOfDValue * xaxis.GetGranulity() + yaxis.Width); //todo replace the 1187
             Canvas.SetBottom((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), 0);
 
         }

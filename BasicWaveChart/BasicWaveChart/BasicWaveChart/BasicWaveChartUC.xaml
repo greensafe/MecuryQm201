@@ -74,7 +74,7 @@
         </ContextMenu>
     </UserControl.Resources>
     <widget:ZoomPanel x:Name="zoompanel" Background="Yellow" Ratio="{Binding RatioS, ElementName=ControlContainer}">
-        <Canvas x:Name="basecanvas" Background="{StaticResource gridbrush}" ClipToBounds="True">
+        <Canvas x:Name="basecanvas" Background="{StaticResource gridbrush}" ClipToBounds="False">
             <Canvas.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleY="-1"/>
@@ -130,7 +130,8 @@
                     Canvas.Left="{Binding Width, ElementName=yaxis}"
                     Height="10" Minimum="-30000" ValueChanged="moveslider_ValueChanged"></Slider>
             <Canvas x:Name="WindowCanvas" Background="LightBlue" Opacity="0.5"
-                    ClipToBounds="True"
+                    ClipToBounds="False"
+                    Panel.ZIndex="9"
                     Canvas.Left="{Binding Width, ElementName=yaxis}" 
                     Canvas.Top="{Binding Height, ElementName=xaxis}" Loaded="WindowCanvas_Loaded">
                 <widget:OptimizeCanvas x:Name="optimizeCanvas" Background="LightSeaGreen" Opacity="0.6"

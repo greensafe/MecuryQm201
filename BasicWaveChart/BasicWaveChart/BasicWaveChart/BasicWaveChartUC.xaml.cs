@@ -22,7 +22,7 @@ namespace BasicWaveChart
     public partial class BasicWaveChartUC : UserControl
     {
         //private readonly int NumberOfDValue = 100000;
-        int numberOfDValue;
+        private int numberOfDValue;
         public int NumberOfDValue
         {
             get
@@ -32,27 +32,18 @@ namespace BasicWaveChart
             set
             {
                 numberOfDValue = value;
-                moveslider.Minimum = -(xaxis.GetGranulity() * numberOfDValue - WindowCanvas.Width);
-                moveslider.Value = 0;
-                moveslider.Width = WindowCanvas.Width;
-                optimizeCanvas.Width = xaxis.GetGranulity() * NumberOfDValue;
+                try //try to refresh the xaxis and xaxis_comment_cannvas
+                {
+                    XAxisCtl xa = xaxis;
+                    basecanvas.Children.Remove(xaxis);
+                    basecanvas.Children.Add(xa);
+                    xaxis.ReDrawTextCommentCmd();
+                }
+                catch
+                {
+                    Console.WriteLine("ignore error: refresh xaxis fail");
+                }
             }
-        }
-        //DependencyProperty NumberOfDValueProperty = DependencyProperty.Register("NumberOfDValue",typeof(int),typeof(BasicWaveChartUC),
-          //  new UIPropertyMetadata(3000,new PropertyChangedCallback(NumberOfDValueChanged)));
-
-        private static void NumberOfDValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {/*
-            BasicWaveChartUC uc = d as BasicWaveChartUC;
-            Slider sl = uc.FindName("moveslider") as Slider;
-            XAxisCtl xaxis_s = uc.FindName("xaxis") as XAxisCtl;
-            Canvas WindowCanvas_s = uc.FindName("WindowCanvas") as Canvas;
-            Canvas optimizeCanvas_s = uc.FindName("optimizeCanvas") as Canvas;
-            sl.Minimum = -(xaxis_s.GetGranulity() * (int)e.NewValue - WindowCanvas_s.Width);
-            sl.Value = 0;
-            sl.Width = WindowCanvas_s.Width;
-            optimizeCanvas_s.Width = xaxis_s.GetGranulity() * (int)e.NewValue;
-            */
         }
 
         #region DependencyProperty
@@ -144,20 +135,26 @@ namespace BasicWaveChart
 
         public BasicWaveChartUC()
         {
+            NumberOfDValue = 1187;
             InitializeComponent();
-
         }
 
         #region self event handler
 
         private void ControlContainer_Loaded(object sender, RoutedEventArgs e)
         {
-            /*
-            optimizeCanvas.Width = xaxis.Width - yaxis.Width - this.RightBlankZone - xaxis.XArrowheight;
+            //init marker
+            xmark.lineinfo.RightBlankZone = this.RightBlankZone;
+            xmark.lineinfo.arrowheight = 10;
+            xmark.lineinfo.observeWinWidth = basecanvas.ActualWidth - yaxis.Width - xmark.lineinfo.arrowheight
+                - this.RightBlankZone;
+            xmark.lineinfo.ostart = yaxis.Width;
+
             optimizeCanvas.Height = yaxis.Height - xaxis.Height - this.TopBlankZone - yaxis.YArrowheight;
-            */
-            //optimizeCanvas.Width = xaxis.GetGranulity() * NumberOfDValue;
-            optimizeCanvas.Height = yaxis.Height - xaxis.Height - this.TopBlankZone - yaxis.YArrowheight;
+            int temp = xaxis.XScaleMaxValue;
+            xaxis.XScaleMaxValue = 1;
+            xaxis.XScaleMaxValue = temp;
+            optimizeCanvas.Width = this.NumberOfDValue * xaxis.GetGranulity();
 
             WindowCanvas.Width = xaxis.Width - yaxis.Width - this.RightBlankZone - xaxis.XArrowheight;
             WindowCanvas.Height = yaxis.Height - xaxis.Height - this.TopBlankZone - yaxis.YArrowheight;
@@ -165,12 +162,6 @@ namespace BasicWaveChart
             ContextMenu wavemenu = this.FindResource("wavemenu") as ContextMenu;
             wavemenu.PlacementTarget = optimizeCanvas;
 
-            //init marker
-            xmark.lineinfo.RightBlankZone = this.RightBlankZone;
-            xmark.lineinfo.arrowheight = 10;
-            xmark.lineinfo.observeWinWidth = basecanvas.ActualWidth - yaxis.Width - xmark.lineinfo.arrowheight
-                - this.RightBlankZone;
-            xmark.lineinfo.ostart = yaxis.Width;
             //refresh xaxis
             XAxisCtl xa = xaxis;
             basecanvas.Children.Remove(xaxis);
@@ -196,7 +187,7 @@ namespace BasicWaveChart
             (xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock).FontSize = 8;
             Canvas.SetLeft((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), yaxis.Width);
             Canvas.SetBottom((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), 0);
-            int loop = (int)(1187 / xaxis.XScaleLineNumber / xaxis.XCommentNumber); //todo relace 1187
+            int loop = (int)(this.NumberOfDValue / xaxis.XScaleLineNumber / xaxis.XCommentNumber); //todo relace 1187
 
             for (int i = 1; i < loop; i++)
             {
@@ -219,9 +210,9 @@ namespace BasicWaveChart
             //the max of dvalue
             xaxis_text_canvas.Children.Add(new TextBlock());
             (xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock).Text =
-                "1187";  //todo replace 1187
+                this.NumberOfDValue.ToString();  //todo replace 1187
             (xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock).FontSize = 8;
-            Canvas.SetLeft((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), 1187 * xaxis.GetGranulity() + yaxis.Width); //todo replace the 1187
+            Canvas.SetLeft((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), this.NumberOfDValue * xaxis.GetGranulity() + yaxis.Width); //todo replace the 1187
             Canvas.SetBottom((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), 0);
 
         }
@@ -269,7 +260,7 @@ namespace BasicWaveChart
 
         private void xaxis_text_canvas_Loaded(object sender, RoutedEventArgs e)
         {
-            xaxis_text_canvas.Width = xaxis.GetGranulity() * 1187 + yaxis.Width ;  //todo:replace 1187
+            xaxis_text_canvas.Width = xaxis.GetGranulity() * this.NumberOfDValue + yaxis.Width ;  //todo:replace 1187
         }
 
         private void optimizeCanvas_Loaded_1(object sender, RoutedEventArgs e)
