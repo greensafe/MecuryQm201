@@ -38,6 +38,7 @@ namespace BasicWaveChart
                     basecanvas.Children.Remove(xaxis);
                     basecanvas.Children.Add(xa);
                     xaxis.ReDrawTextCommentCmd();
+                    moveslider.Minimum = -(xa.GetGranulity() * this.NumberOfDValue - xmark.lineinfo.observeWinWidth);
                 }
                 catch
                 {
@@ -158,6 +159,8 @@ namespace BasicWaveChart
 
             WindowCanvas.Width = xaxis.Width - yaxis.Width - this.RightBlankZone - xaxis.XArrowheight;
             WindowCanvas.Height = yaxis.Height - xaxis.Height - this.TopBlankZone - yaxis.YArrowheight;
+
+            moveslider.Minimum = -(xaxis.GetGranulity()*this.numberOfDValue - WindowCanvas.Width);
 
             ContextMenu wavemenu = this.FindResource("wavemenu") as ContextMenu;
             wavemenu.PlacementTarget = optimizeCanvas;
