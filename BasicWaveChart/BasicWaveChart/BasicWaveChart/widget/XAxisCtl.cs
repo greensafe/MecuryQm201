@@ -65,8 +65,17 @@ namespace BasicWaveChart.widget
             XAxisCtl self = d as XAxisCtl;
             YAxisCtl yaxisctl = self.FindName("yaxis") as YAxisCtl;
             BasicWaveChartUC wavechartuc = self.FindName("ControlContainer") as BasicWaveChartUC;
-            if (self == null || yaxisctl == null) return;
+            MarkLine xmark = wavechartuc.FindName("xmark") as MarkLine;
+            if (self == null || yaxisctl == null || xmark == null) return;
 
+            try
+            {
+                self.granulity_width = xmark.lineinfo.observeWinWidth / self.XScaleMaxValue;
+            }
+            catch
+            {
+                return;  //try , ignore error;
+            }
             //self.granulity_width = 
             //  (self.Width - self.arrowheight - yaxisctl.Width - wavechartuc.RightBlankZone) / self.XScaleMaxValue;
         }
@@ -264,6 +273,15 @@ namespace BasicWaveChart.widget
             (xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock).FontSize = 8;
             Canvas.SetLeft((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), (loop * xaxis.XScaleLineNumber * xaxis.XCommentNumber) * xaxis.GetGranulity() + yaxis.Width);
             Canvas.SetBottom((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), 0);
+
+            //the max of dvalue
+            xaxis_text_canvas.Children.Add(new TextBlock());
+            (xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock).Text =
+                "1187";  //todo replace 1187
+            (xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock).FontSize = 8;
+            Canvas.SetLeft((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), 1187 * xaxis.GetGranulity() + yaxis.Width); //todo replace the 1187
+            Canvas.SetBottom((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), 0);
+
         }
     }
 }

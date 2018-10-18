@@ -163,11 +163,9 @@ namespace BasicWaveChart.widget
         public void ShowFullView()
         {
             //Canvas.SetLeft(this, 0);
-            moveslider.Maximum = 3000;
-            moveslider.Minimum = 0;
-            moveslider.Value = 0;
             moveslider.Visibility = Visibility.Hidden;
             int all = dvalues.Count;
+            moveslider.Value = 0;
             parent.SetScale(0, all, 0,0);
         }
 
