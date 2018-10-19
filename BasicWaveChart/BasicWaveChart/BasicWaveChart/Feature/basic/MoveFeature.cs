@@ -22,10 +22,6 @@ namespace featurefactory.Basic
 
         private static void OnEnableChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            //target = d;
-            /*findParent(d as FrameworkElement).Loaded += delegate (object sender, RoutedEventArgs epr) {
-                MoveWorker.Create(d).Enable();
-            };*/
             (d as FrameworkElement).Loaded += delegate (object sender, RoutedEventArgs epr) {
                 MoveWorker.Create(d).Enable();
             };
@@ -67,7 +63,6 @@ namespace featurefactory.Basic
         //enable the feature
         public void Enable()
         {
-            //targetcontext.container = target.FindName("container") as Canvas;
             targetcontext.container = target.Parent as Canvas;
             target.MouseLeftButtonDown += new MouseButtonEventHandler(MouseleftdownHdlr);
             target.MouseLeftButtonUp += new MouseButtonEventHandler(MouseLeftUpHdlr);
@@ -83,7 +78,6 @@ namespace featurefactory.Basic
                 //only move in horital direction
                 x = e.GetPosition(targetcontext.container).X - target.ActualWidth / 2;
                 Canvas.SetLeft(target, x);
-                //Canvas.SetTop(target, e.GetPosition(targetcontext.container).Y -target.ActualHeight / 2);
 
                 //trigger move event
                 (sender as IMoveFeature).TriggerMove();

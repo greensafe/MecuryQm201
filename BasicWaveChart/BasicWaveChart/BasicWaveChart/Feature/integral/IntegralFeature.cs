@@ -15,9 +15,6 @@ namespace BasicWaveChart.Feature.integral
 {
     public class IntegralFeature: DependencyObject
     {
-        //private static BasicWaveChartUC hostctl = null;
-        //private static dynamic hostcontext = new HostContext();
-
         public static readonly DependencyProperty EnableProperty = DependencyProperty.RegisterAttached(
                 "Enable", typeof(bool), typeof(IntegralFeature), new PropertyMetadata(false, OnEnableChanged));
 
@@ -30,16 +27,11 @@ namespace BasicWaveChart.Feature.integral
             BasicWaveChartUC basicwave = d as BasicWaveChartUC;
             basicwave.Loaded += new RoutedEventHandler(targetloaded_hdlr);
             ;
-            //throw new NotImplementedException();
         }
 
         private static void targetloaded_hdlr(object sender, RoutedEventArgs e)
         {
             IntegralWorker.Create(sender as BasicWaveChartUC).Enable();
-            //hostcontext.window = hostctl.WindowCanvas;   //canvas
-            //hostcontext.container = hostctl.basecanvas;  //canvas
-            //Console.WriteLine(hostcontext.window.Width);
-            //Console.WriteLine(hostcontext.window.Height);
         }
     }
 
@@ -63,7 +55,6 @@ namespace BasicWaveChart.Feature.integral
             commenttx.Height = 20;
             commenttx.Visibility = Visibility.Visible;
             commenttx.Name = "commenttx";
-            //commenttx.Background = new SolidColorBrush(Colors.Red);
             commenttx.TextAlignment = TextAlignment.Center;
             //main handle
             mainhandle = new HandleCtl(new HandleCtl());
@@ -75,19 +66,10 @@ namespace BasicWaveChart.Feature.integral
         }
         public void Enable()
         {
-            //context info
-            //container
-            //dvalues
-            //datas_ of ployline
-            //xaxis
-            //yaxis
             hostcontext.container = ucctl.FindName("WindowCanvas");
             hostcontext.xaxis = ucctl.FindName("xaxis");
             hostcontext.yaxis = ucctl.FindName("yaxis");
             hostcontext.optimizeCanvas = ucctl.FindName("optimizeCanvas") as OptimizeCanvas;
-            //hostcontext.datas_ = (ucctl.FindName("optimizeCanvas") as OptimizeCanvas).GetDatas();
-            //hostcontext.dvalues = (ucctl.FindName("optimizeCanvas") as OptimizeCanvas).GetDValues();
-            //install handle
             (hostcontext.container as Canvas).Children.Add(mainhandle);
             (hostcontext.container as Canvas).Children.Add(mainhandle.GetBrother());
             Canvas.SetLeft(mainhandle, hostcontext.container.Width / 3);
@@ -146,9 +128,15 @@ namespace BasicWaveChart.Feature.integral
 
 
         //面积积分方法可以重写
-        public virtual double IntegrateData()
+        public virtual double IntegrateData(int dvalues_start, int dvalues_end)
         {
-            return 29990;
+            double total = 0;
+            for(int i = dvalues_start; i <= dvalues_end; i++)
+            {
+                total += hostcontext.dvalues[i].Y;
+            }
+            total /= (dvalues_end - dvalues_start);
+            return total;
         }
 
         #region private function
@@ -168,18 +156,19 @@ namespace BasicWaveChart.Feature.integral
             int startx_index = findIndexInDatas_(startx);
             int end_index = findIndexInDatas_(endx);
             int index = startx_index;
+            hostcontext.polygon_dvalues_start_index = startx_index;
+            hostcontext.polygon_dvalues_end_index = end_index;
             //int index = 0;
             areagon.Points.Add(new Point(hostcontext.datas_[startx_index].X,0));
             while ( index >= startx_index && index < end_index)
-            //while (index >= 0 && index < hostcontext.datas_.Count)
             {
                 areagon.Points.Add(hostcontext.datas_[index]);
                 index++;
             }
             areagon.Points.Add(new Point(hostcontext.datas_[end_index].X, 0));
-            //areagon.Points.Add(new Point(hostcontext.datas_[hostcontext.datas_.Count-1].X,0));
         }
 
+        //
         private int findIndexInDatas_(double x)
         {
             int index = 0;
@@ -200,7 +189,8 @@ namespace BasicWaveChart.Feature.integral
         //show the comment 
         private void showcomment(double x, double y)
         {
-            commenttx.Text = IntegrateData().ToString();
+            commenttx.Text = IntegrateData(hostcontext.polygon_dvalues_start_index, 
+                hostcontext.polygon_dvalues_end_index).ToString("0.00");
             Canvas.SetLeft(commenttx,(x + y )/2 - commenttx.Width/2);
             Canvas.SetTop(commenttx, 10);
         }

@@ -216,7 +216,6 @@ namespace BasicWaveChart.widget
         {
             OptimizeCanvas_Canvas_Left -= (xaxis.GetXX((int)dvalue.X) - datas_[datas_.Count - 1].X);
             moveslider.Value = OptimizeCanvas_Canvas_Left;
-            //Canvas.SetLeft(this, OptimizeCanvas_Canvas_Left);
         }
         #endregion
     }

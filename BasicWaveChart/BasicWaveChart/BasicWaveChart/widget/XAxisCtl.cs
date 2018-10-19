@@ -76,8 +76,6 @@ namespace BasicWaveChart.widget
             {
                 return;  //try , ignore error;
             }
-            //self.granulity_width = 
-            //  (self.Width - self.arrowheight - yaxisctl.Width - wavechartuc.RightBlankZone) / self.XScaleMaxValue;
         }
 
         //how many dvalue that a scale include
@@ -147,7 +145,6 @@ namespace BasicWaveChart.widget
                 }
                 try
                 {
-                    //this.windowwidth = (this.Width - this.arrowheight - yaxisctl.Width - wavechartuc.RightBlankZone);
                     this.windowwidth = xmark.lineinfo.observeWinWidth;
                 }
                 catch
@@ -155,15 +152,12 @@ namespace BasicWaveChart.widget
                     ScaleSeg.Points.Add(new Point(0,0));
                     return pg;
                 }
-                //this.windowwidth = xmark.lineinfo.observeWinWidth;
                 this.granulity_width =  this.windowwidth / this.XScaleMaxValue;
-                //this.granulity_width = (this.Width - this.arrowheight - yaxisctl.Width - wavechartuc.RightBlankZone) / (int)GetValue(XScaleMaxValueProperty);
                 this.Width = this.granulity_width * wavechartuc.NumberOfDValue + xmark.lineinfo.arrowheight + xmark.lineinfo.ostart; //todo relace with numberofdvalues
 
                 double hlinevalue = this.Height - topblank;
                 
                 if (this.XScaleLineNumber == 0) this.XScaleLineNumber = 100;
-                //int scalenumber = (int)(this.XScaleMaxValue / this.XScaleLineNumber);
                 int scalenumber = (int)(wavechartuc.NumberOfDValue / this.XScaleLineNumber); //todo relace 1187
                 for (int i = 0; i<= scalenumber; i++)
                 {
@@ -179,12 +173,8 @@ namespace BasicWaveChart.widget
                     ScaleSeg.Points.Add(new Point(i * XScaleLineNumber * granulity_width + yaxisctl.Width, hlinevalue));
                 }
 
-                //ScaleSeg.Points.Add(new Point(XScaleMaxValue * granulity_width + yaxisctl.Width, hlinevalue));
                 ScaleSeg.Points.Add(new Point(wavechartuc.NumberOfDValue * granulity_width + yaxisctl.Width, hlinevalue)); //todo replace
-                //ScaleSeg.Points.Add(new Point(XScaleMaxValue* granulity_width + yaxisctl.Width, hlinevalue+20));
-                //ScaleSeg.Points.Add(new Point(XScaleMaxValue * granulity_width + yaxisctl.Width, hlinevalue - 20));
                 ScaleSeg.Points.Add(new Point(wavechartuc.NumberOfDValue * granulity_width + yaxisctl.Width, hlinevalue - 20));  //todo replace
-                //ScaleSeg.Points.Add(new Point(XScaleMaxValue * granulity_width + yaxisctl.Width, hlinevalue));
                 ScaleSeg.Points.Add(new Point(wavechartuc.NumberOfDValue * granulity_width + yaxisctl.Width, hlinevalue)); //todo replace
 
                 pf.Segments.Add(ScaleSeg);
@@ -210,15 +200,8 @@ namespace BasicWaveChart.widget
                             arrowseg.Points.Add(new Point(this.Width - wavechartuc.RightBlankZone, hlinevalue));
                             break;
                         }
-
                 }
                 pf.Segments.Add(arrowseg);
-                
-
-                /*
-                pf.IsClosed = true;
-                pg.FillRule = FillRule.Nonzero;
-                */
 
                 return pg;
             }

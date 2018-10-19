@@ -32,14 +32,6 @@ namespace BasicWaveChart.Feature.integral
 
             Canvas.SetLeft((this), 100);
             Canvas.SetTop((this), 200);
-            /*
-            this.Children.Add(new Rectangle());
-            (this.Children[0] as Rectangle).Width = 2;
-            (this.Children[0] as Rectangle).Height = 50;
-            (this.Children[0] as Rectangle).Fill = new SolidColorBrush(Colors.Black);
-            Canvas.SetLeft((this.Children[0] as Rectangle), 25);
-            Canvas.SetTop((this.Children[0] as Rectangle), -48);
-            */
             this.Loaded += delegate (object sender, RoutedEventArgs e)
             {
             };
