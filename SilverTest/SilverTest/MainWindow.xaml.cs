@@ -71,7 +71,7 @@ namespace SilverTest
     {
 
         //使用DynamicDataDisplay控件显示波形
-        private ObservableDataSource<Point> realCptDs = new ObservableDataSource<Point>();
+        
         bool mode = true;
         Random rd = new Random();
         private int currentSecond = 0;
@@ -116,9 +116,6 @@ namespace SilverTest
             InitializeComponent();
 
             //初始化使用DynamicDataDisplay控件
-            realCpt.AddLineGraph(realCptDs, Colors.Red, 2, "百分比");
-            realCpt.LegendVisible = true;
-            realCpt.Viewport.FitToView();
 
             //初始化xml文档
             AirDensityXml.Load(@"resources\ChinaAirDensity.xml");
@@ -182,7 +179,7 @@ namespace SilverTest
             for(int i = WaveDrawSite.to_pos_index_rel; i< WaveDrawSite.to_pos_index_rel + todrawcount; i++)
             {
                 //draw dot
-                realCptDs.AppendAsync(base.Dispatcher, new Point(WaveDrawSite.to_pos_index_rel, dots[WaveDrawSite.to_pos_index_rel].Rvalue));
+                realCpt.AddPoint(new Point(WaveDrawSite.to_pos_index_rel, dots[WaveDrawSite.to_pos_index_rel].Rvalue));
             }
             WaveDrawSite.to_pos_index_rel += todrawcount;
         }
@@ -460,6 +457,8 @@ namespace SilverTest
         private void startTestBtn_Click(object sender, RoutedEventArgs e)
         {
             int newcltindex = 0;
+            realCpt.NumberOfDValue = 8000;
+            realCpt.SetScale(0, 0, 0, 0);
             //SerialDriver.GetDriver().OnReceived(Com_DataReceived);
             switch (sampletab.SelectedIndex)
             {
@@ -489,7 +488,7 @@ namespace SilverTest
                             statusBtn.Visibility = Visibility.Visible;
                             AnimatedColorButton.Visibility = Visibility.Visible;
                             //清空图形记录及DotManager中数据
-                            realCptDs.Collection.Clear();
+                            
                             DotManager.GetDotManger().ReleaseData();
                             //清理绘波现场
                             WaveDrawSite.to_pos_index_rel = 0;
@@ -562,7 +561,7 @@ namespace SilverTest
                             statusBtn.Visibility = Visibility.Visible;
                             AnimatedColorButton.Visibility = Visibility.Visible;
                             //清空图形记录及DotManager中数据
-                            realCptDs.Collection.Clear();
+                            
                             DotManager.GetDotManger().ReleaseData();
 
                             startTestBtn.Content = "停止测试";

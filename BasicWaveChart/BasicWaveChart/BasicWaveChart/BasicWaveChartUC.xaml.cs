@@ -39,6 +39,7 @@ namespace BasicWaveChart
                     basecanvas.Children.Add(xa);
                     xaxis.ReDrawTextCommentCmd();
                     moveslider.Minimum = -(xa.GetGranulity() * this.NumberOfDValue - xmark.lineinfo.observeWinWidth);
+                    optimizeCanvas.Width = xa.GetGranulity() * this.NumberOfDValue;
                 }
                 catch
                 {
@@ -284,8 +285,8 @@ namespace BasicWaveChart
 
         private void moveslider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            Console.WriteLine("old:" + e.OldValue);
-            Console.WriteLine("new:" + e.NewValue);
+            //Console.WriteLine("old:" + e.OldValue);
+            //Console.WriteLine("new:" + e.NewValue);
         }
 
         private void movemenu_Click(object sender, RoutedEventArgs e)
@@ -402,6 +403,8 @@ namespace BasicWaveChart
                     break;
                 }
             }
+            if (bigbrother == null)
+                return;
             if( (sender as MenuItem).Header.ToString() == "积分")
             {
                 showbigbrother(bigbrother);

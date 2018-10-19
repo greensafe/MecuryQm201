@@ -66,7 +66,7 @@ namespace test
             //wc.AddPoint(new Point(26, 129));
             
             //wc.AddPoint(new Point(0, 0));
-            wc.NumberOfDValue = 1210;
+            wc.NumberOfDValue = 1410;
             //wc.SetScale(200, 4000, 300, 30000);
             DispatcherTimer drawtimer = new DispatcherTimer();
             drawtimer.Tick += new EventHandler(timer_hdlr);
