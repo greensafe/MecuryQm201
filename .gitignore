@@ -1,5 +1,6 @@
 #ignore obj
 obj/
+debug/
 
 #ignore visual studio generated file
 .vs/
@@ -30,5 +31,9 @@ SilverTest/SilverTest/bin/Debug/QM201H.pdb
 SilverTest/SilverTest/bin/Debug/history/
 SilverTest/SilverTest/bin/Debug/changelog/
 
+SilverTest/SilverTest/bin/Debug/NModbus4.Serial.dll
+SilverTest/SilverTest/bin/Debug/NModbus4.dll
+
+SilverTest/test/bin
 
 
