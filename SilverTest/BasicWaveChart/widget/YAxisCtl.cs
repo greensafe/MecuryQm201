@@ -39,7 +39,7 @@ namespace BasicWaveChart.widget
                 SetValue(YArrowheightProperty, value);
             }
         }
-        public DependencyProperty YArrowheightProperty = DependencyProperty.Register("YArrowheight", typeof(double), typeof(YAxisCtl));
+        public static readonly DependencyProperty YArrowheightProperty = DependencyProperty.Register("YArrowheight", typeof(double), typeof(YAxisCtl));
 
         //max dvalue to draw
         public int YScaleMaxValue
@@ -54,7 +54,7 @@ namespace BasicWaveChart.widget
             }
         }
 
-        public DependencyProperty YScaleMaxValueProperty = DependencyProperty.Register("YScaleMaxValue", typeof(int), typeof(YAxisCtl),
+        public static readonly DependencyProperty YScaleMaxValueProperty = DependencyProperty.Register("YScaleMaxValue", typeof(int), typeof(YAxisCtl),
             new UIPropertyMetadata(30000,new PropertyChangedCallback(YScaleMaxValue_Changed)));
 
         private static void YScaleMaxValue_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -80,7 +80,7 @@ namespace BasicWaveChart.widget
             }
         }
 
-        public DependencyProperty YScaleLineNumberProperty = DependencyProperty.Register("YScaleLineNumber", typeof(int), typeof(YAxisCtl));
+        public static readonly DependencyProperty YScaleLineNumberProperty = DependencyProperty.Register("YScaleLineNumber", typeof(int), typeof(YAxisCtl));
 
         //to comment text after how many YScaleLineNumber
         public int YCommentNumber
@@ -95,7 +95,7 @@ namespace BasicWaveChart.widget
             }
         }
 
-        public DependencyProperty YCommentNumberProperty = DependencyProperty.Register("YCommentNumber", typeof(int), typeof(YAxisCtl));
+        public static readonly DependencyProperty YCommentNumberProperty = DependencyProperty.Register("YCommentNumber", typeof(int), typeof(YAxisCtl));
 
         //arrow style
         public ArrowStyleEnm YArrowStyle
@@ -110,7 +110,7 @@ namespace BasicWaveChart.widget
             }
         }
 
-        public DependencyProperty YArrowStyleProperty = DependencyProperty.Register("YArrowStyle", typeof(ArrowStyleEnm), typeof(YAxisCtl));
+        public static readonly DependencyProperty YArrowStyleProperty = DependencyProperty.Register("YArrowStyle", typeof(ArrowStyleEnm), typeof(YAxisCtl));
         #endregion
 
         protected override Geometry DefiningGeometry

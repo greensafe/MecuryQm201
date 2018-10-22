@@ -23,7 +23,6 @@ namespace SilverTest
     /// </summary>
     public partial class WaveHistoryWnd : Window
     {
-        private ObservableDataSource<Point> realCptDs = new ObservableDataSource<Point>();
         private Collection<HistoryItem> listdata = new Collection<HistoryItem>();
         MainWindow parentwindow = null;
 
@@ -40,10 +39,6 @@ namespace SilverTest
             item.Add("2018.9.10 星期一 13.00");
             item.Add("2018.9.10 星期一 12.00");
             //itemlist.ItemsSource = item;
-
-            realCpt.AddLineGraph(realCptDs, Colors.Red, 2, "百分比");
-            realCpt.LegendVisible = true;
-            realCpt.Viewport.FitToView();
 
             //加载列表数据
             loadListData();
@@ -93,11 +88,11 @@ namespace SilverTest
             StreamReader sr = new StreamReader(aFile);
             int xscale = 0;
             int yscale = 0;
-            realCptDs.Collection.Clear();
             while (!sr.EndOfStream)
             {
                 yscale = int.Parse( sr.ReadLine() );
-                realCptDs.AppendAsync(base.Dispatcher, new Point(xscale, yscale));
+                //realCptDs.AppendAsync(base.Dispatcher, new Point(xscale, yscale));
+                historywaveuc.AddPoint(new Point(xscale,yscale));
                 xscale++;
             }
 

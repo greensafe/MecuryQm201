@@ -60,7 +60,7 @@ namespace BasicWaveChart
                 SetValue(RatioSProperty, value);
             }
         }
-        DependencyProperty RatioSProperty = DependencyProperty.Register("RatioS", typeof(string),typeof(BasicWaveChartUC),
+        public static readonly DependencyProperty RatioSProperty = DependencyProperty.Register("RatioS", typeof(string),typeof(BasicWaveChartUC),
             new UIPropertyMetadata("1:1", new PropertyChangedCallback(RatioSChanged)),
                 new ValidateValueCallback(RatioSIsNumber)
         );
@@ -89,7 +89,7 @@ namespace BasicWaveChart
                 SetValue(TopBlankZoneProperty, value);
             }
         }
-        DependencyProperty TopBlankZoneProperty = DependencyProperty.Register("TopBlankZone", typeof(int), typeof(BasicWaveChartUC),
+        public static readonly DependencyProperty TopBlankZoneProperty = DependencyProperty.Register("TopBlankZone", typeof(int), typeof(BasicWaveChartUC),
             new UIPropertyMetadata(0, new PropertyChangedCallback(TopBlankZone_Changed)));
 
         private static void TopBlankZone_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -110,7 +110,7 @@ namespace BasicWaveChart
                 SetValue(RightBlankZoneProperty, value);
             }
         }
-        DependencyProperty RightBlankZoneProperty = DependencyProperty.Register("RightBlankZone", typeof(int), typeof(BasicWaveChartUC),
+        public static readonly DependencyProperty RightBlankZoneProperty = DependencyProperty.Register("RightBlankZone", typeof(int), typeof(BasicWaveChartUC),
             new UIPropertyMetadata(0, new PropertyChangedCallback(RightBlankZone_Changed)));
         private static void RightBlankZone_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -130,7 +130,7 @@ namespace BasicWaveChart
                 SetValue(MoveModeProperty, value);
             }
         }
-        DependencyProperty MoveModeProperty = DependencyProperty.Register("MoveMode", typeof(WaveMoveMode), typeof(BasicWaveChartUC),
+        public static readonly DependencyProperty MoveModeProperty = DependencyProperty.Register("MoveMode", typeof(WaveMoveMode), typeof(BasicWaveChartUC),
             new UIPropertyMetadata(WaveMoveMode.HORIZONTAL));
 
         #endregion

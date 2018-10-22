@@ -43,7 +43,7 @@ namespace BasicWaveChart.widget
                 SetValue(XArrowheightProperty, value);
             }
         }
-        public DependencyProperty XArrowheightProperty = DependencyProperty.Register("XArrowheight", typeof(double), 
+        public static readonly DependencyProperty XArrowheightProperty = DependencyProperty.Register("XArrowheight", typeof(double), 
             typeof(XAxisCtl));
 
         //max dvalue to draw
@@ -57,7 +57,7 @@ namespace BasicWaveChart.widget
             }
         }
 
-        public DependencyProperty XScaleMaxValueProperty = DependencyProperty.Register("XScaleMaxValue", typeof(int), typeof(XAxisCtl),
+        public static readonly DependencyProperty XScaleMaxValueProperty = DependencyProperty.Register("XScaleMaxValue", typeof(int), typeof(XAxisCtl),
             new UIPropertyMetadata(680,new PropertyChangedCallback(XScaleMaxValue_Changed)));
 
         private static void XScaleMaxValue_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -90,7 +90,7 @@ namespace BasicWaveChart.widget
             }
         }
         
-        public DependencyProperty XScaleLineNumberProperty = DependencyProperty.Register("XScaleLineNumber", typeof(int), typeof(XAxisCtl));
+        public static readonly DependencyProperty XScaleLineNumberProperty = DependencyProperty.Register("XScaleLineNumber", typeof(int), typeof(XAxisCtl));
 
         //to comment text after how many XScaleLineNumber
         public int XCommentNumber
@@ -105,7 +105,7 @@ namespace BasicWaveChart.widget
             }
         }
 
-        public DependencyProperty XCommentNumberProperty = DependencyProperty.Register("XCommentNumber", typeof(int), typeof(XAxisCtl));
+        public static readonly DependencyProperty XCommentNumberProperty = DependencyProperty.Register("XCommentNumber", typeof(int), typeof(XAxisCtl));
 
         //arrow style
         public ArrowStyleEnm XArrowStyle
@@ -120,7 +120,7 @@ namespace BasicWaveChart.widget
             }
         }
 
-        public DependencyProperty XArrowStyleProperty = DependencyProperty.Register("XArrowStyle", typeof(ArrowStyleEnm), typeof(XAxisCtl));
+        public static readonly DependencyProperty XArrowStyleProperty = DependencyProperty.Register("XArrowStyle", typeof(ArrowStyleEnm), typeof(XAxisCtl));
         #endregion
         
         protected override Geometry DefiningGeometry
