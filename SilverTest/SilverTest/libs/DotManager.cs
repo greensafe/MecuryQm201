@@ -140,6 +140,7 @@ namespace SilverTest.libs
                     break;
                 case CombineErrorInfo.GETSTATUS_RESPONSE_FORMAT_ERROR:
                     Console.WriteLine("获取状态命令回应包格式出错");
+
                     break;
                 case CombineErrorInfo.NORCMD_RESPONSE_FORMAT_ERROR:
                     Console.WriteLine("普通命令回应包格式出错");
@@ -287,7 +288,5 @@ namespace SilverTest.libs
             data[11] = 0x44;            //"D"
             return data;
         }
-
-
     }
 }

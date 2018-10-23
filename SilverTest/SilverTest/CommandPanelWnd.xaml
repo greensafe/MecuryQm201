@@ -19,6 +19,7 @@
                     <Label Content="通信" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Height="45" />
                     <Label Content="连续测量" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Height="45"/>
                     <Label Content="清洗" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Height="45"/>
+                    <Label Content="返回上一级菜单" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Height="45"/>
                 </StackPanel>
                 <StackPanel Width="50" Height="300">
                     <Button x:Name="grabSampleBtn" Width="40" Height="40" Style="{StaticResource MirrorStyle}" Margin="0,0,0,5" Click="grabSampleBtn_Click"></Button>
@@ -27,6 +28,7 @@
                     <Button x:Name="communicateBtn" Width="40" Height="40" Style="{StaticResource MirrorStyle}" Margin="0,0,0,5" Click="communicateBtn_Click"></Button>
                     <Button Width="40" Height="40" Style="{StaticResource MirrorStyle}" Margin="0,0,0,5"></Button>
                     <Button x:Name="wash" Width="40" Height="40" Style="{StaticResource MirrorStyle}" Margin="0,0,0,5" Click="wash_Click"></Button>
+                    <Button x:Name="returnparent" Width="40" Height="40" Style="{StaticResource MirrorStyle}" Margin="0,0,0,5" Click="returnparent_Click"></Button>
                 </StackPanel>
             </StackPanel>
             <Border CornerRadius="5" BorderBrush="Gray" BorderThickness="3" Height="220" Canvas.Left="278" Canvas.Top="56" Width="261"

@@ -3,8 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:d3="clr-namespace:InteractiveDataDisplay.WPF;assembly=InteractiveDataDisplay.WPF"
-        xmlns:dw="http://research.microsoft.com/DynamicDataDisplay/1.0"
         xmlns:qingan="clr-namespace:BasicWaveChart;assembly=BasicWaveChart"
         xmlns:col="clr-namespace:System.Collections;assembly=mscorlib"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
@@ -326,7 +324,6 @@
                 <Button x:Name="modifyBtn" HorizontalAlignment="Left" DockPanel.Dock="Left" Height="30" Content="保存" Margin="20,1,0,0" Click="modifyBtn_Click"  Visibility="Collapsed"/>
                 <Button x:Name="exportexelBtn" HorizontalAlignment="Left" DockPanel.Dock="Left" Height="30" Content="输出excel" Margin="20,1,0,0" Click="exportexelBtn_Click" Visibility="Collapsed"/>
                 <Button x:Name="RBtn" HorizontalAlignment="Left" DockPanel.Dock="Left" Height="30" Content="计算相关系数" Margin="20,1,0,0" Click="RBtn_Click" Visibility="Hidden" />
-                <Button x:Name="testBtn" HorizontalAlignment="Left" DockPanel.Dock="Left" Content="开发" Margin="20,1,0,0" Height="30" Width="50" Click="testBtn_Click" Visibility="Hidden"/>
                 <Button x:Name="debugBtn" HorizontalAlignment="Left" DockPanel.Dock="Left" Content="停止发送" Margin="20,1,0,0" Height="20" Width="50" Click="debugBtn_Click" Visibility="Hidden"/>
                 <Button x:Name="exitBtn" Content="退出" DockPanel.Dock="Right" Width="50" Height="30" Margin="0,0,25,0" Click="exitBtn_Click"/>
                 <Button x:Name="AddRowBtn" DockPanel.Dock="Right"  HorizontalAlignment="Right" Width="50" Height="30" Padding="1" Margin="0,1,20,0"  Content="增加" Click="AddRowBtn_Click" />

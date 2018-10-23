@@ -1,5 +1,4 @@
-﻿using Modbus.Device;
-using Modbus.Serial;
+﻿using byMarc.Net2.Library.Crc;
 using SilverTest.libs;
 using System;
 using System.Collections.Generic;
@@ -27,6 +26,20 @@ namespace SilverTest
         {
             InitializeComponent();
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            //打开串口
+            SerialDriver.GetDriver().Open(SerialDriver.GetDriver().portname,
+                SerialDriver.GetDriver().rate,
+                SerialDriver.GetDriver().parity,
+                SerialDriver.GetDriver().databits,
+                SerialDriver.GetDriver().stopbits);
+
+            MainWindow parentwindow = (MainWindow)this.Owner;
+            parentwindow.showconnectedIcon();
+        }
+
 
         private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -117,6 +130,25 @@ namespace SilverTest
             if (SerialDriver.GetDriver().Send(data))
             {
                 statustxt.Text = "清洗命令已发出";
+            }
+            else
+            {
+                MessageBox.Show("端口未打开");
+            };
+        }
+
+        //返回上一级菜单
+        private void returnparent_Click(object sender, RoutedEventArgs e)
+        {
+            byte[] data = new byte[8] { 0x01, 0x01, 0x01, 0x06, 0x01, 0x04, 0, 0 };
+
+            ushort crc = (ushort)byMarc.Net2.Library.Crc.Crc16.Compute(data, 6);
+            
+            data[6] = (byte)(crc >> 8);
+            data[7] = (byte)crc;
+            if (SerialDriver.GetDriver().Send(data))
+            {
+                statustxt.Text = "返回上一级菜单命令已发出";
             }
             else
             {
@@ -216,23 +248,6 @@ namespace SilverTest
             }
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            byte[] data = new byte[8] { 0x01, 0x01, 0xF0, 0x00, 0x00, 0x00, 0, 0 };
-
-            ushort crc = (ushort)byMarc.Net2.Library.Crc.Crc16.Compute(data, 6);
-            data[6] = (byte)(crc >> 8);
-            data[7] = (byte)crc;
-            SerialDriver.GetDriver().Open(SerialDriver.GetDriver().portname,
-                SerialDriver.GetDriver().rate,
-                SerialDriver.GetDriver().parity,
-                SerialDriver.GetDriver().databits,
-                SerialDriver.GetDriver().stopbits).Send(data);
-
-            MainWindow parentwindow = (MainWindow)this.Owner;
-            parentwindow.showconnectedIcon();
-            //todo: show the result
-        }
 
     }
 }

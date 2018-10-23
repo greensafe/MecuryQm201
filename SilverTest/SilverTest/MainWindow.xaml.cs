@@ -1,6 +1,4 @@
-﻿using Microsoft.Research.DynamicDataDisplay;
-using Microsoft.Research.DynamicDataDisplay.DataSources;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using SilverTest.libs;
 using System;
 using System.Collections.Generic;
@@ -70,8 +68,6 @@ namespace SilverTest
     public partial class MainWindow : Window
     {
 
-        //使用DynamicDataDisplay控件显示波形
-        
         bool mode = true;
         Random rd = new Random();
         private int currentSecond = 0;
@@ -80,12 +76,6 @@ namespace SilverTest
         int group = 200;//组距
         Queue<int> q = new Queue<int>();
         //配置
-        //调整面积积分的积分结果
-        readonly double ratio = 1.0000;
-        //响应值R1面积积分起始点
-        readonly int R1_start = 2000;
-        //响应值R1面积积分结束点
-        readonly int R1_end = 7000;
         //停止测试点位
         readonly int stop_test_position = 7500;
         //瞬时最大值
@@ -101,8 +91,6 @@ namespace SilverTest
         private int newsample_item_globalid = 0;
         private int standardsample_item_globalid = 0;
 
-
-        //private SerialPort ComDevice = null;
         private ObservableCollection<NewTestTarget> newTestClt;
         private ObservableCollection<StandardSample> standardSampleClt;
 
@@ -114,8 +102,6 @@ namespace SilverTest
         public MainWindow()
         {
             InitializeComponent();
-
-            //初始化使用DynamicDataDisplay控件
 
             //初始化xml文档
             AirDensityXml.Load(@"resources\ChinaAirDensity.xml");
@@ -130,16 +116,9 @@ namespace SilverTest
             StandardCvw = CollectionViewSource.GetDefaultView(standardSampleClt);
             StandardCvw.GroupDescriptions.Add(new PropertyGroupDescription("GroupName"));
 
-
             //Utility.SetValueToXml("/config/QM201H/wavehistory/fileid", "newsample","100");
 
         }
-
-        private void realTck(object sender, EventArgs e)
-        {
-       
-        }
-
 
         private void window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -647,11 +626,6 @@ namespace SilverTest
 
         }
 
-        private void testBtn_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void debugBtn_Click(object sender, RoutedEventArgs e)
         {
 
@@ -688,9 +662,11 @@ namespace SilverTest
                     break;
                 case PacketType.GETSTATUS_RESPONSE:
                     Console.WriteLine("获取状态命令回应包: " + dot.ToString());
+                    MessageBox.Show("获取状态命令回应包" + dot.ToString() + "出错");
                     break;
                 case PacketType.NORCMD_RESPONSE:
                     Console.WriteLine("普通命令回应包: " + dot.ToString());
+                    MessageBox.Show("普通命令回应包" + dot.ToString() + "出错");
                     break;
                 case PacketType.DATA_VALUE:
 
@@ -702,40 +678,9 @@ namespace SilverTest
 
                     Point point = new Point(x, y);
                     //波形绘制太慢，移入UI线程使用定时器绘制
-                    //realCptDs.AppendAsync(base.Dispatcher, point);
                     
-                    /*
-                    if (false)
-                    {
-                        if (q.Count < group)
-                        {
-                            q.Enqueue((int)y);//入队
-                            yaxis = 0;
-                            foreach (int c in q)
-                                if (c > yaxis)
-                                    yaxis = c;
-                        }
-                        else
-                        {
-                            q.Dequeue();//出队
-                            q.Enqueue((int)y);//入队
-                            yaxis = 0;
-                            foreach (int c in q)
-                                if (c > yaxis)
-                                    yaxis = c;
-                        }
-                        if (currentSecond - group > 0)
-                            xaxis = currentSecond - group;
-                        else
-                            xaxis = 0;
-                        Dispatcher.Invoke(new Action(() =>
-                        {
-                            realCpt.Viewport.Visible = new System.Windows.Rect(xaxis, 0, group, yaxis);
-                        }));
-
-                    }*/
                     currentSecond++;
-                    Console.WriteLine("--- dot " + sequence.ToString() + ": " + (dot as ADot).Rvalue + "\r\n");
+                    //Console.WriteLine("--- dot " + sequence.ToString() + ": " + (dot as ADot).Rvalue + "\r\n");
 
                     //采样到达一定点数后，自动结束测试，计算并且显示测试结果。
                     if(sequence >= stop_test_position)
@@ -810,8 +755,6 @@ namespace SilverTest
             SerialDriver.GetDriver().OnReceived(Com_DataReceived);
             ProduceFakeData pfd = new ProduceFakeData("实际数据.txt");
             pfd.Send(1);
-            ;
-
         }
 
         private void RBtn_Click(object sender, RoutedEventArgs e)
@@ -1591,7 +1534,7 @@ namespace SilverTest
         {
             CommandPanelWnd w = new CommandPanelWnd();
             w.Owner = this;
-            w.ShowDialog();
+            w.Show();
         }
 
         private void setportmenu_Click(object sender, RoutedEventArgs e)
@@ -1645,12 +1588,6 @@ namespace SilverTest
             w.ShowDialog();
         }
 
-        /*
-        private void savedotsPMenu_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-        */
 
         private void newsavedotsPMenu_Click(object sender, RoutedEventArgs e)
         {

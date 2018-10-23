@@ -20,6 +20,7 @@ namespace SilverTest.libs
      */
     public class SerialDriver
     {
+
         static private SerialPort ComDevice = null;
         static private SerialDriver onlyone = null;
 
@@ -80,7 +81,7 @@ namespace SilverTest.libs
         }
 
         //设置数据接收处理函数
-        //注意：仅仅调用一次，避免注册多次处理函数
+        //仅仅调用一次，避免注册多次处理函数
         public SerialDriver OnReceived(SerialDataReceivedEventHandler dlr)
         {
             if (hdrcount == 0)
@@ -116,6 +117,7 @@ namespace SilverTest.libs
             }
             else
             {
+                /*
                 try
                 {
                     ComDevice.Close();
@@ -126,6 +128,8 @@ namespace SilverTest.libs
                     MessageBox.Show(ex.Message, "无法关闭已打开的端口");
                     return onlyone;
                 };
+                */
+                MessageBox.Show("端口已经打开");
             }
 
             return onlyone;
