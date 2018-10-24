@@ -110,7 +110,7 @@ namespace SilverTest.libs
                 catch (Exception ex)
                 {
                     //Console.WriteLine("打开发生错误");
-                    MessageBox.Show("打开发生错误");
+                    MessageBox.Show("打开发生错误，请检查所选端口及配置");
                     return onlyone;
                 }
 

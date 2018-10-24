@@ -69,6 +69,14 @@
                     </StackPanel>
                 </StackPanel>
             </Border>
+            <GroupBox Header="液体" Height="60" Width="300" Canvas.Left="260" Canvas.Top="281" >
+                <Canvas>
+                    <Label Content="清洗" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Height="45"  />
+                    <Button x:Name="liquidWashBtn" Width="40" Height="40" Style="{StaticResource MirrorStyle}" Margin="55,0" Click="liquidWashBtn_Click"></Button>
+                    <Label Content="测量" VerticalContentAlignment="Center" Margin="155,0" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Height="45"  />
+                    <Button x:Name="liquidTestBtn" Width="40" Height="40" Style="{StaticResource MirrorStyle}" Margin="235,0" Click="liquidTestBtn_Click"></Button>
+                </Canvas>
+            </GroupBox>
             <Separator Height="14" Width="624" Canvas.Left="10" Margin="0" Canvas.Top="340"></Separator>
             <StackPanel Canvas.Top="374" Canvas.Left="50" Orientation="Horizontal" Width="150" Height="50">
                 <StackPanel  Width="80" Height="50">
@@ -79,13 +87,19 @@
                 </StackPanel>
             </StackPanel>
 
-            <Canvas Width="400" Height="100" Canvas.Left="200" Canvas.Top="345">
-                <TextBox x:Name="timeParamTxt" Height="23" Canvas.Left="10" TextWrapping="Wrap" Text="时间" Canvas.Top="17" Width="80"/>
-                <TextBox x:Name="fluParamTxt" Height="23" Canvas.Left="136" TextWrapping="Wrap" Text="流量" Canvas.Top="17" Width="80"/>
-                <TextBox x:Name="washtimeParamTxt" Height="23" Canvas.Left="136" TextWrapping="Wrap" Text="清洗时长" Canvas.Top="55" Width="80"/>
-                <TextBox x:Name="presureParamTxt" Height="23" Canvas.Left="264" TextWrapping="Wrap" Text="高压" Canvas.Top="17" Width="80"/>
-                <TextBox x:Name="enlargeParamTxt" Height="23" Canvas.Left="10" TextWrapping="Wrap" Text="放大倍速" Canvas.Top="55" Width="80"/>
-                <TextBox x:Name="realtimeParamTxt" Height="23" Canvas.Left="264" TextWrapping="Wrap" Text="实时" Canvas.Top="55" Width="80"/>
+            <Canvas Width="400" Height="120" Canvas.Left="200" Canvas.Top="345">
+                <Label RenderTransformOrigin="6.353,1.44" Canvas.Left="38" Canvas.Top="15">时间</Label>
+                <TextBox x:Name="timeParamTxt" Height="23" Canvas.Left="95" TextWrapping="Wrap" Text="时间" Canvas.Top="17" Width="80" TextChanged="timeParamTxt_TextChanged"/>
+                <Label Canvas.Left="219" Canvas.Top="17">流量</Label>
+                <TextBox x:Name="fluParamTxt" Height="23" Canvas.Left="278" TextWrapping="Wrap" Text="流量" Canvas.Top="17" Width="80" TextChanged="fluParamTxt_TextChanged"/>
+                <Label Canvas.Left="195" Canvas.Top="55">清洗时长</Label>
+                <TextBox x:Name="washtimeParamTxt" Height="23" Canvas.Left="278" TextWrapping="Wrap" Text="清洗时长" Canvas.Top="55" Width="80" TextChanged="washtimeParamTxt_TextChanged"/>
+                <Label Canvas.Left="38" Canvas.Top="87">高压</Label>
+                <TextBox x:Name="presureParamTxt" Height="23" Canvas.Left="95" TextWrapping="Wrap" Text="高压" Canvas.Top="87" Width="80" RenderTransformOrigin="1.012,0.609" TextChanged="presureParamTxt_TextChanged"/>
+                <Label Canvas.Left="23" Canvas.Top="55">放大倍数</Label>
+                <TextBox x:Name="enlargeParamTxt" Height="23" Canvas.Left="95" TextWrapping="Wrap" Text="放大倍速" Canvas.Top="55" Width="80" TextChanged="enlargeParamTxt_TextChanged"/>
+                <Label Canvas.Left="219" Canvas.Top="87">实时</Label>
+                <TextBox x:Name="realtimeParamTxt" Height="23" Canvas.Left="278" TextWrapping="Wrap" Text="实时" Canvas.Top="87" Width="80" RenderTransformOrigin="-1.45,1.826" TextChanged="realtimeParamTxt_TextChanged"/>
             </Canvas>
 
         </Canvas>

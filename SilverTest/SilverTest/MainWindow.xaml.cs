@@ -662,11 +662,10 @@ namespace SilverTest
                     break;
                 case PacketType.GETSTATUS_RESPONSE:
                     Console.WriteLine("获取状态命令回应包: " + dot.ToString());
-                    MessageBox.Show("获取状态命令回应包" + dot.ToString() + "出错");
                     break;
                 case PacketType.NORCMD_RESPONSE:
-                    Console.WriteLine("普通命令回应包: " + dot.ToString());
-                    MessageBox.Show("普通命令回应包" + dot.ToString() + "出错");
+                    byte[] r = dot as byte[];
+                    Console.WriteLine("普通命令回应包: 主菜单=" + r[0].ToString() + ",次菜单="+r[1].ToString()+",结果="+r[2].ToString());
                     break;
                 case PacketType.DATA_VALUE:
 
@@ -1535,6 +1534,7 @@ namespace SilverTest
             CommandPanelWnd w = new CommandPanelWnd();
             w.Owner = this;
             w.Show();
+            
         }
 
         private void setportmenu_Click(object sender, RoutedEventArgs e)
