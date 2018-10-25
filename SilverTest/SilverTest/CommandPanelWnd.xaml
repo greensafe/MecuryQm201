@@ -7,12 +7,14 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
-        
+        x:Name="CmdPanelWindow"
         Title="命令面板" Height="500" Width="650" Loaded="Window_Loaded">
     <Grid>
         <Canvas>
-            <StackPanel Canvas.Top="40" Canvas.Left="50" Orientation="Horizontal" Width="150" Height="300">
-                <StackPanel  Width="80" Height="300">
+            <Label Content="获取状态" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Height="45" Canvas.Left="481" Canvas.Top="290" />
+            <Button x:Name="getstatusbtn" Width="40" Height="40" Style="{StaticResource MirrorStyle}" Canvas.Left="544" Canvas.Top="290" Click="getstatusbtn_Click"/>
+            <StackPanel Canvas.Top="10" Canvas.Left="50" Orientation="Horizontal" Width="150" Height="330">
+                <StackPanel  Width="80" Height="300" Margin="0,0">
                     <Label Content="采样" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Height="45" />
                     <Label Content="测量" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Height="45"  />
                     <Label Content="校准" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Height="45" />
@@ -22,13 +24,13 @@
                     <Label Content="返回上一级菜单" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Height="45"/>
                 </StackPanel>
                 <StackPanel Width="50" Height="300">
-                    <Button x:Name="grabSampleBtn" Width="40" Height="40" Style="{StaticResource MirrorStyle}" Margin="0,0,0,5" Click="grabSampleBtn_Click"></Button>
-                    <Button x:Name="starttestBtn" Width="40" Height="40" Style="{StaticResource MirrorStyle}" Margin="0,0,0,5" Click="starttestBtn_Click"></Button>
-                    <Button x:Name="verifyBtn" Width="40" Height="40" Style="{StaticResource MirrorStyle}" Margin="0,0,0,5" Click="verifyBtn_Click"></Button>
-                    <Button x:Name="communicateBtn" Width="40" Height="40" Style="{StaticResource MirrorStyle}" Margin="0,0,0,5" Click="communicateBtn_Click"></Button>
-                    <Button Width="40" Height="40" Style="{StaticResource MirrorStyle}" Margin="0,0,0,5"></Button>
-                    <Button x:Name="wash" Width="40" Height="40" Style="{StaticResource MirrorStyle}" Margin="0,0,0,5" Click="wash_Click"></Button>
-                    <Button x:Name="returnparent" Width="40" Height="40" Style="{StaticResource MirrorStyle}" Margin="0,0,0,5" Click="returnparent_Click"></Button>
+                    <Button x:Name="grabSampleBtn" Width="40" Height="40" Style="{StaticResource MirrorStyle}" Margin="0,0,0,5" Click="grabSampleBtn_Click"/>
+                    <Button x:Name="starttestBtn" Width="40" Height="40" Style="{StaticResource MirrorStyle}" Margin="0,0,0,5" Click="starttestBtn_Click"/>
+                    <Button x:Name="verifyBtn" Width="40" Height="40" Style="{StaticResource MirrorStyle}" Margin="0,0,0,5" Click="verifyBtn_Click"/>
+                    <Button x:Name="communicateBtn" Width="40" Height="40" Style="{StaticResource MirrorStyle}" Margin="0,0,0,5" Click="communicateBtn_Click"/>
+                    <Button Width="40" Height="40" Style="{StaticResource MirrorStyle}" Margin="0,0,0,5"/>
+                    <Button x:Name="wash" Width="40" Height="40" Style="{StaticResource MirrorStyle}" Margin="0,0,0,5" Click="wash_Click"/>
+                    <Button x:Name="returnparent" Width="40" Height="40" Style="{StaticResource MirrorStyle}" Margin="0,0,0,5" Click="returnparent_Click"/>
                 </StackPanel>
             </StackPanel>
             <Border CornerRadius="5" BorderBrush="Gray" BorderThickness="3" Height="220" Canvas.Left="278" Canvas.Top="56" Width="261"
@@ -69,12 +71,12 @@
                     </StackPanel>
                 </StackPanel>
             </Border>
-            <GroupBox Header="液体" Height="60" Width="300" Canvas.Left="260" Canvas.Top="281" >
+            <GroupBox Header="液体" Height="60" Width="200" Canvas.Left="260" Canvas.Top="281" >
                 <Canvas>
                     <Label Content="清洗" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Height="45"  />
-                    <Button x:Name="liquidWashBtn" Width="40" Height="40" Style="{StaticResource MirrorStyle}" Margin="55,0" Click="liquidWashBtn_Click"></Button>
-                    <Label Content="测量" VerticalContentAlignment="Center" Margin="155,0" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Height="45"  />
-                    <Button x:Name="liquidTestBtn" Width="40" Height="40" Style="{StaticResource MirrorStyle}" Margin="235,0" Click="liquidTestBtn_Click"></Button>
+                    <Button x:Name="liquidWashBtn" Width="40" Height="40" Style="{StaticResource MirrorStyle}" Click="liquidWashBtn_Click" Canvas.Left="34"/>
+                    <Label Content="测量" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Height="45" Canvas.Left="91"  />
+                    <Button x:Name="liquidTestBtn" Width="40" Height="40" Style="{StaticResource MirrorStyle}" Click="liquidTestBtn_Click" RenderTransformOrigin="-1.097,0.546" Canvas.Left="125"/>
                 </Canvas>
             </GroupBox>
             <Separator Height="14" Width="624" Canvas.Left="10" Margin="0" Canvas.Top="340"></Separator>
@@ -86,6 +88,7 @@
                     <Button x:Name="setParamBtn" Width="40" Height="40" Style="{StaticResource MirrorStyle}" Margin="0,0,0,5" Click="setParamBtn_Click"></Button>
                 </StackPanel>
             </StackPanel>
+
 
             <Canvas Width="400" Height="120" Canvas.Left="200" Canvas.Top="345">
                 <Label RenderTransformOrigin="6.353,1.44" Canvas.Left="38" Canvas.Top="15">时间</Label>

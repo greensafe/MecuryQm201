@@ -596,13 +596,16 @@ namespace SilverTest
             if (SerialDriver.GetDriver().isOpen() == true)
             {
                 rs232disconnectedbtn.Visibility = Visibility.Collapsed;
-                rs232connectedbtn.Visibility = Visibility.Visible;
+                rs232connectedBorder.Visibility = Visibility.Visible;
                 rs232connectedbtn.ToolTip = SerialDriver.GetDriver().portname + "已打开";
+                comnameblk.Text = SerialDriver.GetDriver().portname;
+                comnameblk.Visibility = Visibility.Visible;
             }
             else
             {
                 rs232disconnectedbtn.Visibility = Visibility.Visible;
-                rs232connectedbtn.Visibility = Visibility.Collapsed;
+                rs232connectedBorder.Visibility = Visibility.Collapsed;
+                comnameblk.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -1660,6 +1663,27 @@ namespace SilverTest
             string gid = (e.Row.Item as StandardSample).GlobalID;
             if (gid == testingitemgid)
                 e.Row.Background = new SolidColorBrush(Colors.Yellow);
+        }
+
+        private void rs232connectedbtn_MouseEnter(object sender, MouseEventArgs e)
+        {
+            try
+            {
+                tipinfocanvas.Visibility = Visibility.Visible;
+                bautratetxt.Text = SerialDriver.GetDriver().rate.ToString();
+                adjusttxt.Text = SerialDriver.GetDriver().parity.ToString();
+                stopbittxt.Text = SerialDriver.GetDriver().stopbits.ToString();
+            }
+            catch { }
+            //todo show the connected infomation
+            //throw new NotImplementedException();
+            
+        }
+
+        private void rs232connectedbtn_MouseLeave(object sender, MouseEventArgs e)
+        {
+            tipinfocanvas.Visibility = Visibility.Hidden;
+            
         }
     }
 }

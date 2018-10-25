@@ -30,8 +30,44 @@ namespace SilverTest
             MainWindow parentwindow = (MainWindow)this.Owner;
             this.Owner = null;
             parentwindow.showconnectedIcon();
+
+            if (SerialDriver.GetDriver().isOpen())
+            {
+                //获取状态命令
+                byte[] data = new byte[8] { 0x01, 0x01, 0x07, 0x00, 0x00, 0x00, 0, 0 };
+
+                ushort crc = Utility.CRC16(data, 6);
+                data[6] = (byte)(crc >> 8);
+                data[7] = (byte)crc;
+                if (SerialDriver.GetDriver().Send(data))
+                {
+                    statustxt.Text = "获取状态命令已发出";
+                }
+                else
+                {
+                    MessageBox.Show("端口未打开");
+                }
+            }
         }
 
+        //获取状态命令
+        private void getstatusbtn_Click(object sender, RoutedEventArgs e)
+        {
+            //获取状态命令
+            byte[] data = new byte[8] { 0x01, 0x01, 0x07, 0x00, 0x00, 0x00, 0, 0 };
+
+            ushort crc = Utility.CRC16(data, 6);
+            data[6] = (byte)(crc >> 8);
+            data[7] = (byte)crc;
+            if (SerialDriver.GetDriver().Send(data))
+            {
+                statustxt.Text = "获取状态命令已发出";
+            }
+            else
+            {
+                MessageBox.Show("端口未打开");
+            }
+        }
 
         private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
