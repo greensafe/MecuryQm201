@@ -99,6 +99,9 @@ namespace SilverTest
 
         ICollectionView StandardCvw;
 
+        //指向命令面板窗口
+        CommandPanelWnd cmdpanelWnd;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -664,11 +667,22 @@ namespace SilverTest
                     }));
                     break;
                 case PacketType.GETSTATUS_RESPONSE:
-                    Console.WriteLine("获取状态命令回应包: " + dot.ToString());
+                    byte[] r1 = dot as byte[];
+                    Console.WriteLine("普通命令回应包: 主菜单=" + r1[0].ToString() + ",次菜单=" + r1[1].ToString() + ",结果=" + r1[2].ToString());
+                    //在面板中显示结果
+                    if (cmdpanelWnd != null)
+                    {
+                        cmdpanelWnd.ShowNormalCmndRes(((r1[0]-48)<<4)+r1[1]-48,r1[2]-48,r1);
+                    }
                     break;
                 case PacketType.NORCMD_RESPONSE:
                     byte[] r = dot as byte[];
                     Console.WriteLine("普通命令回应包: 主菜单=" + r[0].ToString() + ",次菜单="+r[1].ToString()+",结果="+r[2].ToString());
+                    //在面板中显示结果
+                    if(cmdpanelWnd != null)
+                    {
+                        cmdpanelWnd.ShowNormalCmndRes(((r[0] -48) << 4) + r[1] -48,r[2]-48,null);
+                    }
                     break;
                 case PacketType.DATA_VALUE:
 
@@ -1534,10 +1548,12 @@ namespace SilverTest
 
         private void commandBtn_Click(object sender, RoutedEventArgs e)
         {
-            CommandPanelWnd w = new CommandPanelWnd();
-            w.Owner = this;
-            w.Show();
-            
+            if (cmdpanelWnd == null)
+            {
+                cmdpanelWnd = new CommandPanelWnd();
+                cmdpanelWnd.Owner = this;
+            }
+            cmdpanelWnd.Show();
         }
 
         private void setportmenu_Click(object sender, RoutedEventArgs e)

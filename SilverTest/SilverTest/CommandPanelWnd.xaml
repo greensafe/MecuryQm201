@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SilverTest"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        ResizeMode="NoResize"
+        WindowStyle="None"
         x:Name="CmdPanelWindow"
         Title="命令面板" Height="500" Width="650" Loaded="Window_Loaded">
     <Grid>
@@ -104,6 +104,7 @@
                 <Label Canvas.Left="219" Canvas.Top="87">实时</Label>
                 <TextBox x:Name="realtimeParamTxt" Height="23" Canvas.Left="278" TextWrapping="Wrap" Text="实时" Canvas.Top="87" Width="80" RenderTransformOrigin="-1.45,1.826" TextChanged="realtimeParamTxt_TextChanged"/>
             </Canvas>
+            <Button x:Name="whidebtn" Content="退出" Height="28" Canvas.Left="589" Canvas.Top="426" Width="37" Click="whidebtn_Click"/>
 
         </Canvas>
     </Grid>

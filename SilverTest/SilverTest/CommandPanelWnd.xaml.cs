@@ -1,4 +1,5 @@
 ﻿using SilverTest.libs;
+using System;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -344,6 +345,123 @@ namespace SilverTest
             realtimeParamTxt.Text = numberreg.Match(realtimeParamTxt.Text).Value;
         }
 
+        //处理下维机的命令回应，在控制面板上显示下维机的状态
+        //result 0 - 表示失败， 1 - 表示成功
+        //目前仅仅获取状态命令有回应myparams
+        public void ShowNormalCmndRes(int command, int result, byte[] myparams)
+        {
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                switch (command)
+                {
+                    //参数设置-时间
+                    case 0x11:
+                        if (result == 0)
+                            statustxt.Text = "设置时间失败";
+                        else
+                            statustxt.Text = "设置时间成功";
+                        break;
+                    //参数设置-流量
+                    case 0x12:
+                        if (result == 0)
+                            statustxt.Text = "设置流量失败";
+                        else
+                            statustxt.Text = "设置流量成功";
+                        break;
+                    //参数设置-清洗时长
+                    case 0x13:
+                        if (result == 0)
+                            statustxt.Text = "设置清洗时长失败";
+                        else
+                            statustxt.Text = "设置清洗时长成功";
+                        break;
+                    //参数设置-高压
+                    case 0x14:
+                        if (result == 0)
+                            statustxt.Text = "设置高压失败";
+                        else
+                            statustxt.Text = "设置高压成功";
+                        break;
+                    case 0x15: //参数设置-发大倍数
+                        if (result == 0)
+                            statustxt.Text = "设置放大倍数失败";
+                        else
+                            statustxt.Text = "设置放大倍数成功";
+                        break;
+                    case 0x16: //参数设置-实时
+                        if (result == 0)
+                            statustxt.Text = "设置实时参数失败";
+                        else
+                            statustxt.Text = "设置实时参数成功";
+                        break;
+                    case 0x21: //测量-取样
+                        if (result == 0)
+                            statustxt.Text = "取样命令执行失败";
+                        else
+                            statustxt.Text = "取样命令执行成功";
+                        break;
+                    case 0x22: //测量-清洗
+                        if (result == 0)
+                            statustxt.Text = "清洗命令执行失败";
+                        else
+                            statustxt.Text = "清洗命令执行成功";
+                        break;
+                    case 0x23: //测量-测量
+                        if (result == 0)
+                            statustxt.Text = "测量命令执行失败";
+                        else
+                            statustxt.Text = "测量命令执行成功";
+                        break;
+                    case 0x30: //连续测量
+                        if (result == 0)
+                            statustxt.Text = "连续测试命令执行失败";
+                        else
+                            statustxt.Text = "连续测试命令执行成功";
+                        break;
+                    case 0x40: //校准
+                        if (result == 0)
+                            statustxt.Text = "校准命令执行失败";
+                        else
+                            statustxt.Text = "校转命令执行成功";
+                        break;
+                    case 0x50: //通信
+                        if (result == 0)
+                            statustxt.Text = "通信命令执行失败";
+                        else
+                            statustxt.Text = "同行命令执行成功";
+                        break;
+                    case 0x61: //液体测量-清洗
+                        if (result == 0)
+                            statustxt.Text = "液体清洗命令执行失败";
+                        else
+                            statustxt.Text = "液体清洗命令执行成功";
+                        break;
+                    case 0x62: //液体测量-测量
+                        if (result == 0)
+                            statustxt.Text = "液体测量命令执行失败";
+                        else
+                            statustxt.Text = "液体测量命令执行成功";
+                        break;
+                    case 0x70: //状态获取
+                        if (result == 0)
+                            statustxt.Text = "获取状态命令执行失败";
+                        else
+                            statustxt.Text = "获取状态命令执行成功";
+                        //显示参数
+                        if(myparams != null)
+                        {
+                            ;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }));
+        }
 
+        private void whidebtn_Click(object sender, RoutedEventArgs e)
+        {
+            this.Hide();
+        }
     }
 }
