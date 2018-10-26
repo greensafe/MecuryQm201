@@ -292,6 +292,7 @@
                 <qingan:BasicWaveChartUC x:Name="realCpt" Panel.ZIndex="9" Width="400" Height="200" 
                                          RatioS="1:2" 
                                          MoveMode ="HORIZONTAL"
+                                         NumberOfDValue="8000"
                                          TopBlankZone="20"
                                          RightBlankZone="30"
                                          Feature:IntegralFeature.Enable="True"
@@ -336,7 +337,6 @@
                 <Button x:Name="DelRowBtn" DockPanel.Dock="Right"  HorizontalAlignment="Right" Width="50" Height="30" Content="删除" Margin="0,1,20,0" Click="DelRowBtn_Click" />
                 <Button x:Name="startTestBtn" Width="50" DockPanel.Dock="Right" HorizontalAlignment="Right" Height="30" Content="开始测试" Margin="0,1,60,0" Click="startTestBtn_Click" />
             </DockPanel>
-
             <StackPanel  DockPanel.Dock="Top" Height="50" Orientation="Vertical">
                 <Border x:Name="AnimatedColorButton" Width="48" Height="48" BorderThickness="5" BorderBrush="Gold" CornerRadius="50" Visibility="Hidden">
                     <Border.Triggers>
@@ -375,8 +375,6 @@
                     </Button>
                 </Border>
             </StackPanel>
-
-
             <StatusBar Height="30" Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}"
                        DockPanel.Dock="Bottom" RenderTransformOrigin="0.503,0.033">
                 <StatusBarItem>

@@ -145,7 +145,7 @@ namespace BasicWaveChart
             InitializeComponent();
         }
 
-        #region self event handler
+        #region event handler
 
         private void ControlContainer_Loaded(object sender, RoutedEventArgs e)
         {
@@ -307,11 +307,49 @@ namespace BasicWaveChart
             }
         }
 
+        private void WindowCanvas_Loaded(object sender, RoutedEventArgs e)
+        {
+            xmark.lineinfo.RightBlankZone = this.RightBlankZone;
+        }
+
+        private void ControlContainer_Initialized(object sender, EventArgs e)
+        {
+
+        }
+
+        private void integralmenu_Click(object sender, RoutedEventArgs e)
+        {
+            //cann't find the twohandle through FindName, maybe need register
+            //
+            dynamic bigbrother = null;
+            foreach (dynamic obj in WindowCanvas.Children)
+            {
+                if (obj.Name == "twohandle")
+                {
+                    //
+                    bigbrother = obj;
+                    //showbigbrother(obj);
+                    break;
+                }
+            }
+            if (bigbrother == null)
+                return;
+            if ((sender as MenuItem).Header.ToString() == "积分")
+            {
+                showbigbrother(bigbrother);
+                (sender as MenuItem).Header = "关闭积分";
+            }
+            else
+            {
+                closebigbrother(bigbrother);
+                (sender as MenuItem).Header = "积分";
+            }
+
+        }
+
         #endregion
 
         #region public function
-
-        //
         public PointCollection GetDValues()
         {
             return optimizeCanvas.GetDValues();
@@ -320,6 +358,12 @@ namespace BasicWaveChart
         public PointCollection GetDatas()
         {
             return optimizeCanvas.GetDatas();
+        }
+
+        public void ClearData()
+        {
+            optimizeCanvas.ClearData();
+            moveslider.Value = 0;
         }
 
         //set the value of x, y axis
@@ -368,13 +412,15 @@ namespace BasicWaveChart
             }
 
         }
-        #endregion
 
         //add point to draw
         public void AddPoint(Point dvalue)
         {
             optimizeCanvas.AddPoint(dvalue);
         }
+        #endregion
+
+
 
         #region event define
         public delegate void ScaleChangeDelegate();
@@ -386,40 +432,7 @@ namespace BasicWaveChart
 
         #endregion
 
-        private void ControlContainer_Initialized(object sender, EventArgs e)
-        {
-
-        }
-
-        private void integralmenu_Click(object sender, RoutedEventArgs e)
-        {
-            //cann't find the twohandle through FindName, maybe need register
-            //
-            dynamic bigbrother = null;
-            foreach (dynamic obj in WindowCanvas.Children)
-            {
-                if(obj.Name == "twohandle")
-                {
-                    //
-                    bigbrother = obj;
-                    //showbigbrother(obj);
-                    break;
-                }
-            }
-            if (bigbrother == null)
-                return;
-            if( (sender as MenuItem).Header.ToString() == "积分")
-            {
-                showbigbrother(bigbrother);
-                (sender as MenuItem).Header = "关闭积分";
-            }
-            else
-            {
-                closebigbrother(bigbrother);
-                (sender as MenuItem).Header = "积分";
-            }
-
-        }
+        
 
         private void closebigbrother(dynamic bigbrother)
         {
@@ -458,9 +471,6 @@ namespace BasicWaveChart
             ;
         }
 
-        private void WindowCanvas_Loaded(object sender, RoutedEventArgs e)
-        {
-            xmark.lineinfo.RightBlankZone = this.RightBlankZone;
-        }
+ 
     }
 }

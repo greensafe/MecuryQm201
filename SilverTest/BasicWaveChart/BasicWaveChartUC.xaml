@@ -73,7 +73,7 @@
             <MenuItem x:Name="integralmenu" Header="积分" Click="integralmenu_Click" ></MenuItem>
         </ContextMenu>
     </UserControl.Resources>
-    <widget:ZoomPanel x:Name="zoompanel" Background="Yellow" Ratio="{Binding RatioS, ElementName=ControlContainer}">
+    <widget:ZoomPanel x:Name="zoompanel"  Ratio="{Binding RatioS, ElementName=ControlContainer}">
         <Canvas x:Name="basecanvas" Background="{StaticResource gridbrush}" ClipToBounds="True">
             <Canvas.RenderTransform>
                 <TransformGroup>
@@ -93,7 +93,7 @@
                              YArrowStyle="NONE"
                              YArrowheight="10"
                              Height="{Binding ActualHeight, ElementName=basecanvas, Mode=OneWay}"  />
-            <Canvas x:Name="yaxis_text_canvas" Background="LightPink" Width="50" Opacity="0.5"
+            <Canvas x:Name="yaxis_text_canvas" Width="50" Opacity="0.5"
                     Height="{Binding ActualHeight, ElementName=basecanvas, Mode=OneWay}" Loaded="yaxis_text_canvas_Loaded" 
                     >
                 <Canvas.RenderTransform>
@@ -107,12 +107,12 @@
                              ClipToBounds="False"
                              XScaleMaxValue="2000"
                              XScaleLineNumber="100"
-                             XCommentNumber="2"
+                             XCommentNumber="5"
                              XArrowStyle="NONE"
                              XArrowheight="10"
                              Panel.ZIndex="1"
                              Width="{Binding ActualWidth, ElementName=basecanvas, Mode=OneWay}" Loaded="xaxis_Loaded" Canvas.Left="{Binding Value, ElementName=moveslider}" />
-            <Canvas x:Name="xaxis_text_canvas" Height="30" Background="LightCyan" Opacity="0.5"
+            <Canvas x:Name="xaxis_text_canvas" Height="30"  Opacity="0.5"
                     Canvas.Left="{Binding Value, ElementName=moveslider}"
                     Panel.ZIndex="1"
                     Width="{Binding ActualWidth, ElementName=basecanvas, Mode=OneWay}" Loaded="xaxis_text_canvas_Loaded" Unloaded="xaxis_text_canvas_Unloaded" SizeChanged="xaxis_text_canvas_SizeChanged" 
@@ -132,12 +132,13 @@
                     Canvas.Top="10"
                     Height="10" Minimum="-30000" ValueChanged="moveslider_ValueChanged" 
                     Width="{Binding Width, ElementName=WindowCanvas}"></Slider>
-            <Canvas x:Name="WindowCanvas" Background="LightBlue" Opacity="0.5"
+            <Canvas x:Name="WindowCanvas" Opacity="0.5"
                     ClipToBounds="True"
                     Panel.ZIndex="9"
                     Canvas.Left="{Binding Width, ElementName=yaxis}" 
                     Canvas.Top="{Binding Height, ElementName=xaxis}" Loaded="WindowCanvas_Loaded">
-                <widget:OptimizeCanvas x:Name="optimizeCanvas" Background="LightSeaGreen" Opacity="0.6"
+                <widget:OptimizeCanvas x:Name="optimizeCanvas"  Opacity="0.6"
+                                       Background="LightBlue"
                                        Loaded="optimizeCanvas_Loaded_1" MouseRightButtonDown="optimizeCanvas_MouseRightButtonDown"
                                        Canvas.Left="{Binding Value, ElementName=moveslider}" />
             </Canvas>

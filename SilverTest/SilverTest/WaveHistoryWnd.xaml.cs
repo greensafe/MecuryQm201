@@ -80,6 +80,7 @@ namespace SilverTest
 
         private void filelsb_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            historywaveuc.ClearData();
             //在波形控件中载入波形
             string filepath = (e.AddedItems[0] as HistoryItem).Fullpath;
             FileStream aFile = new FileStream(filepath, FileMode.Open);
@@ -89,7 +90,6 @@ namespace SilverTest
             while (!sr.EndOfStream)
             {
                 yscale = int.Parse( sr.ReadLine() );
-                //realCptDs.AppendAsync(base.Dispatcher, new Point(xscale, yscale));
                 historywaveuc.AddPoint(new Point(xscale,yscale));
                 xscale++;
             }

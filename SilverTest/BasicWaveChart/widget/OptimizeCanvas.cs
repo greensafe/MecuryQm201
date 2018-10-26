@@ -36,6 +36,7 @@ namespace BasicWaveChart.widget
 
         //self-abandon function
         AddPointDelegate AddPointRocket;
+        AddPointDelegate AddPointRocketOrigin;
 
 
 
@@ -50,7 +51,8 @@ namespace BasicWaveChart.widget
             this.Loaded += new RoutedEventHandler(self_Loaded);
 
             //self-abandon function
-            AddPointRocket = delegate (Point dvalue) {
+
+            AddPointRocketOrigin = delegate (Point dvalue) {
                 
                 switch (parent.MoveMode)
                 {
@@ -109,7 +111,7 @@ namespace BasicWaveChart.widget
                         break;
                 }
             };
-
+            AddPointRocket = AddPointRocketOrigin;
         }
 
         #region property
@@ -178,6 +180,14 @@ namespace BasicWaveChart.widget
         public PointCollection GetDatas()
         {
             return datas_;
+        }
+
+        public void ClearData()
+        {
+            dvalues.Clear();
+            waveply.Points.Clear();
+            //恢复自弃函数
+            AddPointRocket = AddPointRocketOrigin;
         }
 
         #endregion
