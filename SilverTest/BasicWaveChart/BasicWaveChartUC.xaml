@@ -105,9 +105,9 @@
             </Canvas>
             <widget:XAxisCtl x:Name="xaxis" Stroke="Black" StrokeThickness="1" Height="30" 
                              ClipToBounds="False"
-                             XScaleMaxValue="530"
-                             XScaleLineNumber="50"
-                             XCommentNumber="1"
+                             XScaleMaxValue="2000"
+                             XScaleLineNumber="100"
+                             XCommentNumber="2"
                              XArrowStyle="NONE"
                              XArrowheight="10"
                              Panel.ZIndex="1"
@@ -125,10 +125,11 @@
                 </Canvas.RenderTransform>
             </Canvas>
             <Slider Panel.ZIndex="10" x:Name="moveslider"
-                    Visibility="Hidden"
+                    Visibility="Visible"
                     Value="0"
                     Maximum="0"
                     Canvas.Left="{Binding Width, ElementName=yaxis}"
+                    Canvas.Top="10"
                     Height="10" Minimum="-30000" ValueChanged="moveslider_ValueChanged" 
                     Width="{Binding Width, ElementName=WindowCanvas}"></Slider>
             <Canvas x:Name="WindowCanvas" Background="LightBlue" Opacity="0.5"

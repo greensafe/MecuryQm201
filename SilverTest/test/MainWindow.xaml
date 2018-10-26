@@ -16,6 +16,7 @@
                                          HorizontalAlignment="Left" Height="250" Margin="350,111,0,0" 
                                          TopBlankZone="20"
                                          RightBlankZone="30"
+                                         NumberOfDValue="8000"
                                          Feature:IntegralFeature.Enable="True"
                                          VerticalAlignment="Top" Width="601"/>
         <Button Content="right" HorizontalAlignment="Left" Height="38" Margin="75,158,0,0" VerticalAlignment="Top" Width="87" Click="Button_Click"/>

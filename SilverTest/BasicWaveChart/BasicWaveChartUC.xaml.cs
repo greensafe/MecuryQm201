@@ -21,34 +21,39 @@ namespace BasicWaveChart
     /// </summary>
     public partial class BasicWaveChartUC : UserControl
     {
-        //private readonly int NumberOfDValue = 100000;
-        private int numberOfDValue;
+        #region DependencyProperty
         public int NumberOfDValue
         {
             get
             {
-                return numberOfDValue;
+                return (int)GetValue(NumberOfDValueProperty);
             }
             set
             {
-                numberOfDValue = value;
-                try //try to refresh the xaxis and xaxis_comment_cannvas
-                {
-                    XAxisCtl xa = xaxis;
-                    basecanvas.Children.Remove(xaxis);
-                    basecanvas.Children.Add(xa);
-                    xaxis.ReDrawTextCommentCmd();
-                    moveslider.Minimum = -(xa.GetGranulity() * this.NumberOfDValue - xmark.lineinfo.observeWinWidth);
-                    optimizeCanvas.Width = xa.GetGranulity() * this.NumberOfDValue;
-                }
-                catch
-                {
-                    Console.WriteLine("ignore error: refresh xaxis fail");
-                }
+                SetValue(NumberOfDValueProperty, value);
+            }
+        }
+        public static readonly DependencyProperty NumberOfDValueProperty = DependencyProperty.Register("NumberOfDValue", typeof(int), typeof(BasicWaveChartUC),
+            new UIPropertyMetadata(1000, new PropertyChangedCallback(NumberOfDValueChanged)));
+
+        private static void NumberOfDValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            try //try to refresh the xaxis and xaxis_comment_cannvas
+            {
+                BasicWaveChartUC wavechart = d as BasicWaveChartUC;
+                XAxisCtl xa = wavechart.xaxis;
+                wavechart.basecanvas.Children.Remove(wavechart.xaxis);
+                wavechart.basecanvas.Children.Add(xa);
+                xa.ReDrawTextCommentCmd();
+                wavechart.moveslider.Minimum = -(xa.GetGranulity() * wavechart.NumberOfDValue - wavechart.xmark.lineinfo.observeWinWidth);
+                wavechart.optimizeCanvas.Width = xa.GetGranulity() * wavechart.NumberOfDValue;
+            }
+            catch
+            {
+                Console.WriteLine("ignore error: refresh xaxis fail");
             }
         }
 
-        #region DependencyProperty
         public string RatioS
         {
             get
@@ -137,7 +142,6 @@ namespace BasicWaveChart
 
         public BasicWaveChartUC()
         {
-            NumberOfDValue = 1187;
             InitializeComponent();
         }
 
@@ -161,7 +165,7 @@ namespace BasicWaveChart
             WindowCanvas.Width = xaxis.Width - yaxis.Width - this.RightBlankZone - xaxis.XArrowheight;
             WindowCanvas.Height = yaxis.Height - xaxis.Height - this.TopBlankZone - yaxis.YArrowheight;
 
-            moveslider.Minimum = -(xaxis.GetGranulity()*this.numberOfDValue - WindowCanvas.Width);
+            moveslider.Minimum = -(xaxis.GetGranulity()*this.NumberOfDValue - WindowCanvas.Width);
 
             ContextMenu wavemenu = this.FindResource("wavemenu") as ContextMenu;
             wavemenu.PlacementTarget = optimizeCanvas;
@@ -218,7 +222,6 @@ namespace BasicWaveChart
             (xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock).FontSize = 8;
             Canvas.SetLeft((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), this.NumberOfDValue * xaxis.GetGranulity() + yaxis.Width); //todo replace the 1187
             Canvas.SetBottom((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), 0);
-
         }
 
         private void yaxis_text_canvas_Loaded(object sender, RoutedEventArgs e)
