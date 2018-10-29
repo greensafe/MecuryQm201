@@ -1651,10 +1651,12 @@ namespace SilverTest
             if (standardSampleDgd.SelectedIndex == -1)
             {
                 MessageBox.Show("请选择正在测试的标样");
+                return;
             }
             if (DotManager.GetDotManger().GetDots() is null || DotManager.GetDotManger().GetDots().Count == 0)
             {
                 MessageBox.Show("当前标样没有测试数据");
+                return;
             }
 
             string filename = standardSampleClt[getStandardCltIndex(standardSampleDgd.SelectedIndex)].GlobalID;
