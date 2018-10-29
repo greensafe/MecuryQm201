@@ -100,6 +100,11 @@ namespace SilverTest.libs
                         int seq = Utility.ConvertStrToInt_Big(packet, 
                             PhyCombine.GetPhyCombine().GetMachineInfo().CrtPctSStart,
                             PhyCombine.GetPhyCombine().GetMachineInfo().SequenceLength);
+                        if(seq>(dots.Count-1))
+                        {
+                            Console.WriteLine("CORRECT_RESPONSE Error: 纠正序号越界");
+                            return;
+                        }
                         dots[seq].Rvalue = Utility.ConvertStrToInt_Big(packet,
                             PhyCombine.GetPhyCombine().GetMachineInfo().CrtPctDStart,
                             PhyCombine.GetPhyCombine().GetMachineInfo().DataWidth);
@@ -262,14 +267,14 @@ namespace SilverTest.libs
         private int twoint(byte[] data,int start)
         {
             string cv = "";
-            //int total = 0;
+            int total = 0;
 
-            cv += (char)data[start];
-            cv += (char)data[start+1];
-            return int.Parse(cv);
-            //total += data[start];
-            //total += data[start+1] * 256;
-            //return total;
+            //cv += (char)data[start];
+            //cv += (char)data[start+1];
+            //return int.Parse(cv);
+            total += data[start];
+            total += data[start+1] * 256;
+            return total;
         }
 
         //校验数据
