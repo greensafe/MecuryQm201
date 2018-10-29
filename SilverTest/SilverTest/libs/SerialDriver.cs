@@ -109,7 +109,6 @@ namespace SilverTest.libs
                 }
                 catch (Exception ex)
                 {
-                    //Console.WriteLine("打开发生错误");
                     MessageBox.Show("打开发生错误，请检查所选端口及配置");
                     return onlyone;
                 }
@@ -117,19 +116,7 @@ namespace SilverTest.libs
             }
             else
             {
-                /*
-                try
-                {
-                    ComDevice.Close();
-                    MessageBox.Show("打开端口已经被关闭");
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "无法关闭已打开的端口");
-                    return onlyone;
-                };
-                */
-                MessageBox.Show("端口已经打开");
+                Console.WriteLine("端口已经打开");
             }
 
             return onlyone;
@@ -164,7 +151,6 @@ namespace SilverTest.libs
             }
             else
             {
-                //MessageBox.Show("没有打开的端口");
                 Console.WriteLine("SerialDriver.close : 没有打开的端口");
             }
             return onlyone;

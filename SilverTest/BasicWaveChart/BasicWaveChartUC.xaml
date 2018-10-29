@@ -142,7 +142,7 @@
                                        Loaded="optimizeCanvas_Loaded_1" MouseRightButtonDown="optimizeCanvas_MouseRightButtonDown"
                                        Canvas.Left="{Binding Value, ElementName=moveslider}" />
             </Canvas>
-            <Canvas Panel.ZIndex="9" Background="Red" Width="{Binding Width, ElementName=yaxis}" Height="{Binding Height, ElementName=xaxis}"></Canvas>
+            <Canvas Panel.ZIndex="9" Background="White" Width="{Binding Width, ElementName=yaxis}" Height="{Binding Height, ElementName=xaxis}"></Canvas>
         </Canvas>
     </widget:ZoomPanel>
 </UserControl>

@@ -19,17 +19,6 @@
                 <ListBox Width="196"  Height="465" x:Name="filelsb" DisplayMemberPath="Filename" 
                          VerticalAlignment="Center" HorizontalAlignment="Center"
                          SelectionChanged="filelsb_SelectionChanged">
-                    <!--
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <Button x:Name="itemlistbtn" Click="itemlistbtn_Click">
-                                <Grid>
-                                    <TextBlock Text="{Binding Path=Filename}" Margin="5 5" FontSize="10"></TextBlock>
-                                </Grid>
-                            </Button>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                    -->
                 </ListBox>
             </StackPanel>
             <Canvas Width="586" Margin="5,0,0,4" Background="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}" >

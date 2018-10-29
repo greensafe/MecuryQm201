@@ -288,7 +288,6 @@
                 </TabItem>
             </TabControl>
             <StackPanel x:Name="waveContainer" Margin="0,20" DockPanel.Dock="Top" Orientation="Horizontal">
-                <!--<dw:ChartPlotter x:Name="realCpt" Width="400" Height="200" DockPanel.Dock="Top" Margin="10,10,20,10"></dw:ChartPlotter>-->
                 <qingan:BasicWaveChartUC x:Name="realCpt" Panel.ZIndex="9" Width="400" Height="200" 
                                          RatioS="1:2" 
                                          MoveMode ="HORIZONTAL"
@@ -378,8 +377,7 @@
             <StatusBar Height="30" Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}"
                        DockPanel.Dock="Bottom" RenderTransformOrigin="0.503,0.033">
                 <StatusBarItem>
-                    <TextBlock Text="{Binding Date, Mode=OneWay, Source={StaticResource current}}"></TextBlock>
-                    
+                    <TextBlock x:Name="timestatusbar" Text="{Binding Date, Mode=OneWay, Source={StaticResource current}}"></TextBlock>
                 </StatusBarItem>
              
             </StatusBar>

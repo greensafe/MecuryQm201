@@ -56,6 +56,11 @@ namespace SilverTest
                     gid = (parentwindow.standardSampleDgd.Items[parentwindow.standardSampleDgd.SelectedIndex] as StandardSample).GlobalID;
                     break;
             }
+            if(gid == null)
+            {
+                MessageBox.Show("没有数据");
+                return;
+            }
 
             //构建list
             List<HistoryItem> datas = new List<HistoryItem>();

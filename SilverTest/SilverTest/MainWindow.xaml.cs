@@ -86,6 +86,8 @@ namespace SilverTest
         SampleType sampleType = SampleType.AIR;
         //波形涮新timer
         private DispatcherTimer waveFreshTimer;
+        //状态栏时间更新定时器
+        private DispatcherTimer statusDayTimer;
 
         //表格条目样本全局id
         private int newsample_item_globalid = 0;
@@ -139,9 +141,21 @@ namespace SilverTest
             DotManager.GetDotManger().Start();
             //波形刷新timer
             waveFreshTimer = new DispatcherTimer();
-            waveFreshTimer.Interval = new TimeSpan(0, 0, 0, 0, 1);  //1 seconds
+            waveFreshTimer.Interval = new TimeSpan(0, 0, 0, 0, 1);  //1 millseconds
             waveFreshTimer.Tick += new EventHandler(waveFreshTimer_tickHdr);
             waveFreshTimer.Start();
+            //状态栏时间timer
+            statusDayTimer = new DispatcherTimer();
+            statusDayTimer.Interval = new TimeSpan(0, 0, 0, 1);
+            statusDayTimer.Tick += new EventHandler(statustimer_tickHdr);
+            statusDayTimer.Start();
+        }
+
+        private void statustimer_tickHdr(object sender, EventArgs e)
+        {
+            DateTime d = DateTime.Now;
+            string s = d.Year.ToString() +":" + d.Month.ToString() +":"+ d.Day.ToString() + " " + d.Hour.ToString() +":"+ d.Minute.ToString()+":" + d.Second.ToString();
+            timestatusbar.Text = s;
         }
 
         private void waveFreshTimer_tickHdr(object sender, EventArgs e)
