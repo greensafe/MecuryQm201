@@ -10,7 +10,7 @@
         x:Name="CmdPanelWindow"
         Title="命令面板" Height="500" Width="650" Loaded="Window_Loaded">
     <Grid>
-        <Canvas>
+        <Canvas MouseLeftButtonDown="Canvas_MouseLeftButtonDown">
             <Label Content="获取状态" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Height="45" Canvas.Left="481" Canvas.Top="290" />
             <Button x:Name="getstatusbtn" Width="40" Height="40" Style="{StaticResource MirrorStyle}" Canvas.Left="544" Canvas.Top="290" Click="getstatusbtn_Click"/>
             <StackPanel Canvas.Top="10" Canvas.Left="50" Orientation="Horizontal" Width="150" Height="330">

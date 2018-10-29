@@ -49,6 +49,7 @@ namespace SilverTest
                     MessageBox.Show("端口未打开");
                 }
             }
+
         }
 
         //获取状态命令
@@ -462,6 +463,11 @@ namespace SilverTest
         private void whidebtn_Click(object sender, RoutedEventArgs e)
         {
             this.Hide();
+        }
+
+        private void Canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            this.DragMove();
         }
     }
 }
