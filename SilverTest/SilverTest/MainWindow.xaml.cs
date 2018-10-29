@@ -484,10 +484,10 @@ namespace SilverTest
                             statusBtn.Visibility = Visibility.Visible;
                             AnimatedColorButton.Visibility = Visibility.Visible;
                             //清空图形记录及DotManager中数据
-                            
                             DotManager.GetDotManger().ReleaseData();
                             //清理绘波现场
                             WaveDrawSite.to_pos_index_rel = 0;
+                            realCpt.ClearData();
 
                             startTestBtn.Content = "停止测试";
                             if (SerialDriver.GetDriver().isOpen() == false)
@@ -710,7 +710,7 @@ namespace SilverTest
                     //波形绘制太慢，移入UI线程使用定时器绘制
                     
                     currentSecond++;
-                    //Console.WriteLine("--- dot " + sequence.ToString() + ": " + (dot as ADot).Rvalue + "\r\n");
+                    Console.WriteLine("--- dot " + sequence.ToString() + ": " + (dot as ADot).Rvalue + "\r\n");
 
                     //采样到达一定点数后，自动结束测试，计算并且显示测试结果。
                     if(sequence >= stop_test_position)
@@ -785,6 +785,7 @@ namespace SilverTest
             SerialDriver.GetDriver().OnReceived(Com_DataReceived);
             ProduceFakeData pfd = new ProduceFakeData("实际数据.txt");
             pfd.Send(1);
+            showconnectedIcon();
         }
 
         private void RBtn_Click(object sender, RoutedEventArgs e)
@@ -1714,6 +1715,26 @@ namespace SilverTest
         {
             tipinfocanvas.Visibility = Visibility.Hidden;
             
+        }
+
+        private void pauseTestBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if(pauseTestBtn.Content.ToString() == "暂停测试")
+            {
+                pauseTestBtn.Content = "恢复测试";
+                SerialDriver.GetDriver().Close();
+            }
+            else
+            {
+                pauseTestBtn.Content = "暂停测试";
+                SerialDriver.GetDriver().Open(
+                        SerialDriver.GetDriver().portname,
+                        SerialDriver.GetDriver().rate,
+                        SerialDriver.GetDriver().parity,
+                        SerialDriver.GetDriver().databits,
+                        SerialDriver.GetDriver().stopbits
+                    );
+            }
         }
     }
 }

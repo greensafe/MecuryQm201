@@ -31,8 +31,17 @@ namespace SilverTest.libs
             readDataTimer.Tick += new EventHandler(timeCycle);
             aFile = new FileStream(filename, FileMode.Open);
             sr = new StreamReader(aFile);
-
-            SerialDriver.GetDriver().Open("COM1", 9600, 0, 8, 1);
+            SerialDriver.GetDriver().portname = "COM1";
+            SerialDriver.GetDriver().rate = 9600;
+            SerialDriver.GetDriver().parity = 0;
+            SerialDriver.GetDriver().databits = 8;
+            SerialDriver.GetDriver().stopbits = 1;
+            //SerialDriver.GetDriver().Open("COM1", 9600, 0, 8, 1);
+            SerialDriver.GetDriver().Open(SerialDriver.GetDriver().portname,
+                SerialDriver.GetDriver().rate,
+                SerialDriver.GetDriver().parity,
+                SerialDriver.GetDriver().databits,
+                SerialDriver.GetDriver().stopbits);
             if (!SerialDriver.GetDriver().isOpen())
             {
                 Console.WriteLine("======打开COM1失败======");
@@ -52,7 +61,7 @@ namespace SilverTest.libs
             tickcount++;
             string line = "";
             string ch;
-            Console.WriteLine("tick " + tickcount.ToString());
+            //Console.WriteLine("tick " + tickcount.ToString());
             try
             {
                 //line = sr.ReadLine();
@@ -77,7 +86,7 @@ namespace SilverTest.libs
                 // Read data in line by line.
                 if (line != null)
                 {
-                    Console.WriteLine("write to serial:" + line);
+                    //Console.WriteLine("write to serial:" + line);
                     //line = line + "\r\n";
                     //byte[] b = { 1, 2, 3, 4, 5 };
                     if (SerialDriver.GetDriver().isOpen())
