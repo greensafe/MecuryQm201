@@ -176,15 +176,82 @@ namespace SilverTest.libs
             }
             return onlyme;
         }
+
+        private void initmachineinfo()
+        {
+            machineinfo.CrtPctEndTag = 16;
+            machineinfo.CrtPctLength = 17;
+            machineinfo.CrtPctMiddleTag = 7;
+            machineinfo.CrtPctDStart = 2;
+            machineinfo.CrtPctSStart = 10;        //序号起始位置
+            machineinfo.CrtPctVStart = 8;
+
+            machineinfo.DataPctEndTag = 10;
+            machineinfo.DataPctLength = 11;
+            machineinfo.DataPctMiddleTag = 7;
+            machineinfo.DataPctDStart = 2;
+            machineinfo.DataPctVStart = 8;
+
+            machineinfo.SrlPctEndTag = 8;
+            machineinfo.SrlPctLength = 9;
+
+            //气体流量包
+            machineinfo.AirFluPctDataWidth = 1;
+            machineinfo.AirFluPctDStart = 2;
+            machineinfo.AirFluPctEndStart = 6;
+            machineinfo.AirFluPctEndTag = 0x49;
+            machineinfo.AirFluPctLength = 7;
+            machineinfo.AirFluPctMiddleStart = 3;
+            machineinfo.AirFluPctMiddleTag = 0x45;
+            machineinfo.AirFluPctVStart = 4;
+
+            //气体取样时间包
+            machineinfo.AirSTPctDataWidth = 2;
+            machineinfo.AirSTPctDStart = 2;
+            machineinfo.AirSTPctEndStart = 7;
+            machineinfo.AirSTPctEndTag = 0x49;
+            machineinfo.AirSTPctLength = 8;
+            machineinfo.AirSTPctMiddleStart = 4;
+            machineinfo.AirSTPctMiddleTag = 0x42;
+            machineinfo.AirSTPctVStart = 5;
+
+            //状态获取命令回应包
+            machineinfo.GetStatusResPctDataWidth = 8;
+            machineinfo.GetStatusResPctDStart = 4;
+            machineinfo.GetStatusResPctEndStart = 16;
+            machineinfo.GetStatusResPctEndTag = 0x49;
+            machineinfo.GetStatusResPctLength = 17;
+            machineinfo.GetStatusResPctMiddleStart = 13;
+            machineinfo.GetStatusResPctMiddleTag = 0x48;
+            machineinfo.GetStatusResPctVStart = 14;
+
+            //普通命令回应包
+            machineinfo.NorCmdResPctDataWidth = 3;
+            machineinfo.NorCmdResPctDStart = 2;
+            machineinfo.NorCmdResPctEndStart = 8;
+            machineinfo.NorCmdResPctEndTag = 0x49;
+            machineinfo.NorCmdResPctLength = 9;
+            machineinfo.NorCmdResPctMiddleStart = 5;
+            machineinfo.NorCmdResPctMiddleTag = 0x48;
+            machineinfo.NorCmdResPctVStart = 6;
+
+            machineinfo.DataWidth = 5;
+            machineinfo.SequenceLength = 6;
+            machineinfo.Type = 0x01;
+        }
+
         private PhyCombine()
         {
             rawText = new byte[rawText_maxlength];
             Array.Clear(rawText, 0, rawText_maxlength);
             machineinfo = new MachineInfo();
+            //初始化机器类型
+            initmachineinfo();
 
             CombineFragmentSg = delegate (byte[] rawitem)
             {
                 #region phase1: get machine header
+                /*
                 ////phase 1: 获取机器格式头////
                 int st = -1;
 
@@ -288,6 +355,7 @@ namespace SilverTest.libs
                         rawText_bigpct_prt = st + MachineTypeHeaderLength;
                         break;
                 }
+                */
                 #endregion
 
                 #region phase2: analyze

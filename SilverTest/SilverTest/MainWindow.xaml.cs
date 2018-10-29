@@ -1735,6 +1735,7 @@ namespace SilverTest
                         SerialDriver.GetDriver().stopbits
                     );
             }
+            showconnectedIcon();
         }
     }
 }
