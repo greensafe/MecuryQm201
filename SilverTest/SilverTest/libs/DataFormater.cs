@@ -269,12 +269,14 @@ namespace SilverTest.libs
             string cv = "";
             int total = 0;
 
-            //cv += (char)data[start];
-            //cv += (char)data[start+1];
-            //return int.Parse(cv);
+            cv += (char)data[start];
+            cv += (char)data[start+1];
+            return int.Parse(cv);
+            /*
             total += data[start];
             total += data[start+1] * 256;
             return total;
+            */
         }
 
         //校验数据

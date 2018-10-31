@@ -4,6 +4,7 @@ using System.IO;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -255,17 +256,19 @@ namespace SerialPortLab
 
         private void makeDataBtn_Click(object sender, RoutedEventArgs e)
         {
-            FileStream afile = new FileStream("实际数据.txt", FileMode.Append);
+            FileStream afile = new FileStream("clip.txt", FileMode.Append);
             StreamWriter writer = new StreamWriter(afile);
 
-            FileStream rfile = new FileStream("clip.txt", FileMode.Open);
+            FileStream rfile = new FileStream("realtestdata_fr2.txt", FileMode.Open);
             StreamReader reader = new StreamReader(rfile);
             string data = reader.ReadToEnd();
-
-            for (int i = 0; i < 5000; i++)
+            string[] r = Regex.Split(data, "I");
+            for (int i = 0; i < r.Length; i++)
             {
 
-                writer.Write(data);
+                writer.Write(r[i]);
+                writer.Write("I");
+                writer.Write("\r\n");
             }
 
             writer.Close();

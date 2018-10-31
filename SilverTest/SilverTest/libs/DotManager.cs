@@ -216,6 +216,8 @@ namespace SilverTest.libs
                     break;
                 default:  //正在纠错中
                     //do noting
+                    Console.WriteLine("正在纠错中: wrong sequence no=" + item.seq+" ;correct time="+item.retrycount + 
+                        " ;status="+item.status);
                     break;
             }
             ;

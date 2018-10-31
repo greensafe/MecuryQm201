@@ -15,6 +15,8 @@ namespace SilverTest.libs
      *       SerialDriver.GetDriver().OnReceived(Com_DataReceived);
      *       ProduceFakeData pfd = new ProduceFakeData("realtestdata.txt");
       *      pfd.Send(1); 
+      *      注意，如果realtestdata.txt模拟数据都在一行之中，解析将陷入巨循环之中，
+      *      界面停止反应。
      */
     public class ProduceFakeData
     {
@@ -52,7 +54,8 @@ namespace SilverTest.libs
         public void Send(int s)
         {
 
-            readDataTimer.Interval = new TimeSpan(0, 0, 0, 0, 1);  //1 seconds
+            //readDataTimer.Interval = new TimeSpan(0, 0, 0, 0, 100);  //1 seconds
+            readDataTimer.Interval = new TimeSpan(0, 0, 0, 0,1);  //1 seconds
             readDataTimer.Start();
         }
 
