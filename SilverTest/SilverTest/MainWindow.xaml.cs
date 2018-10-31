@@ -783,7 +783,7 @@ namespace SilverTest
         private void sendTextMenu_Click(object sender, RoutedEventArgs e)
         {
             SerialDriver.GetDriver().OnReceived(Com_DataReceived);
-            ProduceFakeData pfd = new ProduceFakeData("实际数据.txt");
+            ProduceFakeData pfd = new ProduceFakeData("realtestdata.txt");
             pfd.Send(1);
             showconnectedIcon();
         }

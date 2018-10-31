@@ -13,7 +13,7 @@ namespace SilverTest.libs
      *  从文件中读取数据发送到端口
      *  用法
      *       SerialDriver.GetDriver().OnReceived(Com_DataReceived);
-     *       ProduceFakeData pfd = new ProduceFakeData("实际数据.txt");
+     *       ProduceFakeData pfd = new ProduceFakeData("realtestdata.txt");
       *      pfd.Send(1); 
      */
     public class ProduceFakeData
