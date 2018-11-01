@@ -440,8 +440,8 @@ namespace SilverTest
         private void startTestBtn_Click(object sender, RoutedEventArgs e)
         {
             int newcltindex = 0;
+            realCpt.SetScale(100, 2000, 0, 50);
             realCpt.NumberOfDValue = 200000;
-            realCpt.SetScale(0, 0, 0, 0);
             switch (sampletab.SelectedIndex)
             {
 
@@ -539,8 +539,10 @@ namespace SilverTest
                             statusBtn.Visibility = Visibility.Visible;
                             AnimatedColorButton.Visibility = Visibility.Visible;
                             //清空图形记录及DotManager中数据
-                            
                             DotManager.GetDotManger().ReleaseData();
+                            //清理绘波现场
+                            WaveDrawSite.to_pos_index_rel = 0;
+                            realCpt.ClearData();
 
                             startTestBtn.Content = "停止测试";
                             if (SerialDriver.GetDriver().isOpen() == false)
@@ -711,7 +713,7 @@ namespace SilverTest
                                         maxResponse.ToString();
                                     break;
                             }
-                            startTestBtn.Content = "开始测试";
+                            //startTestBtn.Content = "开始测试";
                             AnimatedColorButton.Visibility = Visibility.Hidden;
                         }));
 
@@ -1702,6 +1704,7 @@ namespace SilverTest
             {
                 pauseTestBtn.Content = "恢复测试";
                 SerialDriver.GetDriver().Close();
+                AnimatedColorButton.Visibility = Visibility.Hidden;
             }
             else
             {
@@ -1713,6 +1716,7 @@ namespace SilverTest
                         SerialDriver.GetDriver().databits,
                         SerialDriver.GetDriver().stopbits
                     );
+                AnimatedColorButton.Visibility = Visibility.Visible;
             }
             showconnectedIcon();
         }

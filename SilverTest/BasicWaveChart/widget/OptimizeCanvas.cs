@@ -169,10 +169,9 @@ namespace BasicWaveChart.widget
             int all = dvalues.Count;
             moveslider.Value = 0;
             //try to keep the XCommentNumber is 10
-            parent.NumberOfDValue = all;
             xaxis.XScaleLineNumber = (int)(all / xaxis.XCommentNumber/5);
             parent.SetScale(0, all, 0,0);
-            
+            parent.NumberOfDValue = all;
         }
 
         //
@@ -188,6 +187,7 @@ namespace BasicWaveChart.widget
 
         public void ClearData()
         {
+            OptimizeCanvas_Canvas_Left = 0;
             dvalues.Clear();
             waveply.Points.Clear();
             //恢复自弃函数

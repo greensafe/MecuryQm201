@@ -288,6 +288,9 @@ namespace BasicWaveChart
 
         private void moveslider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
+            Console.WriteLine("old:=" + e.OldValue);
+            Console.WriteLine("new:=" + e.NewValue);
+            ;
         }
 
         private void movemenu_Click(object sender, RoutedEventArgs e)
