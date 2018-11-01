@@ -70,7 +70,7 @@
         <ContextMenu x:Key="wavemenu">
             <MenuItem x:Name="fullshowmenu" Header="全景" Click="fullshowmenu_Click"></MenuItem>
             <MenuItem x:Name="movemenu" Header="移动" Click="movemenu_Click"></MenuItem>
-            <MenuItem x:Name="integralmenu" Header="积分" Click="integralmenu_Click" ></MenuItem>
+            <MenuItem x:Name="integralmenu" Header="积分" Click="integralmenu_Click"  Visibility="Hidden"></MenuItem>
         </ContextMenu>
     </UserControl.Resources>
     <widget:ZoomPanel x:Name="zoompanel"  Ratio="{Binding RatioS, ElementName=ControlContainer}">

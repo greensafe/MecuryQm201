@@ -61,7 +61,7 @@
             <DockPanel.Background>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
             </DockPanel.Background>
-            <Menu Height="25" Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}" DockPanel.Dock="Top">
+            <Menu Height="25" Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}" DockPanel.Dock="Top" MouseLeftButtonDown="Menu_MouseLeftButtonDown">
                 <MenuItem Header="文件">
                     <MenuItem Header="新建" Visibility="Collapsed"></MenuItem>
                     <MenuItem Header="打开" Visibility="Collapsed"></MenuItem>
@@ -121,12 +121,15 @@
                     <Image Source="images\disconnected.png">
                     </Image>
                 </Button>
-                <Canvas x:Name="rs232connectedBorder" Width="32" DockPanel.Dock="Right" Panel.ZIndex="9" Visibility="Collapsed">
+                <Canvas x:Name="rs232connectedBorder" Width="32" DockPanel.Dock="Right" Panel.ZIndex="9" Visibility="Hidden">
                     <Button x:Name="rs232connectedbtn" Width="32" DockPanel.Dock="Right" Background="Transparent" BorderThickness="0" Click="rs232connectedbtn_Click" MouseEnter="rs232connectedbtn_MouseEnter" MouseLeave="rs232connectedbtn_MouseLeave">
                         <Image Source="images\connected.png">
                         </Image>
                     </Button>
-                    <Canvas x:Name="tipinfocanvas" Canvas.Left="-100" Canvas.Top="50" Width="100" Height="80" Background="LightBlue" Opacity="0.3">
+                    <Canvas x:Name="tipinfocanvas" Canvas.Left="-100" Canvas.Top="50" 
+                            Width="100" Height="80" Background="LightBlue" Opacity="0.3"
+                            Visibility="Hidden"
+                            >
                         <StackPanel Width="40" Height="80">
                             <TextBlock>波特率:</TextBlock>
                             <TextBlock>校验位:</TextBlock>
@@ -140,7 +143,7 @@
                     </Canvas>
                 </Canvas>
                 <TextBlock x:Name="comnameblk" DockPanel.Dock="Right" VerticalAlignment="Center" Width="50" TextAlignment="Right" HorizontalAlignment="Right"></TextBlock>
-                <ToolBarTray x:Name="toolBarTray" Height="32" Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}" DockPanel.Dock="Left">
+                <ToolBarTray x:Name="toolBarTray" Height="32" Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}" DockPanel.Dock="Left" MouseLeftButtonDown="toolBarTray_MouseLeftButtonDown">
                     <ToolBarTray.Background>
                         <SolidColorBrush Color="#FFF0F0F0"/>
                     </ToolBarTray.Background>

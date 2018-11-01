@@ -320,17 +320,10 @@ namespace SilverTest
         {
             if (window.IsLoaded)
             {
-                /*
-                var tab = sender as TabItem;
-                */
                 paramGbx.Visibility = Visibility.Collapsed;
                 RBtn.Visibility = Visibility.Visible;
-                //rCanvas.Visibility = Visibility.Visible;
-                //RparamSp.Visibility = Visibility.Visible;
                 Rstackpanel.Visibility = Visibility.Visible;
                 printRbtn.Visibility = Visibility.Visible;
-                //realCpt.Visibility = Visibility.Collapsed;
-                //waveContainer.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -339,16 +332,10 @@ namespace SilverTest
 
             if (window.IsLoaded)
             {
-                /*
-                var tab = sender as TabItem;
-                */
                 paramGbx.Visibility = Visibility.Visible;
                 RBtn.Visibility = Visibility.Hidden;
-                //rCanvas.Visibility = Visibility.Collapsed;
-                //RparamSp.Visibility = Visibility.Hidden;
                 Rstackpanel.Visibility = Visibility.Collapsed;
                 printRbtn.Visibility = Visibility.Collapsed;
-                //realCpt.Visibility = Visibility.Visible;
                 waveContainer.Visibility = Visibility.Visible;
             }
         }
@@ -453,9 +440,8 @@ namespace SilverTest
         private void startTestBtn_Click(object sender, RoutedEventArgs e)
         {
             int newcltindex = 0;
-            realCpt.NumberOfDValue = 8000;
+            realCpt.NumberOfDValue = 200000;
             realCpt.SetScale(0, 0, 0, 0);
-            //SerialDriver.GetDriver().OnReceived(Com_DataReceived);
             switch (sampletab.SelectedIndex)
             {
 
@@ -492,8 +478,6 @@ namespace SilverTest
                             startTestBtn.Content = "停止测试";
                             if (SerialDriver.GetDriver().isOpen() == false)
                             {
-                                //SerialDriver.GetDriver().Open("COM1", 9600, 0, 8, 1);
-                                //SerialDriver.GetDriver().Open("COM5", 38400, 0, 8, 1);
                                 SerialDriver.GetDriver().Open(
                                     SerialDriver.GetDriver().portname,
                                     SerialDriver.GetDriver().rate,
@@ -518,11 +502,9 @@ namespace SilverTest
                             {
                                 try
                                 {
-                                    //SerialDriver.GetDriver().RemoveHandler(Com_DataReceived);
                                     System.Threading.Thread CloseDown = 
                                         new System.Threading.Thread(new System.Threading.ThreadStart(closeSerialAsc));
                                     CloseDown.Start();
-                                    //SerialDriver.GetDriver().Close();
                                 }
                                 catch (Exception ex)
                                 {
@@ -563,8 +545,6 @@ namespace SilverTest
                             startTestBtn.Content = "停止测试";
                             if (SerialDriver.GetDriver().isOpen() == false)
                             {
-                                //SerialDriver.GetDriver().Open("COM1", 9600, 0, 8, 1);
-                                //SerialDriver.GetDriver().Open("COM5", 38400, 0, 8, 1);
                                 SerialDriver.GetDriver().Open(
                                         SerialDriver.GetDriver().portname,
                                         SerialDriver.GetDriver().rate,
@@ -581,12 +561,9 @@ namespace SilverTest
                         case "停止测试":
                             statusBtn.Visibility = Visibility.Hidden;
                             AnimatedColorButton.Visibility = Visibility.Hidden;
-                            //demoTimer.Stop();
-                            //realCptTimer.Stop();
                             startTestBtn.Content = "开始测试";
                             if (SerialDriver.GetDriver().isOpen() == true)
                             {
-                                //SerialDriver.GetDriver().Close();
                                 System.Threading.Thread CloseDown1 =
                                     new System.Threading.Thread(new System.Threading.ThreadStart(closeSerialAsc));
                                 CloseDown1.Start();
@@ -632,7 +609,7 @@ namespace SilverTest
          */
         private void closeSerialAsc()
         {
-            SerialDriver.GetDriver().Close();
+            SerialDriver.GetDriver().Close();  
             Dispatcher.BeginInvoke(new Action(() =>
             {
                 showconnectedIcon();
@@ -707,7 +684,6 @@ namespace SilverTest
                         maxResponse = y;
 
                     Point point = new Point(x, y);
-                    //波形绘制太慢，移入UI线程使用定时器绘制
                     
                     currentSecond++;
                     Console.WriteLine("--- dot " + sequence.ToString() + ": " + (dot as ADot).Rvalue + "\r\n");
@@ -739,18 +715,18 @@ namespace SilverTest
                             AnimatedColorButton.Visibility = Visibility.Hidden;
                         }));
 
+                        /*
                         try
                         {
-                            //SerialDriver.GetDriver().RemoveHandler(Com_DataReceived);
                             System.Threading.Thread CloseDown =
                                 new System.Threading.Thread(new System.Threading.ThreadStart(closeSerialAsc));
                             CloseDown.Start();
-                            //SerialDriver.GetDriver().Close();
                         }
                         catch (Exception ex)
                         {
                             ;
                         }
+                        */
                     }
 
                     break;
@@ -782,7 +758,8 @@ namespace SilverTest
 
         private void sendTextMenu_Click(object sender, RoutedEventArgs e)
         {
-            SerialDriver.GetDriver().OnReceived(Com_DataReceived);
+            //SerialDriver.GetDriver().OnReceived(Com_DataReceived);
+            //realCpt.NumberOfDValue = 200000;
             ProduceFakeData pfd = new ProduceFakeData("realtestdata_fr2.txt");
             pfd.Send(1);
             showconnectedIcon();
@@ -1738,6 +1715,16 @@ namespace SilverTest
                     );
             }
             showconnectedIcon();
+        }
+
+        private void toolBarTray_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            this.DragMove();
+        }
+
+        private void Menu_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            this.DragMove();
         }
     }
 }

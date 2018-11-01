@@ -24,8 +24,11 @@ namespace BasicWaveChart.Feature.integral
         }
         private static void OnEnableChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            BasicWaveChartUC basicwave = d as BasicWaveChartUC;
-            basicwave.Loaded += new RoutedEventHandler(targetloaded_hdlr);
+            if (((bool)e.NewValue == true) && ((bool)e.OldValue == false))
+            {
+                BasicWaveChartUC basicwave = d as BasicWaveChartUC;
+                basicwave.Loaded += new RoutedEventHandler(targetloaded_hdlr);
+            }
             ;
         }
 
@@ -66,6 +69,20 @@ namespace BasicWaveChart.Feature.integral
         }
         public void Enable()
         {
+            try
+            {
+                ContextMenu menus = ucctl.TryFindResource("wavemenu") as ContextMenu;
+                foreach(MenuItem item in menus.Items)
+                {
+                    if(item.Header.ToString() == "积分")
+                    {
+                        item.Visibility = Visibility.Visible;
+                    }
+                }
+                ;
+            }
+            catch { }
+
             hostcontext.container = ucctl.FindName("WindowCanvas");
             hostcontext.xaxis = ucctl.FindName("xaxis");
             hostcontext.yaxis = ucctl.FindName("yaxis");

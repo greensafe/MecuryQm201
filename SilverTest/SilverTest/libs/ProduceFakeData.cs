@@ -33,6 +33,7 @@ namespace SilverTest.libs
             readDataTimer.Tick += new EventHandler(timeCycle);
             aFile = new FileStream(filename, FileMode.Open);
             sr = new StreamReader(aFile);
+            /*
             SerialDriver.GetDriver().portname = "COM1";
             SerialDriver.GetDriver().rate = 9600;
             SerialDriver.GetDriver().parity = 0;
@@ -48,6 +49,7 @@ namespace SilverTest.libs
             {
                 Console.WriteLine("======打开COM1失败======");
             }
+            */
         }
 
         //向端口间隔发送数据
