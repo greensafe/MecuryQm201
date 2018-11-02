@@ -148,6 +148,7 @@ namespace BasicWaveChart.Feature.integral
         public virtual double IntegrateData(int dvalues_start, int dvalues_end)
         {
             double total = 0;
+            
             for(int i = dvalues_start; i <= dvalues_end; i++)
             {
                 total += hostcontext.dvalues[i].Y;
@@ -180,6 +181,18 @@ namespace BasicWaveChart.Feature.integral
             areagon.Points.Add(new Point(hostcontext.xaxis.GetXX(startx_index), 0));
             double tempx, tempy;
             int tempY;
+            //avoid the startx_index and end_index flying out
+            if (startx_index >= hostcontext.dvalues.Count)
+                return;
+            if (startx_index < 0)
+            {
+                startx_index = 0;
+                index = 0;
+            }
+            if (end_index < 0)
+                end_index = 0;
+            if (end_index >= hostcontext.dvalues.Count)
+                end_index = hostcontext.dvalues.Count - 1;
             while ( index >= startx_index && index < end_index)
             {
                 //areagon.Points.Add(hostcontext.datas_[index]);
@@ -214,6 +227,17 @@ namespace BasicWaveChart.Feature.integral
         //show the comment 
         private void showcomment(double x, double y)
         {
+            if (hostcontext.polygon_dvalues_start_index >= hostcontext.dvalues.Count)
+            {
+                commenttx.Text = "0.00";
+                return;
+            }
+            if (hostcontext.polygon_dvalues_start_index < 0)
+                hostcontext.polygon_dvalues_start_index = 0;
+            if (hostcontext.polygon_dvalues_end_index >= hostcontext.dvalues.Count)
+                hostcontext.polygon_dvalues_end_index = hostcontext.dvalues.Count - 1;
+            if (hostcontext.polygon_dvalues_end_index < 0)
+                hostcontext.polygon_dvalues_end_index = 0;
             commenttx.Text = IntegrateData(hostcontext.polygon_dvalues_start_index, 
                 hostcontext.polygon_dvalues_end_index).ToString("0.00");
             Canvas.SetLeft(commenttx,(x + y )/2 - commenttx.Width/2);

@@ -46,7 +46,6 @@ namespace SilverTest
             SerialDriver.GetDriver().parity = 0;        //paritycombo.SelectedValue as string;
             SerialDriver.GetDriver().rate = int.Parse(speedcombo.SelectedValue as string);
             SerialDriver.GetDriver().stopbits = int.Parse(stopcombo.SelectedValue as string);
-            MessageBox.Show("设置成功");
             this.Close();
         }
     }
