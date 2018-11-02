@@ -322,6 +322,8 @@ namespace BasicWaveChart
         {
             //cann't find the twohandle through FindName, maybe need register
             //
+            MenuItem mitem = sender as MenuItem;
+
             dynamic bigbrother = null;
             foreach (dynamic obj in WindowCanvas.Children)
             {
@@ -333,16 +335,31 @@ namespace BasicWaveChart
                     break;
                 }
             }
+
             if (bigbrother == null)
                 return;
             if ((sender as MenuItem).Header.ToString() == "积分")
             {
                 showbigbrother(bigbrother);
+                foreach (dynamic item in optimizeCanvas.Children)
+                {
+                    if (item is Polygon)
+                    {
+                        (item as Polygon).Visibility = Visibility.Visible;
+                    }
+                }
                 (sender as MenuItem).Header = "关闭积分";
             }
             else
             {
                 closebigbrother(bigbrother);
+                foreach (dynamic item in optimizeCanvas.Children)
+                {
+                    if (item is Polygon)
+                    {
+                        (item as Polygon).Visibility = Visibility.Hidden;
+                    }
+                }
                 (sender as MenuItem).Header = "积分";
             }
 

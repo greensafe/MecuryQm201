@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BasicWaveChart.Feature.integral;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,6 +28,8 @@ namespace BasicWaveChart.widget
         XAxisCtl xaxis ;
         YAxisCtl yaxis ;
         Slider moveslider;
+        Canvas wincanvas;
+        Canvas opticanvas;
         double OptimizeCanvas_Canvas_Left = 0;  //canvas.getleft() cann't get the position of canvas self. use the var to 
                             //save the position of optimizecanvas
 
@@ -130,6 +133,7 @@ namespace BasicWaveChart.widget
             xaxis = this.FindName("xaxis") as XAxisCtl;
             yaxis = this.FindName("yaxis") as YAxisCtl;
             moveslider = this.FindName("moveslider") as Slider;
+            wincanvas = this.FindName("WindowCanvas") as Canvas;
             ;
         }
 
@@ -190,8 +194,20 @@ namespace BasicWaveChart.widget
             OptimizeCanvas_Canvas_Left = 0;
             dvalues.Clear();
             waveply.Points.Clear();
+            //清除积分中的图形痕迹
+            foreach(UIElement item in wincanvas.Children)
+            {
+                if (item is HandleCtl || item is TextBlock)
+                    item.Visibility = Visibility.Hidden;
+            }
+            foreach(UIElement pg in this.Children)
+            {
+                if (pg is Polygon)
+                    pg.Visibility = Visibility.Hidden;
+            }
             //恢复自弃函数
             AddPointRocket = AddPointRocketOrigin;
+
         }
 
         #endregion
