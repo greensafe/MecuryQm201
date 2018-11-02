@@ -98,6 +98,9 @@ namespace SilverTest
 
         //正在测试中的条目id号
         string testingitemgid = "";
+        //点击开始测试后，被选中的表格条目的相对索引号
+        NewTestTarget testing_selected_new = null;
+        StandardSample testing_selected_standard = null;
 
         ICollectionView StandardCvw;
 
@@ -349,11 +352,13 @@ namespace SilverTest
 
         }
 
-        public int getNewCltIndex(int index)
+        public int getNewCltIndexFromSelected(NewTestTarget obj)
         {
-            if (NewTargetDgd.SelectedItem is null)
+            if (obj is null)
                 return -1;
-            string code = (NewTargetDgd.SelectedItem as NewTestTarget).Code;
+            string code = obj.Code;
+
+
             for (int i = 0; i < newTestClt.Count; i++)
             {
                 if (newTestClt[i].Code == code)
@@ -362,6 +367,23 @@ namespace SilverTest
             return 0;
         }
 
+        public int getNewCltIndex(int index)
+        {
+            
+            if (NewTargetDgd.SelectedItem is null)
+                return -1;
+            string code = (NewTargetDgd.SelectedItem as NewTestTarget).Code;
+            
+            
+            for (int i = 0; i < newTestClt.Count; i++)
+            {
+                if (newTestClt[i].Code == code)
+                    return i;
+            }
+            return 0;
+        }
+
+        
         private void standardCmb_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (e.AddedItems.Count == 0) return;
@@ -490,6 +512,7 @@ namespace SilverTest
                             }
                             showconnectedIcon();
 
+                            testing_selected_new = NewTargetDgd.SelectedItem as NewTestTarget;
                             this.testingitemgid = newTestClt[getNewCltIndex(NewTargetDgd.SelectedIndex)].GlobalID;
                             NewTargetDgd.DataContext = null;
                             NewTargetDgd.DataContext = newTestClt;
@@ -560,6 +583,7 @@ namespace SilverTest
                             }
                             showconnectedIcon();
 
+                            testing_selected_standard = standardSampleDgd.SelectedItem as StandardSample;
                             testingitemgid = standardSampleClt[getStandardCltIndex(standardSampleDgd.SelectedIndex)].GlobalID;
                             standardSampleDgd.DataContext = null;
                             standardSampleDgd.DataContext = standardSampleClt;
@@ -702,18 +726,15 @@ namespace SilverTest
                             switch (sampletab.SelectedIndex)
                             {
                                 case 0:         //新样测试
-                                    newcltindex = getNewCltIndex(NewTargetDgd.SelectedIndex);
+                                    //newcltindex = getNewCltIndex(NewTargetDgd.SelectedIndex);
+                                    newcltindex = getNewCltIndexFromSelected(testing_selected_new);
                                     if (newcltindex == -1) return;
-                                    //newTestClt[newcltindex].ResponseValue1 =
-                                    //    Utility.Integration(DotManager.GetDotManger().GetDots(), R1_start, R1_end,this.ratio).ToString();
                                     newTestClt[newcltindex].ResponseValue1 =
                                         maxResponse.ToString();
                                     break;
                                 case 1:         //标样测试
-                                    //standardSampleClt[getCltIndex(standardSampleDgd.SelectedIndex)].ResponseValue1 =
-                                    //    Utility.Integration(DotManager.GetDotManger().GetDots(), R1_start, R1_end, this.ratio).ToString();
-                                    if (getStandardCltIndex(standardSampleDgd.SelectedIndex) == -1) return;
-                                    standardSampleClt[getStandardCltIndex(standardSampleDgd.SelectedIndex)].ResponseValue1 =
+                                    if (getStandardCltIndexFromSelected(testing_selected_standard) == -1) return;
+                                    standardSampleClt[getStandardCltIndexFromSelected(testing_selected_standard)].ResponseValue1 =
                                         maxResponse.ToString();
                                     break;
                             }
@@ -1017,11 +1038,28 @@ namespace SilverTest
 
         }
 
+
+        public int getStandardCltIndexFromSelected(StandardSample obj)
+        {
+
+            if (obj is null) return -1;
+            string code = obj.Code;
+
+            for (int i = 0; i < standardSampleClt.Count; i++)
+            {
+                if (standardSampleClt[i].Code == code)
+                    return i;
+            }
+            return 0;
+        }
+
         //在标样选择中，将视图选中序号转变为数据源中序号
         public int getStandardCltIndex(int index)
         {
+            
             if (standardSampleDgd.SelectedItem is null) return -1;
             string code = (standardSampleDgd.SelectedItem as StandardSample).Code;
+            
             for(int i=0; i < standardSampleClt.Count; i++)
             {
                 if (standardSampleClt[i].Code == code)
