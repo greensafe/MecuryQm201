@@ -440,8 +440,8 @@ namespace SilverTest
         private void startTestBtn_Click(object sender, RoutedEventArgs e)
         {
             int newcltindex = 0;
-            realCpt.SetScale(100, 2000, 0, 50);
-            realCpt.NumberOfDValue = 200000;
+            //realCpt.SetScale(100, 2000, 0, 50);
+            //realCpt.NumberOfDValue = 200000;
             switch (sampletab.SelectedIndex)
             {
 
@@ -472,6 +472,8 @@ namespace SilverTest
                             //清空图形记录及DotManager中数据
                             DotManager.GetDotManger().ReleaseData();
                             //清理绘波现场
+                            realCpt.SetScale(100, 2000, 0, 50);
+                            realCpt.NumberOfDValue = 200000;
                             WaveDrawSite.to_pos_index_rel = 0;
                             realCpt.ClearData();
 
@@ -541,6 +543,8 @@ namespace SilverTest
                             //清空图形记录及DotManager中数据
                             DotManager.GetDotManger().ReleaseData();
                             //清理绘波现场
+                            realCpt.SetScale(100, 2000, 0, 50);
+                            realCpt.NumberOfDValue = 200000;
                             WaveDrawSite.to_pos_index_rel = 0;
                             realCpt.ClearData();
 
