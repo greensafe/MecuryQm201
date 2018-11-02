@@ -125,7 +125,7 @@
                 </Canvas.RenderTransform>
             </Canvas>
             <Slider Panel.ZIndex="10" x:Name="moveslider"
-                    Visibility="Visible"
+                    Visibility="Hidden"
                     Value="0"
                     Maximum="0"
                     Canvas.Left="{Binding Width, ElementName=yaxis}"

@@ -445,6 +445,17 @@ namespace BasicWaveChart
         {
             ScaleChanged_Ev += ScaleChangedHdr;
         }
+        public delegate void IntegrateValueChangeDelegate(double res);
+        event IntegrateValueChangeDelegate IntegrateValueChange_Ev;
+        public void OnIntegrateValueChange(IntegrateValueChangeDelegate hdlr)
+        {
+            IntegrateValueChange_Ev += hdlr;
+        }
+        public void TriggerIntegrateValueChangeEv(double res)
+        {
+            if (IntegrateValueChange_Ev != null)
+                IntegrateValueChange_Ev(res);
+        }
 
         #endregion
 

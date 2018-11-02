@@ -152,6 +152,8 @@ namespace SilverTest
             statusDayTimer.Interval = new TimeSpan(0, 0, 0, 1);
             statusDayTimer.Tick += new EventHandler(statustimer_tickHdr);
             statusDayTimer.Start();
+            //注册波形控件积分值变化事件
+            realCpt.OnIntegrateValueChange(AreaIntegrateValueChangedHdlr);
         }
 
         private void statustimer_tickHdr(object sender, EventArgs e)
@@ -1771,6 +1773,29 @@ namespace SilverTest
         private void Menu_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             this.DragMove();
+        }
+
+        private void AreaIntegrateValueChangedHdlr(double res)
+        {
+            Console.WriteLine(res.ToString("0.00"));
+            int newcltindex;
+            //Dispatcher.BeginInvoke(new Action(() =>
+            //{
+                switch (sampletab.SelectedIndex)
+                {
+                    case 0:         //新样测试
+                        newcltindex = getNewCltIndexFromSelected(testing_selected_new);
+                        if (newcltindex == -1) return;
+                        newTestClt[newcltindex].ResponseValue1 =
+                            res.ToString("0.00");
+                        break;
+                    case 1:         //标样测试
+                        if (getStandardCltIndexFromSelected(testing_selected_standard) == -1) return;
+                        standardSampleClt[getStandardCltIndexFromSelected(testing_selected_standard)].ResponseValue1 =
+                            res.ToString("0.00");
+                        break;
+                }
+            //}));
         }
     }
 }

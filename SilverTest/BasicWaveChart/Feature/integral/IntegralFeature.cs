@@ -227,6 +227,7 @@ namespace BasicWaveChart.Feature.integral
         //show the comment 
         private void showcomment(double x, double y)
         {
+            double res;
             if (hostcontext.polygon_dvalues_start_index >= hostcontext.dvalues.Count)
             {
                 commenttx.Text = "0.00";
@@ -238,10 +239,13 @@ namespace BasicWaveChart.Feature.integral
                 hostcontext.polygon_dvalues_end_index = hostcontext.dvalues.Count - 1;
             if (hostcontext.polygon_dvalues_end_index < 0)
                 hostcontext.polygon_dvalues_end_index = 0;
-            commenttx.Text = IntegrateData(hostcontext.polygon_dvalues_start_index, 
-                hostcontext.polygon_dvalues_end_index).ToString("0.00");
+            res = IntegrateData(hostcontext.polygon_dvalues_start_index,
+                hostcontext.polygon_dvalues_end_index);
+            commenttx.Text = res.ToString("0.00");
             Canvas.SetLeft(commenttx,(x + y )/2 - commenttx.Width/2);
             Canvas.SetTop(commenttx, 10);
+
+            ucctl.TriggerIntegrateValueChangeEv(res);
         }
         #endregion
     }
