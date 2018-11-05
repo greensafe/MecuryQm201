@@ -491,15 +491,6 @@ namespace SilverTest
                                 newTestClt[newcltindex].AirG = "";
                             }
 
-                            //清空图形记录及DotManager中数据
-                            DotManager.GetDotManger().ReleaseData();
-                            //清理绘波现场
-                            realCpt.SetScale(100, 2000, 0, 50);
-                            realCpt.NumberOfDValue = 200000;
-                            WaveDrawSite.to_pos_index_rel = 0;
-                            realCpt.ClearData();
-
-                            startTestBtn.Content = "停止测试";
                             if (SerialDriver.GetDriver().isOpen() == false)
                             {
                                 SerialDriver.GetDriver().Open(
@@ -510,6 +501,17 @@ namespace SilverTest
                                     SerialDriver.GetDriver().stopbits);
                                 //
                             }
+                            if (SerialDriver.GetDriver().isOpen() == false) return;
+
+                            //清空图形记录及DotManager中数据
+                            DotManager.GetDotManger().ReleaseData();
+                            //清理绘波现场
+                            realCpt.SetScale(100, 2000, 0, 50);
+                            realCpt.NumberOfDValue = 200000;
+                            WaveDrawSite.to_pos_index_rel = 0;
+                            realCpt.ClearData();
+
+                            startTestBtn.Content = "停止测试";
                             showconnectedIcon();
                             if (SerialDriver.GetDriver().isOpen() == true)
                             {
@@ -566,17 +568,6 @@ namespace SilverTest
                                 standardSampleClt[getStandardCltIndex(standardSampleDgd.SelectedIndex)].ResponseValue1 = "";
                             }
 
-                            statusBtn.Visibility = Visibility.Visible;
-                            AnimatedColorButton.Visibility = Visibility.Visible;
-                            //清空图形记录及DotManager中数据
-                            DotManager.GetDotManger().ReleaseData();
-                            //清理绘波现场
-                            realCpt.SetScale(100, 2000, 0, 50);
-                            realCpt.NumberOfDValue = 200000;
-                            WaveDrawSite.to_pos_index_rel = 0;
-                            realCpt.ClearData();
-
-                            startTestBtn.Content = "停止测试";
                             if (SerialDriver.GetDriver().isOpen() == false)
                             {
                                 SerialDriver.GetDriver().Open(
@@ -586,7 +577,24 @@ namespace SilverTest
                                         SerialDriver.GetDriver().databits,
                                         SerialDriver.GetDriver().stopbits);
                             }
+                            if (SerialDriver.GetDriver().isOpen() == false)
+                                return;
+                            //清空图形记录及DotManager中数据
+                            DotManager.GetDotManger().ReleaseData();
+                            //清理绘波现场
+                            realCpt.SetScale(100, 2000, 0, 50);
+                            realCpt.NumberOfDValue = 200000;
+                            WaveDrawSite.to_pos_index_rel = 0;
+                            realCpt.ClearData();
+
+                            startTestBtn.Content = "停止测试";
+                            
                             showconnectedIcon();
+                            if (SerialDriver.GetDriver().isOpen() == true)
+                            {
+                                statusBtn.Visibility = Visibility.Visible;
+                                AnimatedColorButton.Visibility = Visibility.Visible;
+                            }
 
                             testing_selected_standard = standardSampleDgd.SelectedItem as StandardSample;
                             testingitemgid = standardSampleClt[getStandardCltIndex(standardSampleDgd.SelectedIndex)].GlobalID;
