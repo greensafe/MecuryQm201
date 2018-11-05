@@ -732,7 +732,7 @@ namespace SilverTest
                     Console.WriteLine("--- dot " + sequence.ToString() + ": " + (dot as ADot).Rvalue + "\r\n");
 
                     //采样到达一定点数后，自动结束测试，计算并且显示测试结果。
-                    if(sequence >= stop_test_position)
+                    if(sequence% stop_test_position >= (stop_test_position-1))
                     {
                         Dispatcher.BeginInvoke(new Action(() =>
                         { 
@@ -751,24 +751,11 @@ namespace SilverTest
                                         maxResponse.ToString();
                                     break;
                             }
+                            maxResponse = 0;
                             //startTestBtn.Content = "开始测试";
-                            AnimatedColorButton.Visibility = Visibility.Hidden;
+                            //AnimatedColorButton.Visibility = Visibility.Hidden;
                         }));
-
-                        /*
-                        try
-                        {
-                            System.Threading.Thread CloseDown =
-                                new System.Threading.Thread(new System.Threading.ThreadStart(closeSerialAsc));
-                            CloseDown.Start();
-                        }
-                        catch (Exception ex)
-                        {
-                            ;
-                        }
-                        */
                     }
-
                     break;
             }
 
