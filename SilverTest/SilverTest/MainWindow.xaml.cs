@@ -491,8 +491,6 @@ namespace SilverTest
                                 newTestClt[newcltindex].AirG = "";
                             }
 
-                            statusBtn.Visibility = Visibility.Visible;
-                            AnimatedColorButton.Visibility = Visibility.Visible;
                             //清空图形记录及DotManager中数据
                             DotManager.GetDotManger().ReleaseData();
                             //清理绘波现场
@@ -513,6 +511,11 @@ namespace SilverTest
                                 //
                             }
                             showconnectedIcon();
+                            if (SerialDriver.GetDriver().isOpen() == true)
+                            {
+                                statusBtn.Visibility = Visibility.Visible;
+                                AnimatedColorButton.Visibility = Visibility.Visible;
+                            }
 
                             testing_selected_new = NewTargetDgd.SelectedItem as NewTestTarget;
                             this.testingitemgid = newTestClt[getNewCltIndex(NewTargetDgd.SelectedIndex)].GlobalID;
