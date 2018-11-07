@@ -54,23 +54,10 @@ namespace SilverTest
 
         }
 
-        //返回上一级菜单
+        
         private void returnparent(object sender, RoutedEventArgs e)
         {
-            byte[] data = new byte[8] { 0x01, 0x01, 0x01, 0x06, 0x01, 0x04, 0, 0 };
 
-            ushort crc = Utility.CRC16(data, 6);
-            
-            data[6] = (byte)(crc >> 8);
-            data[7] = (byte)crc;
-            if (SerialDriver.GetDriver().Send(data))
-            {
-                statustxt.Text = "返回上一级菜单命令已发出";
-            }
-            else
-            {
-                MessageBox.Show("端口未打开");
-            };
         }
 
         private void EnableUI()
@@ -727,6 +714,46 @@ namespace SilverTest
             comstatus =( CommandPanlStatus )i;
             EnableUI();
         }
+
+        private void m14_Click(object sender, RoutedEventArgs e)
+        {
+            //气体测量-返回上一级菜单
+            byte[] data = new byte[8] { 0x01, 0x01, 0x01, 0x06, 0x00, 0x00, 0, 0 };
+
+            ushort crc = Utility.CRC16(data, 6);
+
+            data[6] = (byte)(crc >> 8);
+            data[7] = (byte)crc;
+            if (SerialDriver.GetDriver().Send(data))
+            {
+                statustxt.Text = "返回上一级菜单命令已发出";
+                comstatus = CommandPanlStatus.AirTestReturn_Finished;
+            }
+            else
+            {
+                MessageBox.Show("端口未打开");
+            };
+        }
+
+        private void m53_Click(object sender, RoutedEventArgs e)
+        {
+            //液体测量-返回上一级菜单
+            byte[] data = new byte[8] { 0x01, 0x01, 0x06, 0x06, 0x00, 0x00, 0, 0 };
+
+            ushort crc = Utility.CRC16(data, 6);
+
+            data[6] = (byte)(crc >> 8);
+            data[7] = (byte)crc;
+            if (SerialDriver.GetDriver().Send(data))
+            {
+                statustxt.Text = "返回上一级菜单命令已发出";
+                comstatus = CommandPanlStatus.LiquidTestReturn_Finished;
+            }
+            else
+            {
+                MessageBox.Show("端口未打开");
+            };
+        }
     }
 
     public enum CommandPanlStatus
@@ -758,5 +785,10 @@ namespace SilverTest
         GetStatus_Waiting,          //等待接受获取状态命令      24  
         GetStatus_Finished,         //状态获取完成              25  
         ParamSet_Finished,          //参数设置完成
+        AirTestReturn_Waiting,      //气体测量返回上一级菜单   
+        AirTestReturn_Finished,     //气体测量返回上一级菜单命令完成
+        LiquidTestReturn_Waiting,   //液体测量返回上一级菜单   
+        LiquidTestReturn_Finished,  //液体测量返回上一级菜单命令完成
+
     }
 }

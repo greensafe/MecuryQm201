@@ -8,10 +8,10 @@
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         x:Name="CmdPanelWindow"
-        Title="命令面板" Height="500" Width="650" Loaded="Window_Loaded">
+        Title="命令面板" Height="442" Width="588" Loaded="Window_Loaded">
     <Grid>
-        <Canvas MouseLeftButtonDown="Canvas_MouseLeftButtonDown">
-            <StackPanel Margin="150,300" x:Name="parampanel" Panel.ZIndex="10" Visibility="Visible" Background="LightBlue">
+        <Canvas Background="LightBlue" MouseLeftButtonDown="Canvas_MouseLeftButtonDown">
+            <StackPanel Margin="150,300" x:Name="parampanel" Panel.ZIndex="10" Visibility="Collapsed" Background="LightPink">
                 <StackPanel.Effect>
                     <DropShadowEffect/>
                 </StackPanel.Effect>
@@ -51,25 +51,25 @@
                 </StackPanel>
             </StackPanel>
             <Button x:Name="getstatusbtn" Width="40" Height="40" Style="{StaticResource MirrorStyle}" Canvas.Left="544" Canvas.Top="290" Visibility="Hidden"/>
-            <StackPanel x:Name="buttoncontainerstp" Width="200" Height="300" Margin="50,50,0,0" 
-                        Background="White"
-                        MouseLeftButtonDown="buttoncontainerstp_MouseLeftButtonDown">
+            <StackPanel x:Name="buttoncontainerstp" Width="200" Height="300" 
+                        Background="Transparent"
+                        MouseLeftButtonDown="buttoncontainerstp_MouseLeftButtonDown" Canvas.Left="73" Canvas.Top="60">
                 <Button x:Name="pm1" Content="测量" Height="30" Width="150" HorizontalAlignment="Left" MouseEnter="pm1_MouseEnter" Click="pm1_Click" ></Button>
                 <Button x:Name="m11" Content="取样" Height="30" Width="150" HorizontalAlignment="Left" Background="LightPink" Margin="50,2,0,0"  Visibility="Collapsed" Click="m11_Click"></Button>
                 <Button x:Name="m12" Content="清洗" Height="30" Width="150" HorizontalAlignment="Left" Background="LightPink" Margin="50,2,0,0" Visibility="Collapsed" Click="m12_Click"></Button>
                 <Button x:Name="m13" Content="测量" Height="30" Width="150" HorizontalAlignment="Left" Background="LightPink" Margin="50,2,0,0" Visibility="Collapsed" Click="m13_Click"></Button>
-                <Button x:Name="m14" Content="返回上一级菜单" Height="30" Width="150" HorizontalAlignment="Left" Background="LightPink" Margin="50,2,0,0" Visibility="Collapsed"></Button>
+                <Button x:Name="m14" Content="返回上一级菜单" Height="30" Width="150" HorizontalAlignment="Left" Background="LightPink" Margin="50,2,0,0" Visibility="Collapsed" Click="m14_Click"></Button>
                 <Button x:Name="pm2" Content="连续测量" Height="30" Width="150" HorizontalAlignment="Left"></Button>
                 <Button x:Name="pm3" Content="校准"  Height="30" Width="150" HorizontalAlignment="Left" Click="pm3_Click"></Button>
                 <Button x:Name="pm4" Content="通信"  Height="30" Width="150" HorizontalAlignment="Left" Click="pm4_Click"></Button>
                 <Button x:Name="pm5" Content="液体测量"  Height="30" Width="150" HorizontalAlignment="Left" MouseEnter="pm5_MouseEnter" Click="pm5_Click"/>
                 <Button x:Name="m51" Content="清洗" Height="30" Width="150" HorizontalAlignment="Left" Background="LightPink" Margin="50,2,0,0" Visibility="Collapsed" Click="m51_Click"></Button>
                 <Button x:Name="m52" Content="测量" Height="30" Width="150" HorizontalAlignment="Left" Background="LightPink" Margin="50,2,0,0" Visibility="Collapsed" Click="m52_Click" ></Button>
-                <Button x:Name="m53" Content="返回上一级菜单" Height="30" Width="150" HorizontalAlignment="Left" Background="LightPink" Margin="50,2,0,0" Visibility="Collapsed"></Button>
+                <Button x:Name="m53" Content="返回上一级菜单" Height="30" Width="150" HorizontalAlignment="Left" Background="LightPink" Margin="50,2,0,0" Visibility="Collapsed" Click="m53_Click"></Button>
                 <Button x:Name="pm6" Content="参数设置"  Height="30" Width="150" HorizontalAlignment="Left" Click="pm6_Click"></Button>
                 <Button x:Name="pm7" Content="状态获取"  Height="30" Width="150" HorizontalAlignment="Left" Click="pm7_Click"></Button>
             </StackPanel>
-            <Border CornerRadius="5" BorderBrush="Gray" BorderThickness="3" Height="220" Canvas.Left="278" Canvas.Top="56" Width="261"
+            <Border CornerRadius="5" BorderBrush="Gray" BorderThickness="3" Height="197" Canvas.Left="302" Canvas.Top="60" Width="247"
                    >
                 <Border.Background>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
@@ -107,9 +107,9 @@
                     </StackPanel>
                 </StackPanel>
             </Border>
-            <Button x:Name="whidebtn" Content="退出" Height="28" Canvas.Left="512" Canvas.Top="332" Width="37" Click="whidebtn_Click"/>
-            <TextBox x:Name="testbox" Width="70" Canvas.Top="6"></TextBox>
-            <Button x:Name="teststatusbtn" Width="30" Height="20" Canvas.Left="85" Canvas.Top="3" Click="teststatusbtn_Click">test</Button>
+            <Button x:Name="whidebtn" Content="退出" Height="28" Canvas.Left="498" Canvas.Top="381" Width="37" Click="whidebtn_Click"/>
+            <TextBox Visibility="Collapsed" x:Name="testbox" Width="70" Canvas.Top="6"></TextBox>
+            <Button Visibility="Collapsed" x:Name="teststatusbtn" Width="30" Height="20" Canvas.Left="85" Canvas.Top="3" Click="teststatusbtn_Click">test</Button>
         </Canvas>
     </Grid>
 </Window>
