@@ -50,9 +50,21 @@ namespace SilverTest
             switch (parentwindow.sampletab.SelectedIndex)
             {
                 case 0: //new sample
+                    if(parentwindow.NewTargetDgd.SelectedIndex < 0)
+                    {
+                        this.Close();
+                        MessageBox.Show("请选择一条记录");
+                        return;
+                    }
                     gid = (parentwindow.NewTargetDgd.Items[parentwindow.NewTargetDgd.SelectedIndex] as NewTestTarget).GlobalID;
                     break;
                 case 1: //standard sample
+                    if(parentwindow.standardSampleDgd.SelectedIndex < 0)
+                    {
+                        this.Close();
+                        MessageBox.Show("请选择一条记录");
+                        return;
+                    }
                     gid = (parentwindow.standardSampleDgd.Items[parentwindow.standardSampleDgd.SelectedIndex] as StandardSample).GlobalID;
                     break;
             }

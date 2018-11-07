@@ -67,8 +67,8 @@
                     <MenuItem Header="打开" Visibility="Collapsed"></MenuItem>
                     <MenuItem Header="关闭" Visibility="Collapsed"></MenuItem>
                     <MenuItem Header="保存" Visibility="Collapsed"></MenuItem>
-                    <MenuItem x:Name="savehistory" Header="保存历史" Click="savehistory_Click"></MenuItem>
-                    <MenuItem x:Name="loadhistory" Header="载入历史" Click="loadhistory_Click"></MenuItem>
+                    <MenuItem x:Name="savehistory" Header="保存现场" Click="savehistory_Click"></MenuItem>
+                    <MenuItem x:Name="loadhistory" Header="载入现场" Click="loadhistory_Click"></MenuItem>
                     <MenuItem x:Name="exportexcelmenu" Header="输出到excel" Click="exportexcelmenu_Click"/>
                     <MenuItem Header="汞打印预览测试数据" Visibility="Collapsed"></MenuItem>
                     <MenuItem Header="汞打印测试数据" Visibility="Collapsed"></MenuItem>
@@ -156,7 +156,7 @@
 
                             </Image>
                         </Button>                        
-                        <Button x:Name="saveallbtn" ToolTip="快速保存当前数据" VerticalAlignment="Top" Height="30" Click="saveallbtn_Click" IsEnabled="True">
+                        <Button x:Name="saveallbtn" ToolTip="快速保存测试现场" VerticalAlignment="Top" Height="30" Click="saveallbtn_Click" IsEnabled="True">
                             <Image Source="images\save.png">
 
                             </Image>

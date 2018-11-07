@@ -1181,7 +1181,7 @@ namespace SilverTest
             //截取日期
             string suffix = "";
             if (filename.Length < 16) return;
-            for (int i = filename.Length - 16; i < filename.Length - 4; i++)
+            for (int i = filename.Length - 17; i < filename.Length - 4; i++)
             {
                 suffix += filename[i];
             }
@@ -1657,9 +1657,31 @@ namespace SilverTest
                 return;
             }
             string filename = newTestClt[getNewCltIndex(NewTargetDgd.SelectedIndex)].GlobalID;
-            filename += "_" + DateTime.Now.Year+DateTime.Now.Month+DateTime.Now.Day+DateTime.Now.Hour+
-                            DateTime.Now.Minute+ 
-                            DateTime.Now.Second+".bin";
+            filename += "_" + DateTime.Now.Year;
+            if(DateTime.Now.Month.ToString().Length == 2)
+                filename += DateTime.Now.Month;
+            else
+                filename += "0" + DateTime.Now.Month;
+
+            if(DateTime.Now.Day.ToString().Length == 2)
+                filename += DateTime.Now.Day;
+            else
+                filename += "0" + DateTime.Now.Day;
+
+            if(DateTime.Now.Hour.ToString().Length == 2)
+                filename += DateTime.Now.Hour;
+            else
+                filename += "0" + DateTime.Now.Hour;
+            
+            if(DateTime.Now.Minute.ToString().Length == 2)
+                filename += DateTime.Now.Minute;
+            else
+                filename += "0" + DateTime.Now.Minute;
+
+            if(DateTime.Now.Second.ToString().Length == 2)
+                filename += DateTime.Now.Second + ".bin";
+            else
+                filename += "0" + DateTime.Now.Second + ".bin";
 
             //Utility.SaveToNewXmlFileCls.SaveToNewXmlFile(newTestClt, "resources\\NewTestTarget_Table.xml");
             saveNewDotsToFile(@"history\"+filename);
@@ -1681,9 +1703,31 @@ namespace SilverTest
             }
 
             string filename = standardSampleClt[getStandardCltIndex(standardSampleDgd.SelectedIndex)].GlobalID;
-            filename += "_" + DateTime.Now.Year + DateTime.Now.Month + DateTime.Now.Day + DateTime.Now.Hour +
-                DateTime.Now.Minute +
-                DateTime.Now.Second + ".bin";
+            filename += "_" + DateTime.Now.Year;
+            if(DateTime.Now.Month.ToString().Length == 2)
+                filename +=  DateTime.Now.Month;
+            else
+                filename += "0" + DateTime.Now.Month;
+
+            if(DateTime.Now.Day.ToString().Length == 2)
+                filename += DateTime.Now.Day;
+            else
+                filename += "0" + DateTime.Now.Day;
+
+            if(DateTime.Now.Hour.ToString().Length == 2)
+                filename += DateTime.Now.Hour;
+            else
+                filename += "0" + DateTime.Now.Hour;
+
+            if (DateTime.Now.Minute.ToString().Length == 2)
+                filename += DateTime.Now.Minute;
+            else
+                filename += "0" + DateTime.Now.Minute;
+
+            if(DateTime.Now.Second.ToString().Length == 2)
+                filename += DateTime.Now.Second + ".bin";
+            else
+                filename += "0" + DateTime.Now.Second + ".bin";
 
             //Utility.SaveToNewXmlFileCls.SaveToNewXmlFile(newTestClt, "resources\\NewTestTarget_Table.xml");
             saveNewDotsToFile(@"history\"+filename);

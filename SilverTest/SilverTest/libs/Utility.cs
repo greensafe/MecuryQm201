@@ -257,7 +257,7 @@ namespace SilverTest.libs
 
             SaveToNewXmlFileCls.SaveToNewXmlFile(newclt, newfile);
             SaveToStandardXmlFileCls.SaveToStandardXmlFile(standardclt, standardfile);
-            MessageBox.Show("测试结果已保存到history目录中");
+            MessageBox.Show("测试线程已保存到history目录中");
         }
 
         static public void Save2excel(DataGrid dataGrid)
