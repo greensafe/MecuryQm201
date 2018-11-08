@@ -370,6 +370,8 @@ namespace SilverTest
             return 0;
         }
 
+
+        //查询选中条目对应序号。语意有错，入参index无用。为了减少代码修改，保持该函数不变
         public int getNewCltIndex(int index)
         {
             
@@ -1055,6 +1057,7 @@ namespace SilverTest
         }
 
         //在标样选择中，将视图选中序号转变为数据源中序号
+        //查询选中条目对应序号。语意有错，入参index无用。为了减少代码修改，保持该函数不变
         public int getStandardCltIndex(int index)
         {
             
@@ -1841,14 +1844,26 @@ namespace SilverTest
             //}));
         }
 
-        private void newitemfullsavePMenu_Click(object sender, RoutedEventArgs e)
+
+        private void savefullitem()
         {
-            string filename = "";
             //未选择数据
-            if(NewTargetDgd.SelectedIndex == -1)
+            switch (sampletab.SelectedIndex)
             {
-                MessageBox.Show("请选择一条数据");
-                return;
+                case 0:
+                    if (NewTargetDgd.SelectedIndex == -1)
+                    {
+                        MessageBox.Show("请选择一条数据");
+                        return;
+                    }
+                    break;
+                case 1:
+                    if (standardSampleDgd.SelectedIndex == -1)
+                    {
+                        MessageBox.Show("请选择一条数据");
+                        return;
+                    }
+                    break;
             }
 
             //没有测试数据
@@ -1867,18 +1882,19 @@ namespace SilverTest
             saveDialog.ShowDialog();
             fullsaveFileName = saveDialog.FileName;
             saveFileName = saveDialog.SafeFileName;
+            if (saveFileName == "") return;
             string fullbinfilename = "";
             string binfilename = "";
-            for(int i = 0;i < fullsaveFileName.Length - 3; i++)
+            for (int i = 0; i < fullsaveFileName.Length - 3; i++)
             {
                 fullbinfilename += fullsaveFileName[i];
             }
-            fullbinfilename += ".bin";
-            for(int i = 0; i < saveFileName.Length - 3; i++)
+            fullbinfilename += "bin";
+            for (int i = 0; i < saveFileName.Length - 3; i++)
             {
                 binfilename += saveFileName[i];
             }
-            binfilename += ".bin";
+            binfilename += "bin";
             ;
             //save the bin file
             XmlSerializer serializer = null;
@@ -1888,14 +1904,14 @@ namespace SilverTest
                     serializer = new XmlSerializer(typeof(NewTestTarget));
                     using (FileStream stream = new FileStream(fullsaveFileName, FileMode.Create))
                     {
-                        serializer.Serialize(stream, newTestClt[0]);
+                        serializer.Serialize(stream, newTestClt[getNewCltIndexFromSelected(NewTargetDgd.SelectedItem as NewTestTarget)]);
                     }
                     break;
                 case 1: //标样
                     serializer = new XmlSerializer(typeof(StandardSample));
                     using (FileStream stream = new FileStream(fullsaveFileName, FileMode.Create))
                     {
-                        serializer.Serialize(stream, standardSampleClt[0]);
+                        serializer.Serialize(stream, standardSampleClt[getStandardCltIndexFromSelected(standardSampleDgd.SelectedItem as StandardSample)]);
                     }
                     break;
             }
@@ -1909,6 +1925,142 @@ namespace SilverTest
                 sr.Write(dots[i].Rvalue.ToString() + "\r\n");
 
             }
+            sr.Close();
+            aFile.Close();
+        }
+
+        private void newitemfullsavePMenu_Click(object sender, RoutedEventArgs e)
+        {
+            savefullitem();
+        }
+
+        private void standarditemfullsavePMenu_Click(object sender, RoutedEventArgs e)
+        {
+            savefullitem();
+        }
+
+        private void loadkeyhistory_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog odi = new OpenFileDialog();
+            odi.DefaultExt = ".cls";
+            odi.Filter = "经典数据文件|*.cls";
+            odi.ShowDialog();
+            string fullkeyFileName = odi.FileName;
+            string keyFileName = odi.SafeFileName;
+            string fullbinfilename = "";
+            string binfilename = "";
+            for(int i = 0; i < fullkeyFileName.Length -3 ; i++)
+            {
+                fullbinfilename += fullkeyFileName[i];
+            }
+            fullbinfilename += "bin";
+            for(int i = 0; i< keyFileName.Length - 3; i++)
+            {
+                binfilename += keyFileName[i];
+            }
+            binfilename += "bin";
+
+            //将统计数据载入表格之中
+            //1是标样数据还是新样数据
+            XmlSerializer newserializer;
+            NewTestTarget newitem = null;
+            XmlSerializer standardserializer;
+            StandardSample standarditem = null;
+            try
+            {
+                newserializer = new XmlSerializer(typeof(NewTestTarget));
+                int newindex = -1;
+                using (FileStream stream = new FileStream(fullkeyFileName, FileMode.Open))
+                {
+                    newitem = (NewTestTarget)newserializer.Deserialize(stream);
+                }
+                if (newitem == null) return;
+                for(int i=0; i< newTestClt.Count; i++)
+                {
+                    if(newTestClt[i].GlobalID == newitem.GlobalID)
+                    {
+                        newindex = i;
+                        break;
+                    }
+                }
+                if(newindex == -1)//没有相同的
+                {
+                    newTestClt.Add(newitem);
+                }
+                else
+                {
+                    newTestClt.Remove(newTestClt[newindex]);
+                    newTestClt.Add(newitem);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                ;
+            }
+            if(newitem is null)
+            {
+                standardserializer = new XmlSerializer(typeof(StandardSample));
+                try
+                {
+                    int standardindex = -1;
+                    using (FileStream stream = new FileStream(fullkeyFileName, FileMode.Open))
+                    {
+                        standarditem = (StandardSample)standardserializer.Deserialize(stream);
+                    }
+                    if (standarditem == null) return;
+                    for(int i = 0; i< standardSampleClt.Count; i++)
+                    {
+                        if(standardSampleClt[i].GlobalID == standarditem.GlobalID)
+                        {
+                            standardindex = i;
+                            break;
+                        }
+                    }
+                    if (standardindex == -1)//不存在这个条目
+                        standardSampleClt.Add(standarditem);
+                    else
+                    {
+                        standardSampleClt.RemoveAt(standardindex);
+                        standardSampleClt.Add(standarditem);
+                    }
+                }
+                catch (Exception ee)
+                {
+                    ;
+                }
+            }
+           
+
+            //2globalid是否重复，重复则提示用户
+
+            //3将统计数据载入sampletab之中
+            switch (sampletab.SelectedIndex)
+            {
+                case 0: 
+
+                    break;
+                case 1:
+
+                    break;
+            }
+            
+            ;
+            //载入波形
+            realCpt.SetScale(100, 2000, 0, 50);
+            realCpt.NumberOfDValue = 200000;
+            realCpt.ClearData();
+            int xscale = 0;
+            int yscale = 0;
+            FileStream aFile = new FileStream(fullbinfilename, FileMode.Open);
+            StreamReader sr = new StreamReader(aFile);
+            while (!sr.EndOfStream)
+            {
+                yscale = int.Parse( sr.ReadLine() );
+                realCpt.AddPoint(new Point(xscale,yscale));
+                xscale++;
+            }
+
             sr.Close();
             aFile.Close();
         }
