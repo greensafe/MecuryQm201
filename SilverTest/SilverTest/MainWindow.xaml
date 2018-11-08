@@ -330,9 +330,6 @@
                         Height="200" 
                         >
                     <Canvas x:Name="rCanvas" HorizontalAlignment="Center" Width="500" Height="200" ClipToBounds="True"/>
-                    <!--<StackPanel  Width="200" Height="300">
-                   <TextBlock x:Name="RparamSpTxbl" Width="150" Height="300"></TextBlock>
-                </StackPanel> -->
                 </GroupBox>
             </StackPanel>
             <Separator Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}" Height="3" DockPanel.Dock="Top"></Separator>

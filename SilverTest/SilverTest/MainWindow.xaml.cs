@@ -905,8 +905,8 @@ namespace SilverTest
             yline.Y2 = rCanvas.Height - bottommargin;
             rCanvas.Children.Add(yline);
             ytext.Text = "Y 响应值";
-            Canvas.SetTop(ytext, 15);
-            Canvas.SetLeft(ytext, leftmargin + 36);
+            Canvas.SetTop(ytext, 4);
+            Canvas.SetLeft(ytext, leftmargin + 10);
             rCanvas.Children.Add(ytext);
             arrowy.Stroke = Brushes.Black;
             arrowy.StrokeThickness = 1;
@@ -940,18 +940,18 @@ namespace SilverTest
             xline.StrokeThickness = 1; ;
             xline.X1 = leftmargin;
             xline.Y1 = rCanvas.Height - bottommargin;
-            xline.X2 = rCanvas.Width;
+            xline.X2 = rCanvas.Width - rightmargin + 20;
             xline.Y2 = rCanvas.Height - bottommargin;
             rCanvas.Children.Add(xline);
             xtext.Text = "X 汞量(ng)";
             Canvas.SetTop(xtext, rCanvas.Height - 20 - bottommargin);
-            Canvas.SetLeft(xtext, rCanvas.Width - 70 );
+            Canvas.SetLeft(xtext, rCanvas.Width - rightmargin + 20);
             rCanvas.Children.Add(xtext);
             arrowx.Stroke = Brushes.Black;
             arrowx.StrokeThickness = 1;
-            arrowx.X1 = rCanvas.Width - 10;
+            arrowx.X1 = rCanvas.Width - 10 - rightmargin + 20;
             arrowx.Y1 = rCanvas.Height - 10 - bottommargin;
-            arrowx.X2 = rCanvas.Width;
+            arrowx.X2 = rCanvas.Width - rightmargin +20;
             arrowx.Y2 = rCanvas.Height - bottommargin;
             rCanvas.Children.Add(arrowx);
             //绘制x轴scale
@@ -2031,21 +2031,6 @@ namespace SilverTest
                 }
             }
            
-
-            //2globalid是否重复，重复则提示用户
-
-            //3将统计数据载入sampletab之中
-            switch (sampletab.SelectedIndex)
-            {
-                case 0: 
-
-                    break;
-                case 1:
-
-                    break;
-            }
-            
-            ;
             //载入波形
             realCpt.SetScale(100, 2000, 0, 50);
             realCpt.NumberOfDValue = 200000;
