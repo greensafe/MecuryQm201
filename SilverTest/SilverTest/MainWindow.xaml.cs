@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Xml;
+using System.Xml.Serialization;
 using static SilverTest.libs.DataFormater;
 using static SilverTest.libs.PhyCombine;
 
@@ -1838,6 +1839,78 @@ namespace SilverTest
                         break;
                 }
             //}));
+        }
+
+        private void newitemfullsavePMenu_Click(object sender, RoutedEventArgs e)
+        {
+            string filename = "";
+            //未选择数据
+            if(NewTargetDgd.SelectedIndex == -1)
+            {
+                MessageBox.Show("请选择一条数据");
+                return;
+            }
+
+            //没有测试数据
+            if (DotManager.GetDotManger().GetDots() is null || DotManager.GetDotManger().GetDots().Count == 0)
+            {
+                MessageBox.Show("当前样品没有测试数据");
+                return;
+            }
+
+            //获取文件名
+            string fullsaveFileName = "";
+            string saveFileName = "";
+            SaveFileDialog saveDialog = new SaveFileDialog();
+            saveDialog.DefaultExt = ".cls";
+            saveDialog.Filter = "经典数据文件|*.cls";
+            saveDialog.ShowDialog();
+            fullsaveFileName = saveDialog.FileName;
+            saveFileName = saveDialog.SafeFileName;
+            string fullbinfilename = "";
+            string binfilename = "";
+            for(int i = 0;i < fullsaveFileName.Length - 3; i++)
+            {
+                fullbinfilename += fullsaveFileName[i];
+            }
+            fullbinfilename += ".bin";
+            for(int i = 0; i < saveFileName.Length - 3; i++)
+            {
+                binfilename += saveFileName[i];
+            }
+            binfilename += ".bin";
+            ;
+            //save the bin file
+            XmlSerializer serializer = null;
+            switch (sampletab.SelectedIndex)
+            {
+                case 0: //新样
+                    serializer = new XmlSerializer(typeof(NewTestTarget));
+                    using (FileStream stream = new FileStream(fullsaveFileName, FileMode.Create))
+                    {
+                        serializer.Serialize(stream, newTestClt[0]);
+                    }
+                    break;
+                case 1: //标样
+                    serializer = new XmlSerializer(typeof(StandardSample));
+                    using (FileStream stream = new FileStream(fullsaveFileName, FileMode.Create))
+                    {
+                        serializer.Serialize(stream, standardSampleClt[0]);
+                    }
+                    break;
+            }
+
+            //save the item grid into cls file
+            Collection<ADot> dots = DotManager.GetDotManger().GetDots();
+            FileStream aFile = new FileStream(fullbinfilename, FileMode.Create);
+            StreamWriter sr = new StreamWriter(aFile);
+            for (int i = 0; i < dots.Count; i++)
+            {
+                sr.Write(dots[i].Rvalue.ToString() + "\r\n");
+
+            }
+            sr.Close();
+            aFile.Close();
         }
     }
 }
