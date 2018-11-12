@@ -18,7 +18,8 @@
         TextOptions.TextRenderingMode="Auto"        
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
-        Title="QM201H" Height="850" Width="1000" Loaded="window_Loaded" WindowStartupLocation="CenterScreen" Icon="images/test.png">
+        Title="QM201H" Height="850" Width="1000" Loaded="window_Loaded" WindowStartupLocation="CenterScreen" 
+        Icon="images/test.png">
     <Window.Resources>
         <ContextMenu x:Key="newtableMenu">
             <MenuItem Header="查看历史" Click="newtablemenu_showhistory">
@@ -76,14 +77,18 @@
             </DockPanel.Background>
             <Menu Height="28" Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}" DockPanel.Dock="Top" MouseLeftButtonDown="Menu_MouseLeftButtonDown">
                 <MenuItem  Height="28" Header="文件">
-                    <MenuItem Header="新建" Visibility="Collapsed"></MenuItem>
-                    <MenuItem Header="打开" Visibility="Collapsed"></MenuItem>
-                    <MenuItem Header="关闭" Visibility="Collapsed"></MenuItem>
-                    <MenuItem Header="保存" Visibility="Collapsed"></MenuItem>
-                    <MenuItem x:Name="savehistory" Header="保存现场" Click="savehistory_Click"></MenuItem>
+                    <MenuItem x:Name="savehistory" Header="保存现场" Click="savehistory_Click">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon  Kind="ContentSave" />
+                        </MenuItem.Icon>
+                    </MenuItem>
                     <MenuItem x:Name="loadhistory" Header="载入现场" Click="loadhistory_Click"></MenuItem>
                     <MenuItem x:Name="loadkeyhistory" Header="载入关键数据" Click="loadkeyhistory_Click"></MenuItem>
-                    <MenuItem x:Name="exportexcelmenu" Header="输出到excel" Click="exportexcelmenu_Click"/>
+                    <MenuItem x:Name="exportexcelmenu" Header="输出到excel" Click="exportexcelmenu_Click">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="FileExport" />
+                        </MenuItem.Icon>
+                    </MenuItem>
                     <MenuItem Header="汞打印预览测试数据" Visibility="Collapsed"></MenuItem>
                     <MenuItem Header="汞打印测试数据" Visibility="Collapsed"></MenuItem>
                     <MenuItem Header="打印预览样品中汞含量" Visibility="Collapsed"></MenuItem>
@@ -102,9 +107,17 @@
                     <MenuItem Header="样品中砷的含量"></MenuItem>
                 </MenuItem>
                 <MenuItem  Height="28" Header="工具">
-                    <MenuItem x:Name="printRmenu" Header="打印相关系数图" Click="printRmenu_Click"></MenuItem>
+                    <MenuItem x:Name="printRmenu" Header="打印相关系数图" Click="printRmenu_Click">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="LocalPrintShop" />
+                        </MenuItem.Icon>
+                    </MenuItem>
                     <MenuItem x:Name="modifytestmenu" Header="修改测试数据" Click="modifytestmenu_Click" ></MenuItem>
-                    <MenuItem x:Name="setportmenu" Header="设置串口" Click="setportmenu_Click"></MenuItem>
+                    <MenuItem x:Name="setportmenu" Header="设置串口" Click="setportmenu_Click">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="Usb" />
+                        </MenuItem.Icon>
+                    </MenuItem>
                 </MenuItem>
                 <MenuItem  Height="28" Header="测汞或砷" Visibility="Collapsed">
                     <MenuItem Header="测汞"></MenuItem>
@@ -121,7 +134,11 @@
                     <MenuItem x:Name="sendTextMenu" Header="发送模拟数据" Click="sendTextMenu_Click" ></MenuItem>
                 </MenuItem>
                 <MenuItem  Height="28" Header="登陆" Click="MenuItem_Click">
-                    <MenuItem x:Name="checkerlogin" Header="审核者登陆" Click="checkerlogin_Click"/>
+                    <MenuItem x:Name="checkerlogin" Header="审核者登陆" Click="checkerlogin_Click">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="AccountStar" />
+                        </MenuItem.Icon>
+                    </MenuItem>
                     <MenuItem x:Name="checkerlogout" Header="审核者退出" Click="checkerlogout_Click"/>
                 </MenuItem>
             </Menu>
@@ -150,9 +167,10 @@
                             MouseLeave="rs232connectedbtn_MouseLeave">
                         <materialDesign:PackIcon Kind="Usb" Foreground="Black" Height="28" Width="28"/>
                     </Button>
+                    <!--
                     <Canvas x:Name="tipinfocanvas" Canvas.Left="-100" Canvas.Top="50" 
                             Width="100" Height="80" Background="LightBlue" Opacity="0.3"
-                            Visibility="Hidden"
+                            Visibility="Visible"
                             >
                         <StackPanel Width="40" Height="80">
                             <TextBlock>波特率:</TextBlock>
@@ -165,6 +183,7 @@
                             <TextBlock x:Name="stopbittxt">3</TextBlock>
                         </StackPanel>
                     </Canvas>
+                    -->
                 </Canvas>
                 <TextBlock x:Name="comnameblk" DockPanel.Dock="Right" VerticalAlignment="Center" Width="50" TextAlignment="Right" HorizontalAlignment="Right"></TextBlock>
                 <ToolBarTray x:Name="toolBarTray" Height="32" Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}" DockPanel.Dock="Left" MouseLeftButtonDown="toolBarTray_MouseLeftButtonDown">

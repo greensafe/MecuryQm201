@@ -637,7 +637,10 @@ namespace SilverTest
             {
                 disconnectedcanvas.Visibility = Visibility.Collapsed;
                 rs232connectedBorder.Visibility = Visibility.Visible;
-                rs232connectedbtn.ToolTip = SerialDriver.GetDriver().portname + "已打开";
+                rs232connectedbtn.ToolTip = SerialDriver.GetDriver().portname + "已打开\r\n"+
+                    "波特率: "+ SerialDriver.GetDriver().rate + "\r\n"+
+                    "校验位: "+ SerialDriver.GetDriver().parity.ToString() +"\r\n" +
+                    "停止位: "+ SerialDriver.GetDriver().stopbits.ToString();
                 comnameblk.Text = SerialDriver.GetDriver().portname;
                 comnameblk.Visibility = Visibility.Visible;
             }
@@ -1771,10 +1774,12 @@ namespace SilverTest
         {
             try
             {
+                /*
                 tipinfocanvas.Visibility = Visibility.Visible;
                 bautratetxt.Text = SerialDriver.GetDriver().rate.ToString();
                 adjusttxt.Text = SerialDriver.GetDriver().parity.ToString();
                 stopbittxt.Text = SerialDriver.GetDriver().stopbits.ToString();
+                */
             }
             catch { }
             //todo show the connected infomation
@@ -1784,7 +1789,7 @@ namespace SilverTest
 
         private void rs232connectedbtn_MouseLeave(object sender, MouseEventArgs e)
         {
-            tipinfocanvas.Visibility = Visibility.Hidden;
+            //tipinfocanvas.Visibility = Visibility.Hidden;
             
         }
 
