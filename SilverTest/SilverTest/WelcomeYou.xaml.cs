@@ -53,5 +53,10 @@ namespace SilverTest
 
             }
         }
+
+        private void PackIcon_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            this.Close();
+        }
     }
 }

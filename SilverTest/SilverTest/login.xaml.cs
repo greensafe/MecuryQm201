@@ -43,5 +43,15 @@ namespace SilverTest
             come.Show();
             this.Close();
         }
+
+        private void PackIcon_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void grid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            this.DragMove();
+        }
     }
 }

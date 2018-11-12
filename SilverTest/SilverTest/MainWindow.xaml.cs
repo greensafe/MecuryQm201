@@ -635,7 +635,7 @@ namespace SilverTest
         {
             if (SerialDriver.GetDriver().isOpen() == true)
             {
-                rs232disconnectedbtn.Visibility = Visibility.Collapsed;
+                disconnectedcanvas.Visibility = Visibility.Collapsed;
                 rs232connectedBorder.Visibility = Visibility.Visible;
                 rs232connectedbtn.ToolTip = SerialDriver.GetDriver().portname + "已打开";
                 comnameblk.Text = SerialDriver.GetDriver().portname;
@@ -643,7 +643,7 @@ namespace SilverTest
             }
             else
             {
-                rs232disconnectedbtn.Visibility = Visibility.Visible;
+                disconnectedcanvas.Visibility = Visibility.Visible;
                 rs232connectedBorder.Visibility = Visibility.Collapsed;
                 comnameblk.Visibility = Visibility.Collapsed;
             }

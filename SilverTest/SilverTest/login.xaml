@@ -3,27 +3,44 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:SilverTest"
+        TextElement.FontSize="13"
+        FontFamily="{StaticResource MaterialDesignFont}" 
+        BorderBrush="Purple"
+        BorderThickness="1"
         mc:Ignorable="d"
-        Title="登录" Height="200" Width="350" WindowStartupLocation="CenterScreen" BorderThickness="2,3,3,3" ResizeMode="NoResize">
-    <Window.BorderBrush>
-        <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
-    </Window.BorderBrush>
-    <Grid x:Name="grid">
-        <StackPanel x:Name="stackPanel" HorizontalAlignment="Left" Height="{Binding ActualHeight, ElementName=grid, Mode=OneWay}" VerticalAlignment="Top" Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}">
-            <DockPanel Height="55" LastChildFill="False">
-                <Label  Content="用户名" Height="30"  Margin="80,0,0,0" Width="64" DockPanel.Dock="Left"/>
-                <TextBox x:Name="usertxt" Height="30" TextWrapping="Wrap" Margin="0,0" Text="user" Width="120" DockPanel.Dock="Left"/>
+        x:Name="mainwindow"
+        WindowStyle="None"
+        Title="登录" Height="200" Width="350" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    <Window.Effect>
+        <DropShadowEffect Color="#FF0C0B0B"/>
+    </Window.Effect>
+    <Grid x:Name="grid" MouseLeftButtonDown="grid_MouseLeftButtonDown">
+        <Grid.Effect>
+            <DropShadowEffect/>
+        </Grid.Effect>
+        <StackPanel x:Name="stackPanel" Background="White">
+            <DockPanel Height="25" Width="{Binding ActualWidth, ElementName=stackPanel, Mode=OneWay}" Margin="0,5,0,0">
+                <materialDesign:PackIcon Kind="Account" Foreground="Gray" DockPanel.Dock="Left" Margin="5,0,2,0"/>
+                <TextBlock>登陆</TextBlock>
+                <materialDesign:PackIcon Kind="WindowClose" DockPanel.Dock="Right" HorizontalAlignment="Right"  Foreground="Purple" RenderTransformOrigin="2.22,0.762" 
+                                         Margin="0,0,5,0"
+                                         MouseLeftButtonDown="PackIcon_MouseLeftButtonDown"/>
+            </DockPanel>
+            <Separator></Separator>
+            <DockPanel Height="46" LastChildFill="False">
+                <Label  Content="用户名" Padding="0" HorizontalContentAlignment="Right" VerticalContentAlignment="Bottom" Height="30"  Margin="80,0,15,0" Width="64" DockPanel.Dock="Left"/>
+                <TextBox x:Name="usertxt" Height="30" TextWrapping="Wrap" Margin="0,0" Text="" Width="120" DockPanel.Dock="Left"/>
             </DockPanel>
             <DockPanel Height="46" LastChildFill="False">
-                <Label Content="密码" Height="30"  Margin="80,0,0,0" Width="64" DockPanel.Dock="Left"/>
+                <Label  Content="密码" Padding="0" HorizontalContentAlignment="Right" VerticalContentAlignment="Bottom" Height="30"  Margin="80,0,15,0" Width="64" DockPanel.Dock="Left"/>
                 <PasswordBox x:Name="passwordtxt" Height="30" Margin="0,0" Width="120" DockPanel.Dock="Left"/>
             </DockPanel>
-            <DockPanel Height="47" LastChildFill="False" Margin="0,0,0,0">
-                <Button Content="确定" Height="30" VerticalAlignment="Top" Width="50" DockPanel.Dock="Left" Margin="170,10,0,0" Click="Button_Click_1"/>
-                <Button Content="取消" Height="30" VerticalAlignment="Top" Width="50" DockPanel.Dock="Left" Margin="40,10,0,0" Click="Button_Click"/>
+            <DockPanel Height="47" LastChildFill="False" Margin="0,10,0,0">
+                <Button Content="确定" Height="30" VerticalAlignment="Top" Width="70" DockPanel.Dock="Left" Margin="80,10,0,0" Click="Button_Click_1"/>
+                <Button Content="取消" Height="30" VerticalAlignment="Top" Width="70" DockPanel.Dock="Left" Margin="60,10,0,0" Click="Button_Click"/>
             </DockPanel>
         </StackPanel>
-
     </Grid>
 </Window>
