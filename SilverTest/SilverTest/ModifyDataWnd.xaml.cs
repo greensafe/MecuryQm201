@@ -37,8 +37,6 @@ namespace SilverTest
             switch (tabctl.SelectedIndex)
             {
                 case 0:  //新样测试
-                    newGrid.Visibility = Visibility.Visible;
-                    standardGrid.Visibility = Visibility.Collapsed;
                     dg = parentwindow.FindName("NewTargetDgd") as DataGrid;
                     NewTestTarget newitem = dg.Items[dg.SelectedIndex] as NewTestTarget;
                     responsevaluetxt.Text = newitem.ResponseValue1;
@@ -46,11 +44,12 @@ namespace SilverTest
                     fluenttxt.Text = newitem.AirFluent;
                     break;
                 case 1:  //标样测试
-                    newGrid.Visibility = Visibility.Collapsed;
-                    standardGrid.Visibility = Visibility.Visible;
                     dg = parentwindow.FindName("standardSampleDgd") as DataGrid;
                     StandardSample standarditem = dg.Items[dg.SelectedIndex] as StandardSample;
-                    standardresponsetxt.Text = standarditem.ResponseValue1;
+                    responsevaluetxt.Text = standarditem.ResponseValue1;
+                    sampletimetxt.IsEnabled = false;
+                    sampletimelable.IsEnabled = false;
+                    fluentlabel.IsEnabled = false;
                     break; 
             }
         }
@@ -96,8 +95,8 @@ namespace SilverTest
                         break;
                     case 1:
                         text = "标样修改 " + DateTime.Now.ToString() + "\r\n";
-                        text += (dg.Items[dg.SelectedIndex] as StandardSample).ResponseValue1 + " --> " + standardresponsetxt.Text + "\r\n";
-                        (dg.Items[dg.SelectedIndex] as StandardSample).ResponseValue1 = standardresponsetxt.Text + "\r\n";
+                        text += (dg.Items[dg.SelectedIndex] as StandardSample).ResponseValue1 + " --> " + responsevaluetxt.Text + "\r\n";
+                        (dg.Items[dg.SelectedIndex] as StandardSample).ResponseValue1 = responsevaluetxt.Text ;
                         break;
                 }
                 //save to change log 
@@ -109,9 +108,7 @@ namespace SilverTest
                 sr.Write(text);
                 sr.Close();
                 aFile.Close();
-
                 this.Close();
-
             }
             else
             {
@@ -121,7 +118,6 @@ namespace SilverTest
                 //Application.Current.Properties["isshort"] = true;
                 login.ShowDialog();
             }
-
         }
     }
 }

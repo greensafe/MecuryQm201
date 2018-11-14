@@ -5,17 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SilverTest"
         WindowStartupLocation="CenterScreen"
-        WindowStyle="None"
+        ResizeMode="NoResize"
         mc:Ignorable="d"
         xmlns:system="clr-namespace:System;assembly=mscorlib"
-        Title="SetPortWnd" Height="300" Width="380.901" Initialized="Window_Initialized">
+        
+        Title="设置串口参数" Height="340" Width="380.901" Initialized="Window_Initialized" Icon="images/write.png">
     <Window.Resources>
         <x:Array x:Key="speedary" Type="system:String">
             <system:String>
                 300
             </system:String>
             <system:String>
-                600                
+                600
             </system:String>
             <system:String>
                 1200
@@ -99,8 +100,10 @@
                 <ComboBox x:Name="stopcombo" SelectedIndex="0" ItemsSource="{StaticResource ResourceKey=stopary}" Text="数据停止位" Height="30" VerticalAlignment="Top" Width="100" Margin="20,0,0,0"/>
             </StackPanel>
             <StackPanel DockPanel.Dock="Bottom" Height="50" Orientation="Horizontal">
-                <Button x:Name="applybtn" Content="应用" Height="30" Width="60" Margin="150,0,0,0" Click="applybtn_Click"></Button>
-                <Button x:Name="exitbtn" Content="取消" Height="30" Width="60" Margin="60,0,0,0" Click="exitbtn_Click"></Button>
+                <Canvas>
+                    <Button x:Name="applybtn" Content="应用" Height="30" Width="60" Click="applybtn_Click" Canvas.Left="91" Canvas.Top="10"/>
+                    <Button x:Name="exitbtn" Content="取消" Height="30" Width="60" Click="exitbtn_Click" Canvas.Left="227" Canvas.Top="10"/>
+                </Canvas>
             </StackPanel>
 
         </DockPanel>

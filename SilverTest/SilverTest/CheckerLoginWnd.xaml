@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:SilverTest"
         mc:Ignorable="d"
         Title="审核者登陆" Height="201.18" Width="319.528"
-        WindowStartupLocation="CenterScreen" Loaded="Window_Loaded">
+        
+        WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" Icon="images/admin.png">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="15*"/>
@@ -16,8 +17,8 @@
         <Label  Content="密码" HorizontalAlignment="Left" Margin="60,75,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
         <TextBox x:Name="checkerbtxt" HorizontalAlignment="Left" Height="23" Margin="22.33,37,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
         <TextBox x:Name="passwordtxt" HorizontalAlignment="Left" Height="23" Margin="22.33,79,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
-        <Button x:Name="okbtn" Content="确认" HorizontalAlignment="Left" Margin="46.33,127,0,0" VerticalAlignment="Top" Width="61" Click="Button_Click" Grid.Column="1"/>
-        <Button x:Name="exitbtn" Content="退出" HorizontalAlignment="Left" Margin="126.33,127,0,0" VerticalAlignment="Top" Width="58" Click="exitbtn_Click" Grid.Column="1"/>
+        <Button x:Name="okbtn" Content="确认" HorizontalAlignment="Left" Margin="60,127,0,0" VerticalAlignment="Top" Width="61" Click="Button_Click" Grid.ColumnSpan="2"/>
+        <Button x:Name="exitbtn" Content="退出" HorizontalAlignment="Left" Margin="104,127,0,0" VerticalAlignment="Top" Width="58" Click="exitbtn_Click" Grid.Column="1"/>
 
     </Grid>
 </Window>
