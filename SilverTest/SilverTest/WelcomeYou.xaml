@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:SilverTest"
         mc:Ignorable="d"
         WindowStyle="None"
@@ -20,17 +19,15 @@
         </Grid.Effect>
         <StackPanel Background="#FFB4DCFD">
             <DockPanel Height="30">
+                <!--
                 <materialDesign:PackIcon Kind="WindowClose" Foreground="Purple" DockPanel.Dock="Right" HorizontalAlignment="Right" Margin="0,5,5,0" MouseLeftButtonDown="PackIcon_MouseLeftButtonDown"/>
+                -->
             </DockPanel>
-            
-            
                 <TextBlock VerticalAlignment="Center" Margin="0 0 0 0"
                         FontSize="25" FontFamily="Monotype Corsiva"
                         TextAlignment="Center"
-                        >QM201H V2.0 荧光测试仪器</TextBlock>
-            
-            
-
+                        >QM201H V2.0 荧光测试仪器
+                </TextBlock>
             <StackPanel Height="250" Background="#FFB4DCFD" >
                 <Image Width="300" DockPanel.Dock="Left" Source="images/zong1.bmp" Margin="0,40,0,0"></Image>
             </StackPanel>

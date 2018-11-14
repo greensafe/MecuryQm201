@@ -3,10 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:local="clr-namespace:SilverTest"
         TextElement.FontSize="13"
-        FontFamily="{StaticResource MaterialDesignFont}" 
         BorderBrush="Purple"
         BorderThickness="1"
         mc:Ignorable="d"
@@ -22,11 +21,14 @@
         </Grid.Effect>
         <StackPanel x:Name="stackPanel" Background="White">
             <DockPanel Height="25" Width="{Binding ActualWidth, ElementName=stackPanel, Mode=OneWay}" Margin="0,5,0,0">
-                <materialDesign:PackIcon Kind="Account" Foreground="Gray" DockPanel.Dock="Left" Margin="5,0,2,0"/>
+                <iconPacks:PackIconMaterial Kind="Account" DockPanel.Dock="Left" Margin="5,0,3,0"/>
                 <TextBlock>登陆</TextBlock>
-                <materialDesign:PackIcon Kind="WindowClose" DockPanel.Dock="Right" HorizontalAlignment="Right"  Foreground="Purple" RenderTransformOrigin="2.22,0.762" 
+                <iconPacks:PackIconMaterial Kind="WindowClose" DockPanel.Dock="Right" HorizontalAlignment="Right"  
+                                         Foreground="Purple" RenderTransformOrigin="2.22,0.762" 
+                                         Background="White"
                                          Margin="0,0,5,0"
                                          MouseLeftButtonDown="PackIcon_MouseLeftButtonDown"/>
+                
             </DockPanel>
             <Separator></Separator>
             <DockPanel Height="46" LastChildFill="False">
