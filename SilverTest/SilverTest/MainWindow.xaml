@@ -22,12 +22,12 @@
         <ContextMenu x:Key="newtableMenu">
             <MenuItem Header="查看历史" Click="newtablemenu_showhistory">
                 <MenuItem.Icon>
-                    <Image Source="images\viewhistory.png" />
+                    <Image Source="images\viewhistory.png" Width="25" Height="25"/>
                 </MenuItem.Icon>
             </MenuItem>
             <MenuItem  x:Name="newsavedotsPMenu" Header="保存点值" Click="newsavedotsPMenu_Click">
                 <MenuItem.Icon>
-                    <Image Source="images\save.png" />
+                    <Image Source="images\save.png" Width="25" Height="25"/>
                 </MenuItem.Icon>
             </MenuItem>
             <MenuItem x:Name="newitemfullsavePMenu" Header="保存完整数据" Click="newitemfullsavePMenu_Click">
