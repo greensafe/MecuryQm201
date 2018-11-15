@@ -10,6 +10,7 @@
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:Feature="clr-namespace:BasicWaveChart.Feature.integral;assembly=BasicWaveChart"
         xmlns:System="clr-namespace:System;assembly=mscorlib"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"
@@ -237,21 +238,27 @@
             </DockPanel>
             <Separator DockPanel.Dock="Top" Height="3" Margin="0" VerticalAlignment="Top" Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}"/>
             <TabControl x:Name="sampletab" DockPanel.Dock="Top" SelectionChanged="sampletab_SelectionChanged">
-                <TabItem x:Name="newtabitem" Selector.Selected="OnNewTabSelected">
+                <TabItem x:Name="newtabitem" Selector.Selected="OnNewTabSelected" 
+                         controls:ControlsHelper.HeaderFontSize="18"
+                         Header="样品测试">
+                    <!--
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
-                            <!--<Ellipse Width="10" Height="10" Fill="DarkGray"/>-->
                             <TextBlock>样品测试</TextBlock>
                         </StackPanel>
                     </TabItem.Header>
+                    -->
                     <StackPanel>
-
                         <DataGrid x:Name="NewTargetDgd" Height="300" DockPanel.Dock="Top" 
                                   Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}" 
                                   CanUserAddRows="False"
                                   ItemsSource="{Binding}"  
                                   Margin="0,0,0,0" AutoGenerateColumns="False" CellEditEnding="NewTargetDgd_CellEditEnding" MouseRightButtonDown="NewTargetDgd_MouseRightButtonDown" LoadingRow="NewTargetDgd_LoadingRow">
-
+                            <DataGrid.Style>
+                                <Style BasedOn="{StaticResource MetroDataGrid}" TargetType="{x:Type DataGrid}">
+                                    <Setter Property="AlternatingRowBackground" Value="{DynamicResource GrayBrush7}" />
+                                </Style>
+                            </DataGrid.Style>
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="序号" Width="80" Binding="{Binding Code,Mode=TwoWay}" IsReadOnly="True"></DataGridTextColumn>
                                 <DataGridTextColumn Header="样品名" Width="80" Binding="{Binding NewName,Mode=TwoWay}"></DataGridTextColumn>
@@ -301,13 +308,27 @@
                         </DataGrid>
                     </StackPanel>
                 </TabItem>
-                <TabItem Selector.Selected="OnStandardTabSelected" x:Name="standardtabitem" Header="标样测试">
+                <TabItem Selector.Selected="OnStandardTabSelected" x:Name="standardtabitem" 
+                        controls:ControlsHelper.HeaderFontSize="18"
+                        Header="标样测试" >
+                    <!--
+                    <TabItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock>标样测试</TextBlock>
+                        </StackPanel>
+                    </TabItem.Header>
+                    -->
                     <StackPanel>
                         <DataGrid x:Name="standardSampleDgd" Height="300" DockPanel.Dock="Top" 
                                   Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}" 
                                   ItemsSource="{Binding}"
                                   CanUserAddRows="False"
                                   Margin="0,0,0,0" AutoGenerateColumns="False" SelectionChanged="standardSampleDgd_SelectionChanged" CellEditEnding="standardSampleDgd_CellEditEnding" MouseRightButtonDown="standardSampleDgd_MouseRightButtonDown" LoadingRow="standardSampleDgd_LoadingRow">
+                            <DataGrid.Style>
+                                <Style BasedOn="{StaticResource MetroDataGrid}" TargetType="{x:Type DataGrid}">
+                                    <Setter Property="AlternatingRowBackground" Value="{DynamicResource GrayBrush7}" />
+                                </Style>
+                            </DataGrid.Style>
                             <DataGrid.GroupStyle>
                                 <GroupStyle ContainerStyle="{StaticResource GroupHeaderStyle}">
                                     <GroupStyle.Panel>
