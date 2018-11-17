@@ -16,7 +16,7 @@ namespace BasicWaveChart.widget
      * dvalue - value of data, the min value is "1" . if it's 0.01, 0.002,0.003, should first convert to 1,2,3
      */
 
-    class XAxisCtl : Shape
+    class XAxisCtl : Canvas
     {
 
         protected double granulity_width = 1;               //the width of expected granulity
@@ -58,8 +58,8 @@ namespace BasicWaveChart.widget
         }
 
         public static readonly DependencyProperty XScaleMaxValueProperty = DependencyProperty.Register("XScaleMaxValue", typeof(int), typeof(XAxisCtl),
-            new UIPropertyMetadata(680,new PropertyChangedCallback(XScaleMaxValue_Changed)));
-
+            new UIPropertyMetadata(680));
+        /*
         private static void XScaleMaxValue_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             XAxisCtl self = d as XAxisCtl;
@@ -76,7 +76,7 @@ namespace BasicWaveChart.widget
                 return;  //try , ignore error;
             }
         }
-
+        */
         //how many dvalue that a scale include
         public int XScaleLineNumber
         {
@@ -121,15 +121,12 @@ namespace BasicWaveChart.widget
 
         public static readonly DependencyProperty XArrowStyleProperty = DependencyProperty.Register("XArrowStyle", typeof(ArrowStyleEnm), typeof(XAxisCtl));
         #endregion
-        
+
+        /*
         protected override Geometry DefiningGeometry
         {
             get
             {
-                /*
-                this.Stroke = new SolidColorBrush(Colors.Black);
-                this.StrokeThickness = 1;
-                */
 
                 YAxisCtl yaxisctl = this.FindName("yaxis") as YAxisCtl;
                 
@@ -211,9 +208,15 @@ namespace BasicWaveChart.widget
                 return pg;
             }
         }
+        */
 
+        #region public function
         public double GetGranulity()
         {
+            Canvas cp = this.Parent as Canvas;
+            ZoomPanel zp = cp.Parent as ZoomPanel;
+            BasicWaveChartUC p = zp.Parent as BasicWaveChartUC;
+            granulity_width = p.WindowCanvas_pen.Width / XScaleMaxValue;
             return granulity_width;
         }
 
@@ -229,7 +232,7 @@ namespace BasicWaveChart.widget
             return (int)(x / granulity_width);
         }
 
-        //redraw command
+        //redraw text command
         public void ReDrawTextCommentCmd()
         {
 
@@ -245,8 +248,9 @@ namespace BasicWaveChart.widget
             xaxis_text_canvas.Children.Add(new TextBlock());
             (xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock).Text = "0";
             (xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock).FontSize = 8;
-            Canvas.SetLeft((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), yaxis.Width);
+            Canvas.SetLeft((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), 0);
             Canvas.SetBottom((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), 0);
+            if (xaxis.XScaleLineNumber == 0) return;
             int loop = (int)(wavechartuc.NumberOfDValue / xaxis.XScaleLineNumber / xaxis.XCommentNumber);
 
             for (int i = 1; i < loop; i++)
@@ -255,7 +259,7 @@ namespace BasicWaveChart.widget
                 (xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock).Text =
                     (i * xaxis.XScaleLineNumber * xaxis.XCommentNumber).ToString();
                 (xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock).FontSize = 8;
-                Canvas.SetLeft((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), (i * xaxis.XScaleLineNumber * xaxis.XCommentNumber) * xaxis.GetGranulity() + yaxis.Width);
+                Canvas.SetLeft((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), (i * xaxis.XScaleLineNumber * xaxis.XCommentNumber) * xaxis.GetGranulity());
                 Canvas.SetBottom((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), 0);
             }
 
@@ -264,7 +268,7 @@ namespace BasicWaveChart.widget
             (xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock).Text =
                 (loop * xaxis.XScaleLineNumber * xaxis.XCommentNumber).ToString();
             (xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock).FontSize = 8;
-            Canvas.SetLeft((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), (loop * xaxis.XScaleLineNumber * xaxis.XCommentNumber) * xaxis.GetGranulity() + yaxis.Width);
+            Canvas.SetLeft((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), (loop * xaxis.XScaleLineNumber * xaxis.XCommentNumber) * xaxis.GetGranulity());
             Canvas.SetBottom((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), 0);
 
             //the max of dvalue
@@ -272,10 +276,82 @@ namespace BasicWaveChart.widget
             (xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock).Text =
                 wavechartuc.NumberOfDValue.ToString();  //todo replace 1187
             (xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock).FontSize = 8;
-            Canvas.SetLeft((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), wavechartuc.NumberOfDValue * xaxis.GetGranulity() + yaxis.Width); //todo replace the 1187
+            Canvas.SetLeft((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), wavechartuc.NumberOfDValue * xaxis.GetGranulity()); 
             Canvas.SetBottom((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), 0);
 
         }
+
+        //redraw scale command
+        public void ReDrawScaleCmd()
+        {
+            YAxisCtl yaxisctl = this.FindName("yaxis") as YAxisCtl;
+
+            BasicWaveChartUC wavechartuc = this.FindName("ControlContainer") as BasicWaveChartUC;
+            Canvas windowcanvas = wavechartuc.FindName("WindowCanvas") as Canvas;
+            Polyline xaxis_ply = wavechartuc.FindName("xaxis_ply") as Polyline;
+
+            //this.GetGranulity();
+            //this.windowwidth = wavechartuc.WindowCanvas_pen.Width;
+
+            //this.granulity_width = this.windowwidth / this.XScaleMaxValue;
+            //this.Width = this.granulity_width * wavechartuc.NumberOfDValue + this.arrowheight + yaxisctl.Width; //todo relace with numberofdvalues
+
+            xaxis_ply.Points.Clear();
+            double hlinevalue = this.Height - topblank;
+
+            //if (this.XScaleLineNumber == 0) this.XScaleLineNumber = 100;
+            if (this.XScaleLineNumber == 0)
+            {
+                return;
+            }
+            int scalenumber = (int)(wavechartuc.NumberOfDValue / this.XScaleLineNumber);
+            for (int i = 0; i <= scalenumber; i++)
+            {
+                xaxis_ply.Points.Add(new Point(i * XScaleLineNumber * granulity_width , hlinevalue));
+                if (i % this.XCommentNumber == 0)
+                {
+                    xaxis_ply.Points.Add(new Point(i * XScaleLineNumber * granulity_width, hlinevalue - bigScaleHeight));
+                }
+                else
+                {
+                    xaxis_ply.Points.Add(new Point(i * XScaleLineNumber * granulity_width, hlinevalue - littleScaleHeight));
+                }
+                xaxis_ply.Points.Add(new Point(i * XScaleLineNumber * granulity_width , hlinevalue));
+            }
+
+            xaxis_ply.Points.Add(new Point(wavechartuc.NumberOfDValue * granulity_width, hlinevalue)); //todo replace
+            xaxis_ply.Points.Add(new Point(wavechartuc.NumberOfDValue * granulity_width, hlinevalue - 20));  //todo replace
+            xaxis_ply.Points.Add(new Point(wavechartuc.NumberOfDValue * granulity_width, hlinevalue)); //todo replace
+
+            //pf.Segments.Add(ScaleSeg);
+            //PolyLineSegment arrowseg = new PolyLineSegment();
+
+            switch (this.XArrowStyle)
+            {
+                case ArrowStyleEnm.SOLID:
+                case ArrowStyleEnm.HOLLOW:
+                    {
+
+                        xaxis_ply.Points.Add(new Point(this.Width - wavechartuc.RightBlankZone - this.arrowheight, hlinevalue));
+                        xaxis_ply.Points.Add(new Point(this.Width - wavechartuc.RightBlankZone - this.arrowheight, hlinevalue - this.arrowheight / 2));
+                        xaxis_ply.Points.Add(new Point(this.Width - wavechartuc.RightBlankZone - this.arrowheight, hlinevalue + this.arrowheight / 2));
+                        xaxis_ply.Points.Add(new Point(this.Width - wavechartuc.RightBlankZone, hlinevalue));
+                        xaxis_ply.Points.Add(new Point(this.Width - wavechartuc.RightBlankZone - this.arrowheight, hlinevalue - this.arrowheight / 2));
+                        //pf.IsFilled = true;
+                        break;
+                    }
+                case ArrowStyleEnm.NONE:
+                default:
+                    {
+                        xaxis_ply.Points.Add(new Point(this.Width - wavechartuc.RightBlankZone, hlinevalue));
+                        break;
+                    }
+            }
+            //pf.Segments.Add(arrowseg);
+
+            //return pg;
+        }
+        #endregion
     }
 }
 

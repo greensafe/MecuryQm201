@@ -175,7 +175,8 @@ namespace BasicWaveChart.widget
             //try to keep the XCommentNumber is 10
             xaxis.XScaleLineNumber = (int)(all / xaxis.XCommentNumber/5);
             parent.SetScale(0, all, 0,0);
-            parent.NumberOfDValue = all;
+            //parent.NumberOfDValue = all;
+            parent.SetNumberOfDValueP(all);
         }
 
         //

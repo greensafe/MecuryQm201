@@ -74,7 +74,7 @@
         </ContextMenu>
     </UserControl.Resources>
     <widget:ZoomPanel x:Name="zoompanel"  Ratio="{Binding RatioS, ElementName=ControlContainer}">
-        <Canvas x:Name="basecanvas" Background="{StaticResource gridbrush}" ClipToBounds="True">
+        <Canvas x:Name="basecanvas" Background="{StaticResource gridbrush}" ClipToBounds="False">
             <Canvas.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleY="-1"/>
@@ -94,7 +94,7 @@
                     Canvas.Top="{Binding Height, ElementName=xaxis_pen}" Loaded="WindowCanvas_pen_Loaded">
             </Canvas>            
             <!-- pencil line part end-->
-            <widget:YAxisCtl x:Name="yaxis" Stroke="Red" StrokeThickness="1" Width="50" 
+            <widget:YAxisCtl x:Name="yaxis" Stroke="Black" StrokeThickness="1" Width="50" 
                              ClipToBounds="False"
                              YScaleMaxValue="50"
                              YScaleLineNumber="1000"
@@ -112,27 +112,34 @@
                     </TransformGroup>
                 </Canvas.RenderTransform>
             </Canvas>
-            <widget:XAxisCtl x:Name="xaxis" Stroke="Black" StrokeThickness="1" Height="30" 
-                             ClipToBounds="False"
+            <widget:XAxisCtl x:Name="xaxis" Height="{Binding Height, ElementName=xaxis_pen}" 
+                             ClipToBounds="True"
                              XScaleMaxValue="2000"
                              XScaleLineNumber="100"
                              XCommentNumber="5"
                              XArrowStyle="NONE"
                              XArrowheight="10"
                              Panel.ZIndex="1"
-                             Width="{Binding ActualWidth, ElementName=xaxis_pen, Mode=OneWay}" Loaded="xaxis_Loaded" Canvas.Left="{Binding Value, ElementName=moveslider}" />
-            <Canvas x:Name="xaxis_text_canvas" Height="30"  Opacity="0.5"
+                             Loaded="xaxis_Loaded" 
+                             Canvas.Left="{Binding Width, ElementName=yaxis_pen}" 
+                             >
+                <Polyline x:Name="xaxis_ply" Width="100" 
+                          Height="{Binding Height, ElementName=xaxis_pen}" 
+                          Stroke="Black" StrokeThickness="1" 
+                          Canvas.Left="{Binding Value, ElementName=moveslider}">
+                </Polyline>
+                <Canvas x:Name="xaxis_text_canvas" Height="30"  Opacity="0.5"
                     Canvas.Left="{Binding Value, ElementName=moveslider}"
                     Panel.ZIndex="1"
-                    Width="{Binding ActualWidth, ElementName=basecanvas, Mode=OneWay}" Loaded="xaxis_text_canvas_Loaded" Unloaded="xaxis_text_canvas_Unloaded" SizeChanged="xaxis_text_canvas_SizeChanged" 
                     >
-                <Canvas.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform ScaleY="-1"/>
-                        <TranslateTransform Y="{Binding ActualHeight, ElementName=xaxis_text_canvas, Mode=OneWay}"/>
-                    </TransformGroup>
-                </Canvas.RenderTransform>
-            </Canvas>
+                    <Canvas.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="-1"/>
+                            <TranslateTransform Y="{Binding ActualHeight, ElementName=xaxis_text_canvas, Mode=OneWay}"/>
+                        </TransformGroup>
+                    </Canvas.RenderTransform>
+                </Canvas>
+            </widget:XAxisCtl>
             <Slider Panel.ZIndex="10" x:Name="moveslider"
                     Visibility="Hidden"
                     Value="0"
@@ -155,7 +162,6 @@
                                        Canvas.Left="{Binding Value, ElementName=moveslider}" 
                                        Height="{Binding ActualHeight, ElementName=WindowCanvas_pen, Mode=OneWay}" />
             </Canvas>
-            <Canvas Panel.ZIndex="9" Background="White" Width="{Binding Width, ElementName=yaxis}" Height="{Binding Height, ElementName=xaxis}"></Canvas>
         </Canvas>
     </widget:ZoomPanel>
 </UserControl>

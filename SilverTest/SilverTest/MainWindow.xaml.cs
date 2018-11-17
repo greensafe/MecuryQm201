@@ -510,7 +510,8 @@ namespace SilverTest
                             DotManager.GetDotManger().ReleaseData();
                             //清理绘波现场
                             realCpt.SetScale(100, 2000, 0, 50);
-                            realCpt.NumberOfDValue = 200000;
+                            //realCpt.NumberOfDValue = 200000;
+                            realCpt.SetNumberOfDValueP(200000);
                             WaveDrawSite.to_pos_index_rel = 0;
                             realCpt.ClearData();
 
@@ -586,7 +587,8 @@ namespace SilverTest
                             DotManager.GetDotManger().ReleaseData();
                             //清理绘波现场
                             realCpt.SetScale(100, 2000, 0, 50);
-                            realCpt.NumberOfDValue = 200000;
+                            //realCpt.NumberOfDValue = 200000;
+                            realCpt.SetNumberOfDValueP(200000);
                             WaveDrawSite.to_pos_index_rel = 0;
                             realCpt.ClearData();
 
@@ -2038,7 +2040,8 @@ namespace SilverTest
            
             //载入波形
             realCpt.SetScale(100, 2000, 0, 50);
-            realCpt.NumberOfDValue = 200000;
+            //realCpt.NumberOfDValue = 200000;
+            realCpt.SetNumberOfDValueP(200000);
             realCpt.ClearData();
             int xscale = 0;
             int yscale = 0;
