@@ -45,7 +45,7 @@ namespace BasicWaveChart
                 wavechart.basecanvas.Children.Remove(wavechart.xaxis);
                 wavechart.basecanvas.Children.Add(xa);
                 xa.ReDrawTextCommentCmd();
-                wavechart.moveslider.Minimum = -(xa.GetGranulity() * wavechart.NumberOfDValue - wavechart.xmark.lineinfo.observeWinWidth);
+                wavechart.moveslider.Minimum = -(xa.GetGranulity() * wavechart.NumberOfDValue - wavechart.WindowCanvas_pen.Width);
                 wavechart.optimizeCanvas.Width = xa.GetGranulity() * wavechart.NumberOfDValue;
             }
             catch
@@ -149,34 +149,34 @@ namespace BasicWaveChart
 
         private void ControlContainer_Loaded(object sender, RoutedEventArgs e)
         {
-            //init marker
-            xmark.lineinfo.RightBlankZone = this.RightBlankZone;
-            xmark.lineinfo.arrowheight = 10;
-            xmark.lineinfo.observeWinWidth = basecanvas.ActualWidth - yaxis.Width - xmark.lineinfo.arrowheight
-                - this.RightBlankZone;
-            xmark.lineinfo.ostart = yaxis.Width;
+            /*
+            //refresh xaxis
+            WindowCanvas_pen.Width = xaxis_pen.Width - yaxis_pen.Width - this.RightBlankZone - xaxis.XArrowheight;
+            WindowCanvas_pen.Height = yaxis_pen.Height - xaxis_pen.Height - this.TopBlankZone - yaxis.YArrowheight;
 
-            optimizeCanvas.Height = yaxis.Height - xaxis.Height - this.TopBlankZone - yaxis.YArrowheight;
+            XAxisCtl xa = xaxis;
+            basecanvas.Children.Remove(xaxis);
+            basecanvas.Children.Add(xa);
+
+            optimizeCanvas.Height = yaxis_pen.Height - xaxis_pen.Height - this.TopBlankZone - yaxis.YArrowheight;
             int temp = xaxis.XScaleMaxValue;
             xaxis.XScaleMaxValue = 1;
             xaxis.XScaleMaxValue = temp;
             optimizeCanvas.Width = this.NumberOfDValue * xaxis.GetGranulity();
 
-            WindowCanvas.Width = xaxis.Width - yaxis.Width - this.RightBlankZone - xaxis.XArrowheight;
-            WindowCanvas.Height = yaxis.Height - xaxis.Height - this.TopBlankZone - yaxis.YArrowheight;
-
-            moveslider.Minimum = -(xaxis.GetGranulity()*this.NumberOfDValue - WindowCanvas.Width);
+            try
+            {
+                moveslider.Minimum = -(xaxis.GetGranulity() * this.NumberOfDValue - WindowCanvas_pen.Width);
+            }catch(Exception ex)
+            {
+                return;
+            }
 
             ContextMenu wavemenu = this.FindResource("wavemenu") as ContextMenu;
             wavemenu.PlacementTarget = optimizeCanvas;
 
-            //refresh xaxis
-            XAxisCtl xa = xaxis;
-            basecanvas.Children.Remove(xaxis);
-            basecanvas.Children.Add(xa);
-
             this.OnScaleChanged(optimizeCanvas.ScaleChangedHdlr);
-
+            */
         }
 
         private void xaxis_text_canvas_Unloaded(object sender, RoutedEventArgs e)
@@ -306,11 +306,6 @@ namespace BasicWaveChart
                 moveslider.Visibility = Visibility.Hidden;
                 menu.Header = "移动";
             }
-        }
-
-        private void WindowCanvas_Loaded(object sender, RoutedEventArgs e)
-        {
-            xmark.lineinfo.RightBlankZone = this.RightBlankZone;
         }
 
         private void ControlContainer_Initialized(object sender, EventArgs e)
@@ -494,6 +489,39 @@ namespace BasicWaveChart
         private void xaxis_Loaded(object sender, RoutedEventArgs e)
         {
             ;
+        }
+
+        private void WindowCanvas_pen_Loaded(object sender, RoutedEventArgs e)
+        {
+
+            //refresh xaxis
+            WindowCanvas_pen.Width = xaxis_pen.Width - yaxis_pen.Width - this.RightBlankZone - xaxis.XArrowheight;
+            WindowCanvas_pen.Height = yaxis_pen.Height - xaxis_pen.Height - this.TopBlankZone - yaxis.YArrowheight;
+
+            XAxisCtl xa = xaxis;
+            basecanvas.Children.Remove(xaxis);
+            basecanvas.Children.Add(xa);
+
+            optimizeCanvas.Height = yaxis_pen.Height - xaxis_pen.Height - this.TopBlankZone - yaxis.YArrowheight;
+            int temp = xaxis.XScaleMaxValue;
+            xaxis.XScaleMaxValue = 1;
+            xaxis.XScaleMaxValue = temp;
+            optimizeCanvas.Width = this.NumberOfDValue * xaxis.GetGranulity();
+
+            try
+            {
+                moveslider.Minimum = -(xaxis.GetGranulity() * this.NumberOfDValue - WindowCanvas_pen.Width);
+            }
+            catch (Exception ex)
+            {
+                return;
+            }
+
+            ContextMenu wavemenu = this.FindResource("wavemenu") as ContextMenu;
+            wavemenu.PlacementTarget = optimizeCanvas;
+
+            this.OnScaleChanged(optimizeCanvas.ScaleChangedHdlr);
+
         }
     }
 }

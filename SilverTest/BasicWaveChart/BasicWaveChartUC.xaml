@@ -81,10 +81,19 @@
                     <TranslateTransform Y="{Binding ActualHeight, ElementName=basecanvas, Mode=OneWay}"/>
                 </TransformGroup>
             </Canvas.RenderTransform>
-            <widget:MarkLine x:Name="ymark" Height="{Binding ActualHeight, ElementName=basecanvas, Mode=OneWay}" 
-                              Width="50"></widget:MarkLine>
-            <widget:MarkLine x:Name="xmark" Width="{Binding ActualWidth, ElementName=basecanvas, Mode=OneWay}"
-                             Height="30" ></widget:MarkLine>
+            <!-- penci line part start -->
+            <Canvas x:Name="xaxis_pen" Height="30" 
+                             ClipToBounds="True"
+                             Width="{Binding ActualWidth, ElementName=basecanvas, Mode=OneWay}"/>
+            <Canvas  x:Name="yaxis_pen" Width="50" 
+                             ClipToBounds="True"
+                             Height="{Binding ActualHeight, ElementName=basecanvas, Mode=OneWay}" />
+            <Canvas x:Name="WindowCanvas_pen"
+                    ClipToBounds="True"
+                    Canvas.Left="{Binding Width, ElementName=yaxis_pen}" 
+                    Canvas.Top="{Binding Height, ElementName=xaxis_pen}" Loaded="WindowCanvas_pen_Loaded">
+            </Canvas>            
+            <!-- pencil line part end-->
             <widget:YAxisCtl x:Name="yaxis" Stroke="Red" StrokeThickness="1" Width="50" 
                              ClipToBounds="False"
                              YScaleMaxValue="50"
@@ -92,7 +101,7 @@
                              YCommentNumber="5"
                              YArrowStyle="NONE"
                              YArrowheight="10"
-                             Height="{Binding ActualHeight, ElementName=basecanvas, Mode=OneWay}"  />
+                             Height="{Binding ActualHeight, ElementName=yaxis_pen, Mode=OneWay}"  />
             <Canvas x:Name="yaxis_text_canvas" Width="50" Opacity="0.5"
                     Height="{Binding ActualHeight, ElementName=basecanvas, Mode=OneWay}" Loaded="yaxis_text_canvas_Loaded" 
                     >
@@ -111,7 +120,7 @@
                              XArrowStyle="NONE"
                              XArrowheight="10"
                              Panel.ZIndex="1"
-                             Width="{Binding ActualWidth, ElementName=basecanvas, Mode=OneWay}" Loaded="xaxis_Loaded" Canvas.Left="{Binding Value, ElementName=moveslider}" />
+                             Width="{Binding ActualWidth, ElementName=xaxis_pen, Mode=OneWay}" Loaded="xaxis_Loaded" Canvas.Left="{Binding Value, ElementName=moveslider}" />
             <Canvas x:Name="xaxis_text_canvas" Height="30"  Opacity="0.5"
                     Canvas.Left="{Binding Value, ElementName=moveslider}"
                     Panel.ZIndex="1"
@@ -128,19 +137,23 @@
                     Visibility="Hidden"
                     Value="0"
                     Maximum="0"
-                    Canvas.Left="{Binding Width, ElementName=yaxis}"
+                    Canvas.Left="{Binding Width, ElementName=yaxis_pen}"
                     Canvas.Top="10"
                     Height="10" Minimum="-30000" ValueChanged="moveslider_ValueChanged" 
-                    Width="{Binding Width, ElementName=WindowCanvas}"></Slider>
+                    Width="{Binding Width, ElementName=WindowCanvas_pen}"></Slider>
             <Canvas x:Name="WindowCanvas" Opacity="0.5"
                     ClipToBounds="True"
                     Panel.ZIndex="9"
-                    Canvas.Left="{Binding Width, ElementName=yaxis}" 
-                    Canvas.Top="{Binding Height, ElementName=xaxis}" Loaded="WindowCanvas_Loaded">
+                    Canvas.Left="{Binding Width, ElementName=yaxis_pen}" 
+                    Canvas.Top="{Binding Height, ElementName=xaxis_pen}" 
+                    Height="{Binding ActualHeight, ElementName=WindowCanvas_pen, Mode=OneWay}"
+                    Width="{Binding ActualWidth, ElementName=WindowCanvas_pen, Mode=OneWay}" >
                 <widget:OptimizeCanvas x:Name="optimizeCanvas"  Opacity="0.6"
                                        Background="LightBlue"
-                                       Loaded="optimizeCanvas_Loaded_1" MouseRightButtonDown="optimizeCanvas_MouseRightButtonDown"
-                                       Canvas.Left="{Binding Value, ElementName=moveslider}" />
+                                       Loaded="optimizeCanvas_Loaded_1" 
+                                       MouseRightButtonDown="optimizeCanvas_MouseRightButtonDown"
+                                       Canvas.Left="{Binding Value, ElementName=moveslider}" 
+                                       Height="{Binding ActualHeight, ElementName=WindowCanvas_pen, Mode=OneWay}" />
             </Canvas>
             <Canvas Panel.ZIndex="9" Background="White" Width="{Binding Width, ElementName=yaxis}" Height="{Binding Height, ElementName=xaxis}"></Canvas>
         </Canvas>

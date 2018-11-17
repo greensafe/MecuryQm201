@@ -65,12 +65,11 @@ namespace BasicWaveChart.widget
             XAxisCtl self = d as XAxisCtl;
             YAxisCtl yaxisctl = self.FindName("yaxis") as YAxisCtl;
             BasicWaveChartUC wavechartuc = self.FindName("ControlContainer") as BasicWaveChartUC;
-            MarkLine xmark = wavechartuc.FindName("xmark") as MarkLine;
-            if (self == null || yaxisctl == null || xmark == null) return;
+            if (self == null || yaxisctl == null ) return;
 
             try
             {
-                self.granulity_width = xmark.lineinfo.observeWinWidth / self.XScaleMaxValue;
+                self.granulity_width = wavechartuc.WindowCanvas_pen.Width / self.XScaleMaxValue;
             }
             catch
             {
@@ -127,10 +126,16 @@ namespace BasicWaveChart.widget
         {
             get
             {
+                /*
+                this.Stroke = new SolidColorBrush(Colors.Black);
+                this.StrokeThickness = 1;
+                */
+
                 YAxisCtl yaxisctl = this.FindName("yaxis") as YAxisCtl;
+                
+
                 BasicWaveChartUC wavechartuc = this.FindName("ControlContainer") as BasicWaveChartUC;
                 Canvas windowcanvas = wavechartuc.FindName("WindowCanvas") as Canvas;
-                MarkLine xmark = wavechartuc.FindName("xmark") as MarkLine;
 
                 PathGeometry pg = new PathGeometry();
 
@@ -145,7 +150,7 @@ namespace BasicWaveChart.widget
                 }
                 try
                 {
-                    this.windowwidth = xmark.lineinfo.observeWinWidth;
+                    this.windowwidth = wavechartuc.WindowCanvas_pen.Width;
                 }
                 catch
                 {
@@ -153,7 +158,7 @@ namespace BasicWaveChart.widget
                     return pg;
                 }
                 this.granulity_width =  this.windowwidth / this.XScaleMaxValue;
-                this.Width = this.granulity_width * wavechartuc.NumberOfDValue + xmark.lineinfo.arrowheight + xmark.lineinfo.ostart; //todo relace with numberofdvalues
+                this.Width = this.granulity_width * wavechartuc.NumberOfDValue + this.arrowheight + yaxisctl.Width; //todo relace with numberofdvalues
 
                 double hlinevalue = this.Height - topblank;
                 
