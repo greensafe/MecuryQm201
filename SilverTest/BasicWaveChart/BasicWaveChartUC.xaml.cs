@@ -36,26 +36,6 @@ namespace BasicWaveChart
         public static readonly DependencyProperty NumberOfDValueProperty = DependencyProperty.Register("NumberOfDValue", typeof(int), typeof(BasicWaveChartUC),
             new UIPropertyMetadata(1000));
 
-        private static void NumberOfDValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            /*
-            try //try to refresh the xaxis and xaxis_comment_cannvas
-            {
-                BasicWaveChartUC wavechart = d as BasicWaveChartUC;
-                XAxisCtl xa = wavechart.xaxis;
-                wavechart.basecanvas.Children.Remove(wavechart.xaxis);
-                wavechart.basecanvas.Children.Add(xa);
-                xa.ReDrawTextCommentCmd();
-                wavechart.moveslider.Minimum = -(xa.GetGranulity() * wavechart.NumberOfDValue - wavechart.WindowCanvas_pen.Width);
-                wavechart.optimizeCanvas.Width = xa.GetGranulity() * wavechart.NumberOfDValue;
-            }
-            catch
-            {
-                Console.WriteLine("ignore error: refresh xaxis fail");
-            }
-            */
-        }
-
         public void SetNumberOfDValueP(int n)
         {
             NumberOfDValue = n;
@@ -63,8 +43,6 @@ namespace BasicWaveChart
             //refresh the xaxis and xaxis_comment_cannvas
             BasicWaveChartUC wavechart = this;
             XAxisCtl xa = wavechart.xaxis;
-            //wavechart.basecanvas.Children.Remove(wavechart.xaxis);
-            //wavechart.basecanvas.Children.Add(xa);
             xa.ReDrawTextCommentCmd();
             xa.ReDrawScaleCmd();
             wavechart.moveslider.Minimum = -(xa.GetGranulity() * wavechart.NumberOfDValue - wavechart.WindowCanvas_pen.Width);
@@ -171,26 +149,14 @@ namespace BasicWaveChart
             WindowCanvas_pen.Height = yaxis_pen.Height - xaxis_pen.Height - this.TopBlankZone - yaxis.YArrowheight;
 
             xaxis.Width = basecanvas.ActualWidth - yaxis_pen.Width;
-            /*
-            XAxisCtl xa = xaxis;
-            basecanvas.Children.Remove(xaxis);
-            basecanvas.Children.Add(xa);
-            */
-
-            //optimizeCanvas.Height = yaxis_pen.Height - xaxis_pen.Height - this.TopBlankZone - yaxis.YArrowheight;
             optimizeCanvas.Height = WindowCanvas_pen.Height;
-            /*
-            int temp = xaxis.XScaleMaxValue;
-            xaxis.XScaleMaxValue = 1;
-            xaxis.XScaleMaxValue = temp;
-            */
             optimizeCanvas.Width = this.NumberOfDValue * xaxis.GetGranulity();
             xaxis_ply.Width = this.NumberOfDValue * xaxis.GetGranulity();
             xaxis_text_canvas.Width = xaxis.GetGranulity() * this.NumberOfDValue + yaxis.Width;
 
             xaxis.ReDrawScaleCmd();
             xaxis.ReDrawTextCommentCmd();
-            //xaxis_ply.Points.Add(new Point(xaxis_ply.Width,0));
+            
             try
             {
                 moveslider.Minimum = -(xaxis.GetGranulity() * this.NumberOfDValue - WindowCanvas_pen.Width);
@@ -206,50 +172,7 @@ namespace BasicWaveChart
 
         }
 
-        /*
-        private void xaxis_text_canvas_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            
-            //add the scale text
-
-            //0
-            xaxis_text_canvas.Children.Clear();
-            xaxis_text_canvas.Children.Add(new TextBlock());
-            (xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock).Text = "0";
-            (xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock).FontSize = 8;
-            Canvas.SetLeft((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), yaxis.Width);
-            Canvas.SetBottom((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), 0);
-            int loop = (int)(this.NumberOfDValue / xaxis.XScaleLineNumber / xaxis.XCommentNumber); //todo relace 1187
-
-            for (int i = 1; i < loop; i++)
-            {
-                xaxis_text_canvas.Children.Add(new TextBlock());
-                (xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock).Text =
-                    (i * xaxis.XScaleLineNumber * xaxis.XCommentNumber).ToString();
-                (xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock).FontSize = 8;
-                Canvas.SetLeft((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), (i * xaxis.XScaleLineNumber * xaxis.XCommentNumber) * xaxis.GetGranulity() + yaxis.Width);
-                Canvas.SetBottom((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), 0);
-            }
-
-            //the text of last big scale
-            xaxis_text_canvas.Children.Add(new TextBlock());
-            (xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock).Text =
-                (loop * xaxis.XScaleLineNumber * xaxis.XCommentNumber).ToString();
-            (xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock).FontSize = 8;
-            Canvas.SetLeft((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), (loop * xaxis.XScaleLineNumber * xaxis.XCommentNumber) * xaxis.GetGranulity() + yaxis.Width);
-            Canvas.SetBottom((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), 0);
-
-            //the max of dvalue
-            xaxis_text_canvas.Children.Add(new TextBlock());
-            (xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock).Text =
-                this.NumberOfDValue.ToString();  //todo replace 1187
-            (xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock).FontSize = 8;
-            Canvas.SetLeft((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), this.NumberOfDValue * xaxis.GetGranulity() + yaxis.Width); //todo replace the 1187
-            Canvas.SetBottom((xaxis_text_canvas.Children[xaxis_text_canvas.Children.Count - 1] as TextBlock), 0);
-
-
-        }
-                    */
+  
         private void yaxis_text_canvas_Loaded(object sender, RoutedEventArgs e)
         {
           
@@ -287,13 +210,7 @@ namespace BasicWaveChart
                 yaxis.YScaleMaxValue.ToString();
             (yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock).FontSize = 8;
             Canvas.SetLeft((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock), 0);
-            //Canvas.SetBottom((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock), xaxis.Height + yaxis.YScaleMaxValue * yaxis.GetGranulity()-20);
             Canvas.SetBottom((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock), xaxis.Height + yaxis.YScaleMaxValue*yaxis.GetGranulity());
-        }
-
-        private void optimizeCanvas_Loaded_1(object sender, RoutedEventArgs e)
-        {
-
         }
 
         private void optimizeCanvas_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
@@ -512,37 +429,5 @@ namespace BasicWaveChart
             ;
         }
 
-        private void WindowCanvas_pen_Loaded(object sender, RoutedEventArgs e)
-        {
-            /*
-            //refresh xaxis
-            WindowCanvas_pen.Width = xaxis_pen.Width - yaxis_pen.Width - this.RightBlankZone - xaxis.XArrowheight;
-            WindowCanvas_pen.Height = yaxis_pen.Height - xaxis_pen.Height - this.TopBlankZone - yaxis.YArrowheight;
-
-            XAxisCtl xa = xaxis;
-            basecanvas.Children.Remove(xaxis);
-            basecanvas.Children.Add(xa);
-
-            optimizeCanvas.Height = yaxis_pen.Height - xaxis_pen.Height - this.TopBlankZone - yaxis.YArrowheight;
-            int temp = xaxis.XScaleMaxValue;
-            xaxis.XScaleMaxValue = 1;
-            xaxis.XScaleMaxValue = temp;
-            optimizeCanvas.Width = this.NumberOfDValue * xaxis.GetGranulity();
-
-            try
-            {
-                moveslider.Minimum = -(xaxis.GetGranulity() * this.NumberOfDValue - WindowCanvas_pen.Width);
-            }
-            catch (Exception ex)
-            {
-                return;
-            }
-
-            ContextMenu wavemenu = this.FindResource("wavemenu") as ContextMenu;
-            wavemenu.PlacementTarget = optimizeCanvas;
-
-            this.OnScaleChanged(optimizeCanvas.ScaleChangedHdlr);
-            */
-        }
     }
 }

@@ -1774,24 +1774,6 @@ namespace SilverTest
 
         private void rs232connectedbtn_MouseEnter(object sender, MouseEventArgs e)
         {
-            try
-            {
-                /*
-                tipinfocanvas.Visibility = Visibility.Visible;
-                bautratetxt.Text = SerialDriver.GetDriver().rate.ToString();
-                adjusttxt.Text = SerialDriver.GetDriver().parity.ToString();
-                stopbittxt.Text = SerialDriver.GetDriver().stopbits.ToString();
-                */
-            }
-            catch { }
-            //todo show the connected infomation
-            //throw new NotImplementedException();
-            
-        }
-
-        private void rs232connectedbtn_MouseLeave(object sender, MouseEventArgs e)
-        {
-            //tipinfocanvas.Visibility = Visibility.Hidden;
             
         }
 

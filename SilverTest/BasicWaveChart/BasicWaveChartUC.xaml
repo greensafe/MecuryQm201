@@ -91,7 +91,7 @@
             <Canvas x:Name="WindowCanvas_pen"
                     ClipToBounds="True"
                     Canvas.Left="{Binding Width, ElementName=yaxis_pen}" 
-                    Canvas.Top="{Binding Height, ElementName=xaxis_pen}" Loaded="WindowCanvas_pen_Loaded">
+                    Canvas.Top="{Binding Height, ElementName=xaxis_pen}">
             </Canvas>            
             <!-- pencil line part end-->
             <widget:YAxisCtl x:Name="yaxis" Stroke="Black" StrokeThickness="1" Width="50" 
@@ -157,7 +157,6 @@
                     Width="{Binding ActualWidth, ElementName=WindowCanvas_pen, Mode=OneWay}" >
                 <widget:OptimizeCanvas x:Name="optimizeCanvas"  Opacity="0.6"
                                        Background="LightBlue"
-                                       Loaded="optimizeCanvas_Loaded_1" 
                                        MouseRightButtonDown="optimizeCanvas_MouseRightButtonDown"
                                        Canvas.Left="{Binding Value, ElementName=moveslider}" 
                                        Height="{Binding ActualHeight, ElementName=WindowCanvas_pen, Mode=OneWay}" />

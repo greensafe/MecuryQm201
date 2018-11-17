@@ -135,17 +135,11 @@ namespace BasicWaveChart.widget
                 pg.Figures.Add(pf);
 
                 double vlinevalue = this.Width - rightblank;
-                /*
-                PolyLineSegment axisSeg = new PolyLineSegment();
-                //pf.StartPoint = new Point(yaxisctl.Width, this.Height - topblank);
-                axisSeg.Points.Add(new Point(yaxisctl.Width, hlinevalue));
-                axisSeg.Points.Add(new Point(this.Width - arrowheight, hlinevalue));
-                pf.Segments.Add(axisSeg);
-                */
 
                 PolyLineSegment ScaleSeg = new PolyLineSegment();
                 if (this.YScaleLineNumber == 0) this.YScaleLineNumber = 100;
                 int scalenumber = (int)(this.YScaleMaxValue / this.YScaleLineNumber);
+                pf.StartPoint = new Point(vlinevalue, xaxisctl.Height);
                 for (int i = 0; i <= scalenumber; i++)
                 {
                     ScaleSeg.Points.Add(new Point(vlinevalue, i * YScaleLineNumber * granulity_width + xaxisctl.Height));

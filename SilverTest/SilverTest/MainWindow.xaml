@@ -159,28 +159,12 @@
                 </Canvas>
                 <Canvas x:Name="rs232connectedBorder" Width="32" DockPanel.Dock="Right" Panel.ZIndex="9"
                         Visibility="Collapsed">
-                    <Button x:Name="rs232connectedbtn" Width="28" Height="28" DockPanel.Dock="Right" Background="Transparent" BorderThickness="0" Click="rs232connectedbtn_Click" MouseEnter="rs232connectedbtn_MouseEnter" 
+                    <Button x:Name="rs232connectedbtn" Width="28" Height="28" DockPanel.Dock="Right" Background="Transparent" BorderThickness="0" Click="rs232connectedbtn_Click"
                             Padding="0"
-                            MouseLeave="rs232connectedbtn_MouseLeave">
+                            >
                         <iconPacks:PackIconMaterial Kind="Usb" Foreground="Black" Height="28" Width="28"/>
                     </Button>
-                    <!--
-                    <Canvas x:Name="tipinfocanvas" Canvas.Left="-100" Canvas.Top="50" 
-                            Width="100" Height="80" Background="LightBlue" Opacity="0.3"
-                            Visibility="Visible"
-                            >
-                        <StackPanel Width="40" Height="80">
-                            <TextBlock>波特率:</TextBlock>
-                            <TextBlock>校验位:</TextBlock>
-                            <TextBlock>停止位:</TextBlock>
-                        </StackPanel>
-                        <StackPanel Width="40" Height="80" Canvas.Left="45">
-                            <TextBlock x:Name="bautratetxt">1</TextBlock>
-                            <TextBlock x:Name="adjusttxt">2</TextBlock>
-                            <TextBlock x:Name="stopbittxt">3</TextBlock>
-                        </StackPanel>
-                    </Canvas>
-                    -->
+                    
                 </Canvas>
                 <TextBlock x:Name="comnameblk" DockPanel.Dock="Right" VerticalAlignment="Center" Width="50" TextAlignment="Right" HorizontalAlignment="Right"></TextBlock>
                 <ToolBarTray x:Name="toolBarTray" Height="32" Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}" DockPanel.Dock="Left" MouseLeftButtonDown="toolBarTray_MouseLeftButtonDown">
@@ -241,13 +225,7 @@
                 <TabItem x:Name="newtabitem" Selector.Selected="OnNewTabSelected" 
                          controls:ControlsHelper.HeaderFontSize="18"
                          Header="样品测试">
-                    <!--
-                    <TabItem.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock>样品测试</TextBlock>
-                        </StackPanel>
-                    </TabItem.Header>
-                    -->
+
                     <StackPanel>
                         <DataGrid x:Name="NewTargetDgd" Height="300" DockPanel.Dock="Top" 
                                   Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}" 
@@ -287,23 +265,7 @@
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
-                                <!--
-                                <DataGridComboBoxColumn x:Name="test" Header="test">
-                                    <DataGridComboBoxColumn.EditingElementStyle>
-                                        <Style TargetType="{x:Type ComboBox}">
-                                            <EventSetter Event="SelectionChanged" Handler="SomeSelectionChanged" />
-                                        </Style>
-                                    </DataGridComboBoxColumn.EditingElementStyle>
-                                    <DataGridComboBoxColumn.ItemsSource>
-                                        <col:ArrayList>
-                                            <sys:String>标样一</sys:String>
-                                            <sys:String>标样二</sys:String>
-                                            <sys:String>标样三</sys:String>
-                                            <sys:String>标样四</sys:String>
-                                        </col:ArrayList>
-                                    </DataGridComboBoxColumn.ItemsSource>
-                                </DataGridComboBoxColumn>
-                                -->
+                                
                             </DataGrid.Columns>
                         </DataGrid>
                     </StackPanel>
@@ -311,13 +273,7 @@
                 <TabItem Selector.Selected="OnStandardTabSelected" x:Name="standardtabitem" 
                         controls:ControlsHelper.HeaderFontSize="18"
                         Header="标样测试" >
-                    <!--
-                    <TabItem.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock>标样测试</TextBlock>
-                        </StackPanel>
-                    </TabItem.Header>
-                    -->
+
                     <StackPanel>
                         <DataGrid x:Name="standardSampleDgd" Height="300" DockPanel.Dock="Top" 
                                   Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}" 
@@ -424,9 +380,7 @@
                             </BeginStoryboard>
                         </EventTrigger>
                     </Border.Triggers>
-                    <!--
-                    <Button x:Name="statusBtn" Visibility="Hidden">测试中</Button>
-                    -->
+
                     <Button x:Name="statusBtn" Visibility="Hidden" Cursor="Hand" Opacity="1" Grid.Column="3" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="2" Foreground="#FF7C7C03">
                         <Button.Template>
                             <ControlTemplate TargetType="{x:Type Button}">

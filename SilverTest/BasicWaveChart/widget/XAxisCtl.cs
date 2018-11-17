@@ -59,24 +59,7 @@ namespace BasicWaveChart.widget
 
         public static readonly DependencyProperty XScaleMaxValueProperty = DependencyProperty.Register("XScaleMaxValue", typeof(int), typeof(XAxisCtl),
             new UIPropertyMetadata(680));
-        /*
-        private static void XScaleMaxValue_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            XAxisCtl self = d as XAxisCtl;
-            YAxisCtl yaxisctl = self.FindName("yaxis") as YAxisCtl;
-            BasicWaveChartUC wavechartuc = self.FindName("ControlContainer") as BasicWaveChartUC;
-            if (self == null || yaxisctl == null ) return;
-
-            try
-            {
-                self.granulity_width = wavechartuc.WindowCanvas_pen.Width / self.XScaleMaxValue;
-            }
-            catch
-            {
-                return;  //try , ignore error;
-            }
-        }
-        */
+       
         //how many dvalue that a scale include
         public int XScaleLineNumber
         {
@@ -121,94 +104,6 @@ namespace BasicWaveChart.widget
 
         public static readonly DependencyProperty XArrowStyleProperty = DependencyProperty.Register("XArrowStyle", typeof(ArrowStyleEnm), typeof(XAxisCtl));
         #endregion
-
-        /*
-        protected override Geometry DefiningGeometry
-        {
-            get
-            {
-
-                YAxisCtl yaxisctl = this.FindName("yaxis") as YAxisCtl;
-                
-
-                BasicWaveChartUC wavechartuc = this.FindName("ControlContainer") as BasicWaveChartUC;
-                Canvas windowcanvas = wavechartuc.FindName("WindowCanvas") as Canvas;
-
-                PathGeometry pg = new PathGeometry();
-
-                PathFigure pf = new PathFigure();
-                pg.Figures.Add(pf);
-                PolyLineSegment ScaleSeg = new PolyLineSegment();
-
-                if (yaxisctl is null || wavechartuc is null)
-                {
-                    this.granulity_width = 1;
-                    return new PathGeometry();
-                }
-                try
-                {
-                    this.windowwidth = wavechartuc.WindowCanvas_pen.Width;
-                }
-                catch
-                {
-                    ScaleSeg.Points.Add(new Point(0,0));
-                    return pg;
-                }
-                this.granulity_width =  this.windowwidth / this.XScaleMaxValue;
-                this.Width = this.granulity_width * wavechartuc.NumberOfDValue + this.arrowheight + yaxisctl.Width; //todo relace with numberofdvalues
-
-                double hlinevalue = this.Height - topblank;
-                
-                if (this.XScaleLineNumber == 0) this.XScaleLineNumber = 100;
-                int scalenumber = (int)(wavechartuc.NumberOfDValue / this.XScaleLineNumber); //todo relace 1187
-                for (int i = 0; i<= scalenumber; i++)
-                {
-                    ScaleSeg.Points.Add(new Point(i*XScaleLineNumber*granulity_width + yaxisctl.Width,hlinevalue));
-                    if (i % this.XCommentNumber == 0)
-                    {
-                        ScaleSeg.Points.Add(new Point(i * XScaleLineNumber * granulity_width + yaxisctl.Width, hlinevalue - bigScaleHeight));
-                    }
-                    else
-                    {
-                        ScaleSeg.Points.Add(new Point(i * XScaleLineNumber * granulity_width + yaxisctl.Width, hlinevalue - littleScaleHeight));
-                    }
-                    ScaleSeg.Points.Add(new Point(i * XScaleLineNumber * granulity_width + yaxisctl.Width, hlinevalue));
-                }
-
-                ScaleSeg.Points.Add(new Point(wavechartuc.NumberOfDValue * granulity_width + yaxisctl.Width, hlinevalue)); //todo replace
-                ScaleSeg.Points.Add(new Point(wavechartuc.NumberOfDValue * granulity_width + yaxisctl.Width, hlinevalue - 20));  //todo replace
-                ScaleSeg.Points.Add(new Point(wavechartuc.NumberOfDValue * granulity_width + yaxisctl.Width, hlinevalue)); //todo replace
-
-                pf.Segments.Add(ScaleSeg);
-                PolyLineSegment arrowseg = new PolyLineSegment();
-
-                switch (this.XArrowStyle)
-                {
-                    case ArrowStyleEnm.SOLID:
-                    case ArrowStyleEnm.HOLLOW:
-                        {
-
-                            arrowseg.Points.Add(new Point(this.Width - wavechartuc.RightBlankZone - this.arrowheight, hlinevalue));
-                            arrowseg.Points.Add(new Point(this.Width - wavechartuc.RightBlankZone - this.arrowheight, hlinevalue - this.arrowheight / 2));
-                            arrowseg.Points.Add(new Point(this.Width - wavechartuc.RightBlankZone - this.arrowheight, hlinevalue + this.arrowheight / 2));
-                            arrowseg.Points.Add(new Point(this.Width - wavechartuc.RightBlankZone, hlinevalue));
-                            arrowseg.Points.Add(new Point(this.Width - wavechartuc.RightBlankZone - this.arrowheight, hlinevalue - this.arrowheight / 2));
-                            pf.IsFilled = true;
-                            break;
-                        }
-                    case ArrowStyleEnm.NONE:
-                    default:
-                        {
-                            arrowseg.Points.Add(new Point(this.Width - wavechartuc.RightBlankZone, hlinevalue));
-                            break;
-                        }
-                }
-                pf.Segments.Add(arrowseg);
-
-                return pg;
-            }
-        }
-        */
 
         #region public function
         public double GetGranulity()
@@ -290,16 +185,9 @@ namespace BasicWaveChart.widget
             Canvas windowcanvas = wavechartuc.FindName("WindowCanvas") as Canvas;
             Polyline xaxis_ply = wavechartuc.FindName("xaxis_ply") as Polyline;
 
-            //this.GetGranulity();
-            //this.windowwidth = wavechartuc.WindowCanvas_pen.Width;
-
-            //this.granulity_width = this.windowwidth / this.XScaleMaxValue;
-            //this.Width = this.granulity_width * wavechartuc.NumberOfDValue + this.arrowheight + yaxisctl.Width; //todo relace with numberofdvalues
-
             xaxis_ply.Points.Clear();
             double hlinevalue = this.Height - topblank;
 
-            //if (this.XScaleLineNumber == 0) this.XScaleLineNumber = 100;
             if (this.XScaleLineNumber == 0)
             {
                 return;
@@ -323,9 +211,6 @@ namespace BasicWaveChart.widget
             xaxis_ply.Points.Add(new Point(wavechartuc.NumberOfDValue * granulity_width, hlinevalue - 20));  //todo replace
             xaxis_ply.Points.Add(new Point(wavechartuc.NumberOfDValue * granulity_width, hlinevalue)); //todo replace
 
-            //pf.Segments.Add(ScaleSeg);
-            //PolyLineSegment arrowseg = new PolyLineSegment();
-
             switch (this.XArrowStyle)
             {
                 case ArrowStyleEnm.SOLID:
@@ -347,9 +232,7 @@ namespace BasicWaveChart.widget
                         break;
                     }
             }
-            //pf.Segments.Add(arrowseg);
 
-            //return pg;
         }
         #endregion
     }
