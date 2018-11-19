@@ -519,7 +519,7 @@ namespace SilverTest
                             showconnectedIcon();
                             if (SerialDriver.GetDriver().isOpen() == true)
                             {
-                                statusBtn.Visibility = Visibility.Visible;
+                                AnimatedColorButton.Visibility = Visibility.Visible;
                                 AnimatedColorButton.Visibility = Visibility.Visible;
                             }
 
@@ -529,7 +529,7 @@ namespace SilverTest
                             NewTargetDgd.DataContext = newTestClt;
                             break;
                         case "停止测试":
-                            statusBtn.Visibility = Visibility.Hidden;
+                            AnimatedColorButton.Visibility = Visibility.Hidden;
                             AnimatedColorButton.Visibility = Visibility.Hidden;
 
                             
@@ -597,7 +597,7 @@ namespace SilverTest
                             showconnectedIcon();
                             if (SerialDriver.GetDriver().isOpen() == true)
                             {
-                                statusBtn.Visibility = Visibility.Visible;
+                                AnimatedColorButton.Visibility = Visibility.Visible;
                                 AnimatedColorButton.Visibility = Visibility.Visible;
                             }
 
@@ -607,7 +607,7 @@ namespace SilverTest
                             standardSampleDgd.DataContext = standardSampleClt;
                             break;
                         case "停止测试":
-                            statusBtn.Visibility = Visibility.Hidden;
+                            AnimatedColorButton.Visibility = Visibility.Hidden;
                             AnimatedColorButton.Visibility = Visibility.Hidden;
                             startTestBtn.Content = "开始测试";
                             if (SerialDriver.GetDriver().isOpen() == true)
@@ -1794,7 +1794,7 @@ namespace SilverTest
             {
                 pauseTestBtn.Content = "恢复测试";
                 SerialDriver.GetDriver().Close();
-                AnimatedColorButton.Visibility = Visibility.Hidden;
+                AnimatedColorButton.Spin = false;
             }
             else
             {
@@ -1806,7 +1806,7 @@ namespace SilverTest
                         SerialDriver.GetDriver().databits,
                         SerialDriver.GetDriver().stopbits
                     );
-                AnimatedColorButton.Visibility = Visibility.Visible;
+                AnimatedColorButton.Spin = true;
             }
             showconnectedIcon();
         }
