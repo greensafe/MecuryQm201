@@ -17,22 +17,22 @@
                     <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.MenuBarColorKey}}"/>
                 </StackPanel.Background>
                 <ListBox Width="196"  Height="465" x:Name="filelsb" DisplayMemberPath="Filename" 
-                         VerticalAlignment="Center" HorizontalAlignment="Center"
                          SelectionChanged="filelsb_SelectionChanged">
                 </ListBox>
             </StackPanel>
-            <Canvas Width="586" Margin="5,0,0,4" Background="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}" >
-
-                <Border BorderBrush="Silver" BorderThickness="1" Height="465" Background="White" VerticalAlignment="Center" HorizontalAlignment="Center" Width="586">
+            <Canvas Width="586" Margin="5,0,0,4" MouseLeftButtonDown="Canvas_MouseLeftButtonDown" >
+                <Border BorderBrush="Silver" BorderThickness="1" Height="465" Background="White" Width="586">
                     <BasicWaveChart:BasicWaveChartUC x:Name="historywaveuc"
                                          RatioS="1:2" 
                                          MoveMode ="HORIZONTAL"
-                                         NumberOfDValue="10000"
+                                         NumberOfDValue="200000"
                                          TopBlankZone="20"
                                          RightBlankZone="30"
                                        />
                 </Border>
-                <Button x:Name="exitbtn" Width="80" Height="40" Canvas.Left="453" Canvas.Top="390" Click="exitbtn_Click">退出</Button>
+                <Button x:Name="exitbtn" Width="80" Height="30" Canvas.Left="453" Canvas.Top="390" 
+                        FontSize="12"
+                        Click="exitbtn_Click">退出</Button>
             </Canvas>
         </StackPanel>
     </Grid>

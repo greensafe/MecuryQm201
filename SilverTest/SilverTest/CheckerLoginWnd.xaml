@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SilverTest"
         mc:Ignorable="d"
         Title="审核者登陆" Height="201.18" Width="319.528"
-        
+        BorderBrush="#cc119eDA"
         WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" Icon="images/admin.png">
     <Grid>
         <Grid.ColumnDefinitions>

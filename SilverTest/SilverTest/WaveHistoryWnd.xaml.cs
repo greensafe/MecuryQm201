@@ -120,6 +120,11 @@ namespace SilverTest
         {
             this.Close();
         }
+
+        private void Canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            this.DragMove();
+        }
     }
 
     public class HistoryItem
