@@ -6,7 +6,7 @@
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:local="clr-namespace:SilverTest"
         TextElement.FontSize="13"
-        BorderBrush="Purple"
+        BorderBrush="Blue"
         BorderThickness="1"
         mc:Ignorable="d"
         x:Name="mainwindow"

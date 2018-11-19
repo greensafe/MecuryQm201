@@ -879,7 +879,7 @@ namespace SilverTest
 
             int topmargin = 20; //顶端的空白，为20个点
             int rightmargin = 200; //右边的空白，为20个点
-            int leftmargin = 30;    //左边的空白
+            int leftmargin = 5;    //左边的空白
             int bottommargin = 20;  //底部的空白
 
             rCanvas.Children.Clear();
@@ -1017,7 +1017,8 @@ namespace SilverTest
             }
             //在右侧显示显示信息
             TextBlock RparamSpTxbl = new TextBlock();
-            RparamSpTxbl.Text = "";
+            //RparamSpTxbl.Text = "";
+            RparamSpTxbl.Width = 150;
             RparamSpTxbl.Text = "样品名称  响应值  汞量ng\r\n";
             int j = 0;
             for (int i=0; i < x.Length; i++)
@@ -1027,7 +1028,7 @@ namespace SilverTest
                     if(standardSampleClt[k].GroupName == groupname)
                     {
                         RparamSpTxbl.Text += standardSampleClt[k].SampleName +
-                            "\t  " + standardSampleClt[k].ResponseValue1 + "\t " +
+                            "\t" + cutnn(standardSampleClt[k].ResponseValue1) + "\t" +
                             standardSampleClt[k].AirG + "\r\n";
                         j=k+1;
                         break;
@@ -1043,9 +1044,19 @@ namespace SilverTest
             Canvas.SetLeft(RparamSpTxbl, rCanvas.Width - rightmargin + 30);
             
             rCanvas.Children.Add(RparamSpTxbl);
-
         }
 
+        //去掉末尾的/n符号
+        private string cutnn(string str)
+        {
+            string result = "";
+            for(int i = 0; i<str.Length;i++)
+            {
+                if (str[i] != '\r' && str[i] != '\n')
+                    result += str[i];
+            }
+            return result;
+        }
 
         public int getStandardCltIndexFromSelected(StandardSample obj)
         {

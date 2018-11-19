@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         WindowStyle="None"
         Title="欢迎" Height="400" Width="600" WindowStartupLocation="CenterScreen" 
-        BorderBrush="Purple"
+        BorderBrush="Blue"
         BorderThickness="1"
         ResizeMode="NoResize" Loaded="welecomeWindow_Loaded">
     <Window.Effect>

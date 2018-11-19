@@ -326,7 +326,8 @@
                                          RightBlankZone="30"
                                          Feature:IntegralFeature.Enable="True"
                                          DockPanel.Dock="Top" Margin="10,10,20,10"></qingan:BasicWaveChartUC>
-                <GroupBox x:Name="paramGbx" Header="y = ax + b"  Height="200" Width="400" Margin="40,0,0,0" Visibility="Visible">
+                <GroupBox x:Name="paramGbx" Header="y = ax + b"  Height="200" Width="400" Margin="40,0,0,0" 
+                          Visibility="Visible">
                     <StackPanel Height="150" 
                                Width="{Binding Width, ElementName=paramGbx}">
                         <Canvas Height="50">
@@ -344,9 +345,11 @@
                     </StackPanel>
                 </GroupBox>
                 <GroupBox Visibility="Collapsed" x:Name="Rstackpanel"  Margin="40,0,0,0"
-                        Width="500" 
+                        Width="400" 
                         Height="200">
-                    <Canvas x:Name="rCanvas" Width="500" Height="200" ClipToBounds="True"/>
+                    <Canvas x:Name="rCanvas" Width="{Binding Width, ElementName=Rstackpanel}" 
+                            Height="{Binding Height, ElementName=Rstackpanel}" 
+                            ClipToBounds="True"/>
                 </GroupBox>
             </StackPanel>
             <Separator Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}" Height="3" DockPanel.Dock="Top"></Separator>
