@@ -155,7 +155,7 @@
                     <Button x:Name="rs232disconnectedbtn_1" Width="28" Height="28" DockPanel.Dock="Right" Panel.ZIndex="2" Padding="0"
                         Background="Transparent" BorderThickness="0" ToolTip="串口未打开" Visibility="Visible" Click="rs232disconnectedbtn_Click">
                         <iconPacks:PackIconMaterial Kind="CloseOctagonOutline" Foreground="Red" Height="30" Width="30" Margin="-2"/>
-                    </Button>                    
+                    </Button>
                 </Canvas>
                 <Canvas x:Name="rs232connectedBorder" Width="32" DockPanel.Dock="Right" Panel.ZIndex="9"
                         Visibility="Collapsed">
@@ -164,7 +164,7 @@
                             >
                         <iconPacks:PackIconMaterial Kind="Usb" Foreground="Black" Height="28" Width="28"/>
                     </Button>
-                    
+
                 </Canvas>
                 <TextBlock x:Name="comnameblk" DockPanel.Dock="Right" VerticalAlignment="Center" Width="50" TextAlignment="Right" HorizontalAlignment="Right"></TextBlock>
                 <ToolBarTray x:Name="toolBarTray" Height="32" Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}" DockPanel.Dock="Left" MouseLeftButtonDown="toolBarTray_MouseLeftButtonDown">
@@ -265,7 +265,7 @@
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
-                                
+
                             </DataGrid.Columns>
                         </DataGrid>
                     </StackPanel>
@@ -318,7 +318,7 @@
                 </TabItem>
             </TabControl>
             <StackPanel x:Name="waveContainer" Margin="0,20" DockPanel.Dock="Top" Orientation="Horizontal">
-                <qingan:BasicWaveChartUC x:Name="realCpt" Panel.ZIndex="9" Width="400" Height="200" 
+                <qingan:BasicWaveChartUC x:Name="realCpt" Panel.ZIndex="9" Width="500" Height="200" 
                                          RatioS="1:2" 
                                          MoveMode ="HORIZONTAL"
                                          NumberOfDValue="8000"
@@ -326,30 +326,27 @@
                                          RightBlankZone="30"
                                          Feature:IntegralFeature.Enable="True"
                                          DockPanel.Dock="Top" Margin="10,10,20,10"></qingan:BasicWaveChartUC>
-                <GroupBox x:Name="paramGbx" Header="y = ax + b"  Height="200" Width="500" Margin="40,0,0,0" Visibility="Visible">
-                    <GroupBox.Background>
-                        <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
-                    </GroupBox.Background>
-                    <DockPanel HorizontalAlignment="Left" Height="150" LastChildFill="False" Margin="0,0,0,0" VerticalAlignment="Top" Width="480">
-                        <Grid DockPanel.Dock="Top" Height="50">
-                            <Label Content="截距" HorizontalAlignment="Left" Margin="173,13,0,10" RenderTransformOrigin="0.647,0.037"/>
-                            <TextBlock x:Name="bTxb" Height="30" TextWrapping="Wrap" Text="" Margin="254,10,106,10" DockPanel.Dock="Top" Width="120" Background="White"/>
-                        </Grid>
-                        <Grid Height="50" DockPanel.Dock="Top">
-                            <Label Content="斜率" HorizontalAlignment="Left" Margin="176,12,0,13" VerticalAlignment="Center"/>
-                            <TextBlock x:Name="aTxb" Height="30" TextWrapping="Wrap" Margin="254,12,102,8" VerticalAlignment="Center" Width="120" Background="White"/>
-                        </Grid>
-                        <Grid Height="50" DockPanel.Dock="Top">
-                            <Label Content="相关系数" HorizontalAlignment="Left" Margin="153,10,0,15" VerticalAlignment="Center"/>
-                            <TextBlock x:Name="rTxt" Height="30" TextWrapping="Wrap" Text="" Margin="254,10,101,10" VerticalAlignment="Center" Width="120" Background="White"/>
-                        </Grid>
-                    </DockPanel>
+                <GroupBox x:Name="paramGbx" Header="y = ax + b"  Height="200" Width="400" Margin="40,0,0,0" Visibility="Visible">
+                    <StackPanel Height="150" 
+                               Width="{Binding Width, ElementName=paramGbx}">
+                        <Canvas Height="50">
+                            <Label Content="截距" Canvas.Left="100" Canvas.Top="15"/>
+                            <TextBlock x:Name="bTxb" Height="30" TextWrapping="Wrap" Text="" Margin="200,10,106,10"  Width="120" Background="White"/>
+                        </Canvas>
+                        <Canvas Height="50">
+                            <Label Content="斜率" Canvas.Left="100" Canvas.Top="15" />
+                            <TextBlock x:Name="aTxb" Height="30" TextWrapping="Wrap" Margin="200,12,102,8" Width="120" Background="White"/>
+                        </Canvas>
+                        <Canvas Height="50">
+                            <Label Content="相关系数" Canvas.Left="100" Canvas.Top="15"/>
+                            <TextBlock x:Name="rTxt" Height="30" TextWrapping="Wrap" Text="" Margin="200,10,101,10" Width="120" Background="White"/>
+                        </Canvas>
+                    </StackPanel>
                 </GroupBox>
                 <GroupBox Visibility="Collapsed" x:Name="Rstackpanel"  Margin="40,0,0,0"
                         Width="500" 
-                        Height="200" 
-                        >
-                    <Canvas x:Name="rCanvas" HorizontalAlignment="Center" Width="500" Height="200" ClipToBounds="True"/>
+                        Height="200">
+                    <Canvas x:Name="rCanvas" Width="500" Height="200" ClipToBounds="True"/>
                 </GroupBox>
             </StackPanel>
             <Separator Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}" Height="3" DockPanel.Dock="Top"></Separator>
@@ -404,7 +401,7 @@
                 <StatusBarItem>
                     <TextBlock x:Name="timestatusbar" Text="{Binding Date, Mode=OneWay, Source={StaticResource current}}"></TextBlock>
                 </StatusBarItem>
-             
+
             </StatusBar>
         </DockPanel>
     </Grid>
