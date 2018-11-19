@@ -356,13 +356,15 @@
             <DockPanel DockPanel.Dock="Top" Height="50">
                 <Button x:Name="modifyBtn" HorizontalAlignment="Left" DockPanel.Dock="Left" Height="30" Content="保存" Margin="20,1,0,0" Click="modifyBtn_Click"  Visibility="Collapsed"/>
                 <Button x:Name="exportexelBtn" HorizontalAlignment="Left" DockPanel.Dock="Left" Height="30" Content="输出excel" Margin="20,1,0,0" Click="exportexelBtn_Click" Visibility="Collapsed"/>
-                <Button x:Name="RBtn" HorizontalAlignment="Left" DockPanel.Dock="Left" Height="30" Content="计算相关系数" Margin="20,1,0,0" Click="RBtn_Click" Visibility="Hidden" />
+                <Button x:Name="RBtn" FontSize="12" HorizontalAlignment="Left" 
+                        DockPanel.Dock="Left" Height="30" Content="计算相关系数" Margin="20,1,0,0" 
+                        Click="RBtn_Click" Visibility="Hidden" />
                 <Button x:Name="debugBtn" HorizontalAlignment="Left" DockPanel.Dock="Left" Content="停止发送" Margin="20,1,0,0" Height="20" Width="50" Click="debugBtn_Click" Visibility="Hidden"/>
-                <Button x:Name="exitBtn" Content="退出" DockPanel.Dock="Right" Width="50" Height="30" Margin="0,0,25,0" Click="exitBtn_Click"/>
-                <Button x:Name="AddRowBtn" DockPanel.Dock="Right"  HorizontalAlignment="Right" Width="50" Height="30" Padding="1" Margin="0,1,20,0"  Content="增加" Click="AddRowBtn_Click" />
-                <Button x:Name="DelRowBtn" DockPanel.Dock="Right"  HorizontalAlignment="Right" Width="50" Height="30" Content="删除" Margin="0,1,20,0" Click="DelRowBtn_Click" />
-                <Button x:Name="pauseTestBtn" Width="50" DockPanel.Dock="Right" HorizontalAlignment="Right" Height="30" Content="暂停测试" Margin="0,1,60,0" Click="pauseTestBtn_Click" />
-                <Button x:Name="startTestBtn" Width="50" DockPanel.Dock="Right" HorizontalAlignment="Right" Height="30" Content="开始测试" Margin="0,1,20,0" Click="startTestBtn_Click" />
+                <Button x:Name="exitBtn" Content="退出" DockPanel.Dock="Right" Width="50" Height="30" Margin="0,0,25,0" FontSize="12" Click="exitBtn_Click"/>
+                <Button x:Name="AddRowBtn" DockPanel.Dock="Right"  HorizontalAlignment="Right" Width="80" Height="30" FontSize="12" Padding="1" Margin="0,1,20,0"  Content="增加" Click="AddRowBtn_Click" />
+                <Button x:Name="DelRowBtn" DockPanel.Dock="Right"  HorizontalAlignment="Right" Width="80" Height="30" FontSize="12" Content="删除" Margin="0,1,20,0" Click="DelRowBtn_Click" />
+                <Button x:Name="pauseTestBtn" Width="80" DockPanel.Dock="Right" HorizontalAlignment="Right" Height="30" FontSize="12" Content="暂停测试" Margin="0,1,60,0" Click="pauseTestBtn_Click" />
+                <Button x:Name="startTestBtn" Width="80" DockPanel.Dock="Right" HorizontalAlignment="Right" Height="30" FontSize="12" Content="开始测试" Margin="0,1,20,0" Click="startTestBtn_Click" />
             </DockPanel>
             <StackPanel  DockPanel.Dock="Top" Height="50" Orientation="Vertical">
                 <Border x:Name="AnimatedColorButton" Width="48" Height="48" BorderThickness="5" BorderBrush="Gold" CornerRadius="50" Visibility="Hidden">
