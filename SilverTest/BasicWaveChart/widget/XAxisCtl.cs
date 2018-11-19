@@ -54,6 +54,11 @@ namespace BasicWaveChart.widget
             }
             set {
                 SetValue(XScaleMaxValueProperty, value);
+                Canvas cp = this.Parent as Canvas;
+                ZoomPanel zp = cp.Parent as ZoomPanel;
+                BasicWaveChartUC p = zp.Parent as BasicWaveChartUC;
+                if (XScaleMaxValue != 0 && p.WindowCanvas_pen.Width!= 0)
+                    granulity_width = p.WindowCanvas_pen.Width / XScaleMaxValue;
             }
         }
 

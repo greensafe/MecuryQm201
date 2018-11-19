@@ -190,6 +190,7 @@ namespace BasicWaveChart.widget
             return datas_;
         }
 
+
         public void ClearData()
         {
             OptimizeCanvas_Canvas_Left = 0;

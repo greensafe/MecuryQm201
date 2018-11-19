@@ -12,25 +12,24 @@
         Title="历史数据" Height="481" Width="800" Loaded="Window_Loaded">
     <Grid>
         <StackPanel Orientation="Horizontal">
-            <StackPanel Width="200" Height="469" VerticalAlignment="Top">
-                <StackPanel.Background>
-                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.MenuBarColorKey}}"/>
-                </StackPanel.Background>
-                <ListBox Width="196"  Height="465" x:Name="filelsb" DisplayMemberPath="Filename" 
+            <StackPanel Width="200" Height="469" VerticalAlignment="Top"
+                        Background="#ff7f7f7f"
+                        >
+                <ListBox Width="196"  Height="465" x:Name="filelsb" DisplayMemberPath="Filename"
                          SelectionChanged="filelsb_SelectionChanged">
                 </ListBox>
             </StackPanel>
             <Canvas Width="586" Margin="5,0,0,4" MouseLeftButtonDown="Canvas_MouseLeftButtonDown" >
-                <Border BorderBrush="Silver" BorderThickness="1" Height="465" Background="White" Width="586">
+                <Border BorderThickness="1" Height="465" Background="White" Width="586">
                     <BasicWaveChart:BasicWaveChartUC x:Name="historywaveuc"
                                          RatioS="1:2" 
                                          MoveMode ="HORIZONTAL"
                                          NumberOfDValue="200000"
                                          TopBlankZone="20"
-                                         RightBlankZone="30"
+                                         RightBlankZone="30" Margin="0,22,9,58"
                                        />
                 </Border>
-                <Button x:Name="exitbtn" Width="80" Height="30" Canvas.Left="453" Canvas.Top="390" 
+                <Button x:Name="exitbtn" Width="80" Height="30" Canvas.Left="466" Canvas.Top="417" 
                         FontSize="12"
                         Click="exitbtn_Click">退出</Button>
             </Canvas>

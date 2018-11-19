@@ -349,16 +349,15 @@ namespace BasicWaveChart
 
             if(xaxis.XScaleLineNumber != oldXScaleLineNumber || xaxis.XScaleMaxValue != oldXScaleMaxValue)
             {
-                //only this method to redraw xaxis after property change
-                basecanvas.Children.Remove(xaxis);
-                basecanvas.Children.Add(xaxis);
+                //basecanvas.Children.Remove(xaxis);
+                //basecanvas.Children.Add(xaxis);
                 xaxis.ReDrawTextCommentCmd();
             }
 
             if(yaxis.YScaleLineNumber != oldYScaleLineNumber || yaxis.YScaleMaxValue != oldYScaleMaxValue)
             {
-                basecanvas.Children.Remove(yaxis);
-                basecanvas.Children.Add(yaxis);
+                //basecanvas.Children.Remove(yaxis);
+                //basecanvas.Children.Add(yaxis);
                 yaxis.ReDrawCmd();
             }
 
