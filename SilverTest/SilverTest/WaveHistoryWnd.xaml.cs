@@ -125,6 +125,11 @@ namespace SilverTest
         {
             this.DragMove();
         }
+
+        private void historyexitbtn_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            this.Close();
+        }
     }
 
     public class HistoryItem

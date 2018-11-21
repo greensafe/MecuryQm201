@@ -669,7 +669,11 @@ namespace SilverTest
 
         private void exitBtn_Click(object sender, RoutedEventArgs e)
         {
-            
+            try
+            {
+                cmdpanelWnd.Close();
+            }
+            catch (Exception er) {; }
             this.Close();
 
         }
@@ -1771,16 +1775,20 @@ namespace SilverTest
 
         private void NewTargetDgd_LoadingRow(object sender, DataGridRowEventArgs e)
         {
+            SolidColorBrush br = new SolidColorBrush();
+            br.Color = Color.FromArgb(0xff,0xff,0x8b,0x8b);
             string gid = (e.Row.Item as NewTestTarget).GlobalID;
             if (gid == testingitemgid)
-                e.Row.Background = new SolidColorBrush(Colors.Yellow);
+                e.Row.Background = br;
         }
 
         private void standardSampleDgd_LoadingRow(object sender, DataGridRowEventArgs e)
         {
+            SolidColorBrush br = new SolidColorBrush();
+            br.Color = Color.FromArgb(0xff, 0xff, 0x8b, 0x8b);
             string gid = (e.Row.Item as StandardSample).GlobalID;
             if (gid == testingitemgid)
-                e.Row.Background = new SolidColorBrush(Colors.Yellow);
+                e.Row.Background = br;
         }
 
         private void rs232connectedbtn_MouseEnter(object sender, MouseEventArgs e)
@@ -2049,6 +2057,15 @@ namespace SilverTest
 
             sr.Close();
             aFile.Close();
+        }
+
+        private void window_Closed(object sender, EventArgs e)
+        {
+            try
+            {
+                cmdpanelWnd.Close();
+            }
+            catch (Exception er) {; }
         }
     }
 }

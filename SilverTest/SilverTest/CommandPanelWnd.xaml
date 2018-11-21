@@ -6,86 +6,76 @@
         xmlns:local="clr-namespace:SilverTest"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        WindowStyle="None"
+        WindowStyle="SingleBorderWindow"
         x:Name="CmdPanelWindow"
-        Title="命令面板" Height="442" Width="588" Loaded="Window_Loaded">
-    <Grid>
-        <Canvas Background="LightBlue" MouseLeftButtonDown="Canvas_MouseLeftButtonDown">
-            <StackPanel Margin="150,300" x:Name="parampanel" Panel.ZIndex="10" Visibility="Collapsed" Background="LightPink">
-                <StackPanel.Effect>
-                    <DropShadowEffect/>
-                </StackPanel.Effect>
-                <StackPanel Width="300" Height="80" Orientation="Horizontal" >
-                    <StackPanel Width="140">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Width="50" TextAlignment="Right" Margin="0,0,5,0">时间</TextBlock>
-                            <TextBox x:Name="timeParamTxt" Width="50" TextAlignment="Center" TextChanged="timeParamTxt_TextChanged">3</TextBox>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Width="50" TextAlignment="Right" Margin="0,0,5,0">放大倍数</TextBlock>
-                            <TextBox x:Name="enlargeParamTxt" Width="50" TextAlignment="Center" TextChanged="enlargeParamTxt_TextChanged">1</TextBox>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Width="50" TextAlignment="Right" Margin="0,0,5,0">高压</TextBlock>
-                            <TextBox x:Name="presureParamTxt" Width="50" TextAlignment="Center" TextChanged="presureParamTxt_TextChanged">500</TextBox>
-                        </StackPanel>
-                    </StackPanel>
-                    <StackPanel Width="140">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Width="50" TextAlignment="Right" Margin="0,0,5,0">流量</TextBlock>
-                            <TextBox  x:Name="fluParamTxt" Width="50" TextAlignment="Center" TextChanged="fluParamTxt_TextChanged">2</TextBox>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Width="50" TextAlignment="Right" Margin="0,0,5,0">清洗时长</TextBlock>
-                            <TextBox  x:Name="washtimeParamTxt" Width="50" TextAlignment="Center" TextChanged="washtimeParamTxt_TextChanged">2</TextBox>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Width="50" TextAlignment="Right" Margin="0,0,5,0">实时</TextBlock>
-                            <TextBox x:Name="realtimeParamTxt" Width="50" TextAlignment="Center" TextChanged="realtimeParamTxt_TextChanged">21</TextBox>
-                        </StackPanel>
-                    </StackPanel>
-                </StackPanel>
-                <StackPanel Height="30" Orientation="Horizontal">
-                    <Button x:Name="setparamok" Content="确定" HorizontalAlignment="Right" Margin="200,0,10,0" Click="setparamok_Click"></Button>
-                    <Button x:Name="setparamcancel" Content="取消" HorizontalAlignment="Right" Click="setparamcancel_Click"></Button>
-                </StackPanel>
-            </StackPanel>
-            <Button x:Name="getstatusbtn" Width="40" Height="40" Style="{StaticResource MirrorStyle}" Canvas.Left="544" Canvas.Top="290" Visibility="Hidden"/>
-            <StackPanel x:Name="buttoncontainerstp" Width="200" Height="300" 
+        Title="命令面板" Height="358.667" Width="431.999" Loaded="Window_Loaded">
+    <Grid x:Name="grid" Height="323" VerticalAlignment="Top" Background="White">
+        <Canvas MouseLeftButtonDown="Canvas_MouseLeftButtonDown" Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}" ClipToBounds="False"
+                Background="White" >
+            <Canvas x:Name="parampanel" Panel.ZIndex="10" Visibility="Collapsed" 
+                    Background="White"
+                    Width="247" Height="265"
+                        Canvas.Left="143" Canvas.Top="27">
+                <Canvas.Effect>
+                    <DropShadowEffect ShadowDepth="15" BlurRadius="15"/>
+                </Canvas.Effect>
+
+                <TextBlock Width="50" TextAlignment="Right" Canvas.Top="23">时间</TextBlock>
+                <TextBox x:Name="timeParamTxt" Width="50" TextAlignment="Center" 
+                                         TextChanged="timeParamTxt_TextChanged" 
+                                         Canvas.Left="55" Canvas.Top="18" Height="13">3</TextBox>
+                <TextBlock Width="50" TextAlignment="Right" Canvas.Top="66">放大倍数</TextBlock>
+                <TextBox x:Name="enlargeParamTxt" Width="50" TextAlignment="Center" TextChanged="enlargeParamTxt_TextChanged" 
+                                         Height="13"
+                                         Canvas.Left="55" Canvas.Top="61" RenderTransformOrigin="0.107,0.564">1</TextBox>
+                <TextBlock Width="50" TextAlignment="Right" Canvas.Top="106">高压</TextBlock>
+                <TextBox x:Name="presureParamTxt" Width="50" TextAlignment="Center" TextChanged="presureParamTxt_TextChanged" Canvas.Left="55" Canvas.Top="101" RenderTransformOrigin="0.2,0.513">500</TextBox>
+                <TextBlock Width="50" TextAlignment="Right" Canvas.Left="115" Canvas.Top="23">流量</TextBlock>
+                <TextBox  x:Name="fluParamTxt" Width="50" TextAlignment="Center" TextChanged="fluParamTxt_TextChanged" Canvas.Left="170" Canvas.Top="18">2</TextBox>
+                <TextBlock Width="50" TextAlignment="Right" Canvas.Left="115" Canvas.Top="66" RenderTransformOrigin="0.06,0.6">清洗时长</TextBlock>
+                <TextBox  x:Name="washtimeParamTxt" Width="50" TextAlignment="Center" TextChanged="washtimeParamTxt_TextChanged" Canvas.Left="170" Canvas.Top="61" RenderTransformOrigin="2.733,2.269">2</TextBox>
+                <TextBlock Width="50" TextAlignment="Right" Canvas.Left="115" Canvas.Top="106">实时</TextBlock>
+                <TextBox x:Name="realtimeParamTxt" Width="50" TextAlignment="Center" TextChanged="realtimeParamTxt_TextChanged" Canvas.Left="170" Canvas.Top="101">21</TextBox>
+
+                <Button x:Name="setparamok" Content="确定" HorizontalAlignment="Right" Click="setparamok_Click" Canvas.Left="73" Canvas.Top="141"/>
+                <Button x:Name="setparamcancel" Content="取消" HorizontalAlignment="Right" Click="setparamcancel_Click" Canvas.Left="170" Canvas.Top="141" RenderTransformOrigin="0.438,0.111"></Button>
+            </Canvas>
+
+            <Button x:Name="getstatusbtn" Width="40" Height="40" Style="{StaticResource MirrorStyle}" Canvas.Left="335" Canvas.Top="234" Visibility="Collapsed"/>
+            <GroupBox Header="菜单" Canvas.Left="24" Canvas.Top="15" Height="277" ClipToBounds="False">
+                <StackPanel x:Name="buttoncontainerstp" Width="104" 
                         Background="Transparent"
-                        MouseLeftButtonDown="buttoncontainerstp_MouseLeftButtonDown" Canvas.Left="73" Canvas.Top="60">
-                <Button x:Name="pm1" Content="测量" Height="30" Width="150" HorizontalAlignment="Left" MouseEnter="pm1_MouseEnter" Click="pm1_Click" ></Button>
-                <Button x:Name="m11" Content="取样" Height="30" Width="150" HorizontalAlignment="Left" Background="LightPink" Margin="50,2,0,0"  Visibility="Collapsed" Click="m11_Click"></Button>
-                <Button x:Name="m12" Content="清洗" Height="30" Width="150" HorizontalAlignment="Left" Background="LightPink" Margin="50,2,0,0" Visibility="Collapsed" Click="m12_Click"></Button>
-                <Button x:Name="m13" Content="测量" Height="30" Width="150" HorizontalAlignment="Left" Background="LightPink" Margin="50,2,0,0" Visibility="Collapsed" Click="m13_Click"></Button>
-                <Button x:Name="m14" Content="返回上一级菜单" Height="30" Width="150" HorizontalAlignment="Left" Background="LightPink" Margin="50,2,0,0" Visibility="Collapsed" Click="m14_Click"></Button>
-                <Button x:Name="pm2" Content="连续测量" Height="30" Width="150" HorizontalAlignment="Left"></Button>
-                <Button x:Name="pm3" Content="校准"  Height="30" Width="150" HorizontalAlignment="Left" Click="pm3_Click"></Button>
-                <Button x:Name="pm4" Content="通信"  Height="30" Width="150" HorizontalAlignment="Left" Click="pm4_Click"></Button>
-                <Button x:Name="pm5" Content="液体测量"  Height="30" Width="150" HorizontalAlignment="Left" MouseEnter="pm5_MouseEnter" Click="pm5_Click"/>
-                <Button x:Name="m51" Content="清洗" Height="30" Width="150" HorizontalAlignment="Left" Background="LightPink" Margin="50,2,0,0" Visibility="Collapsed" Click="m51_Click"></Button>
-                <Button x:Name="m52" Content="测量" Height="30" Width="150" HorizontalAlignment="Left" Background="LightPink" Margin="50,2,0,0" Visibility="Collapsed" Click="m52_Click" ></Button>
-                <Button x:Name="m53" Content="返回上一级菜单" Height="30" Width="150" HorizontalAlignment="Left" Background="LightPink" Margin="50,2,0,0" Visibility="Collapsed" Click="m53_Click"></Button>
-                <Button x:Name="pm6" Content="参数设置"  Height="30" Width="150" HorizontalAlignment="Left" Click="pm6_Click"></Button>
-                <Button x:Name="pm7" Content="状态获取"  Height="30" Width="150" HorizontalAlignment="Left" Click="pm7_Click"></Button>
-            </StackPanel>
-            <Border CornerRadius="5" BorderBrush="Gray" BorderThickness="3" Height="197" Canvas.Left="302" Canvas.Top="60" Width="247"
+                        MouseLeftButtonDown="buttoncontainerstp_MouseLeftButtonDown" Canvas.Left="66" Canvas.Top="60" Margin="0,0,0,14">
+                    <Button x:Name="pm1" FontSize="12" Content="测量" Height="30" Width="60" HorizontalAlignment="Left" MouseEnter="pm1_MouseEnter" Click="pm1_Click" >
+                    </Button>
+                    <Button x:Name="m11" FontSize="12" Content="取样" Height="30" Width="60" HorizontalAlignment="Left" Background="LightPink" Margin="20,2,0,0"  Visibility="Collapsed" Click="m11_Click"></Button>
+                    <Button x:Name="m12" FontSize="12" Content="清洗" Height="30" Width="60" HorizontalAlignment="Left" Background="LightPink" Margin="20,2,0,0" Visibility="Collapsed" Click="m12_Click"></Button>
+                    <Button x:Name="m13" FontSize="12" Content="测量" Height="30" Width="60" HorizontalAlignment="Left" Background="LightPink" Margin="20,2,0,0" Visibility="Collapsed" Click="m13_Click"></Button>
+                    <Button x:Name="m14" FontSize="12" Content="返回上一级" Height="30" Width="75" HorizontalAlignment="Left" Background="LightPink" Margin="20,2,0,0" Visibility="Collapsed" Click="m14_Click"></Button>
+                    <Button x:Name="pm2" FontSize="12" Content="连续测量" Height="30" Width="60" HorizontalAlignment="Left"></Button>
+                    <Button x:Name="pm3" FontSize="12" Content="校准"  Height="30" Width="60" HorizontalAlignment="Left" Click="pm3_Click"></Button>
+                    <Button x:Name="pm4" FontSize="12" Content="通信"  Height="30" Width="60" HorizontalAlignment="Left" Click="pm4_Click"></Button>
+                    <Button x:Name="pm5" Content="液体测量"  Height="30" Width="60" HorizontalAlignment="Left" MouseEnter="pm5_MouseEnter" Click="pm5_Click"/>
+                    <Button x:Name="m51" Content="清洗" Height="30" Width="60" HorizontalAlignment="Left" Background="LightPink" Margin="20,2,0,0" Visibility="Collapsed" Click="m51_Click"></Button>
+                    <Button x:Name="m52" FontSize="12" Content="测量" Height="30" Width="60" HorizontalAlignment="Left" Background="LightPink" Margin="20,2,0,0" Visibility="Collapsed" Click="m52_Click" ></Button>
+                    <Button x:Name="m53" FontSize="12" Content="返回上一级" Height="30" Width="75" HorizontalAlignment="Left" Background="LightPink" Margin="20,2,0,0" Visibility="Collapsed" Click="m53_Click"></Button>
+                    <Button x:Name="pm6" FontSize="12" Content="参数设置"  Height="30" Width="60" HorizontalAlignment="Left" Click="pm6_Click"></Button>
+                    <Button x:Name="pm7" FontSize="12" Content="状态获取"  Height="30" Width="60" HorizontalAlignment="Left" Click="pm7_Click"></Button>
+                </StackPanel>
+            </GroupBox>
+            <Canvas   Height="277" Canvas.Left="143" Canvas.Top="15" Width="247"
+                       Background="White"
                    >
-                <Border.Background>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                        <GradientStop Color="White" Offset="0"></GradientStop>
-                        <GradientStop Color="Silver" Offset="1"></GradientStop>
-                    </LinearGradientBrush>
-                </Border.Background>
+                <Canvas.Effect>
+                    <DropShadowEffect ShadowDepth="15" BlurRadius="15"/>
+                </Canvas.Effect>
                 <StackPanel Orientation="Vertical">
-                    <StackPanel Height="150" Orientation="Horizontal">
+                    <StackPanel Height="150" Orientation="Horizontal" Margin="0,20">
                         <StackPanel Width="100">
                             <Label Width="90" Height="30" HorizontalAlignment="Right" HorizontalContentAlignment="Right">
                                 放大倍数:
                             </Label>
-                            <Label Width="90" Height="30" HorizontalAlignment="Right" HorizontalContentAlignment="Right">
-                                流量:
-                            </Label>
+                            <Label Width="90" Height="30" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Content="流量:"/>
                             <Label Width="90" Height="30" HorizontalAlignment="Right" HorizontalContentAlignment="Right">
                                 高压值:
                             </Label>
@@ -93,21 +83,23 @@
                                 实时:
                             </Label>
                         </StackPanel>
-                        <StackPanel Width="150" Margin="0,5,0,0">
-                            <TextBlock x:Name="enlargeblk" Width="90" Height="30" HorizontalAlignment="Left"> 1</TextBlock>
-                            <TextBlock x:Name="fluentblk" Width="90" Height="30" HorizontalAlignment="Left"> 3</TextBlock>
-                            <TextBlock x:Name="presureblk" Width="90" Height="30" HorizontalAlignment="Left"> 2</TextBlock>
-                            <TextBlock Width="90" Height="30" HorizontalAlignment="Left"> 2</TextBlock>
+                        <StackPanel Width="127" Margin="0,5,0,0">
+                            <TextBox x:Name="enlargeblk" Width="90" Height="20" IsEnabled="False" HorizontalAlignment="Left">1</TextBox>
+                            <TextBox x:Name="fluentblk" Width="90" Height="20" IsEnabled="False" HorizontalAlignment="Left">3</TextBox>
+                            <TextBox x:Name="presureblk" Width="90" Height="20"  IsEnabled="False" HorizontalAlignment="Left">2</TextBox>
+                            <TextBox Width="90" Height="25"  IsEnabled="False" HorizontalAlignment="Left">2</TextBox>
                         </StackPanel>
                     </StackPanel>
-                    <StackPanel Height="50">
-                        <TextBlock x:Name="statustxt" Height="50" HorizontalAlignment="Center" Width="200" >
-                            测试中...
-                        </TextBlock>
-                    </StackPanel>
+                    <Canvas Height="30" >
+                        <TextBlock Foreground="Red" Height="30" FontSize="14" Canvas.Left="45">
+                            <TextBlock.Effect>
+                                <DropShadowEffect/>
+                            </TextBlock.Effect>状态:</TextBlock>
+                        <TextBlock x:Name="statustxt" Height="20" HorizontalAlignment="Center" Width="120" Canvas.Left="93" Canvas.Top="2" ><Run Text="测试中..."/></TextBlock>
+                    </Canvas>
                 </StackPanel>
-            </Border>
-            <Button x:Name="whidebtn" Content="退出" Height="28" Canvas.Left="498" Canvas.Top="381" Width="37" Click="whidebtn_Click"/>
+            </Canvas>
+            <Button x:Name="whidebtn" Content="退出" Height="28" Canvas.Left="338" Canvas.Top="242" Width="37" Click="whidebtn_Click"/>
             <TextBox Visibility="Collapsed" x:Name="testbox" Width="70" Canvas.Top="6"></TextBox>
             <Button Visibility="Collapsed" x:Name="teststatusbtn" Width="30" Height="20" Canvas.Left="85" Canvas.Top="3" Click="teststatusbtn_Click">test</Button>
         </Canvas>

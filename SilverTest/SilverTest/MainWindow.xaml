@@ -17,7 +17,7 @@
         TextOptions.TextFormattingMode="Ideal"
         TextOptions.TextRenderingMode="Auto"        
         Title="QM201H" Height="850" Width="1000" Loaded="window_Loaded" WindowStartupLocation="CenterScreen" 
-        Icon="images/test.png">
+        Icon="images/test.png" Closed="window_Closed">
     <Window.Resources>
         <ContextMenu x:Key="newtableMenu">
             <MenuItem Header="查看历史" Click="newtablemenu_showhistory">
