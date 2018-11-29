@@ -250,8 +250,8 @@
                                 <DataGridTextColumn Header="汞浓度ng/mL" Width="80" Binding="{Binding Density,Mode=TwoWay}" Visibility="Hidden" IsReadOnly="True"></DataGridTextColumn>
                                 <DataGridTextColumn Header="样品质量" Width="80" Binding="{Binding Weight,Mode=TwoWay}"></DataGridTextColumn>
                                 <DataGridTextColumn x:Name="newLiquidBulkCol"  Header="样品消化液总体积ml" Width="80" Visibility="Hidden"></DataGridTextColumn>
-                                <DataGridTextColumn Header="样品总体积L" Binding="{Binding AirTotolBulk,Mode=TwoWay}" Width="80"></DataGridTextColumn>
-                                <DataGridTextColumn Header="样品中汞含量mg/m3" Binding="{Binding AirG,Mode=TwoWay}" Width="80" IsReadOnly="True"></DataGridTextColumn>
+                                <DataGridTextColumn Header="样品总体积L" Binding="{Binding AirTotolBulk,Mode=TwoWay}" Width="100"></DataGridTextColumn>
+                                <DataGridTextColumn Header="样品中汞含量mg/m3" Binding="{Binding AirG,Mode=TwoWay}" Width="150" IsReadOnly="True"></DataGridTextColumn>
                                 <DataGridTemplateColumn Header="选择标样" Width="*">
                                     <DataGridTemplateColumn.CellTemplate >
                                         <DataTemplate>
@@ -303,14 +303,14 @@
                                 <DataGridTextColumn x:Name="standardAirSampleTimeCol" Header="取样时间m" Width="90" Binding="{Binding AirSampleTime,Mode=TwoWay}" Visibility="Hidden" IsReadOnly="False"></DataGridTextColumn>
                                 <DataGridTextColumn x:Name="standardAirFluentCol" Header="流量L/m" Width="80" Binding="{Binding AirFluent,Mode=TwoWay}" Visibility="Hidden" IsReadOnly="False"></DataGridTextColumn>
                                 <DataGridTextColumn x:Name="airtemperature" Header="温度" Width="80" Binding="{Binding Temperature,Mode=TwoWay}" IsReadOnly="False"></DataGridTextColumn>
-                                <DataGridTextColumn x:Name="airbulk" Header="标样体积mL" Width="80" Binding="{Binding AirML,Mode=TwoWay}" IsReadOnly="False"></DataGridTextColumn>
+                                <DataGridTextColumn x:Name="airbulk" Header="标样体积mL" Width="100" Binding="{Binding AirML,Mode=TwoWay}" IsReadOnly="False"></DataGridTextColumn>
                                 <DataGridTextColumn x:Name="airhan" Header="汞量ng" Width="80" Binding="{Binding AirG,Mode=TwoWay}" IsReadOnly="True"></DataGridTextColumn>
                                 <DataGridTextColumn Header="样品质量" Width="80" Binding="{Binding Path=Weight,Mode=TwoWay}"></DataGridTextColumn>
                                 <DataGridTextColumn x:Name="standardProviderCol" Header="样品供应商" Width="80" Binding="{Binding Path=ProviderCompany,Mode=TwoWay}" Visibility="Hidden"></DataGridTextColumn>
                                 <DataGridTextColumn x:Name="standardPlaceCol"  Header="产地" Width="80" Binding="{Binding Path=Place,Mode=TwoWay}" Visibility="Hidden"></DataGridTextColumn>
-                                <DataGridTextColumn Header="样品购买日期" Width="80" Binding="{Binding Path=BuyDate,Mode=TwoWay}"></DataGridTextColumn>
-                                <DataGridTextColumn Header="斜率" Width="80" Binding="{Binding Path=A,Mode=TwoWay}" IsReadOnly="True"></DataGridTextColumn>
-                                <DataGridTextColumn Header="截距" Width="80" Binding="{Binding Path=B,Mode=TwoWay}" IsReadOnly="True"></DataGridTextColumn>
+                                <DataGridTextColumn Header="样品购买日期" Width="100" Binding="{Binding Path=BuyDate,Mode=TwoWay}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="斜率" Width="70" Binding="{Binding Path=A,Mode=TwoWay}" IsReadOnly="True"></DataGridTextColumn>
+                                <DataGridTextColumn Header="截距" Width="70" Binding="{Binding Path=B,Mode=TwoWay}" IsReadOnly="True"></DataGridTextColumn>
                                 <DataGridTextColumn Header="相关系数" Width="*" Binding="{Binding Path=R,Mode=TwoWay}" IsReadOnly="True"></DataGridTextColumn>
                             </DataGrid.Columns>
                         </DataGrid>

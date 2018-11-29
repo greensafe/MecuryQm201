@@ -92,9 +92,7 @@
                     </StackPanel>
                     <Canvas Height="30" >
                         <TextBlock Foreground="Red" Height="30" FontSize="14" Canvas.Left="45">
-                            <TextBlock.Effect>
-                                <DropShadowEffect/>
-                            </TextBlock.Effect>状态:</TextBlock>
+                            状态:</TextBlock>
                         <TextBlock x:Name="statustxt" Height="20" HorizontalAlignment="Center" Width="120" Canvas.Left="93" Canvas.Top="2" ><Run Text="测试中..."/></TextBlock>
                     </Canvas>
                 </StackPanel>
