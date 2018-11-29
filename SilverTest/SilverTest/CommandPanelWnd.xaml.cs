@@ -174,89 +174,113 @@ namespace SilverTest
             byte[] data = new byte[8] { 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0, 0 };
             ushort crc;
 
-            if (timeParamTxt.Text != null && timeParamTxt.Text!= "")
+            if (timeckb.IsChecked == true)
             {
-                data[3] = 0x01; //子菜单
-                data[4] = 0x00;  //清空数据高位
-                data[5] = byte.Parse(timeParamTxt.Text);
-            }
-            crc = Utility.CRC16(data, 6);
-            data[6] = (byte)(crc >> 8);
-            data[7] = (byte)crc;
-            if (SerialDriver.GetDriver().Send(data))
-            {
-                statustxt.Text = "时间设置命令已发出";
-            }
-
-            if (fluParamTxt.Text != null && fluParamTxt.Text != "")
-            {
-                data[3] = 0x02; //子菜单
-                data[4] = 0x00;  //清空数据高位
-                data[5] = byte.Parse(fluParamTxt.Text);
-            }
-            crc = Utility.CRC16(data, 6);
-            data[6] = (byte)(crc >> 8);
-            data[7] = (byte)crc;
-            if (SerialDriver.GetDriver().Send(data))
-            {
-                statustxt.Text = "流量设置命令已发出";
+                if (timeParamTxt.Text != null && timeParamTxt.Text != "")
+                {
+                    data[3] = 0x01; //子菜单
+                    data[4] = 0x00;  //清空数据高位
+                    data[5] = byte.Parse(timeParamTxt.Text);
+                }
+                crc = Utility.CRC16(data, 6);
+                data[6] = (byte)(crc >> 8);
+                data[7] = (byte)crc;
+                if (SerialDriver.GetDriver().Send(data))
+                {
+                    statustxt.Text = "时间设置命令已发出";
+                    comstatus = CommandPanlStatus.ParamSet_Waiting;
+                }
             }
 
-            if (presureParamTxt.Text != null && presureParamTxt.Text != "")
+            if (fluentckb.IsChecked == true)
             {
-                data[3] = 0x04; //子菜单
-                int pres = int.Parse(presureParamTxt.Text);
-                data[4] = (byte)(pres >> 8);
-                data[5] = (byte)pres;
-            }
-            crc = Utility.CRC16(data, 6);
-            data[6] = (byte)(crc >> 8);
-            data[7] = (byte)crc;
-            if (SerialDriver.GetDriver().Send(data))
-            {
-                statustxt.Text = "高压设置命令已发出";
-            }
-
-            if (enlargeParamTxt.Text != null && enlargeParamTxt.Text != "")
-            {
-                data[3] = 0x05; //子菜单
-                data[4] = 0x00;  //清空数据高位
-                data[5] = byte.Parse(enlargeParamTxt.Text);
-            }
-            crc = Utility.CRC16(data, 6);
-            data[6] = (byte)(crc >> 8);
-            data[7] = (byte)crc;
-            if (SerialDriver.GetDriver().Send(data))
-            {
-                statustxt.Text = "放大倍数设置命令已发出";
+                if (fluParamTxt.Text != null && fluParamTxt.Text != "")
+                {
+                    data[3] = 0x02; //子菜单
+                    data[4] = 0x00;  //清空数据高位
+                    data[5] = byte.Parse(fluParamTxt.Text);
+                }
+                crc = Utility.CRC16(data, 6);
+                data[6] = (byte)(crc >> 8);
+                data[7] = (byte)crc;
+                if (SerialDriver.GetDriver().Send(data))
+                {
+                    statustxt.Text = "流量设置命令已发出";
+                    comstatus = CommandPanlStatus.ParamSet_Waiting;
+                }
             }
 
-            if (washtimeParamTxt.Text != null && washtimeParamTxt.Text != "")
+            if (highpressureckb.IsChecked == true)
             {
-                data[3] = 0x03; //子菜单
-                data[4] = 0x00;  //清空数据高位
-                data[5] = byte.Parse(washtimeParamTxt.Text);
-            }
-            crc = Utility.CRC16(data, 6);
-            data[6] = (byte)(crc >> 8);
-            data[7] = (byte)crc;
-            if (SerialDriver.GetDriver().Send(data))
-            {
-                statustxt.Text = "清洗时长设置命令已发出";
+                if (presureParamTxt.Text != null && presureParamTxt.Text != "")
+                {
+                    data[3] = 0x04; //子菜单
+                    int pres = int.Parse(presureParamTxt.Text);
+                    data[4] = (byte)(pres >> 8);
+                    data[5] = (byte)pres;
+                }
+                crc = Utility.CRC16(data, 6);
+                data[6] = (byte)(crc >> 8);
+                data[7] = (byte)crc;
+                if (SerialDriver.GetDriver().Send(data))
+                {
+                    statustxt.Text = "高压设置命令已发出";
+                    comstatus = CommandPanlStatus.ParamSet_Waiting;
+                }
             }
 
-            if (realtimeParamTxt.Text != null && realtimeParamTxt.Text != "")
+            if (amplifyckb.IsChecked == true)
             {
-                data[3] = 0x06; //子菜单
-                data[4] = 0x00;  //清空数据高位
-                data[5] = byte.Parse(realtimeParamTxt.Text);
+                if (enlargeParamTxt.Text != null && enlargeParamTxt.Text != "")
+                {
+                    data[3] = 0x05; //子菜单
+                    data[4] = 0x00;  //清空数据高位
+                    data[5] = byte.Parse(enlargeParamTxt.Text);
+                }
+                crc = Utility.CRC16(data, 6);
+                data[6] = (byte)(crc >> 8);
+                data[7] = (byte)crc;
+                if (SerialDriver.GetDriver().Send(data))
+                {
+                    statustxt.Text = "放大倍数设置命令已发出";
+                    comstatus = CommandPanlStatus.ParamSet_Waiting;
+                }
             }
-            crc = Utility.CRC16(data, 6);
-            data[6] = (byte)(crc >> 8);
-            data[7] = (byte)crc;
-            if (SerialDriver.GetDriver().Send(data))
+
+            if (washtimeckb.IsChecked == true)
             {
-                statustxt.Text = "时间设置命令已发出";
+                if (washtimeParamTxt.Text != null && washtimeParamTxt.Text != "")
+                {
+                    data[3] = 0x03; //子菜单
+                    data[4] = 0x00;  //清空数据高位
+                    data[5] = byte.Parse(washtimeParamTxt.Text);
+                }
+                crc = Utility.CRC16(data, 6);
+                data[6] = (byte)(crc >> 8);
+                data[7] = (byte)crc;
+                if (SerialDriver.GetDriver().Send(data))
+                {
+                    statustxt.Text = "清洗时长设置命令已发出";
+                    comstatus = CommandPanlStatus.ParamSet_Waiting;
+                }
+            }
+
+            if (realtimeckb.IsChecked == true)
+            {
+                if (realtimeParamTxt.Text != null && realtimeParamTxt.Text != "")
+                {
+                    data[3] = 0x06; //子菜单
+                    data[4] = 0x00;  //清空数据高位
+                    data[5] = byte.Parse(realtimeParamTxt.Text);
+                }
+                crc = Utility.CRC16(data, 6);
+                data[6] = (byte)(crc >> 8);
+                data[7] = (byte)crc;
+                if (SerialDriver.GetDriver().Send(data))
+                {
+                    statustxt.Text = "时间设置命令已发出";
+                    comstatus = CommandPanlStatus.ParamSet_Waiting;
+                }
             }
         }
 
@@ -663,7 +687,6 @@ namespace SilverTest
             if (comstatus == CommandPanlStatus.ParamSet_Waiting)
                 return; //donn't repeat setting
             setParam();
-            comstatus = CommandPanlStatus.ParamSet_Waiting;
         }
 
         private void pm1_Click(object sender, RoutedEventArgs e)
@@ -753,6 +776,66 @@ namespace SilverTest
             {
                 MessageBox.Show("端口未打开");
             };
+        }
+
+        private void timeckb_Checked(object sender, RoutedEventArgs e)
+        {
+            timeParamTxt.IsEnabled = true;
+        }
+
+        private void timeckb_Unchecked(object sender, RoutedEventArgs e)
+        {
+            timeParamTxt.IsEnabled = false;
+        }
+
+        private void fluentckb_Checked(object sender, RoutedEventArgs e)
+        {
+            fluParamTxt.IsEnabled = true;
+        }
+
+        private void fluentckb_Unchecked(object sender, RoutedEventArgs e)
+        {
+            fluParamTxt.IsEnabled = false;
+        }
+
+        private void amplifyckb_Unchecked(object sender, RoutedEventArgs e)
+        {
+            enlargeParamTxt.IsEnabled = false;
+        }
+
+        private void amplifyckb_Checked(object sender, RoutedEventArgs e)
+        {
+            enlargeParamTxt.IsEnabled = true;
+        }
+
+        private void washtimeckb_Checked(object sender, RoutedEventArgs e)
+        {
+            washtimeParamTxt.IsEnabled = true;
+        }
+
+        private void washtimeckb_Unchecked(object sender, RoutedEventArgs e)
+        {
+            washtimeParamTxt.IsEnabled = false;
+        }
+
+        private void highpressureckb_Unchecked(object sender, RoutedEventArgs e)
+        {
+            presureParamTxt.IsEnabled = false;
+        }
+
+        private void highpressureckb_Checked(object sender, RoutedEventArgs e)
+        {
+            presureParamTxt.IsEnabled = true;
+        }
+
+        private void realtimeckb_Checked(object sender, RoutedEventArgs e)
+        {
+            realtimeParamTxt.IsEnabled = true;
+        }
+
+        private void realtimeckb_Unchecked(object sender, RoutedEventArgs e)
+        {
+            realtimeParamTxt.IsEnabled = false;
         }
     }
 

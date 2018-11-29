@@ -12,33 +12,41 @@
     <Grid x:Name="grid" Height="323" VerticalAlignment="Top" Background="White">
         <Canvas MouseLeftButtonDown="Canvas_MouseLeftButtonDown" Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}" ClipToBounds="False"
                 Background="White" >
-            <Canvas x:Name="parampanel" Panel.ZIndex="10" Visibility="Collapsed" 
+            <Canvas x:Name="parampanel" Panel.ZIndex="10" Visibility="Visible" 
                     Background="White"
-                    Width="247" Height="265"
-                        Canvas.Left="143" Canvas.Top="27">
+                    Width="247" Height="277"
+                        Canvas.Left="143" Canvas.Top="15">
                 <Canvas.Effect>
-                    <DropShadowEffect ShadowDepth="15" BlurRadius="15"/>
+                    <DropShadowEffect ShadowDepth="5" BlurRadius="5"/>
                 </Canvas.Effect>
 
-                <TextBlock Width="50" TextAlignment="Right" Canvas.Top="23">时间</TextBlock>
+                <TextBlock Width="50" TextAlignment="Right" Canvas.Top="22" Canvas.Left="77">时间</TextBlock>
                 <TextBox x:Name="timeParamTxt" Width="50" TextAlignment="Center" 
                                          TextChanged="timeParamTxt_TextChanged" 
-                                         Canvas.Left="55" Canvas.Top="18" Height="13">3</TextBox>
-                <TextBlock Width="50" TextAlignment="Right" Canvas.Top="66">放大倍数</TextBlock>
+                                         Canvas.Left="133" Canvas.Top="17" Height="13"
+                                         IsEnabled="False"   
+                         >3</TextBox>
+                <TextBlock Width="50" TextAlignment="Right" Canvas.Top="90" Canvas.Left="78">放大倍数</TextBlock>
                 <TextBox x:Name="enlargeParamTxt" Width="50" TextAlignment="Center" TextChanged="enlargeParamTxt_TextChanged" 
-                                         Height="13"
-                                         Canvas.Left="55" Canvas.Top="61" RenderTransformOrigin="0.107,0.564">1</TextBox>
-                <TextBlock Width="50" TextAlignment="Right" Canvas.Top="106">高压</TextBlock>
-                <TextBox x:Name="presureParamTxt" Width="50" TextAlignment="Center" TextChanged="presureParamTxt_TextChanged" Canvas.Left="55" Canvas.Top="101" RenderTransformOrigin="0.2,0.513">500</TextBox>
-                <TextBlock Width="50" TextAlignment="Right" Canvas.Left="115" Canvas.Top="23">流量</TextBlock>
-                <TextBox  x:Name="fluParamTxt" Width="50" TextAlignment="Center" TextChanged="fluParamTxt_TextChanged" Canvas.Left="170" Canvas.Top="18">2</TextBox>
-                <TextBlock Width="50" TextAlignment="Right" Canvas.Left="115" Canvas.Top="66" RenderTransformOrigin="0.06,0.6">清洗时长</TextBlock>
-                <TextBox  x:Name="washtimeParamTxt" Width="50" TextAlignment="Center" TextChanged="washtimeParamTxt_TextChanged" Canvas.Left="170" Canvas.Top="61" RenderTransformOrigin="2.733,2.269">2</TextBox>
-                <TextBlock Width="50" TextAlignment="Right" Canvas.Left="115" Canvas.Top="106">实时</TextBlock>
-                <TextBox x:Name="realtimeParamTxt" Width="50" TextAlignment="Center" TextChanged="realtimeParamTxt_TextChanged" Canvas.Left="170" Canvas.Top="101">21</TextBox>
+                                         Height="13" IsEnabled="False"
+                                         Canvas.Left="133" Canvas.Top="85">1</TextBox>
+                <TextBlock Width="50" TextAlignment="Right" Canvas.Top="159" Canvas.Left="77">高压</TextBlock>
+                <TextBox x:Name="presureParamTxt" IsEnabled="False" Width="50" TextAlignment="Center" TextChanged="presureParamTxt_TextChanged" Canvas.Left="133" Canvas.Top="154">500</TextBox>
+                <TextBlock Width="50" TextAlignment="Right" Canvas.Top="56" Canvas.Left="77">流量</TextBlock>
+                <TextBox  x:Name="fluParamTxt" IsEnabled="False" Width="50" TextAlignment="Center" TextChanged="fluParamTxt_TextChanged" Canvas.Left="133" Canvas.Top="51">2</TextBox>
+                <TextBlock Width="50" TextAlignment="Right" Canvas.Top="124" Canvas.Left="78">清洗时长</TextBlock>
+                <TextBox  x:Name="washtimeParamTxt" IsEnabled="False" Width="50" TextAlignment="Center" TextChanged="washtimeParamTxt_TextChanged" Canvas.Left="133" Canvas.Top="119">2</TextBox>
+                <TextBlock Width="50" TextAlignment="Right" Canvas.Top="193" Canvas.Left="78">实时</TextBlock>
+                <TextBox x:Name="realtimeParamTxt" IsEnabled="False" Width="50" TextAlignment="Center" TextChanged="realtimeParamTxt_TextChanged" Canvas.Left="133" Canvas.Top="188">21</TextBox>
 
-                <Button x:Name="setparamok" Content="确定" HorizontalAlignment="Right" Click="setparamok_Click" Canvas.Left="73" Canvas.Top="141"/>
-                <Button x:Name="setparamcancel" Content="取消" HorizontalAlignment="Right" Click="setparamcancel_Click" Canvas.Left="170" Canvas.Top="141" RenderTransformOrigin="0.438,0.111"></Button>
+                <Button x:Name="setparamok" Content="确定" HorizontalAlignment="Right" Click="setparamok_Click" Canvas.Left="55" Canvas.Top="228"/>
+                <Button x:Name="setparamcancel" Content="取消" HorizontalAlignment="Right" Click="setparamcancel_Click" Canvas.Left="133" Canvas.Top="228" RenderTransformOrigin="0.438,0.111"></Button>
+                <CheckBox x:Name="timeckb" FontSize="7" Canvas.Left="34" Canvas.Top="23" Width="14" Height="14" Checked="timeckb_Checked" Unchecked="timeckb_Unchecked"/>
+                <CheckBox x:Name="fluentckb" FontSize="7" Canvas.Left="34" Canvas.Top="56" Width="14" Height="14" Checked="fluentckb_Checked" Unchecked="fluentckb_Unchecked"/>
+                <CheckBox x:Name="amplifyckb" FontSize="7" Canvas.Left="34" Canvas.Top="90" Width="14" Height="14" Unchecked="amplifyckb_Unchecked" Checked="amplifyckb_Checked"/>
+                <CheckBox x:Name="washtimeckb" FontSize="7" Canvas.Left="34" Canvas.Top="124" Width="14" Height="14" Checked="washtimeckb_Checked" Unchecked="washtimeckb_Unchecked"/>
+                <CheckBox x:Name="highpressureckb" FontSize="7" Canvas.Left="34" Canvas.Top="159" Width="14" Height="14" Unchecked="highpressureckb_Unchecked" Checked="highpressureckb_Checked"/>
+                <CheckBox x:Name="realtimeckb" FontSize="7" Canvas.Left="34" Canvas.Top="193" Width="14" Height="14" Checked="realtimeckb_Checked" Unchecked="realtimeckb_Unchecked"/>
             </Canvas>
 
             <Button x:Name="getstatusbtn" Width="40" Height="40" Style="{StaticResource MirrorStyle}" Canvas.Left="335" Canvas.Top="234" Visibility="Collapsed"/>
@@ -55,7 +63,7 @@
                     <Button x:Name="pm2" FontSize="12" Content="连续测量" Height="30" Width="60" HorizontalAlignment="Left"></Button>
                     <Button x:Name="pm3" FontSize="12" Content="校准"  Height="30" Width="60" HorizontalAlignment="Left" Click="pm3_Click"></Button>
                     <Button x:Name="pm4" FontSize="12" Content="通信"  Height="30" Width="60" HorizontalAlignment="Left" Click="pm4_Click"></Button>
-                    <Button x:Name="pm5" Content="液体测量"  Height="30" Width="60" HorizontalAlignment="Left" MouseEnter="pm5_MouseEnter" Click="pm5_Click"/>
+                    <Button x:Name="pm5" FontSize="12" Content="液体测量"  Height="30" Width="60" HorizontalAlignment="Left" MouseEnter="pm5_MouseEnter" Click="pm5_Click"/>
                     <Button x:Name="m51" Content="清洗" Height="30" Width="60" HorizontalAlignment="Left" Background="LightPink" Margin="20,2,0,0" Visibility="Collapsed" Click="m51_Click"></Button>
                     <Button x:Name="m52" FontSize="12" Content="测量" Height="30" Width="60" HorizontalAlignment="Left" Background="LightPink" Margin="20,2,0,0" Visibility="Collapsed" Click="m52_Click" ></Button>
                     <Button x:Name="m53" FontSize="12" Content="返回上一级" Height="30" Width="75" HorizontalAlignment="Left" Background="LightPink" Margin="20,2,0,0" Visibility="Collapsed" Click="m53_Click"></Button>
@@ -63,11 +71,11 @@
                     <Button x:Name="pm7" FontSize="12" Content="状态获取"  Height="30" Width="60" HorizontalAlignment="Left" Click="pm7_Click"></Button>
                 </StackPanel>
             </GroupBox>
-            <Canvas   Height="277" Canvas.Left="143" Canvas.Top="15" Width="247"
+            <Canvas Height="277" Canvas.Left="143" Canvas.Top="15" Width="247"
                        Background="White"
                    >
                 <Canvas.Effect>
-                    <DropShadowEffect ShadowDepth="15" BlurRadius="15"/>
+                    <DropShadowEffect ShadowDepth="5" BlurRadius="5"/>
                 </Canvas.Effect>
                 <StackPanel Orientation="Vertical">
                     <StackPanel Height="150" Orientation="Horizontal" Margin="0,20">
@@ -86,7 +94,6 @@
                         <StackPanel Width="127" Margin="0,5,0,0">
                             <TextBox x:Name="enlargeblk" Width="90" Height="20" IsEnabled="False" HorizontalAlignment="Left">1</TextBox>
                             <TextBox x:Name="fluentblk" Width="90" Height="20" IsEnabled="False" HorizontalAlignment="Left">3</TextBox>
-                            <TextBox x:Name="presureblk" Width="90" Height="20"  IsEnabled="False" HorizontalAlignment="Left">2</TextBox>
                             <TextBox Width="90" Height="25"  IsEnabled="False" HorizontalAlignment="Left">2</TextBox>
                         </StackPanel>
                     </StackPanel>

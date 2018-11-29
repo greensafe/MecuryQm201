@@ -2067,5 +2067,15 @@ namespace SilverTest
             }
             catch (Exception er) {; }
         }
+
+        private void controlpanelmenu_Click(object sender, RoutedEventArgs e)
+        {
+            if (cmdpanelWnd == null)
+            {
+                cmdpanelWnd = new CommandPanelWnd();
+                cmdpanelWnd.Owner = this;
+            }
+            cmdpanelWnd.Show();
+        }
     }
 }

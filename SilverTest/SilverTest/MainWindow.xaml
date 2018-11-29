@@ -111,6 +111,8 @@
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem x:Name="modifytestmenu" Header="修改测试数据" Click="modifytestmenu_Click" ></MenuItem>
+                    <MenuItem x:Name="controlpanelmenu" Header="控制面板" Click="controlpanelmenu_Click">
+                    </MenuItem>
                     <MenuItem x:Name="setportmenu" Header="设置串口" Click="setportmenu_Click">
                         <MenuItem.Icon>
                             <iconPacks:PackIconMaterial Kind="Usb" />
