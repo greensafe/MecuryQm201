@@ -413,11 +413,38 @@ namespace SilverTest
                         {
                             statustxt.Text = "正在取样...";
                             statustxt_2.Content = "正在取样...";
+                            m11.IsEnabled = true;   //测量-采样按钮
+                            m12.IsEnabled = false;  //测量-清洗按钮
+                            m13.IsEnabled = false;  //测量-测量
+                            m14.IsEnabled = false;  //测量-返回上一级菜单
+                            m21.IsEnabled = false;  //连续测量-开始
+                            m22.IsEnabled = false;  //连续测量-退出
+                            pm3.IsEnabled = false;  //校准
+                            pm4.IsEnabled = false;  //通信
+                            m51.IsEnabled = false;  //液体-清洗
+                            m52.IsEnabled = false;  //液体-测量
+                            m53.IsEnabled = false;  //液体-返回上一级
+                            pm6.IsEnabled = false;  //参数设置
+                            pm7.IsEnabled = false;  //状态获取
+
                         }
                         else if (result == 2)
                         {
                             statustxt.Text = "取样命令执行成功";
                             statustxt_2.Content = "取样命令执行成功";
+                            m11.IsEnabled = true;   //测量-采样按钮
+                            m12.IsEnabled = true;  //测量-清洗按钮
+                            m13.IsEnabled = true;  //测量-测量
+                            m14.IsEnabled = true;  //测量-返回上一级菜单
+                            m21.IsEnabled = true;  //连续测量-开始
+                            m22.IsEnabled = true;  //连续测量-退出
+                            pm3.IsEnabled = true;  //校准
+                            pm4.IsEnabled = true;  //通信
+                            m51.IsEnabled = true;  //液体-清洗
+                            m52.IsEnabled = true;  //液体-测量
+                            m53.IsEnabled = true;  //液体-返回上一级
+                            pm6.IsEnabled = true;  //参数设置
+                            pm7.IsEnabled = true;  //状态获取
                         }
                         comstatus = CommandPanlStatus.Air_Sample_Finished;
                         EnableUI();
@@ -451,11 +478,37 @@ namespace SilverTest
                         {
                             statustxt.Text = "正在测量...";
                             statustxt_2.Content = "正在测量...";
+                            m11.IsEnabled = false;   //测量-采样按钮
+                            m12.IsEnabled = false;  //测量-清洗按钮
+                            m13.IsEnabled = true;  //测量-测量
+                            m14.IsEnabled = false;  //测量-返回上一级菜单
+                            m21.IsEnabled = false;  //连续测量-开始
+                            m22.IsEnabled = false;  //连续测量-退出
+                            pm3.IsEnabled = false;  //校准
+                            pm4.IsEnabled = false;  //通信
+                            m51.IsEnabled = false;  //液体-清洗
+                            m52.IsEnabled = false;  //液体-测量
+                            m53.IsEnabled = false;  //液体-返回上一级
+                            pm6.IsEnabled = false;  //参数设置
+                            pm7.IsEnabled = false;  //状态获取
                         }
                         else if(result == 2)
                         {
                             statustxt.Text = "测量完成";
                             statustxt_2.Content = "测量完成";
+                            m11.IsEnabled = true;   //测量-采样按钮
+                            m12.IsEnabled = true;  //测量-清洗按钮
+                            m13.IsEnabled = true;  //测量-测量
+                            m14.IsEnabled = true;  //测量-返回上一级菜单
+                            m21.IsEnabled = true;  //连续测量-开始
+                            m22.IsEnabled = true;  //连续测量-退出
+                            pm3.IsEnabled = true;  //校准
+                            pm4.IsEnabled = true;  //通信
+                            m51.IsEnabled = true;  //液体-清洗
+                            m52.IsEnabled = true;  //液体-测量
+                            m53.IsEnabled = true;  //液体-返回上一级
+                            pm6.IsEnabled = true;  //参数设置
+                            pm7.IsEnabled = true;  //状态获取
                         }
                         comstatus = CommandPanlStatus.Air_Test_Finished;
                         EnableUI();
@@ -475,11 +528,37 @@ namespace SilverTest
                         {
                             statustxt.Text = "进入采样阶段";
                             statustxt_2.Content = "进入采样阶段";
+                            m11.IsEnabled = false;   //测量-采样按钮
+                            m12.IsEnabled = false;  //测量-清洗按钮
+                            m13.IsEnabled = false;  //测量-测量
+                            m14.IsEnabled = false;  //测量-返回上一级菜单
+                            m21.IsEnabled = false;  //连续测量-开始
+                            m22.IsEnabled = true;  //连续测量-退出
+                            pm3.IsEnabled = false;  //校准
+                            pm4.IsEnabled = false;  //通信
+                            m51.IsEnabled = false;  //液体-清洗
+                            m52.IsEnabled = false;  //液体-测量
+                            m53.IsEnabled = false;  //液体-返回上一级
+                            pm6.IsEnabled = false;  //参数设置
+                            pm7.IsEnabled = false;  //状态获取
                         }
                         else if(result == 4)
                         {
                             statustxt.Text = "采样完成";
                             statustxt_2.Content = "采样完成";
+                            m11.IsEnabled = true;   //测量-采样按钮
+                            m12.IsEnabled = true;  //测量-清洗按钮
+                            m13.IsEnabled = true;  //测量-测量
+                            m14.IsEnabled = true;  //测量-返回上一级菜单
+                            m21.IsEnabled = true;  //连续测量-开始
+                            m22.IsEnabled = true;  //连续测量-退出
+                            pm3.IsEnabled = true;  //校准
+                            pm4.IsEnabled = true;  //通信
+                            m51.IsEnabled = true;  //液体-清洗
+                            m52.IsEnabled = true;  //液体-测量
+                            m53.IsEnabled = true;  //液体-返回上一级
+                            pm6.IsEnabled = true;  //参数设置
+                            pm7.IsEnabled = true;  //状态获取
                         }
                         else if(result ==5)
                         {
@@ -490,16 +569,43 @@ namespace SilverTest
                         {
                             statustxt.Text = "清洗完成";
                             statustxt_2.Content = "清洗完成";
+
                         }
                         else if(result == 7)
                         {
                             statustxt.Text = "进入测量阶段";
                             statustxt_2.Content = "进入测量阶段";
+                            m11.IsEnabled = false;   //测量-采样按钮
+                            m12.IsEnabled = false;  //测量-清洗按钮
+                            m13.IsEnabled = false;  //测量-测量
+                            m14.IsEnabled = false;  //测量-返回上一级菜单
+                            m21.IsEnabled = false;  //连续测量-开始
+                            m22.IsEnabled = true;  //连续测量-退出
+                            pm3.IsEnabled = false;  //校准
+                            pm4.IsEnabled = false;  //通信
+                            m51.IsEnabled = false;  //液体-清洗
+                            m52.IsEnabled = false;  //液体-测量
+                            m53.IsEnabled = false;  //液体-返回上一级
+                            pm6.IsEnabled = false;  //参数设置
+                            pm7.IsEnabled = false;  //状态获取
                         }
                         else if(result == 8)
                         {
                             statustxt.Text = "测量完成";
                             statustxt_2.Content = "测量完成";
+                            m11.IsEnabled = true;   //测量-采样按钮
+                            m12.IsEnabled = true;  //测量-清洗按钮
+                            m13.IsEnabled = true;  //测量-测量
+                            m14.IsEnabled = true;  //测量-返回上一级菜单
+                            m21.IsEnabled = true;  //连续测量-开始
+                            m22.IsEnabled = true;  //连续测量-退出
+                            pm3.IsEnabled = true;  //校准
+                            pm4.IsEnabled = true;  //通信
+                            m51.IsEnabled = true;  //液体-清洗
+                            m52.IsEnabled = true;  //液体-测量
+                            m53.IsEnabled = true;  //液体-返回上一级
+                            pm6.IsEnabled = true;  //参数设置
+                            pm7.IsEnabled = true;  //状态获取
                         }
                         comstatus = CommandPanlStatus.ContinueTest_Finished;
                         EnableUI();
@@ -514,6 +620,19 @@ namespace SilverTest
                         {
                             statustxt.Text = "连续测量已停止";
                             statustxt_2.Content = "连续测量已停止";
+                            m11.IsEnabled = true;   //测量-采样按钮
+                            m12.IsEnabled = true;  //测量-清洗按钮
+                            m13.IsEnabled = true;  //测量-测量
+                            m14.IsEnabled = true;  //测量-返回上一级菜单
+                            m21.IsEnabled = true;  //连续测量-开始
+                            m22.IsEnabled = true;  //连续测量-退出
+                            pm3.IsEnabled = true;  //校准
+                            pm4.IsEnabled = true;  //通信
+                            m51.IsEnabled = true;  //液体-清洗
+                            m52.IsEnabled = true;  //液体-测量
+                            m53.IsEnabled = true;  //液体-返回上一级
+                            pm6.IsEnabled = true;  //参数设置
+                            pm7.IsEnabled = true;  //状态获取
                         }
                         comstatus = CommandPanlStatus.ContinueTest_Finished;
                         EnableUI();
@@ -571,11 +690,37 @@ namespace SilverTest
                         {
                             statustxt.Text = "正在测量液体...";
                             statustxt_2.Content = "正在测量液体...";
+                            m11.IsEnabled = false;   //测量-采样按钮
+                            m12.IsEnabled = false;  //测量-清洗按钮
+                            m13.IsEnabled = false;  //测量-测量
+                            m14.IsEnabled = false;  //测量-返回上一级菜单
+                            m21.IsEnabled = false;  //连续测量-开始
+                            m22.IsEnabled = false;  //连续测量-退出
+                            pm3.IsEnabled = false;  //校准
+                            pm4.IsEnabled = false;  //通信
+                            m51.IsEnabled = false;  //液体-清洗
+                            m52.IsEnabled = false;  //液体-测量
+                            m53.IsEnabled = true;  //液体-返回上一级
+                            pm6.IsEnabled = false;  //参数设置
+                            pm7.IsEnabled = false;  //状态获取
                         }
                         else if(result == 2)
                         {
                             statustxt.Text = "液体测量命令执行成功";
                             statustxt_2.Content = "液体测量命令执行成功";
+                            m11.IsEnabled = true;   //测量-采样按钮
+                            m12.IsEnabled = true;  //测量-清洗按钮
+                            m13.IsEnabled = true;  //测量-测量
+                            m14.IsEnabled = true;  //测量-返回上一级菜单
+                            m21.IsEnabled = true;  //连续测量-开始
+                            m22.IsEnabled = true;  //连续测量-退出
+                            pm3.IsEnabled = true;  //校准
+                            pm4.IsEnabled = true;  //通信
+                            m51.IsEnabled = true;  //液体-清洗
+                            m52.IsEnabled = true;  //液体-测量
+                            m53.IsEnabled = true;  //液体-返回上一级
+                            pm6.IsEnabled = true;  //参数设置
+                            pm7.IsEnabled = true;  //状态获取
                         }
                         comstatus = CommandPanlStatus.Liquid_Testing_Finished;
                         EnableUI();
