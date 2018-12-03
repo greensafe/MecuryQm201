@@ -6,13 +6,13 @@
         xmlns:local="clr-namespace:SilverTest"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        WindowStyle="SingleBorderWindow"
+        WindowStyle="None"
         x:Name="CmdPanelWindow"
         Title="命令面板" Height="358.667" Width="431.999" Loaded="Window_Loaded">
     <Grid x:Name="grid" Height="323" VerticalAlignment="Top" Background="White">
         <Canvas MouseLeftButtonDown="Canvas_MouseLeftButtonDown" Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}" ClipToBounds="False"
                 Background="White" >
-            <Canvas x:Name="parampanel" Panel.ZIndex="10" Visibility="Visible" 
+            <Canvas x:Name="parampanel" Panel.ZIndex="10" Visibility="Collapsed" 
                     Background="White"
                     Width="247" Height="277"
                         Canvas.Left="143" Canvas.Top="15">
@@ -91,7 +91,9 @@
                     <Button x:Name="m12" FontSize="12" Content="清洗" Height="30" Width="60" HorizontalAlignment="Left" Background="LightPink" Margin="20,2,0,0" Visibility="Collapsed" Click="m12_Click"></Button>
                     <Button x:Name="m13" FontSize="12" Content="测量" Height="30" Width="60" HorizontalAlignment="Left" Background="LightPink" Margin="20,2,0,0" Visibility="Collapsed" Click="m13_Click"></Button>
                     <Button x:Name="m14" FontSize="12" Content="返回上一级" Height="30" Width="75" HorizontalAlignment="Left" Background="LightPink" Margin="20,2,0,0" Visibility="Collapsed" Click="m14_Click"></Button>
-                    <Button x:Name="pm2" FontSize="12" Content="连续测量" Height="30" Width="70" HorizontalAlignment="Left"></Button>
+                    <Button x:Name="pm2" FontSize="12" Content="连续测量>" Height="30" Width="70" HorizontalAlignment="Left" Click="pm2_Click"></Button>
+                    <Button x:Name="m21" FontSize="12" Content="开始" Height="30" Width="60" HorizontalAlignment="Left" Background="LightPink" Margin="20,2,0,0"  Visibility="Collapsed" Click="m21_Click"></Button>
+                    <Button x:Name="m22" FontSize="12" Content="停止" Height="30" Width="60" HorizontalAlignment="Left" Background="LightPink" Margin="20,2,0,0"  Visibility="Collapsed" Click="m22_Click"></Button>
                     <Button x:Name="pm3" FontSize="12" Content="校准"  Height="30" Width="70" HorizontalAlignment="Left" Click="pm3_Click"></Button>
                     <Button x:Name="pm4" FontSize="12" Content="通信"  Height="30" Width="70" HorizontalAlignment="Left" Click="pm4_Click"></Button>
                     <Button x:Name="pm5" FontSize="12" Content="液体测量>"  Height="30" Width="70" HorizontalAlignment="Left" MouseEnter="pm5_MouseEnter" Click="pm5_Click"/>

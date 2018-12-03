@@ -372,7 +372,12 @@ namespace SilverTest
                             statustxt.Text = "设置放大倍数失败";
                             statustxt_2.Content = "设置放大倍数失败";
                         }
-                        else
+                        else if (result == 1)
+                        {
+                            statustxt.Text = "正在设置放大倍数";
+                            statustxt_2.Content = "正在设置放大倍数";
+                        }
+                        else if (result == 2)
                         {
                             statustxt.Text = "设置放大倍数成功";
                             statustxt_2.Content = "设置放大倍数成功";
@@ -380,16 +385,20 @@ namespace SilverTest
                         comstatus = CommandPanlStatus.ParamSet_Finished;
                         EnableUI();
                         break;
-                    case 0x16: //参数设置-实时
+                    case 0x16: //参数设置-返回上一级
                         if (result == 0)
                         {
-                            statustxt.Text = "设置实时参数失败";
-                            statustxt_2.Content = "设置实时参数失败";
+                            statustxt.Text = "返回命令被拒绝";
+                            statustxt_2.Content = "返回命令被拒绝";
                         }
-                        else
+                        else if (result == 1)
                         {
-                            statustxt.Text = "设置实时参数成功";
-                            statustxt_2.Content = "设置实时参数成功";
+                            statustxt.Text = "正在归0";
+                            statustxt_2.Content = "正在归0";
+                        } else if (result == 2)
+                        {
+                            statustxt.Text = "归0完成";
+                            statustxt_2.Content = "归0完成";
                         }
                         comstatus = CommandPanlStatus.ParamSet_Finished;
                         EnableUI();
@@ -400,7 +409,12 @@ namespace SilverTest
                             statustxt.Text = "取样命令执行失败";
                             statustxt_2.Content = "取样命令执行失败";
                         }
-                        else
+                        else if (result == 1)
+                        {
+                            statustxt.Text = "正在取样...";
+                            statustxt_2.Content = "正在取样...";
+                        }
+                        else if (result == 2)
                         {
                             statustxt.Text = "取样命令执行成功";
                             statustxt_2.Content = "取样命令执行成功";
@@ -414,7 +428,12 @@ namespace SilverTest
                             statustxt.Text = "清洗命令执行失败";
                             statustxt_2.Content = "清洗命令执行失败";
                         }
-                        else
+                        else if(result == 1)
+                        {
+                            statustxt.Text = "正在清洗";
+                            statustxt_2.Content = "正在清洗";
+                        }
+                        else if(result == 2)
                         {
                             statustxt.Text = "清洗命令执行成功";
                             statustxt_2.Content = "清洗命令执行成功";
@@ -426,26 +445,75 @@ namespace SilverTest
                         if (result == 0)
                         {
                             statustxt.Text = "测量命令执行失败";
-                            statustxt_2.Content = "清洗命令执行成功";
+                            statustxt_2.Content = "测量命令执行失败";
                         }
-                        else
+                        else if(result == 1)
                         {
-                            statustxt.Text = "测量命令执行成功";
-                            statustxt_2.Content = "测量命令执行成功";
+                            statustxt.Text = "正在测量...";
+                            statustxt_2.Content = "正在测量...";
+                        }
+                        else if(result == 2)
+                        {
+                            statustxt.Text = "测量完成";
+                            statustxt_2.Content = "测量完成";
                         }
                         comstatus = CommandPanlStatus.Air_Test_Finished;
                         EnableUI();
                         break;
-                    case 0x30: //连续测量
+                    case 0x31: //连续测量-开始
                         if (result == 0)
                         {
-                            statustxt.Text = "连续测试命令执行失败";
-                            statustxt_2.Content = "连续测试命令执行失败";
+                            statustxt.Text = "开始连续测量命令被拒绝";
+                            statustxt_2.Content = "开始连续测量命令被拒绝";
                         }
-                        else
+                        else if(result == 1)
                         {
-                            statustxt.Text = "连续测试命令执行成功";
-                            statustxt_2.Content = "连续测试命令执行成功";
+                            statustxt.Text = "连续测量即将开始";
+                            statustxt_2.Content = "连续测量即将开始";
+                        }
+                        else if(result == 3)
+                        {
+                            statustxt.Text = "进入采样阶段";
+                            statustxt_2.Content = "进入采样阶段";
+                        }
+                        else if(result == 4)
+                        {
+                            statustxt.Text = "采样完成";
+                            statustxt_2.Content = "采样完成";
+                        }
+                        else if(result ==5)
+                        {
+                            statustxt.Text = "进入清洗阶段";
+                            statustxt_2.Content = "进入清洗阶段";
+                        }
+                        else if(result == 6)
+                        {
+                            statustxt.Text = "清洗完成";
+                            statustxt_2.Content = "清洗完成";
+                        }
+                        else if(result == 7)
+                        {
+                            statustxt.Text = "进入测量阶段";
+                            statustxt_2.Content = "进入测量阶段";
+                        }
+                        else if(result == 8)
+                        {
+                            statustxt.Text = "测量完成";
+                            statustxt_2.Content = "测量完成";
+                        }
+                        comstatus = CommandPanlStatus.ContinueTest_Finished;
+                        EnableUI();
+                        break;
+                    case 0x32: //连续测量-停止
+                        if (result == 0)
+                        {
+                            statustxt.Text = "无法停止连续测量";
+                            statustxt_2.Content = "无法停止连续测量";
+                        }
+                        else if (result == 2)
+                        {
+                            statustxt.Text = "连续测量已停止";
+                            statustxt_2.Content = "连续测量已停止";
                         }
                         comstatus = CommandPanlStatus.ContinueTest_Finished;
                         EnableUI();
@@ -499,7 +567,12 @@ namespace SilverTest
                             statustxt.Text = "液体测量命令执行失败";
                             statustxt_2.Content = "液体测量命令执行失败";
                         }
-                        else
+                        else if(result == 1)
+                        {
+                            statustxt.Text = "正在测量液体...";
+                            statustxt_2.Content = "正在测量液体...";
+                        }
+                        else if(result == 2)
                         {
                             statustxt.Text = "液体测量命令执行成功";
                             statustxt_2.Content = "液体测量命令执行成功";
@@ -594,6 +667,7 @@ namespace SilverTest
             if (SerialDriver.GetDriver().Send(data))
             {
                 statustxt.Text = "采样命令已发出";
+                statustxt_2.Content = "采样命令已发出";
                 comstatus = CommandPanlStatus.Air_Sample_Waiting;
             }
             else
@@ -615,6 +689,7 @@ namespace SilverTest
             if (SerialDriver.GetDriver().Send(data))
             {
                 statustxt.Text = "测试命令已发出";
+                statustxt_2.Content = "测试命令已发出";
                 comstatus = CommandPanlStatus.Air_Test_Waiting;
             }
             else
@@ -636,6 +711,7 @@ namespace SilverTest
             if (SerialDriver.GetDriver().Send(data))
             {
                 statustxt.Text = "校准命令已发出";
+                statustxt_2.Content = "校准命令已发出";
                 comstatus = CommandPanlStatus.Adjust_Wating;
             }
             else
@@ -657,6 +733,7 @@ namespace SilverTest
             if (SerialDriver.GetDriver().Send(data))
             {
                 statustxt.Text = "通信命令已发出";
+                statustxt_2.Content = "通信命令已发出";
                 comstatus = CommandPanlStatus.Communicate_Waiting;
             }
             else
@@ -679,6 +756,7 @@ namespace SilverTest
             if (SerialDriver.GetDriver().Send(data))
             {
                 statustxt.Text = "液体清洗命令已发出";
+                statustxt_2.Content = "液体清洗命令已发出";
                 comstatus = CommandPanlStatus.Liquid_Wash_Waiting;
             }
             else
@@ -699,6 +777,7 @@ namespace SilverTest
             if (SerialDriver.GetDriver().Send(data))
             {
                 statustxt.Text = "获取状态命令已发出";
+                statustxt_2.Content = "获取状态命令已发出";
                 comstatus = CommandPanlStatus.GetStatus_Waiting;
             }
             else
@@ -720,6 +799,7 @@ namespace SilverTest
             if (SerialDriver.GetDriver().Send(data))
             {
                 statustxt.Text = "清洗命令已发出";
+                statustxt_2.Content = "清洗命令已发出";
                 comstatus = CommandPanlStatus.Air_Wash_Waiting;
             }
             else
@@ -742,6 +822,7 @@ namespace SilverTest
             if (SerialDriver.GetDriver().Send(data))
             {
                 statustxt.Text = "液体测量命令已发出";
+                statustxt_2.Content = "液体测量命令已发出";
                 comstatus = CommandPanlStatus.Liquid_Testing_Waiting;
             }
             else
@@ -752,7 +833,10 @@ namespace SilverTest
 
         private void pm6_Click(object sender, RoutedEventArgs e)
         {
-            parampanel.Visibility = Visibility.Visible;
+            if(parampanel.Visibility ==  Visibility.Collapsed)
+                parampanel.Visibility = Visibility.Visible;
+            else
+                parampanel.Visibility = Visibility.Collapsed;
         }
 
         private void setparamcancel_Click(object sender, RoutedEventArgs e)
@@ -766,7 +850,8 @@ namespace SilverTest
             data[7] = (byte)crc;
             if (SerialDriver.GetDriver().Send(data))
             {
-                 
+                statustxt.Text = "返回命令已发出";
+                statustxt_2.Content = "返回命令已发出";
             }
 
             parampanel.Visibility = Visibility.Collapsed;
@@ -846,6 +931,7 @@ namespace SilverTest
             if (SerialDriver.GetDriver().Send(data))
             {
                 statustxt.Text = "返回上一级菜单命令已发出";
+                statustxt_2.Content = "返回上一级菜单命令已发出";
                 comstatus = CommandPanlStatus.AirTestReturn_Finished;
             }
             else
@@ -866,6 +952,7 @@ namespace SilverTest
             if (SerialDriver.GetDriver().Send(data))
             {
                 statustxt.Text = "返回上一级菜单命令已发出";
+                statustxt_2.Content = "返回上一级菜单命令已发出";
                 comstatus = CommandPanlStatus.LiquidTestReturn_Finished;
             }
             else
@@ -924,6 +1011,61 @@ namespace SilverTest
             presureParamTxt.IsEnabled = true;
         }
 
+        private void pm2_Click(object sender, RoutedEventArgs e)
+        {
+            if (m21.Visibility == Visibility.Collapsed)
+            {
+                m21.Visibility = Visibility.Visible;
+                m22.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                m21.Visibility = Visibility.Collapsed;
+                m22.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void m21_Click(object sender, RoutedEventArgs e)
+        {
+            //连续测量-开始
+            byte[] data = new byte[8] { 0x01, 0x01, 0x03, 0x01, 0x00, 0x00, 0, 0 };
+
+            ushort crc = Utility.CRC16(data, 6);
+
+            data[6] = (byte)(crc >> 8);
+            data[7] = (byte)crc;
+            if (SerialDriver.GetDriver().Send(data))
+            {
+                statustxt.Text = "开始连续测量命令已发出";
+                statustxt_2.Content = "开始连续测量命令已发出";
+                comstatus = CommandPanlStatus.LiquidTestReturn_Finished;
+            }
+            else
+            {
+                MessageBox.Show("端口未打开");
+            };
+        }
+
+        private void m22_Click(object sender, RoutedEventArgs e)
+        {
+            //液体测量-返回上一级菜单
+            byte[] data = new byte[8] { 0x01, 0x01, 0x03, 0x02, 0x00, 0x00, 0, 0 };
+
+            ushort crc = Utility.CRC16(data, 6);
+
+            data[6] = (byte)(crc >> 8);
+            data[7] = (byte)crc;
+            if (SerialDriver.GetDriver().Send(data))
+            {
+                statustxt.Text = "停止连续测量命令已发出";
+                statustxt_2.Content = "停止连续测量命令已发出";
+                comstatus = CommandPanlStatus.LiquidTestReturn_Finished;
+            }
+            else
+            {
+                MessageBox.Show("端口未打开");
+            };
+        }
     }
 
     public enum CommandPanlStatus
