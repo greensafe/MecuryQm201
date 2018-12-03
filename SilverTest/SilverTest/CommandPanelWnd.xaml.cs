@@ -14,6 +14,7 @@ namespace SilverTest
     public partial class CommandPanelWnd : Window
     {
         Regex numberreg = new Regex(@"\d*");
+        Regex minusnumber = new Regex(@"^-\d*"); //负数
         CommandPanlStatus comstatus = CommandPanlStatus.Idle;
 
         public CommandPanelWnd()
@@ -180,7 +181,8 @@ namespace SilverTest
                 {
                     data[3] = 0x01; //子菜单
                     data[4] = 0x00;  //清空数据高位
-                    data[5] = byte.Parse(timeParamTxt.Text);
+                    //data[5] = byte.Parse(timeParamTxt.Text);
+                    data[5] = (byte)timeParamTxt.SelectedIndex;
                 }
                 crc = Utility.CRC16(data, 6);
                 data[6] = (byte)(crc >> 8);
@@ -188,6 +190,7 @@ namespace SilverTest
                 if (SerialDriver.GetDriver().Send(data))
                 {
                     statustxt.Text = "时间设置命令已发出";
+                    statustxt_2.Content = "时间设置命令已发出";
                     comstatus = CommandPanlStatus.ParamSet_Waiting;
                 }
             }
@@ -198,7 +201,8 @@ namespace SilverTest
                 {
                     data[3] = 0x02; //子菜单
                     data[4] = 0x00;  //清空数据高位
-                    data[5] = byte.Parse(fluParamTxt.Text);
+                    //data[5] = byte.Parse(fluParamTxt.Text);
+                    data[5] = (byte)fluParamTxt.SelectedIndex;
                 }
                 crc = Utility.CRC16(data, 6);
                 data[6] = (byte)(crc >> 8);
@@ -206,6 +210,7 @@ namespace SilverTest
                 if (SerialDriver.GetDriver().Send(data))
                 {
                     statustxt.Text = "流量设置命令已发出";
+                    statustxt_2.Content = "流量设置命令已发出";
                     comstatus = CommandPanlStatus.ParamSet_Waiting;
                 }
             }
@@ -216,6 +221,7 @@ namespace SilverTest
                 {
                     data[3] = 0x04; //子菜单
                     int pres = int.Parse(presureParamTxt.Text);
+                    pres *= -1;
                     data[4] = (byte)(pres >> 8);
                     data[5] = (byte)pres;
                 }
@@ -225,6 +231,7 @@ namespace SilverTest
                 if (SerialDriver.GetDriver().Send(data))
                 {
                     statustxt.Text = "高压设置命令已发出";
+                    statustxt_2.Content = "高压设置命令已发出";
                     comstatus = CommandPanlStatus.ParamSet_Waiting;
                 }
             }
@@ -243,6 +250,7 @@ namespace SilverTest
                 if (SerialDriver.GetDriver().Send(data))
                 {
                     statustxt.Text = "放大倍数设置命令已发出";
+                    statustxt_2.Content = "放大倍数设置命令已发出";
                     comstatus = CommandPanlStatus.ParamSet_Waiting;
                 }
             }
@@ -253,7 +261,8 @@ namespace SilverTest
                 {
                     data[3] = 0x03; //子菜单
                     data[4] = 0x00;  //清空数据高位
-                    data[5] = byte.Parse(washtimeParamTxt.Text);
+                    //data[5] = byte.Parse(washtimeParamTxt.Text);
+                    data[5] = (byte)washtimeParamTxt.SelectedIndex;
                 }
                 crc = Utility.CRC16(data, 6);
                 data[6] = (byte)(crc >> 8);
@@ -261,32 +270,10 @@ namespace SilverTest
                 if (SerialDriver.GetDriver().Send(data))
                 {
                     statustxt.Text = "清洗时长设置命令已发出";
+                    statustxt_2.Content = "清洗时长设置命令已发出";
                     comstatus = CommandPanlStatus.ParamSet_Waiting;
                 }
             }
-
-            if (realtimeckb.IsChecked == true)
-            {
-                if (realtimeParamTxt.Text != null && realtimeParamTxt.Text != "")
-                {
-                    data[3] = 0x06; //子菜单
-                    data[4] = 0x00;  //清空数据高位
-                    data[5] = byte.Parse(realtimeParamTxt.Text);
-                }
-                crc = Utility.CRC16(data, 6);
-                data[6] = (byte)(crc >> 8);
-                data[7] = (byte)crc;
-                if (SerialDriver.GetDriver().Send(data))
-                {
-                    statustxt.Text = "时间设置命令已发出";
-                    comstatus = CommandPanlStatus.ParamSet_Waiting;
-                }
-            }
-        }
-
-        private void timeParamTxt_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            timeParamTxt.Text = numberreg.Match(timeParamTxt.Text).Value;
         }
 
         private void fluParamTxt_TextChanged(object sender, TextChangedEventArgs e)
@@ -306,13 +293,9 @@ namespace SilverTest
 
         private void presureParamTxt_TextChanged(object sender, TextChangedEventArgs e)
         {
-            presureParamTxt.Text = numberreg.Match(presureParamTxt.Text).Value;
+            presureParamTxt.Text = minusnumber.Match(presureParamTxt.Text).Value;
         }
 
-        private void realtimeParamTxt_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            realtimeParamTxt.Text = numberreg.Match(realtimeParamTxt.Text).Value;
-        }
 
         //处理下维机的命令回应，在控制面板上显示下维机的状态
         //result 0 - 表示失败， 1 - 表示成功
@@ -326,124 +309,215 @@ namespace SilverTest
                     //参数设置-时间
                     case 0x11:
                         if (result == 0)
+                        {
                             statustxt.Text = "设置时间失败";
+                            statustxt_2.Content = "设置时间失败";
+                        }
                         else
+                        {
                             statustxt.Text = "设置时间成功";
+                            statustxt_2.Content = "设置时间成功";
+                        }
                         comstatus = CommandPanlStatus.ParamSet_Finished;
                         EnableUI();
                         break;
                     //参数设置-流量
                     case 0x12:
                         if (result == 0)
+                        {
                             statustxt.Text = "设置流量失败";
+                            statustxt_2.Content = "设置流量失败";
+                        }
                         else
+                        {
                             statustxt.Text = "设置流量成功";
+                            statustxt_2.Content = "设置流量成功";
+                        }
                         comstatus = CommandPanlStatus.ParamSet_Finished;
                         EnableUI();
                         break;
                     //参数设置-清洗时长
                     case 0x13:
                         if (result == 0)
+                        {
                             statustxt.Text = "设置清洗时长失败";
+                            statustxt_2.Content = "设置清洗时长失败";
+                        }
                         else
+                        {
                             statustxt.Text = "设置清洗时长成功";
+                            statustxt_2.Content = "设置清洗时长成功";
+                        }
                         comstatus = CommandPanlStatus.ParamSet_Finished;
                         EnableUI();
                         break;
                     //参数设置-高压
                     case 0x14:
                         if (result == 0)
+                        {
                             statustxt.Text = "设置高压失败";
+                            statustxt_2.Content = "设置高压失败";
+                        }
                         else
+                        {
                             statustxt.Text = "设置高压成功";
+                            statustxt_2.Content = "设置高压成功";
+                        }
                         comstatus = CommandPanlStatus.ParamSet_Finished;
                         EnableUI();
                         break;
                     case 0x15: //参数设置-发大倍数
                         if (result == 0)
+                        {
                             statustxt.Text = "设置放大倍数失败";
+                            statustxt_2.Content = "设置放大倍数失败";
+                        }
                         else
+                        {
                             statustxt.Text = "设置放大倍数成功";
+                            statustxt_2.Content = "设置放大倍数成功";
+                        }
                         comstatus = CommandPanlStatus.ParamSet_Finished;
                         EnableUI();
                         break;
                     case 0x16: //参数设置-实时
                         if (result == 0)
+                        {
                             statustxt.Text = "设置实时参数失败";
+                            statustxt_2.Content = "设置实时参数失败";
+                        }
                         else
+                        {
                             statustxt.Text = "设置实时参数成功";
+                            statustxt_2.Content = "设置实时参数成功";
+                        }
                         comstatus = CommandPanlStatus.ParamSet_Finished;
                         EnableUI();
                         break;
                     case 0x21: //测量-取样
                         if (result == 0)
+                        {
                             statustxt.Text = "取样命令执行失败";
+                            statustxt_2.Content = "取样命令执行失败";
+                        }
                         else
+                        {
                             statustxt.Text = "取样命令执行成功";
+                            statustxt_2.Content = "取样命令执行成功";
+                        }
                         comstatus = CommandPanlStatus.Air_Sample_Finished;
                         EnableUI();
                         break;
                     case 0x22: //测量-清洗
                         if (result == 0)
+                        {
                             statustxt.Text = "清洗命令执行失败";
+                            statustxt_2.Content = "清洗命令执行失败";
+                        }
                         else
+                        {
                             statustxt.Text = "清洗命令执行成功";
+                            statustxt_2.Content = "清洗命令执行成功";
+                        }
                         comstatus = CommandPanlStatus.Air_Wash_Finished;
                         EnableUI();
                         break;
                     case 0x23: //测量-测量
                         if (result == 0)
+                        {
                             statustxt.Text = "测量命令执行失败";
+                            statustxt_2.Content = "清洗命令执行成功";
+                        }
                         else
+                        {
                             statustxt.Text = "测量命令执行成功";
+                            statustxt_2.Content = "测量命令执行成功";
+                        }
                         comstatus = CommandPanlStatus.Air_Test_Finished;
                         EnableUI();
                         break;
                     case 0x30: //连续测量
                         if (result == 0)
+                        {
                             statustxt.Text = "连续测试命令执行失败";
+                            statustxt_2.Content = "连续测试命令执行失败";
+                        }
                         else
+                        {
                             statustxt.Text = "连续测试命令执行成功";
+                            statustxt_2.Content = "连续测试命令执行成功";
+                        }
                         comstatus = CommandPanlStatus.ContinueTest_Finished;
                         EnableUI();
                         break;
                     case 0x40: //校准
                         if (result == 0)
+                        {
                             statustxt.Text = "校准命令执行失败";
+                            statustxt_2.Content = "校准命令执行失败";
+                        }
                         else
+                        {
                             statustxt.Text = "校转命令执行成功";
+                            statustxt_2.Content = "校转命令执行成功";
+                        }
                         comstatus = CommandPanlStatus.Adjust_Finished;
                         EnableUI();
                         break;
                     case 0x50: //通信
                         if (result == 0)
+                        {
                             statustxt.Text = "通信命令执行失败";
+                            statustxt_2.Content = "通信命令执行失败";
+                        }
                         else
+                        {
                             statustxt.Text = "同行命令执行成功";
+                            statustxt_2.Content = "同行命令执行成功";
+                        }
                         comstatus = CommandPanlStatus.Communicate_Finished;
                         EnableUI();
                         break;
                     case 0x61: //液体测量-清洗
                         if (result == 0)
+                        {
                             statustxt.Text = "液体清洗命令执行失败";
+                            statustxt_2.Content = "液体清洗命令执行失败";
+                        }
                         else
+                        {
                             statustxt.Text = "液体清洗命令执行成功";
+                            statustxt_2.Content = "液体清洗命令执行成功";
+
+                        }
                         comstatus = CommandPanlStatus.Liquid_Wash_Finished;
                         EnableUI();
                         break;
                     case 0x62: //液体测量-测量
                         if (result == 0)
+                        {
                             statustxt.Text = "液体测量命令执行失败";
+                            statustxt_2.Content = "液体测量命令执行失败";
+                        }
                         else
+                        {
                             statustxt.Text = "液体测量命令执行成功";
+                            statustxt_2.Content = "液体测量命令执行成功";
+                        }
                         comstatus = CommandPanlStatus.Liquid_Testing_Finished;
                         EnableUI();
                         break;
                     case 0x70: //状态获取
                         if (result == 0)
+                        {
                             statustxt.Text = "获取状态命令执行失败";
+                            statustxt_2.Content = "获取状态命令执行失败";
+                        }
                         else
+                        {
                             statustxt.Text = "获取状态命令执行成功";
+                            statustxt_2.Content = "获取状态命令执行成功";
+                        }
                         comstatus = CommandPanlStatus.GetStatus_Finished;
                         EnableUI();
                         //显示参数
@@ -471,16 +545,19 @@ namespace SilverTest
 
         private void pm1_MouseEnter(object sender, MouseEventArgs e)
         {
+            /*
             m11.Visibility = Visibility.Visible;
             m12.Visibility = Visibility.Visible;
             m13.Visibility = Visibility.Visible;
             m14.Visibility = Visibility.Visible;
             m51.Visibility = Visibility.Collapsed;
             m52.Visibility = Visibility.Collapsed;
+            */
         }
 
         private void pm5_MouseEnter(object sender, MouseEventArgs e)
         {
+            /*
             m11.Visibility = Visibility.Collapsed;
             m12.Visibility = Visibility.Collapsed;
             m13.Visibility = Visibility.Collapsed;
@@ -488,6 +565,7 @@ namespace SilverTest
 
             m51.Visibility = Visibility.Visible;
             m52.Visibility = Visibility.Visible;
+            */
         }
 
         private void buttoncontainerstp_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -679,14 +757,32 @@ namespace SilverTest
 
         private void setparamcancel_Click(object sender, RoutedEventArgs e)
         {
+            //退出参数设置界面
+            byte[] data = new byte[8] { 0x01, 0x01, 0x01, 0x06, 0x00, 0x00, 0, 0 };
+            ushort crc;
+
+            crc = Utility.CRC16(data, 6);
+            data[6] = (byte)(crc >> 8);
+            data[7] = (byte)crc;
+            if (SerialDriver.GetDriver().Send(data))
+            {
+                 
+            }
+
             parampanel.Visibility = Visibility.Collapsed;
         }
 
         private void setparamok_Click(object sender, RoutedEventArgs e)
         {
+            /*
             if (comstatus == CommandPanlStatus.ParamSet_Waiting)
+            {
+                //parampanel.Visibility = Visibility.Collapsed;
                 return; //donn't repeat setting
+            }
+            */
             setParam();
+            //parampanel.Visibility = Visibility.Collapsed;
         }
 
         private void pm1_Click(object sender, RoutedEventArgs e)
@@ -828,15 +924,6 @@ namespace SilverTest
             presureParamTxt.IsEnabled = true;
         }
 
-        private void realtimeckb_Checked(object sender, RoutedEventArgs e)
-        {
-            realtimeParamTxt.IsEnabled = true;
-        }
-
-        private void realtimeckb_Unchecked(object sender, RoutedEventArgs e)
-        {
-            realtimeParamTxt.IsEnabled = false;
-        }
     }
 
     public enum CommandPanlStatus
