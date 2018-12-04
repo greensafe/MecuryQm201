@@ -108,7 +108,7 @@
                     <MenuItem x:Name="hotairbox_itm" Header="热释气体炉测量" Click="hotairbox_itm_Click"></MenuItem>
                     <MenuItem Header="气体测量">
                         <MenuItem x:Name="airautomahead_itm" Header="气体测量原子吸收法前进样" Click="airautomahead_itm_Click"></MenuItem>
-                        <MenuItem x:Name="airautomback_itm" Header="气体测量原子吸收法后进样" Click="airautomback_itm_Click">
+                        <MenuItem x:Name="airautomback_itm" Header="气体测量金属膜原子吸收法后进样" Click="airautomback_itm_Click">
                             <MenuItem.Icon>
                                 <iconPacks:PackIconMaterial  Kind="Check" />
                             </MenuItem.Icon>
