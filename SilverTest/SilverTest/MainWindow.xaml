@@ -16,7 +16,7 @@
         TextElement.FontSize="13"
         TextOptions.TextFormattingMode="Ideal"
         TextOptions.TextRenderingMode="Auto"        
-        Title="QM201H" Height="850" Width="1000" Loaded="window_Loaded" WindowStartupLocation="CenterScreen" 
+        Title="QM208B" Height="850" Width="1000" Loaded="window_Loaded" WindowStartupLocation="CenterScreen" 
         Icon="images/test.png" Closed="window_Closed">
     <Window.Resources>
         <ContextMenu x:Key="newtableMenu">
@@ -103,6 +103,22 @@
                     <MenuItem Header="样品中汞的含量"></MenuItem>
                     <MenuItem Header="砷浓度"></MenuItem>
                     <MenuItem Header="样品中砷的含量"></MenuItem>
+                </MenuItem>
+                <MenuItem Header="测试模块" Height="28">
+                    <MenuItem x:Name="hotairbox_itm" Header="热释气体炉测量" Click="hotairbox_itm_Click"></MenuItem>
+                    <MenuItem Header="气体测量">
+                        <MenuItem x:Name="airautomahead_itm" Header="气体测量原子吸收法前进样" Click="airautomahead_itm_Click"></MenuItem>
+                        <MenuItem x:Name="airautomback_itm" Header="气体测量原子吸收法后进样" Click="airautomback_itm_Click">
+                            <MenuItem.Icon>
+                                <iconPacks:PackIconMaterial  Kind="Check" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem x:Name="airadjustzeroahead_itm" Header="气体自校零原子吸收法前进样" Click="airadjustzeroahead_itm_Click"></MenuItem>
+                    </MenuItem>
+                    <MenuItem Header="液体测量">
+                        <MenuItem x:Name="liquidmultibox_itm" Header="液体多量程测量" Click="liquidmultibox_itm_Click"></MenuItem>
+                        <MenuItem x:Name="liquidstandardbox_itm" Header="液体标量程测量" Click="liquidstandardbox_itm_Click"></MenuItem>
+                    </MenuItem>
                 </MenuItem>
                 <MenuItem  Height="28" Header="工具">
                     <MenuItem x:Name="printRmenu" Header="打印相关系数图" Click="printRmenu_Click">

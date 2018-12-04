@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using MahApps.Metro.IconPacks;
+using Microsoft.Win32;
 using SilverTest.libs;
 using System;
 using System.Collections.Generic;
@@ -108,6 +109,9 @@ namespace SilverTest
         //指向命令面板窗口
         CommandPanelWnd cmdpanelWnd;
 
+        //check icon
+        PackIconMaterial checkicon = new PackIconMaterial();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -125,6 +129,7 @@ namespace SilverTest
             StandardCvw = CollectionViewSource.GetDefaultView(standardSampleClt);
             StandardCvw.GroupDescriptions.Add(new PropertyGroupDescription("GroupName"));
 
+            checkicon.Kind = PackIconMaterialKind.Check;
             //Utility.SetValueToXml("/config/QM201H/wavehistory/fileid", "newsample","100");
 
         }
@@ -2076,6 +2081,66 @@ namespace SilverTest
                 cmdpanelWnd.Owner = this;
             }
             cmdpanelWnd.Show();
+        }
+
+        private void hotairbox_itm_Click(object sender, RoutedEventArgs e)
+        {
+            hotairbox_itm.Icon = checkicon;
+            airautomahead_itm.Icon = null;
+            airautomback_itm.Icon = null;
+            airadjustzeroahead_itm.Icon = null;
+            liquidmultibox_itm.Icon = null;
+            liquidstandardbox_itm.Icon = null;
+        }
+
+        private void airautomahead_itm_Click(object sender, RoutedEventArgs e)
+        {
+            hotairbox_itm.Icon = null;
+            airautomahead_itm.Icon = checkicon;
+            airautomback_itm.Icon = null;
+            airadjustzeroahead_itm.Icon = null;
+            liquidmultibox_itm.Icon = null;
+            liquidstandardbox_itm.Icon = null;
+        }
+
+        private void airautomback_itm_Click(object sender, RoutedEventArgs e)
+        {
+            hotairbox_itm.Icon = null;
+            airautomahead_itm.Icon = null;
+            airautomback_itm.Icon = checkicon;
+            airadjustzeroahead_itm.Icon = null;
+            liquidmultibox_itm.Icon = null;
+            liquidstandardbox_itm.Icon = null;
+        }
+
+        private void airadjustzeroahead_itm_Click(object sender, RoutedEventArgs e)
+        {
+            hotairbox_itm.Icon = null;
+            airautomahead_itm.Icon = null;
+            airautomback_itm.Icon = null;
+            airadjustzeroahead_itm.Icon = checkicon;
+            liquidmultibox_itm.Icon = null;
+            liquidstandardbox_itm.Icon = null;
+        }
+
+        private void liquidmultibox_itm_Click(object sender, RoutedEventArgs e)
+        {
+            hotairbox_itm.Icon = null;
+            airautomahead_itm.Icon = null;
+            airautomback_itm.Icon = null;
+            airadjustzeroahead_itm.Icon = null;
+            liquidmultibox_itm.Icon = checkicon;
+            liquidstandardbox_itm.Icon = null;
+        }
+
+        private void liquidstandardbox_itm_Click(object sender, RoutedEventArgs e)
+        {
+            hotairbox_itm.Icon = null;
+            airautomahead_itm.Icon = null;
+            airautomback_itm.Icon = null;
+            airadjustzeroahead_itm.Icon = null;
+            liquidmultibox_itm.Icon = null;
+            liquidstandardbox_itm.Icon = checkicon;
         }
     }
 }
