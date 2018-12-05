@@ -67,6 +67,17 @@ namespace SilverTest
         SOLID
     }
 
+    //测试模块
+    public enum TestModule
+    {
+        HOT_AIR_BOX,    //热释气体炉测量
+        AIR_ATOM_IN_AHEAD,  //气体测量原子吸收法前进样
+        AIR_GOLD_ATOM_IN_BACK    ,//气体金属膜原子吸收法后进样
+        AIR_ADJUST_ZERO_ATOM_IN_AHEAD,//自校零原子吸收法前进样
+        LIQUID_MULTI_BULK,//液体多量程测量
+        LIQUID_STANDARD_BULK//标准液体量程测量
+    }
+
     public partial class MainWindow : Window
     {
 
@@ -111,6 +122,9 @@ namespace SilverTest
 
         //check icon
         PackIconMaterial checkicon = new PackIconMaterial();
+
+        //测试模块id
+        TestModule testmoduleid = TestModule.AIR_GOLD_ATOM_IN_BACK;
 
         public MainWindow()
         {
@@ -2086,6 +2100,8 @@ namespace SilverTest
         //热释气体炉测量
         private void hotairbox_itm_Click(object sender, RoutedEventArgs e)
         {
+            testmoduleid = TestModule.HOT_AIR_BOX;
+
             hotairbox_itm.Icon = checkicon;
             airautomahead_itm.Icon = null;
             airautomback_itm.Icon = null;
@@ -2146,6 +2162,8 @@ namespace SilverTest
         //气体测量原子吸收法前进样
         private void airautomahead_itm_Click(object sender, RoutedEventArgs e)
         {
+            testmoduleid = TestModule.AIR_ATOM_IN_AHEAD;
+
             hotairbox_itm.Icon = null;
             airautomahead_itm.Icon = checkicon;
             airautomback_itm.Icon = null;
@@ -2198,6 +2216,8 @@ namespace SilverTest
         //气体测量金属膜原子吸收法后进样(等价于201H)
         private void airautomback_itm_Click(object sender, RoutedEventArgs e)
         {
+            testmoduleid = TestModule.AIR_GOLD_ATOM_IN_BACK;
+
             hotairbox_itm.Icon = null;
             airautomahead_itm.Icon = null;
             airautomback_itm.Icon = checkicon;
@@ -2258,6 +2278,8 @@ namespace SilverTest
         //气体自校零原子吸收法前进样(等价于原子吸收法前进样)
         private void airadjustzeroahead_itm_Click(object sender, RoutedEventArgs e)
         {
+            testmoduleid = TestModule.AIR_ADJUST_ZERO_ATOM_IN_AHEAD;
+
             hotairbox_itm.Icon = null;
             airautomahead_itm.Icon = null;
             airautomback_itm.Icon = null;
@@ -2310,6 +2332,8 @@ namespace SilverTest
         //液体多量程测量
         private void liquidmultibox_itm_Click(object sender, RoutedEventArgs e)
         {
+            testmoduleid = TestModule.LIQUID_MULTI_BULK;
+
             hotairbox_itm.Icon = null;
             airautomahead_itm.Icon = null;
             airautomback_itm.Icon = null;
@@ -2362,6 +2386,8 @@ namespace SilverTest
         //液体标量程测量
         private void liquidstandardbox_itm_Click(object sender, RoutedEventArgs e)
         {
+            testmoduleid = TestModule.LIQUID_STANDARD_BULK;
+
             hotairbox_itm.Icon = null;
             airautomahead_itm.Icon = null;
             airautomback_itm.Icon = null;
