@@ -1165,7 +1165,7 @@ namespace SilverTest
             if (a.ToString() == "NaN" || b.ToString() == "NaN") return;
             drawR(x, y, Math.Round(a, 2), Math.Round(b, 2), Math.Round(R, 3), groupname);
         }
-
+        /*
         private void testliquidMenu_Click(object sender, RoutedEventArgs e)
         {
             newAirSampTimeCol.Visibility = Visibility.Hidden;
@@ -1189,7 +1189,7 @@ namespace SilverTest
             standardProviderCol.Visibility = Visibility.Hidden;
             sampleType = SampleType.AIR;
         }
-
+        */
         /*
          * 将表格中的数据保存到历史xml文件中
          */
@@ -2083,6 +2083,7 @@ namespace SilverTest
             cmdpanelWnd.Show();
         }
 
+        //热释气体炉测量
         private void hotairbox_itm_Click(object sender, RoutedEventArgs e)
         {
             hotairbox_itm.Icon = checkicon;
@@ -2091,8 +2092,58 @@ namespace SilverTest
             airadjustzeroahead_itm.Icon = null;
             liquidmultibox_itm.Icon = null;
             liquidstandardbox_itm.Icon = null;
+
+            /* -- 新样 --- */
+            //取样时间
+            newAirSampTimeCol.Visibility = Visibility.Collapsed;
+            newAirSampTimeCol.Header = newAirSampTimeCol.Header;
+            //流量l/m
+            newAirFluentCol.Visibility = Visibility.Collapsed;
+            newAirFluentCol.Header = newAirFluentCol.Header;
+            //样品质量
+            newqualityCol.Visibility = Visibility.Collapsed;
+            newqualityCol.Header = newqualityCol.Header;
+            //样品总体积L
+            newtotalbulkCol.Visibility = Visibility.Visible;
+            newtotalbulkCol.Header = "体积L";
+            //样品中汞含量mg/m3
+            newghltotalCol.Visibility = Visibility.Collapsed;
+            newghltotalCol.Header = newghltotalCol.Header;
+            //汞浓度mg/m3
+            newgndCol.Visibility = Visibility.Visible;
+            newgndCol.Header = "汞浓度mg/m3";
+            //样品气体总流量L/min
+            newypqtzllCol.Visibility = Visibility.Collapsed;
+            newypqtzllCol.Header = newypqtzllCol.Header;
+            //汞含量mg
+            newghlCol.Visibility = Visibility.Visible;
+            newghlCol.Header = "汞含量mg";
+            //进样量ml
+            newjylCol.Visibility = Visibility.Collapsed;
+            newjylCol.Header = newjylCol.Header;
+
+            /*--- 标样 ---*/
+            //温度
+            airtemperature.Visibility = Visibility.Collapsed;
+            airtemperature.Header = "温度";
+            //标样体积ml
+            airbulk.Visibility = Visibility.Visible;
+            airbulk.Header = "体积L";
+            //汞量ng
+            airbulk.Visibility = Visibility.Visible;
+            airbulk.Header = "汞含量mg";
+            //样品质量
+            standardzl.Visibility = Visibility.Collapsed;
+            standardzl.Header = "样品质量";
+            //汞浓度mg/m3
+            standardgndCol.Visibility = Visibility.Collapsed;
+            standardgndCol.Header = "汞浓度mg/m3";
+            //汞流量mg/L
+            standardllCol.Visibility = Visibility.Collapsed;
+            standardllCol.Header = "汞流量mg/L";
         }
 
+        //气体测量原子吸收法前进样
         private void airautomahead_itm_Click(object sender, RoutedEventArgs e)
         {
             hotairbox_itm.Icon = null;
@@ -2101,8 +2152,50 @@ namespace SilverTest
             airadjustzeroahead_itm.Icon = null;
             liquidmultibox_itm.Icon = null;
             liquidstandardbox_itm.Icon = null;
+
+            /* -- 新样 --- */
+            //取样时间
+            newAirSampTimeCol.Visibility = Visibility.Collapsed;
+            //流量l/m
+            newAirFluentCol.Visibility = Visibility.Visible;
+            newAirFluentCol.Header = "流量L/min";
+            //样品质量
+            newqualityCol.Visibility = Visibility.Collapsed;
+            //样品总体积L
+            newtotalbulkCol.Visibility = Visibility.Collapsed;
+            //样品中汞含量mg/m3
+            newghltotalCol.Visibility = Visibility.Visible;
+            newghltotalCol.Header = "样品中汞含量mg/m3";
+            //汞浓度mg/m3
+            newgndCol.Visibility = Visibility.Collapsed;
+            //样品气体总流量L/min
+            newypqtzllCol.Visibility = Visibility.Visible;
+            newypqtzllCol.Header = "样品气体总流量L/min";
+            //汞含量mg
+            newghlCol.Visibility = Visibility.Visible;
+            newghlCol.Header = "汞含量ng/L";
+            //进样量ml
+            newjylCol.Visibility = Visibility.Collapsed;
+
+            /*--- 标样 ---*/
+            //温度
+            airtemperature.Visibility = Visibility.Collapsed;
+            //标样体积ml
+            airbulk.Visibility = Visibility.Collapsed;
+            //汞量ng
+            airbulk.Visibility = Visibility.Visible;
+            airbulk.Header = "汞量ng";
+            //样品质量
+            standardzl.Visibility = Visibility.Collapsed;
+            //汞浓度mg/m3
+            standardgndCol.Visibility = Visibility.Visible;
+            standardgndCol.Header = "汞浓度mg/m3";
+            //汞流量mg/L
+            standardllCol.Visibility = Visibility.Visible;
+            standardllCol.Header = "汞流量mg/L";
         }
 
+        //气体测量金属膜原子吸收法后进样(等价于201H)
         private void airautomback_itm_Click(object sender, RoutedEventArgs e)
         {
             hotairbox_itm.Icon = null;
@@ -2111,8 +2204,58 @@ namespace SilverTest
             airadjustzeroahead_itm.Icon = null;
             liquidmultibox_itm.Icon = null;
             liquidstandardbox_itm.Icon = null;
+
+            /* -- 新样 --- */
+            //取样时间
+            newAirSampTimeCol.Visibility = Visibility.Visible;
+            newAirSampTimeCol.Header = "取样时间M";
+            //流量l/m
+            newAirFluentCol.Visibility = Visibility.Visible;
+            newAirFluentCol.Header = "流量L/M";
+            //样品质量
+            newqualityCol.Visibility = Visibility.Visible;
+            newqualityCol.Header = "样品质量";
+            //样品总体积L
+            newtotalbulkCol.Visibility = Visibility.Visible;
+            newtotalbulkCol.Header = "样品总体积L";
+            //样品中汞含量mg/m3
+            newghltotalCol.Visibility = Visibility.Visible;
+            newghltotalCol.Header = "样品中汞含量MG/M3";
+            //汞浓度mg/m3
+            newgndCol.Visibility = Visibility.Collapsed;
+            //newgndCol.Header = "汞浓度mg/m3";
+            //样品气体总流量L/min
+            newypqtzllCol.Visibility = Visibility.Collapsed;
+            //newypqtzllCol.Header = "样品气体总流量L/min";
+            //汞含量mg
+            newghlCol.Visibility = Visibility.Collapsed;
+            //newghlCol.Header = "汞含量mg";
+            //进样量ml
+            newjylCol.Visibility = Visibility.Collapsed;
+            //newjylCol.Header = newjylCol.Header;
+
+            /*--- 标样 ---*/
+            //温度
+            airtemperature.Visibility = Visibility.Visible;
+            airtemperature.Header = "温度";
+            //标样体积ml
+            airbulk.Visibility = Visibility.Visible;
+            airbulk.Header = "标样体积ML";
+            //汞量ng
+            airbulk.Visibility = Visibility.Visible;
+            airbulk.Header = "汞量ng";
+            //样品质量
+            standardzl.Visibility = Visibility.Visible;
+            standardzl.Header = "样品质量";
+            //汞浓度mg/m3
+            standardgndCol.Visibility = Visibility.Collapsed;
+            standardgndCol.Header = "汞浓度mg/m3";
+            //汞流量mg/L
+            standardllCol.Visibility = Visibility.Collapsed;
+            standardllCol.Header = "汞流量mg/L";
         }
 
+        //气体自校零原子吸收法前进样(等价于原子吸收法前进样)
         private void airadjustzeroahead_itm_Click(object sender, RoutedEventArgs e)
         {
             hotairbox_itm.Icon = null;
@@ -2121,8 +2264,50 @@ namespace SilverTest
             airadjustzeroahead_itm.Icon = checkicon;
             liquidmultibox_itm.Icon = null;
             liquidstandardbox_itm.Icon = null;
+
+            /* -- 新样 --- */
+            //取样时间
+            newAirSampTimeCol.Visibility = Visibility.Collapsed;
+            //流量l/m
+            newAirFluentCol.Visibility = Visibility.Visible;
+            newAirFluentCol.Header = "流量L/min";
+            //样品质量
+            newqualityCol.Visibility = Visibility.Collapsed;
+            //样品总体积L
+            newtotalbulkCol.Visibility = Visibility.Collapsed;
+            //样品中汞含量mg/m3
+            newghltotalCol.Visibility = Visibility.Visible;
+            newghltotalCol.Header = "样品中汞含量mg/m3";
+            //汞浓度mg/m3
+            newgndCol.Visibility = Visibility.Collapsed;
+            //样品气体总流量L/min
+            newypqtzllCol.Visibility = Visibility.Visible;
+            newypqtzllCol.Header = "样品气体总流量L/min";
+            //汞含量mg
+            newghlCol.Visibility = Visibility.Visible;
+            newghlCol.Header = "汞含量ng/L";
+            //进样量ml
+            newjylCol.Visibility = Visibility.Collapsed;
+
+            /*--- 标样 ---*/
+            //温度
+            airtemperature.Visibility = Visibility.Collapsed;
+            //标样体积ml
+            airbulk.Visibility = Visibility.Collapsed;
+            //汞量ng
+            airbulk.Visibility = Visibility.Visible;
+            airbulk.Header = "汞量ng";
+            //样品质量
+            standardzl.Visibility = Visibility.Collapsed;
+            //汞浓度mg/m3
+            standardgndCol.Visibility = Visibility.Visible;
+            standardgndCol.Header = "汞浓度mg/m3";
+            //汞流量mg/L
+            standardllCol.Visibility = Visibility.Visible;
+            standardllCol.Header = "汞流量mg/L";
         }
 
+        //液体多量程测量
         private void liquidmultibox_itm_Click(object sender, RoutedEventArgs e)
         {
             hotairbox_itm.Icon = null;
@@ -2131,8 +2316,50 @@ namespace SilverTest
             airadjustzeroahead_itm.Icon = null;
             liquidmultibox_itm.Icon = checkicon;
             liquidstandardbox_itm.Icon = null;
+
+            /* -- 新样 --- */
+            //取样时间
+            newAirSampTimeCol.Visibility = Visibility.Collapsed;
+            //流量l/m
+            newAirFluentCol.Visibility = Visibility.Collapsed;
+            //样品质量
+            newqualityCol.Visibility = Visibility.Visible;
+            newqualityCol.Header = "样品质量g";
+            //样品总体积L
+            newtotalbulkCol.Visibility = Visibility.Visible;
+            newtotalbulkCol.Header = "样品消化液总体积mL";
+            //样品中汞含量mg/m3
+            newghltotalCol.Visibility = Visibility.Visible;
+            newghltotalCol.Header = "样品中汞含量mg/kg";
+            //汞浓度mg/m3
+            newgndCol.Visibility = Visibility.Visible;
+            newgndCol.Header = "汞浓度ug/L";
+            //样品气体总流量L/min
+            newypqtzllCol.Visibility = Visibility.Collapsed;
+            //汞含量mg
+            newghlCol.Visibility = Visibility.Collapsed;
+            //进样量ml
+            newjylCol.Visibility = Visibility.Visible;
+            newjylCol.Header = "进样量mL";
+
+            /*--- 标样 ---*/
+            //温度
+            airtemperature.Visibility = Visibility.Collapsed;
+            //标样体积ml
+            airbulk.Visibility = Visibility.Visible;
+            airbulk.Header = "总体积mL";
+            //汞量ng
+            airbulk.Visibility = Visibility.Collapsed;
+            //样品质量
+            standardzl.Visibility = Visibility.Collapsed;
+            //汞浓度mg/m3
+            standardgndCol.Visibility = Visibility.Visible;
+            standardgndCol.Header = "汞浓度ug/L";
+            //汞流量mg/L
+            standardllCol.Visibility = Visibility.Collapsed;
         }
 
+        //液体标量程测量
         private void liquidstandardbox_itm_Click(object sender, RoutedEventArgs e)
         {
             hotairbox_itm.Icon = null;
@@ -2141,6 +2368,30 @@ namespace SilverTest
             airadjustzeroahead_itm.Icon = null;
             liquidmultibox_itm.Icon = null;
             liquidstandardbox_itm.Icon = checkicon;
+
+            /* -- 新样 --- */
+            //取样时间
+            newAirSampTimeCol.Visibility = Visibility.Collapsed;
+            //流量l/m
+            newAirFluentCol.Visibility = Visibility.Collapsed;
+            //样品质量
+            newqualityCol.Visibility = Visibility.Visible;
+            newqualityCol.Header = "样品质量g";
+            //样品总体积L
+            newtotalbulkCol.Visibility = Visibility.Visible;
+            newtotalbulkCol.Header = "样品消化液总体积mL";
+            //样品中汞含量mg/m3
+            newghltotalCol.Visibility = Visibility.Visible;
+            newghltotalCol.Header = "样品中汞含量mg/kg";
+            //汞浓度mg/m3
+            newgndCol.Visibility = Visibility.Visible;
+            newgndCol.Header = "汞浓度ug/L";
+            //样品气体总流量L/min
+            newypqtzllCol.Visibility = Visibility.Collapsed;
+            //汞含量mg
+            newghlCol.Visibility = Visibility.Collapsed;
+            //进样量ml
+            newjylCol.Visibility = Visibility.Collapsed;
         }
     }
 }

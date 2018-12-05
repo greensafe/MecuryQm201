@@ -29,7 +29,7 @@
                         >QM201H V2.0 荧光测试仪器
                 </TextBlock>
             <StackPanel Height="250" Background="#FFB4DCFD" >
-                <Image Width="300" DockPanel.Dock="Left" Source="images/zong1.bmp" Margin="0,40,0,0"></Image>
+                <Image Width="300" DockPanel.Dock="Left" Source="images/Qm208B.jpg" Margin="0,40,0,0"></Image>
             </StackPanel>
             <TextBlock TextAlignment="Center" FontSize="25" FontFamily="STCaiyun" >带蠕动泵</TextBlock>
             <DockPanel DockPanel.Dock="Bottom" Height="50">

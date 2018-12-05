@@ -8,10 +8,23 @@
   <NewTestTarget>
     <NewName>得</NewName>
     <Code>13</Code>
+    <ResponseValue1>202.82</ResponseValue1>
     <GlobalID>N000000020</GlobalID>
   </NewTestTarget>
   <NewTestTarget>
     <Code>14</Code>
     <GlobalID>N000000022</GlobalID>
+  </NewTestTarget>
+  <NewTestTarget>
+    <Code>15</Code>
+    <GlobalID>N000000171</GlobalID>
+  </NewTestTarget>
+  <NewTestTarget>
+    <Code>16</Code>
+    <GlobalID>N000000172</GlobalID>
+  </NewTestTarget>
+  <NewTestTarget>
+    <Code>17</Code>
+    <GlobalID>N000000173</GlobalID>
   </NewTestTarget>
 </ArrayOfNewTestTarget>
