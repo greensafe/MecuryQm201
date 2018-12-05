@@ -1281,7 +1281,7 @@ namespace SilverTest
                     standardSampleClt[index].ResponseValue1 = v;
                     break;
                 case "取样时间m":
-                    standardSampleClt[index].AirSampleTime = v;
+                    //standardSampleClt[index].AirSampleTime = v;
                     break;
                 case "流量L/m":
                     standardSampleClt[index].AirFluent = v;

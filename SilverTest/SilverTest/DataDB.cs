@@ -71,7 +71,7 @@ namespace SilverTest
                 NotifyPropertyChanged("ResponseValue1");
             }
         }
-        //样品重量
+        //样品质量
         private string weight;
         public string Weight {
             get { return weight; }
@@ -103,6 +103,7 @@ namespace SilverTest
                 NotifyPropertyChanged("AirML");
             }
         }
+
         //气体汞量
         private string airG;
         public string AirG
@@ -174,6 +175,7 @@ namespace SilverTest
         }
 
         //气体取样时间
+        /*
         private string airSampleTime;
         public string AirSampleTime
         {
@@ -184,8 +186,8 @@ namespace SilverTest
                 NotifyPropertyChanged("airSampleTime");
             }
         }
-
-        //气体流量
+        */
+        //汞流量
         private string airFluent;
         public string AirFluent
         {

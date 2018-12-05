@@ -338,8 +338,8 @@
                                 <DataGridTextColumn Header="截距" Width="70" Binding="{Binding Path=B,Mode=TwoWay}" IsReadOnly="True"></DataGridTextColumn>
                                 <DataGridTextColumn Header="相关系数" Width="*" Binding="{Binding Path=R,Mode=TwoWay}" IsReadOnly="True"></DataGridTextColumn>
 
-                                <DataGridTextColumn x:Name="standardgndCol" Header="汞浓度mg/m3" Width="120" Visibility="Collapsed"></DataGridTextColumn>
-                                <DataGridTextColumn x:Name="standardllCol" Header="汞流量mg/L" Width="120" Visibility="Collapsed"></DataGridTextColumn>
+                                <DataGridTextColumn x:Name="standardgndCol" Header="汞浓度mg/m3" Binding="{Binding Path=density,Mode=TwoWay}" Width="120" Visibility="Collapsed"></DataGridTextColumn>
+                                <DataGridTextColumn x:Name="standardllCol" Header="汞流量mg/L"  Binding="{Binding Path=AirFluent,Mode=TwoWay}" Width="120" Visibility="Collapsed"></DataGridTextColumn>
 
                             </DataGrid.Columns>
                         </DataGrid>

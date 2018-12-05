@@ -21,8 +21,7 @@
     <SampleName>db</SampleName>
     <GroupName>a</GroupName>
     <Code>9</Code>
-    <ResponseValue1>10003
-</ResponseValue1>
+    <ResponseValue1 />
     <Weight>1</Weight>
     <Temperature>1</Temperature>
     <AirML>2</AirML>
