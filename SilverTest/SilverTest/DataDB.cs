@@ -242,9 +242,6 @@ namespace SilverTest
     //新样表结构定义
     public class NewTestTarget: INotifyPropertyChanged
     {
-        //新样名称
-        private string newName;
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void NotifyPropertyChanged(string propertyName)
@@ -256,6 +253,7 @@ namespace SilverTest
         }
 
         //新样名称
+        private string newName;
         public string NewName {
             get { return newName; }
             set
@@ -358,7 +356,7 @@ namespace SilverTest
                 NotifyPropertyChanged("LiquidSize");
             }
         }
-
+        //样品消化液总体积
         private string airTotolBulk;
         public string AirTotolBulk
         {
@@ -405,6 +403,44 @@ namespace SilverTest
                 NotifyPropertyChanged("AirG");
             }
         }
+
+        //样品气体总流量
+        private string airTotalFluent;
+        public string AirTotalFluent
+        {
+            get { return airTotalFluent; }
+            set
+            {
+                airTotalFluent = value;
+                NotifyPropertyChanged("AirTotalFluent");
+            }
+        }
+
+
+        //汞含量
+        private string thingInSamle;
+        public string ThingInSamle
+        {
+            get { return thingInSamle; }
+            set
+            {
+                thingInSamle = value;
+                NotifyPropertyChanged("ThingInSamle");
+            }
+        }
+
+        //进样量
+        private string inSampleQuality;
+        public string InSampleQuality
+        {
+            get { return inSampleQuality; }
+            set
+            {
+                inSampleQuality = value;
+                NotifyPropertyChanged("InSampleQuality");
+            }
+        }
+
 
         //全局唯一id
         private string globalID;
