@@ -1,30 +1,43 @@
 <?xml version="1.0"?>
 <ArrayOfNewTestTarget xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <NewTestTarget>
-    <NewName>鞋子</NewName>
-    <Code>11</Code>
-    <GlobalID>N000000018</GlobalID>
-  </NewTestTarget>
-  <NewTestTarget>
-    <NewName>得</NewName>
-    <Code>13</Code>
-    <ResponseValue1>202.82</ResponseValue1>
-    <GlobalID>N000000020</GlobalID>
-  </NewTestTarget>
-  <NewTestTarget>
+    <NewName>黄金泥</NewName>
     <Code>14</Code>
+    <Weight>10</Weight>
+    <ResponseValue1>21000</ResponseValue1>
+    <AirTotolBulk>151</AirTotolBulk>
+    <AirSampleTime>16</AirSampleTime>
+    <AirFluent>99</AirFluent>
+    <AirG>0.01168</AirG>
     <GlobalID>N000000022</GlobalID>
   </NewTestTarget>
   <NewTestTarget>
+    <NewName>白银雪</NewName>
     <Code>15</Code>
+    <Weight>6</Weight>
+    <ResponseValue1>20000</ResponseValue1>
+    <Density>132.49366</Density>
+    <AirTotolBulk>71</AirTotolBulk>
+    <AirSampleTime />
+    <AirFluent />
+    <AirG>0.13249366326276</AirG>
+    <InSampleQuality>6</InSampleQuality>
     <GlobalID>N000000171</GlobalID>
   </NewTestTarget>
   <NewTestTarget>
+    <NewName>黄铜肌</NewName>
     <Code>16</Code>
+    <ResponseValue1>19000</ResponseValue1>
+    <AirSampleTime />
+    <AirFluent />
     <GlobalID>N000000172</GlobalID>
   </NewTestTarget>
   <NewTestTarget>
+    <NewName>铁炉削</NewName>
     <Code>17</Code>
+    <ResponseValue1>18000</ResponseValue1>
+    <AirSampleTime />
+    <AirFluent />
     <GlobalID>N000000173</GlobalID>
   </NewTestTarget>
 </ArrayOfNewTestTarget>

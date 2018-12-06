@@ -126,6 +126,9 @@ namespace SilverTest
         //测试模块id
         TestModule testmoduleid = TestModule.AIR_GOLD_ATOM_IN_BACK;
 
+        //液体标量程测量标量常量
+        const int inquaility = 25; //mL
+
         public MainWindow()
         {
             InitializeComponent();
@@ -410,56 +413,107 @@ namespace SilverTest
         
         private void standardCmb_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            //获取选中的标样记录
             if (e.AddedItems.Count == 0) return;
             StandardSample asample = e.AddedItems[0] as StandardSample;
             aTxb.Text = asample.A;
             bTxb.Text = asample.B;
             rTxt.Text = asample.R;
+            if (asample.A is null ||
+                asample.B is null ||
+                asample.R is null
+                ) return;
+            double a = double.Parse(asample.A);
+            double b = double.Parse(asample.B);
 
-            //如果有平均值则计算汞浓度
+            //获取选中的新样记录，计算对应的索引号
             int rowNo = NewTargetDgd.SelectedIndex;
             int cltindex = getNewCltIndex(rowNo);
             if (cltindex == -1) return;
             if (rowNo < 0)
                 return;
             if (newTestClt[cltindex].ResponseValue1 == "" ||
-                newTestClt[cltindex].ResponseValue1 == null ||
-                //newTestClt[rowNo].ResponseValue2 == "" ||
-                //newTestClt[rowNo].ResponseValue2 == null ||
-                //newTestClt[rowNo].ResponseValue3 == "" ||
-                //newTestClt[rowNo].ResponseValue3 == null
-                asample.A is null ||
-                asample.B is null ||
-                asample.R is null
+                newTestClt[cltindex].ResponseValue1 == null
                 )
                 return;
 
-            //newTestClt[rowNow].Density = "";
-            //double avr = double.Parse(newTestClt[cltindex].ResponseValue1);
-            // int.Parse(newTestClt[rowNo].ResponseValue2) +
-            // int.Parse(newTestClt[rowNo].ResponseValue3);
-            //avr /= 3;
-            //newTestClt[cltindex].AverageValue = avr.ToString();
-
-            double a = double.Parse(asample.A);
-            double b = double.Parse(asample.B);
-            //double d = (avr * t2 * t3 / 1000);
-            //double den = (avr - b) / a;
-            //newTestClt[cltindex].Density = den.ToString();
-            
-
-            //NewTargetDgd.DataContext = null;
-            //NewTargetDgd.DataContext = newTestClt;
-            //计算气体体积
-            if (newTestClt[cltindex].AirFluent == "" || newTestClt[cltindex].AirFluent is null||
-                newTestClt[cltindex].AirSampleTime == "" || newTestClt[cltindex].AirSampleTime is null)
+            //根据R，计算相关值
+            switch (testmoduleid)
             {
-                return;
+                case TestModule.AIR_ADJUST_ZERO_ATOM_IN_AHEAD:
+                case TestModule.AIR_ATOM_IN_AHEAD:
+                    //(R,响应值)->汞含量
+                    newTestClt[cltindex].ThingInSamle = Math.Round( 
+                        (double.Parse(newTestClt[cltindex].ResponseValue1) - b) / a, 5).ToString();
+                    //样品中汞含量
+                    if(newTestClt[cltindex].AirFluent == "" || newTestClt[cltindex].AirFluent is null ||
+                        newTestClt[cltindex].AirTotalFluent == "" || newTestClt[cltindex].AirTotalFluent is null)
+                    {
+                        return;
+                    }
+                    newTestClt[cltindex].AirG = (Math.Round((
+                        (double.Parse(newTestClt[cltindex].AirTotalFluent) / 
+                        double.Parse(newTestClt[cltindex].AirFluent)*
+                        double.Parse(newTestClt[cltindex].ThingInSamle))/
+                        double.Parse(newTestClt[cltindex].AirTotalFluent))/1000,
+                        5)).ToString();
+                    break;
+                case TestModule.AIR_GOLD_ATOM_IN_BACK:
+                    //计算气体体积
+                    if (newTestClt[cltindex].AirFluent == "" || newTestClt[cltindex].AirFluent is null ||
+                        newTestClt[cltindex].AirSampleTime == "" || newTestClt[cltindex].AirSampleTime is null)
+                    {
+                        return;
+                    }
+                    newTestClt[cltindex].AirTotolBulk = (Math.Round(double.Parse(newTestClt[cltindex].AirFluent) * double.Parse(newTestClt[cltindex].AirSampleTime),
+                        2)).ToString();
+                    //y-b/a
+                    newTestClt[cltindex].AirG = Math.Round(0.001 * (double.Parse(newTestClt[cltindex].ResponseValue1) - b) / a, 5).ToString();
+                    break;
+                case TestModule.HOT_AIR_BOX:
+                    //(R,响应值)->汞含量
+                    newTestClt[cltindex].ThingInSamle = Math.Round(
+                        (double.Parse(newTestClt[cltindex].ResponseValue1) - b) / a, 5).ToString();
+                    //汞浓度
+                    if (newTestClt[cltindex].AirTotolBulk == "" || newTestClt[cltindex].AirTotolBulk is null)
+                        return;
+                    newTestClt[cltindex].Density = Math.Round( double.Parse(newTestClt[cltindex].ThingInSamle) /
+                        double.Parse(newTestClt[cltindex].AirTotolBulk)*
+                        1000
+                        ,5).ToString();
+                    break;
+                case TestModule.LIQUID_MULTI_BULK:
+                    if (newTestClt[cltindex].AirTotolBulk == "" || newTestClt[cltindex].AirTotolBulk is null ||
+                       newTestClt[cltindex].InSampleQuality == "" || newTestClt[cltindex].InSampleQuality is null)
+                        return;
+                    //(R,响应值)->汞浓度ug / L
+                    double d = (double.Parse(newTestClt[cltindex].ResponseValue1) - b) / a;
+                    d = d* double.Parse(newTestClt[cltindex].AirTotolBulk)/
+                        double.Parse(newTestClt[cltindex].InSampleQuality);
+                    newTestClt[cltindex].Density = Math.Round(
+                        d, 5).ToString();
+                    //样品中汞含量
+                    newTestClt[cltindex].AirG = (d / 1000 / 1000 *
+                        double.Parse(newTestClt[cltindex].AirTotolBulk)/ 
+                        double.Parse(newTestClt[cltindex].AirTotolBulk)*1000).ToString();
+                    break;
+                case TestModule.LIQUID_STANDARD_BULK:
+                default:
+                    if (newTestClt[cltindex].AirTotolBulk == "" || newTestClt[cltindex].AirTotolBulk is null )
+                        return;
+                    //(R,响应值)->汞浓度ug / L
+                    double d1 = (double.Parse(newTestClt[cltindex].ResponseValue1) - b) / a;
+                    d1 = d1 * double.Parse(newTestClt[cltindex].AirTotolBulk) /
+                        inquaility;
+                    newTestClt[cltindex].Density = Math.Round(
+                        d1, 5).ToString();
+                    //样品中汞含量
+                    newTestClt[cltindex].AirG = (d1 / 1000 / 1000 *
+                        double.Parse(newTestClt[cltindex].AirTotolBulk) /
+                        double.Parse(newTestClt[cltindex].AirTotolBulk) * 1000).ToString();
+                    break;
             }
-            newTestClt[cltindex].AirTotolBulk = (Math.Round(double.Parse(newTestClt[cltindex].AirFluent) * double.Parse(newTestClt[cltindex].AirSampleTime),
-                2)).ToString();
-            //y-b/a
-            newTestClt[cltindex].AirG = Math.Round(0.001*(double.Parse(newTestClt[cltindex].ResponseValue1) - b) / a, 5).ToString();
+
         }
 
         private void modifyBtn_Click(object sender, RoutedEventArgs e)
@@ -2418,6 +2472,23 @@ namespace SilverTest
             newghlCol.Visibility = Visibility.Collapsed;
             //进样量ml
             newjylCol.Visibility = Visibility.Collapsed;
+
+
+            /*--- 标样 ---*/
+            //温度
+            airtemperature.Visibility = Visibility.Collapsed;
+            //标样体积ml
+            airbulk.Visibility = Visibility.Visible;
+            airbulk.Header = "总体积mL";
+            //汞量ng
+            airbulk.Visibility = Visibility.Collapsed;
+            //样品质量
+            standardzl.Visibility = Visibility.Collapsed;
+            //汞浓度mg/m3
+            standardgndCol.Visibility = Visibility.Visible;
+            standardgndCol.Header = "汞浓度ug/L";
+            //汞流量mg/L
+            standardllCol.Visibility = Visibility.Collapsed;
         }
     }
 }

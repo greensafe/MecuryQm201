@@ -266,16 +266,16 @@
                                 <DataGridTextColumn Header="响应值3" Width="80" Binding="{Binding ResponseValue3,Mode=TwoWay}" Visibility="Hidden" IsReadOnly="True"></DataGridTextColumn>
                                 <DataGridTextColumn Header="平均值" Width="80" Binding="{Binding AverageValue,Mode=TwoWay}" Visibility="Hidden" IsReadOnly="True"></DataGridTextColumn>
                                 <DataGridTextColumn x:Name="newAirSampTimeCol" Header="取样时间m" Width="90" Binding="{Binding AirSampleTime,Mode=TwoWay}" IsReadOnly="True"></DataGridTextColumn>
-                                <DataGridTextColumn x:Name="newAirFluentCol" Header="流量L/m" Width="80" Binding="{Binding AirFluent,Mode=TwoWay}" IsReadOnly="True"></DataGridTextColumn>
+                                <DataGridTextColumn x:Name="newAirFluentCol" Header="流量L/m" Width="80" Binding="{Binding AirFluent,Mode=TwoWay}" IsReadOnly="False"></DataGridTextColumn>
                                 <DataGridTextColumn x:Name="newqualityCol" Header="样品质量" Width="80" Binding="{Binding Weight,Mode=TwoWay}"></DataGridTextColumn>
                                 <!--<DataGridTextColumn x:Name="newLiquidBulkCol"  Header="样品消化液总体积ml" Width="80" Visibility="Hidden"></DataGridTextColumn> -->
                                 <DataGridTextColumn x:Name="newtotalbulkCol" Header="样品总体积L" Binding="{Binding AirTotolBulk,Mode=TwoWay}" Width="120"></DataGridTextColumn>
                                 <DataGridTextColumn x:Name="newghltotalCol" Header="样品中汞含量mg/m3" Binding="{Binding AirG,Mode=TwoWay}" Width="150" IsReadOnly="True"></DataGridTextColumn>
                                 
                                 <DataGridTextColumn x:Name="newgndCol" Header="汞浓度ng/mL" Width="100" Binding="{Binding Density,Mode=TwoWay}" Visibility="Collapsed" IsReadOnly="True"></DataGridTextColumn>
-                                <DataGridTextColumn x:Name="newypqtzllCol" Header="样品气体总流量L/min" Width="120" Binding="{Binding AirTotalFluent,Mode=TwoWay}"  Visibility="Collapsed" IsReadOnly="True"></DataGridTextColumn>
-                                <DataGridTextColumn x:Name="newghlCol" Header="汞含量mg" Width="100" Binding="{Binding ThingInSamle,Mode=TwoWay}" Visibility="Collapsed" IsReadOnly="True"></DataGridTextColumn>
-                                <DataGridTextColumn x:Name="newjylCol" Header="进样量ml" Width="80"  Binding="{Binding InSampleQuality,Mode=TwoWay}" Visibility="Collapsed" IsReadOnly="True"></DataGridTextColumn>
+                                <DataGridTextColumn x:Name="newypqtzllCol" Header="样品气体总流量L/min" Width="120" Binding="{Binding AirTotalFluent,Mode=TwoWay}"  Visibility="Collapsed" ></DataGridTextColumn>
+                                <DataGridTextColumn x:Name="newghlCol" Header="汞含量mg" Width="100" Binding="{Binding ThingInSamle,Mode=TwoWay}" Visibility="Collapsed" ></DataGridTextColumn>
+                                <DataGridTextColumn x:Name="newjylCol" Header="进样量ml" Width="80"  Binding="{Binding InSampleQuality,Mode=TwoWay}" Visibility="Collapsed" ></DataGridTextColumn>
                                 
                                 <DataGridTemplateColumn Header="选择标样" Width="*">
                                     <DataGridTemplateColumn.CellTemplate >
