@@ -304,7 +304,7 @@
                                   Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}" 
                                   ItemsSource="{Binding}"
                                   CanUserAddRows="False"
-                                  Margin="0,0,0,0" AutoGenerateColumns="False" SelectionChanged="standardSampleDgd_SelectionChanged" CellEditEnding="standardSampleDgd_CellEditEnding" MouseRightButtonDown="standardSampleDgd_MouseRightButtonDown" LoadingRow="standardSampleDgd_LoadingRow">
+                                  Margin="0,0,0,0" AutoGenerateColumns="False" SelectionChanged="standardSampleDgd_SelectionChanged" CellEditEnding="standardSampleDgd_CellEditEnding" MouseRightButtonDown="standardSampleDgd_MouseRightButtonDown" LoadingRow="standardSampleDgd_LoadingRow" Unloaded="standardSampleDgd_Unloaded">
                             <DataGrid.Style>
                                 <Style BasedOn="{StaticResource MetroDataGrid}" TargetType="{x:Type DataGrid}">
                                     <Setter Property="AlternatingRowBackground" Value="{DynamicResource GrayBrush7}" />

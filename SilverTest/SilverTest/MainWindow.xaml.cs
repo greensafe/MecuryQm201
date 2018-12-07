@@ -370,6 +370,9 @@ namespace SilverTest
 
         private void sampletab_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            NewTargetDgd.CommitEdit(DataGridEditingUnit.Row, true);
+            standardSampleDgd.CommitEdit(DataGridEditingUnit.Row, true);
+            ;
         }
 
         private void newItemHead_Click(object sender, RoutedEventArgs e)
@@ -2493,6 +2496,12 @@ namespace SilverTest
             standardgndCol.Header = "汞浓度ug/L";
             //汞流量mg/L
             standardllCol.Visibility = Visibility.Collapsed;
+        }
+
+        private void standardSampleDgd_Unloaded(object sender, RoutedEventArgs e)
+        {
+//            var grid = (DataGrid)sender;
+            //grid.CommitEdit(DataGridEditingUnit.Row, true);
         }
     }
 }
