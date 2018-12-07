@@ -493,9 +493,11 @@ namespace SilverTest
                     newTestClt[cltindex].Density = Math.Round(
                         d, 5).ToString();
                     //样品中汞含量
-                    newTestClt[cltindex].AirG = (d / 1000 / 1000 *
+                    newTestClt[cltindex].AirG = (Math.Round(
+                        d / 1000 / 1000 *
                         double.Parse(newTestClt[cltindex].AirTotolBulk)/ 
-                        double.Parse(newTestClt[cltindex].AirTotolBulk)*1000).ToString();
+                        double.Parse(newTestClt[cltindex].AirTotolBulk)*1000,
+                        5)).ToString();
                     break;
                 case TestModule.LIQUID_STANDARD_BULK:
                 default:
@@ -508,9 +510,11 @@ namespace SilverTest
                     newTestClt[cltindex].Density = Math.Round(
                         d1, 5).ToString();
                     //样品中汞含量
-                    newTestClt[cltindex].AirG = (d1 / 1000 / 1000 *
+                    newTestClt[cltindex].AirG = Math.Round(
+                        (d1 / 1000 / 1000 *
                         double.Parse(newTestClt[cltindex].AirTotolBulk) /
-                        double.Parse(newTestClt[cltindex].AirTotolBulk) * 1000).ToString();
+                        double.Parse(newTestClt[cltindex].AirTotolBulk) * 1000),
+                        5).ToString();
                     break;
             }
 
