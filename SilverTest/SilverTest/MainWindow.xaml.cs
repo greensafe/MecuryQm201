@@ -2204,8 +2204,8 @@ namespace SilverTest
             airbulk.Visibility = Visibility.Visible;
             airbulk.Header = "体积L";
             //汞量ng
-            airbulk.Visibility = Visibility.Visible;
-            airbulk.Header = "汞含量mg";
+            airhan.Visibility = Visibility.Visible;
+            airhan.Header = "汞含量mg";
             //样品质量
             standardzl.Visibility = Visibility.Collapsed;
             standardzl.Header = "样品质量";
@@ -2259,8 +2259,8 @@ namespace SilverTest
             //标样体积ml
             airbulk.Visibility = Visibility.Collapsed;
             //汞量ng
-            airbulk.Visibility = Visibility.Visible;
-            airbulk.Header = "汞量ng";
+            airhan.Visibility = Visibility.Visible;
+            airhan.Header = "汞量ng";
             //样品质量
             standardzl.Visibility = Visibility.Collapsed;
             //汞浓度mg/m3
@@ -2320,8 +2320,8 @@ namespace SilverTest
             airbulk.Visibility = Visibility.Visible;
             airbulk.Header = "标样体积ML";
             //汞量ng
-            airbulk.Visibility = Visibility.Visible;
-            airbulk.Header = "汞量ng";
+            airhan.Visibility = Visibility.Visible;
+            airhan.Header = "汞量ng";
             //样品质量
             standardzl.Visibility = Visibility.Visible;
             standardzl.Header = "样品质量";
@@ -2375,8 +2375,8 @@ namespace SilverTest
             //标样体积ml
             airbulk.Visibility = Visibility.Collapsed;
             //汞量ng
-            airbulk.Visibility = Visibility.Visible;
-            airbulk.Header = "汞量ng";
+            airhan.Visibility = Visibility.Visible;
+            airhan.Header = "汞量ng";
             //样品质量
             standardzl.Visibility = Visibility.Collapsed;
             //汞浓度mg/m3
@@ -2431,7 +2431,7 @@ namespace SilverTest
             airbulk.Visibility = Visibility.Visible;
             airbulk.Header = "总体积mL";
             //汞量ng
-            airbulk.Visibility = Visibility.Collapsed;
+            airhan.Visibility = Visibility.Collapsed;
             //样品质量
             standardzl.Visibility = Visibility.Collapsed;
             //汞浓度mg/m3
@@ -2485,7 +2485,7 @@ namespace SilverTest
             airbulk.Visibility = Visibility.Visible;
             airbulk.Header = "总体积mL";
             //汞量ng
-            airbulk.Visibility = Visibility.Collapsed;
+            airhan.Visibility = Visibility.Collapsed;
             //样品质量
             standardzl.Visibility = Visibility.Collapsed;
             //汞浓度mg/m3
