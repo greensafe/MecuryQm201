@@ -1493,6 +1493,8 @@ namespace SilverTest
 
         private void printRmenu_Click(object sender, RoutedEventArgs e)
         {
+            //rCanvas.Width = 700;
+            //rCanvas.Height = 400;
             PrintDialog dlg = new PrintDialog();
             if (dlg.ShowDialog() == true)
             {
@@ -2245,6 +2247,9 @@ namespace SilverTest
             //汞流量mg/L
             standardllCol.Visibility = Visibility.Collapsed;
             standardllCol.Header = "汞流量mg/L";
+
+            NewTargetDgd.CommitEdit();
+            standardSampleDgd.CommitEdit();
         }
 
         //气体测量原子吸收法前进样
@@ -2299,6 +2304,9 @@ namespace SilverTest
             //汞流量mg/L
             standardllCol.Visibility = Visibility.Visible;
             standardllCol.Header = "汞流量mg/L";
+
+            NewTargetDgd.CommitEdit();
+            standardSampleDgd.CommitEdit();
         }
 
         //气体测量金属膜原子吸收法后进样(等价于201H)
@@ -2361,6 +2369,9 @@ namespace SilverTest
             //汞流量mg/L
             standardllCol.Visibility = Visibility.Collapsed;
             standardllCol.Header = "汞流量mg/L";
+
+            NewTargetDgd.CommitEdit();
+            standardSampleDgd.CommitEdit();
         }
 
         //气体自校零原子吸收法前进样(等价于原子吸收法前进样)
@@ -2415,6 +2426,9 @@ namespace SilverTest
             //汞流量mg/L
             standardllCol.Visibility = Visibility.Visible;
             standardllCol.Header = "汞流量mg/L";
+
+            NewTargetDgd.CommitEdit();
+            standardSampleDgd.CommitEdit();
         }
 
         //液体多量程测量
@@ -2469,6 +2483,9 @@ namespace SilverTest
             standardgndCol.Header = "汞浓度ug/L";
             //汞流量mg/L
             standardllCol.Visibility = Visibility.Collapsed;
+
+            NewTargetDgd.CommitEdit();
+            standardSampleDgd.CommitEdit();
         }
 
         //液体标量程测量
@@ -2523,6 +2540,9 @@ namespace SilverTest
             standardgndCol.Header = "汞浓度ug/L";
             //汞流量mg/L
             standardllCol.Visibility = Visibility.Collapsed;
+
+            NewTargetDgd.CommitEdit();
+            standardSampleDgd.CommitEdit();
         }
 
         private void standardSampleDgd_Unloaded(object sender, RoutedEventArgs e)
