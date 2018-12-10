@@ -1319,19 +1319,38 @@ namespace SilverTest
                     newTestClt[index].AirSampleTime = v;
                     break;
                 case "流量L/m":
+                case "流量L/min":
                     newTestClt[index].AirFluent = v;
                     break;
                 case "汞浓度ng/mL":
                     newTestClt[index].Density = v;
                     break;
                 case "样品质量":
+                case "样品质量g":
                     newTestClt[index].Weight = v;
                     break;
-                case "样品消化液总体积ml":
-
+                case "样品消化液总体积mL":
+                case "样品总体积L":
+                case "体积L":
+                    newTestClt[index].AirTotolBulk = v;
                     break;
-                case "样品中汞含量":
-                    
+                case "样品中汞含量mg/m3":
+                case "样品中汞含量mg/kg":
+                    newTestClt[index].AirG = v;
+                    break;
+                case "汞浓度mg/m3":
+                case "汞浓度ug/L":
+                    newTestClt[index].Density = v;
+                    break;
+                case "样品气体总流量L/min":
+                    newTestClt[index].AirTotalFluent = v;
+                    break;
+                case "汞含量mg":
+                case "汞含量ng/L":
+                    newTestClt[index].ThingInSamle = v;
+                    break;
+                case "进样量mL":
+                    newTestClt[index].InSampleQuality = v;
                     break;
             }
         }
@@ -1350,6 +1369,8 @@ namespace SilverTest
                     standardSampleClt[index].SampleName = v;
                     break;
                 case "汞浓度ng/mL":
+                case "汞浓度mg/m3":
+                case "汞浓度ug/L":
                     standardSampleClt[index].Density = v;
                     break;
                 case "响应值":
@@ -1365,9 +1386,12 @@ namespace SilverTest
                     standardSampleClt[index].Temperature = v;
                     break;
                 case "标样体积mL":
+                case "体积L":
+                case "总体积mL":
                     standardSampleClt[index].AirML = v;
                     break;
                 case "汞量ng":
+                case "汞量mg":
                     standardSampleClt[index].AirG = Math.Round(double.Parse(v),2).ToString();
                     break;
                 case "样品质量":
@@ -1381,6 +1405,9 @@ namespace SilverTest
                     break;
                 case "样品购买日期":
                     standardSampleClt[index].BuyDate = v;
+                    break;
+                case "汞流量mg/L":
+                    standardSampleClt[index].AirFluent = v;
                     break;
             }
         }
