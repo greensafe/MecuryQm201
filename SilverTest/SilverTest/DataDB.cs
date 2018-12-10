@@ -358,7 +358,7 @@ namespace SilverTest
                 NotifyPropertyChanged("LiquidSize");
             }
         }
-        //样品消化液总体积
+        //样品总体积L
         private string airTotolBulk;
         public string AirTotolBulk
         {
