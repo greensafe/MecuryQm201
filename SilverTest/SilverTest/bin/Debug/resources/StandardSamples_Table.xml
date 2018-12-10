@@ -4,45 +4,97 @@
     <SampleName>agf</SampleName>
     <GroupName>a</GroupName>
     <Code>8</Code>
-    <ResponseValue1>67</ResponseValue1>
+    <ResponseValue1>6801</ResponseValue1>
     <Weight>3</Weight>
     <Temperature>3</Temperature>
     <AirML>1</AirML>
     <AirG>2.9</AirG>
     <BuyDate>2018.1.2</BuyDate>
-    <A>59.3</A>
-    <B>-104.98</B>
-    <R>1</R>
+    <A>0</A>
+    <B>6801</B>
+    <R>NaN</R>
     <GlobalID>S000000018</GlobalID>
   </StandardSample>
   <StandardSample>
-    <SampleName>db</SampleName>
+    <SampleName>db1</SampleName>
     <GroupName>b</GroupName>
     <Code>9</Code>
-    <ResponseValue1>204</ResponseValue1>
+    <Density>3444</Density>
+    <ResponseValue1>6801</ResponseValue1>
     <Weight>4</Weight>
     <Temperature>2</Temperature>
     <AirML>3</AirML>
     <AirG>7.92</AirG>
-    <BuyDate>2018.1.1</BuyDate>
+    <BuyDate>2018.1.11</BuyDate>
     <A>0</A>
     <B>0</B>
     <R>NaN</R>
     <GlobalID>S000000020</GlobalID>
   </StandardSample>
   <StandardSample>
-    <SampleName>db3</SampleName>
+    <SampleName>333</SampleName>
     <GroupName>a</GroupName>
     <Code>10</Code>
-    <ResponseValue1>322</ResponseValue1>
+    <Density>344</Density>
+    <ResponseValue1>6801</ResponseValue1>
     <Weight>1</Weight>
     <Temperature>1</Temperature>
-    <AirML>3</AirML>
+    <AirML>4</AirML>
     <AirG>7.2</AirG>
-    <BuyDate>2018.1.1</BuyDate>
-    <A>59.3</A>
-    <B>-104.98</B>
-    <R>1</R>
+    <BuyDate>2018.11.11</BuyDate>
+    <A>0</A>
+    <B>6801</B>
+    <R>NaN</R>
     <GlobalID>S000000021</GlobalID>
+  </StandardSample>
+  <StandardSample>
+    <SampleName>a2</SampleName>
+    <GroupName />
+    <Code>11</Code>
+    <Density>443</Density>
+    <ResponseValue1>2323</ResponseValue1>
+    <Weight>1</Weight>
+    <Temperature>1</Temperature>
+    <AirML>12</AirML>
+    <AirG>2.4</AirG>
+    <BuyDate>12</BuyDate>
+    <A>0</A>
+    <B>0</B>
+    <R>NaN</R>
+    <AirFluent>32</AirFluent>
+    <GlobalID>S000000052</GlobalID>
+  </StandardSample>
+  <StandardSample>
+    <SampleName>b2</SampleName>
+    <Code>13</Code>
+    <Density>333</Density>
+    <Weight>2</Weight>
+    <Temperature>2</Temperature>
+    <AirML>22</AirML>
+    <AirG>5.28</AirG>
+    <BuyDate>22</BuyDate>
+    <AirFluent>43</AirFluent>
+    <GlobalID>S000000074</GlobalID>
+  </StandardSample>
+  <StandardSample>
+    <SampleName>c2</SampleName>
+    <Code>14</Code>
+    <Weight>3</Weight>
+    <Temperature>3</Temperature>
+    <AirML>3</AirML>
+    <AirG>8.7</AirG>
+    <BuyDate>3</BuyDate>
+    <AirFluent>32</AirFluent>
+    <GlobalID>S000000075</GlobalID>
+  </StandardSample>
+  <StandardSample>
+    <SampleName>d2</SampleName>
+    <Code>15</Code>
+    <Weight>4</Weight>
+    <Temperature>4</Temperature>
+    <AirML>4</AirML>
+    <AirG>12.72</AirG>
+    <BuyDate>4</BuyDate>
+    <GlobalID>S000000076</GlobalID>
   </StandardSample>
 </ArrayOfStandardSample>

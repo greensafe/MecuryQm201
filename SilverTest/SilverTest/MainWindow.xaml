@@ -272,7 +272,7 @@
                                 <DataGridTextColumn x:Name="newtotalbulkCol" Header="样品总体积L" Binding="{Binding AirTotolBulk,Mode=TwoWay}" Width="120"></DataGridTextColumn>
                                 <DataGridTextColumn x:Name="newghltotalCol" Header="样品中汞含量mg/m3" Binding="{Binding AirG,Mode=TwoWay}" Width="150" IsReadOnly="True"></DataGridTextColumn>
                                 
-                                <DataGridTextColumn x:Name="newgndCol" Header="汞浓度ng/mL" Width="100" Binding="{Binding Density,Mode=TwoWay}" Visibility="Collapsed" IsReadOnly="True"></DataGridTextColumn>
+                                <DataGridTextColumn x:Name="newgndCol" Header="汞浓度ng/mL" Width="100" Binding="{Binding Density,Mode=TwoWay}" Visibility="Collapsed"></DataGridTextColumn>
                                 <DataGridTextColumn x:Name="newypqtzllCol" Header="样品气体总流量L/min" Width="120" Binding="{Binding AirTotalFluent,Mode=TwoWay}"  Visibility="Collapsed" ></DataGridTextColumn>
                                 <DataGridTextColumn x:Name="newghlCol" Header="汞含量mg" Width="100" Binding="{Binding ThingInSamle,Mode=TwoWay}" Visibility="Collapsed" ></DataGridTextColumn>
                                 <DataGridTextColumn x:Name="newjylCol" Header="进样量ml" Width="80"  Binding="{Binding InSampleQuality,Mode=TwoWay}" Visibility="Collapsed" ></DataGridTextColumn>
@@ -334,7 +334,7 @@
                                 <!--<DataGridTextColumn x:Name="standardProviderCol" Header="样品供应商" Width="80" Binding="{Binding Path=ProviderCompany,Mode=TwoWay}" Visibility="Hidden"></DataGridTextColumn> -->
                                 <!--<DataGridTextColumn x:Name="standardPlaceCol"  Header="产地" Width="80" Binding="{Binding Path=Place,Mode=TwoWay}" Visibility="Hidden"></DataGridTextColumn> -->
                                 <DataGridTextColumn Header="样品购买日期" Width="100" Binding="{Binding Path=BuyDate,Mode=TwoWay}"></DataGridTextColumn>
-                                <DataGridTextColumn x:Name="standardgndCol" Header="汞浓度mg/m3" Binding="{Binding Path=density,Mode=TwoWay}" Width="120" Visibility="Collapsed"></DataGridTextColumn>
+                                <DataGridTextColumn x:Name="standardgndCol" Header="汞浓度mg/m3" Binding="{Binding Path=Density,Mode=TwoWay}" Width="120" Visibility="Collapsed"></DataGridTextColumn>
                                 <DataGridTextColumn x:Name="standardllCol" Header="汞流量mg/L"  Binding="{Binding Path=AirFluent,Mode=TwoWay}" Width="120" Visibility="Collapsed"></DataGridTextColumn>
                                 <DataGridTextColumn Header="斜率" Width="70" Binding="{Binding Path=A,Mode=TwoWay}" IsReadOnly="True"></DataGridTextColumn>
                                 <DataGridTextColumn Header="截距" Width="70" Binding="{Binding Path=B,Mode=TwoWay}" IsReadOnly="True"></DataGridTextColumn>
