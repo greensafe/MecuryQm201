@@ -966,6 +966,8 @@ namespace SilverTest
             int leftmargin = 5;    //左边的空白
             int bottommargin = 20;  //底部的空白
 
+            string samplename = "";
+
             rCanvas.Children.Clear();
 
             for (int i = 0; i < x.Length; i++)
@@ -1103,22 +1105,64 @@ namespace SilverTest
             TextBlock RparamSpTxbl = new TextBlock();
             //RparamSpTxbl.Text = "";
             RparamSpTxbl.Width = 150;
-            RparamSpTxbl.Text = "样品名称  响应值  汞量ng\r\n";
+            switch(testmoduleid)
+            {
+                case TestModule.AIR_ADJUST_ZERO_ATOM_IN_AHEAD:
+                case TestModule.AIR_ATOM_IN_AHEAD:
+                    RparamSpTxbl.Text = "样品名称  响应值  汞量ng\r\n";
+                    break;
+                case TestModule.HOT_AIR_BOX:
+                    RparamSpTxbl.Text = "样品名称  响应值  汞含量mg\r\n";
+                    break;
+                case TestModule.LIQUID_MULTI_BULK:
+                case TestModule.LIQUID_STANDARD_BULK:
+                    RparamSpTxbl.Text = "样品名称  响应值  汞浓度ug/L\r\n";
+                    break;
+                case TestModule.AIR_GOLD_ATOM_IN_BACK:
+                default:
+                    RparamSpTxbl.Text = "样品名称  响应值  汞量ng\r\n";
+                    break;
+            }
+            
             int j = 0;
             for (int i=0; i < x.Length; i++)
             {
                 for(int k=j; k < standardSampleClt.Count; k++)
                 {
-                    if(standardSampleClt[k].GroupName == groupname)
                     {
-                        RparamSpTxbl.Text += standardSampleClt[k].SampleName +
-                            "\t" + cutnn(standardSampleClt[k].ResponseValue1) + "\t" +
-                            standardSampleClt[k].AirG + "\r\n";
-                        j=k+1;
-                        break;
+                        switch (testmoduleid)
+                        {
+                            case TestModule.AIR_ADJUST_ZERO_ATOM_IN_AHEAD:
+                            case TestModule.AIR_ATOM_IN_AHEAD:
+                            case TestModule.AIR_GOLD_ATOM_IN_BACK:
+                            case TestModule.HOT_AIR_BOX:
+                                if (standardSampleClt[k].GroupName == groupname &&
+                                    standardSampleClt[k].AirG == x[i].ToString() &&
+                                    standardSampleClt[k].ResponseValue1 == y[i].ToString()
+                                    )
+                                {
+                                    samplename = standardSampleClt[k].SampleName;
+                                    break;
+                                }
+                                break;
+                            case TestModule.LIQUID_MULTI_BULK:
+                            case TestModule.LIQUID_STANDARD_BULK:
+                            default:
+                                if (standardSampleClt[k].GroupName == groupname &&
+                                    standardSampleClt[k].Density == x[i].ToString() &&
+                                    standardSampleClt[k].ResponseValue1 == y[i].ToString()
+                                    )
+                                {
+                                    samplename = standardSampleClt[k].SampleName;
+                                    break;
+                                }
+                                break;
+                        }
                     }
                 }
-                
+                RparamSpTxbl.Text += samplename +
+                    "\t" + cutnn(y[i].ToString()) + "\t" +
+                    cutnn(x[i].ToString()) + "\r\n";
             }
             RparamSpTxbl.Text += "\r\n";
             RparamSpTxbl.Text += "斜率:  " + a.ToString() + "\r\n";
@@ -1215,7 +1259,21 @@ namespace SilverTest
             {
                 if (v.GroupName == groupname)
                 {
-                    x[index] = double.Parse(v.AirG);
+                    switch (testmoduleid)
+                    {
+                        case TestModule.AIR_ADJUST_ZERO_ATOM_IN_AHEAD:
+                        case TestModule.AIR_ATOM_IN_AHEAD:
+                        case TestModule.AIR_GOLD_ATOM_IN_BACK:
+                        case TestModule.HOT_AIR_BOX:
+                            x[index] = double.Parse(v.AirG);
+                            break;
+                        case TestModule.LIQUID_MULTI_BULK:
+                        case TestModule.LIQUID_STANDARD_BULK:
+                            x[index] = double.Parse(v.Density);
+                            break;
+                    }
+                    
+
                     y[index] = double.Parse(v.ResponseValue1);
                     index++;
                 }
