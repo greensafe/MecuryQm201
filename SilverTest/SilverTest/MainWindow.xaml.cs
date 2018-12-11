@@ -1341,9 +1341,19 @@ namespace SilverTest
             string filename = openDialog.FileName;
             ;
             //截取日期
+            int p1 = filename.IndexOf("表格");
+            if (p1 == -1) return;
+            p1 += 2;
+            int p2 = filename.IndexOf(".xml");
             string suffix = "";
-            if (filename.Length < 16) return;
-            for (int i = filename.Length - 17; i < filename.Length - 4; i++)
+            //if (filename.Length < 19) return;
+            /*
+            for (int i = filename.Length - 18; i < filename.Length - 4; i++)
+            {
+                suffix += filename[i];
+            }
+            */
+            for(int i = p1; i < p2; i++)
             {
                 suffix += filename[i];
             }
