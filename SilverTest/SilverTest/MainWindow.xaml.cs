@@ -2126,6 +2126,7 @@ namespace SilverTest
 
         private void loadkeyhistory_Click(object sender, RoutedEventArgs e)
         {
+            FileStream aFile;
             OpenFileDialog odi = new OpenFileDialog();
             odi.DefaultExt = ".cls";
             odi.Filter = "经典数据文件|*.cls";
@@ -2134,12 +2135,12 @@ namespace SilverTest
             string keyFileName = odi.SafeFileName;
             string fullbinfilename = "";
             string binfilename = "";
-            for(int i = 0; i < fullkeyFileName.Length -3 ; i++)
+            for (int i = 0; i < fullkeyFileName.Length - 3; i++)
             {
                 fullbinfilename += fullkeyFileName[i];
             }
             fullbinfilename += "bin";
-            for(int i = 0; i< keyFileName.Length - 3; i++)
+            for (int i = 0; i < keyFileName.Length - 3; i++)
             {
                 binfilename += keyFileName[i];
             }
@@ -2160,15 +2161,15 @@ namespace SilverTest
                     newitem = (NewTestTarget)newserializer.Deserialize(stream);
                 }
                 if (newitem == null) return;
-                for(int i=0; i< newTestClt.Count; i++)
+                for (int i = 0; i < newTestClt.Count; i++)
                 {
-                    if(newTestClt[i].GlobalID == newitem.GlobalID)
+                    if (newTestClt[i].GlobalID == newitem.GlobalID)
                     {
                         newindex = i;
                         break;
                     }
                 }
-                if(newindex == -1)//没有相同的
+                if (newindex == -1)//没有相同的
                 {
                     newTestClt.Add(newitem);
                 }
@@ -2183,7 +2184,7 @@ namespace SilverTest
             {
                 ;
             }
-            if(newitem is null)
+            if (newitem is null)
             {
                 standardserializer = new XmlSerializer(typeof(StandardSample));
                 try
@@ -2194,9 +2195,9 @@ namespace SilverTest
                         standarditem = (StandardSample)standardserializer.Deserialize(stream);
                     }
                     if (standarditem == null) return;
-                    for(int i = 0; i< standardSampleClt.Count; i++)
+                    for (int i = 0; i < standardSampleClt.Count; i++)
                     {
-                        if(standardSampleClt[i].GlobalID == standarditem.GlobalID)
+                        if (standardSampleClt[i].GlobalID == standarditem.GlobalID)
                         {
                             standardindex = i;
                             break;
@@ -2215,7 +2216,7 @@ namespace SilverTest
                     ;
                 }
             }
-           
+
             //载入波形
             realCpt.SetScale(100, 2000, 0, 50);
             //realCpt.NumberOfDValue = 200000;
@@ -2223,7 +2224,13 @@ namespace SilverTest
             realCpt.ClearData();
             int xscale = 0;
             int yscale = 0;
-            FileStream aFile = new FileStream(fullbinfilename, FileMode.Open);
+            try{ 
+                aFile = new FileStream(fullbinfilename, FileMode.Open);
+            }
+            catch (Exception er)
+            {
+                return;
+            }
             StreamReader sr = new StreamReader(aFile);
             while (!sr.EndOfStream)
             {
