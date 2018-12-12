@@ -10,19 +10,16 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterOwner"
         ResizeMode="NoResize"
-        Background="#ff444444"
+        Background="LightGray"
         
         Title="历史数据" Height="481" Width="800" Loaded="Window_Loaded">
     <Grid>
         <StackPanel x:Name="stackPanel" >
-            <Canvas Width="{Binding ElementName=stackPanel, Mode=OneWay}" Height="30" Background="#ff444444">
-
-            </Canvas>
             <StackPanel Orientation="Horizontal">
                 <StackPanel Width="200" Height="469" VerticalAlignment="Top"
-                        Background="#ff7f7f7f"
+                        Background="LightGray"
                         >
-                    <ListBox Width="196"  Height="465" x:Name="filelsb" DisplayMemberPath="Filename"
+                    <ListBox  Margin="0,3,0,0" Width="196"  Height="465" x:Name="filelsb" DisplayMemberPath="Filename"
                          SelectionChanged="filelsb_SelectionChanged">
                     </ListBox>
                 </StackPanel>
