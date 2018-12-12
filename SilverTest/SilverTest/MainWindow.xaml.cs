@@ -1962,6 +1962,8 @@ namespace SilverTest
 
         private void loadkeyhistory_Click(object sender, RoutedEventArgs e)
         {
+            FileStream aFile;
+
             OpenFileDialog odi = new OpenFileDialog();
             odi.DefaultExt = ".cls";
             odi.Filter = "经典数据文件|*.cls";
@@ -2059,7 +2061,14 @@ namespace SilverTest
             realCpt.ClearData();
             int xscale = 0;
             int yscale = 0;
-            FileStream aFile = new FileStream(fullbinfilename, FileMode.Open);
+            try
+            {
+                aFile = new FileStream(fullbinfilename, FileMode.Open);
+            }
+            catch (Exception er)
+            {
+                return;
+            }
             StreamReader sr = new StreamReader(aFile);
             while (!sr.EndOfStream)
             {
