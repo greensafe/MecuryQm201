@@ -10,23 +10,21 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterOwner"
         ResizeMode="NoResize"
-        Background="#ff444444"
+        Background="LightGray"
         
         Title="历史数据" Height="481" Width="800" Loaded="Window_Loaded">
     <Grid>
         <StackPanel x:Name="stackPanel" >
-            <Canvas Width="{Binding ElementName=stackPanel, Mode=OneWay}" Height="30" Background="#ff444444">
-
-            </Canvas>
+ 
             <StackPanel Orientation="Horizontal">
                 <StackPanel Width="200" Height="469" VerticalAlignment="Top"
-                        Background="#ff7f7f7f"
+                        Background="LightGray"
                         >
-                    <ListBox Width="196"  Height="465" x:Name="filelsb" DisplayMemberPath="Filename"
+                    <ListBox Width="197" Margin="0,4,0,0" Height="448" x:Name="filelsb" DisplayMemberPath="Filename"
                          SelectionChanged="filelsb_SelectionChanged">
                     </ListBox>
                 </StackPanel>
-                <Canvas Width="586" Margin="5,0,0,4" MouseLeftButtonDown="Canvas_MouseLeftButtonDown" >
+                <Canvas Width="586" Margin="5,0,0,0" MouseLeftButtonDown="Canvas_MouseLeftButtonDown" >
                     <Border BorderThickness="1" Height="465" Background="White" Width="586">
                         <BasicWaveChart:BasicWaveChartUC x:Name="historywaveuc"
                                          RatioS="1:2" 
