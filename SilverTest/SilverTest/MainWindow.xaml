@@ -37,16 +37,15 @@
         <ContextMenu x:Key="sampletableMenu">
             <MenuItem Header="查看历史" Click="sampletableMenu_showhistory">
                 <MenuItem.Icon>
-                    <Image Source="images\viewhistory.png" />
+                    <Image Source="images\viewhistory.png" Width="25" Height="25"/>
                 </MenuItem.Icon>
             </MenuItem>
             <MenuItem  x:Name="samplesavedotsPMenu" Header="保存点值" Click="samplesavedotsPMenu_Click">
                 <MenuItem.Icon>
-                    <Image Source="images\save.png" />
+                    <Image Source="images\save.png" Width="25" Height="25"/>
                 </MenuItem.Icon>
             </MenuItem>
             <MenuItem x:Name="standarditemfullsavePMenu" Header="保存完整数据" Click="standarditemfullsavePMenu_Click">
-
             </MenuItem>
             <Separator />
         </ContextMenu>
