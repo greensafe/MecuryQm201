@@ -1,6 +1,6 @@
 #ignore obj
 obj/
-debug/
+
 
 #ignore visual studio generated file
 .vs/
