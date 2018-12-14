@@ -356,8 +356,8 @@ namespace BasicWaveChart
 
             if(yaxis.YScaleLineNumber != oldYScaleLineNumber || yaxis.YScaleMaxValue != oldYScaleMaxValue)
             {
-                //basecanvas.Children.Remove(yaxis);
-                //basecanvas.Children.Add(yaxis);
+                basecanvas.Children.Remove(yaxis);
+                basecanvas.Children.Add(yaxis);
                 yaxis.ReDrawCmd();
             }
 
