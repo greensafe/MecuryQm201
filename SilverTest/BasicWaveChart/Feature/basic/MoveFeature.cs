@@ -77,6 +77,11 @@ namespace featurefactory.Basic
             {
                 //only move in horital direction
                 x = e.GetPosition(targetcontext.container).X - target.ActualWidth / 2;
+
+                //避免飞出视线。410是WindowCanvas_pen的长度
+                if (x + 15 > 410)
+                    return;
+
                 Canvas.SetLeft(target, x);
 
                 //trigger move event
