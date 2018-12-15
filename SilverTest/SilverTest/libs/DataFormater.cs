@@ -153,6 +153,26 @@ namespace SilverTest.libs
 
                     }
                     break;
+                case PacketType.RES_COMPUTE_VALUE:
+                    if (validateData(packet, PhyCombine.GetPhyCombine().GetMachineInfo().ResComputePctDStart,
+                        PhyCombine.GetPhyCombine().GetMachineInfo().DataWidth, twoint(packet, PhyCombine.GetPhyCombine().GetMachineInfo().ResComputePctVStart)) == true)
+                    {
+                        if (PacketRecevied_Ev != null)
+                        {
+                            //通知收到一个包
+                            PacketRecevied_Ev(null, Utility.ConvertStrToInt_Big(packet, PhyCombine.GetPhyCombine().GetMachineInfo().ResComputePctDStart,
+                                    PhyCombine.GetPhyCombine().GetMachineInfo().DataWidth), PacketType.RES_COMPUTE_VALUE);
+                        }
+                    }
+                    else
+                    {
+                        //发生错误
+                        if (PacketCheckError_Ev != null)
+                        {
+                            PacketCheckError_Ev(0, PacketType.RES_COMPUTE_VALUE);
+                        }
+                    }
+                    break;
                 case PacketType.AIR_FLUENT:
                     if (validateData(packet, PhyCombine.GetPhyCombine().GetMachineInfo().AirFluPctDStart,
                          PhyCombine.GetPhyCombine().GetMachineInfo().AirFluPctDataWidth, 

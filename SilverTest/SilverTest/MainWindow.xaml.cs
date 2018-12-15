@@ -810,6 +810,27 @@ namespace SilverTest
                         cmdpanelWnd.ShowNormalCmndRes(((r[0] -48) << 4) + r[1] -48,r[2]-48,null);
                     }
                     break;
+                case PacketType.RES_COMPUTE_VALUE:
+                    Console.WriteLine("计算响应值:" + sequence.ToString());
+                    //将结果显示到表格之中
+                    Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        switch (sampletab.SelectedIndex)
+                        {
+                            case 0:         //新样测试
+                                newcltindex = getNewCltIndexFromSelected(testing_selected_new);
+                                if (newcltindex == -1) return;
+                                newTestClt[newcltindex].ResponseValue1 =
+                                    sequence.ToString();
+                                break;
+                            case 1:         //标样测试
+                                if (getStandardCltIndexFromSelected(testing_selected_standard) == -1) return;
+                                standardSampleClt[getStandardCltIndexFromSelected(testing_selected_standard)].ResponseValue1 =
+                                    sequence.ToString();
+                                break;
+                        }
+                    }));
+                    break;
                 case PacketType.DATA_VALUE:
 
                     double x = currentSecond;

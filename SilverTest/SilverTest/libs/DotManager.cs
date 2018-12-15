@@ -132,6 +132,9 @@ namespace SilverTest.libs
                 case CombineErrorInfo.VALUE_PCT_DATA_FORMAT_ERROR:
                     Console.WriteLine("数据包格式出错");
                     break;
+                case CombineErrorInfo.RES_COMPUTE_VALUE_PCT_DATA_FORMAT_ERROR:
+                    Console.WriteLine("回应计算包格式出错");
+                    break;
                 case CombineErrorInfo.AIR_FLUENT_PCT_DATA_FORMAT_ERROR:
                     Console.WriteLine("气体流量包格式出错");
                     break;

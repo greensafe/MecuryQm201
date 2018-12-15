@@ -74,6 +74,12 @@ namespace SilverTest.libs
             public int AirFluPctDataWidth { get; set; } //气体流量包数据长度
             public int AirFluPctVStart { get; set; } //气体流量包纠正包开始位置
 
+            public int ResComputePctLength { get; set; } //计算包长度
+            public int ResComputePctDStart { get; set; }       //计算包数据开始位置
+            public int ResComputePctMiddleTag { get; set; } //计算包数据中间标志位置
+            public int ResComputePctVStart { get; set; }       //计算包校验位开始位置
+            public int ResComputePctEndTag { get; set; } //计算包结束标志位置
+
             //状态获取命令回应包 GetStatusResPct
             public int GetStatusResPctLength { get; set; } //状态获取回应包长度
             public int GetStatusResPctMiddleTag { get; set; }  //状态获取回应包中间标志
@@ -100,6 +106,7 @@ namespace SilverTest.libs
         {
             MACHINE_TYPE,               //机器类型
             DATA_VALUE,                 //机器采样到的一个数据值
+            RES_COMPUTE_VALUE,          //计算包
             SEQUENCE,                   //数据值的序号包
             CORRECT_RESPONSE,           //校验出错重发命令的响应包
             AIR_SAMPLE_TIME,            //气体取样时间包
@@ -114,6 +121,7 @@ namespace SilverTest.libs
         private enum PacketCombineStatus {
                                     OK,                         // OK - 包是完整的包。
                                     FRAGMENT_MACHINE_TYPE,      //包是个机器信息头碎片
+                                    FRAGMENT_RES_COMPUTE,           //包是一个计算包碎片
                                     FRAGMENT_VALUE,             //包是一个数据值碎片
                                     FRAGMENT_SEQUENCE,          //包是一个序号碎片
                                     FRAGMENT_CORRECT,           //包是校验出错响应包碎片
@@ -140,6 +148,7 @@ namespace SilverTest.libs
             NOT_FOUND_MACHINE_HEADER_LONG,  //长时间不能收到机器类型包
             NOT_FOUND_START_TAG_LONG,       //长时间不能找到包的其始标志
             VALUE_PCT_DATA_FORMAT_ERROR,          //数据包的格式有错，找不到包的结束位置,和中间标志位置
+            RES_COMPUTE_VALUE_PCT_DATA_FORMAT_ERROR, //计算包格式有错误，找不到包的结束位置,和中间标志位置
             SEQUENCE_PCT_DATA_FORMAT_ERROR,          //序号包的格式有错，找不到包的结束位置,和中间标志位置
             CORRECT_PCT_DATA_FORMAT_ERROR,          //纠正包的格式有错，找不到数据包的结束位置,和中间标志位置
             AIR_SAMPLE_TIME_PCT_DATA_FORMAT_ERROR,          //气体取样时间包的格式有错，找不到数据包的结束位置,和中间标志位置
@@ -191,6 +200,12 @@ namespace SilverTest.libs
             machineinfo.DataPctMiddleTag = 7;
             machineinfo.DataPctDStart = 2;
             machineinfo.DataPctVStart = 8;
+
+            machineinfo.ResComputePctEndTag = 10;        //回应计算包
+            machineinfo.ResComputePctLength = 11;
+            machineinfo.ResComputePctMiddleTag = 7;
+            machineinfo.ResComputePctDStart = 2;
+            machineinfo.ResComputePctVStart = 8;
 
             machineinfo.SrlPctEndTag = 8;
             machineinfo.SrlPctLength = 9;
@@ -408,6 +423,20 @@ namespace SilverTest.libs
                                         }
 
                                         break;
+                                    case PacketType.RES_COMPUTE_VALUE:
+                                        if (rawText_purepct_prt + machineinfo.ResComputePctLength == rawText_length)
+                                        {
+                                            if (appendCRLF())
+                                            {
+                                                rawText_length += "\r\n".Length;
+                                                rawText_bigpct_prt = rawText_length;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            rawText_bigpct_prt = (rawText_purepct_prt + machineinfo.ResComputePctLength);
+                                        }
+                                        break;
                                     case PacketType.SEQUENCE:
                                         if (rawText_purepct_prt + machineinfo.SrlPctLength == rawText_length)
                                         {
@@ -498,6 +527,10 @@ namespace SilverTest.libs
                                     case PacketCombineStatus.FRAGMENT_VALUE:
                                         rawText_bigpct_prt = rawText_purepct_prt + machineinfo.DataPctLength;
                                         if (CombineError_Ev != null) CombineError_Ev(CombineErrorInfo.VALUE_PCT_DATA_FORMAT_ERROR);
+                                        break;
+                                    case PacketCombineStatus.FRAGMENT_RES_COMPUTE:
+                                        rawText_bigpct_prt = rawText_purepct_prt + machineinfo.ResComputePctLength;
+                                        if (CombineError_Ev != null) CombineError_Ev(CombineErrorInfo.RES_COMPUTE_VALUE_PCT_DATA_FORMAT_ERROR);
                                         break;
                                     case PacketCombineStatus.FRAGMENT_AIR_FLUENT:
                                         rawText_bigpct_prt = rawText_purepct_prt + machineinfo.AirFluPctLength;
@@ -595,6 +628,7 @@ namespace SilverTest.libs
                 case PacketCombineStatus.FRAGMENT_CORRECT:
                 case PacketCombineStatus.FRAGMENT_SEQUENCE:
                 case PacketCombineStatus.FRAGMENT_VALUE:
+                case PacketCombineStatus.FRAGMENT_RES_COMPUTE:
                 case PacketCombineStatus.FRAGMENT_AIR_FLUENT:
                 case PacketCombineStatus.FRAGMENT_AIR_SAMPLE_TIME:
                 case PacketCombineStatus.FRAGMENT_GETSTATUS_RESPONSE:
@@ -655,6 +689,9 @@ namespace SilverTest.libs
                 case 0x47: //'G',数据包, H, I
                     return cut(out ptype, out fragtype,PacketType.DATA_VALUE,true,0x48,
                         machineinfo.DataPctMiddleTag,0x49,machineinfo.DataPctEndTag,machineinfo.DataPctLength);
+                case 0x58: //'X' 回应计算包, H, I
+                    return cut(out ptype, out fragtype, PacketType.RES_COMPUTE_VALUE, true, 0x48,
+                        machineinfo.ResComputePctMiddleTag, 0x49, machineinfo.ResComputePctEndTag, machineinfo.ResComputePctLength);
                 case 0x53: //'S',序号包 ,E
                     return cut(out ptype, out fragtype, PacketType.SEQUENCE, false, 0x0,
                         0, 0x45, machineinfo.SrlPctEndTag, machineinfo.SrlPctLength);
@@ -693,6 +730,9 @@ namespace SilverTest.libs
                 case PacketCombineStatus.FRAGMENT_VALUE: //'G',数据包
                     return cut(out ptype, out fragtype, PacketType.DATA_VALUE, true, 0x48,
                         machineinfo.DataPctMiddleTag, 0x49, machineinfo.DataPctEndTag, machineinfo.DataPctLength);
+                case PacketCombineStatus.FRAGMENT_RES_COMPUTE: //'X' 回应计算包
+                    return cut(out ptype, out fragtype, PacketType.RES_COMPUTE_VALUE, true, 0x48,
+                        machineinfo.ResComputePctMiddleTag, 0x49, machineinfo.ResComputePctEndTag, machineinfo.ResComputePctLength);
                 case PacketCombineStatus.FRAGMENT_SEQUENCE : //'S',序号包
                     return cut(out ptype, out fragtype, PacketType.SEQUENCE, false, 0x0,
                           0, 0x45, machineinfo.SrlPctEndTag, machineinfo.SrlPctLength);
@@ -762,7 +802,8 @@ namespace SilverTest.libs
             {
                 case PacketType.DATA_VALUE:
                     return CombineErrorInfo.VALUE_PCT_DATA_FORMAT_ERROR;
-
+                case PacketType.RES_COMPUTE_VALUE:
+                    return CombineErrorInfo.RES_COMPUTE_VALUE_PCT_DATA_FORMAT_ERROR;
                 case PacketType.CORRECT_RESPONSE:
                     return CombineErrorInfo.CORRECT_PCT_DATA_FORMAT_ERROR;
                 case PacketType.SEQUENCE:
@@ -786,6 +827,8 @@ namespace SilverTest.libs
             {
                 case PacketType.DATA_VALUE:
                     return PacketCombineStatus.FRAGMENT_VALUE;
+                case PacketType.RES_COMPUTE_VALUE:
+                    return PacketCombineStatus.FRAGMENT_RES_COMPUTE;
                 case PacketType.CORRECT_RESPONSE:
                     return PacketCombineStatus.FRAGMENT_CORRECT;
                 case PacketType.SEQUENCE:
