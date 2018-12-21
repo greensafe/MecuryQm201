@@ -16,12 +16,14 @@ namespace SilverTest.libs
      * GetDriver -> open->send->close->destroy
      *   GetDriver->open ->send->close可反复使用，均是使用驱动对象
      *   调用destroy后，当前的驱动对象被销毁
-     *    
+     *
+     * SerialDriver模块可以管理两个SerialDriver驱动对象   
      */
     public class SerialDriver
     {
 
         static private SerialPort ComDevice = null;
+        static private SerialPort alarm_ComDevice = null;
         static private SerialDriver onlyone = null;
 
         public string portname = "COM5";
@@ -30,12 +32,21 @@ namespace SilverTest.libs
         public int databits = 8;
         public int stopbits = 1;
 
+        //报警串口参数
+        public string alarm_portname = "COM4";  
+        public int alarm_rate = 38400;
+        public int alarm_parity = 0;
+        public int alarm_databits = 8;
+        public int alarm_stopbits = 1;
+
         //事件处理函数数量
         private int  hdrcount = 0;
+        private int alarm_hdrcount = 0;
 
         private SerialDriver()
         {
             ComDevice = new SerialPort();
+            alarm_ComDevice = new SerialPort();
             Console.WriteLine("SerialDriver object is created");
         }
 
@@ -49,11 +60,13 @@ namespace SilverTest.libs
             return onlyone;
         }
 
+        /*
         //获取端口port，为nmodbus4， 将SerialPort暴露出来
         static public SerialPort GetSerialPort()
         {
             return ComDevice;
         }
+        */
 
         //读取端口收到的数据
         public byte[] Read()
@@ -79,6 +92,22 @@ namespace SilverTest.libs
             }
             */
         }
+        //警告串口使用
+        public byte[] alarm_Read()
+        {
+
+            if (alarm_ComDevice.IsOpen == (true))
+            {
+                byte[] ReDatas = new byte[alarm_ComDevice.BytesToRead];
+                alarm_ComDevice.Read(ReDatas, 0, ReDatas.Length);
+                return ReDatas;
+            }
+            else
+            {
+                Console.WriteLine("SerialDriver:端口关闭，无法读取数据");
+                return null;
+            }
+        }
 
         //设置数据接收处理函数
         //仅仅调用一次，避免注册多次处理函数
@@ -88,6 +117,16 @@ namespace SilverTest.libs
             {
                 ComDevice.DataReceived += new SerialDataReceivedEventHandler(dlr);
                 hdrcount++;
+            }
+            return onlyone;
+        }
+        //报警串口使用
+        public SerialDriver alarm_OnReceived(SerialDataReceivedEventHandler dlr)
+        {
+            if (alarm_hdrcount == 0)
+            {
+                alarm_ComDevice.DataReceived += new SerialDataReceivedEventHandler(dlr);
+                alarm_hdrcount++;
             }
             return onlyone;
         }
@@ -121,11 +160,47 @@ namespace SilverTest.libs
 
             return onlyone;
         }
+        //报警串口使用
+        public SerialDriver alarm_Open(string portname, int rate, int parity, int databits, int stopBits)
+        {
+            if (alarm_isOpen() == false)
+            {
+                alarm_ComDevice.PortName = portname;
+                alarm_ComDevice.BaudRate = rate;
+                alarm_ComDevice.Parity = (Parity)parity;
+                alarm_ComDevice.DataBits = databits;
+                alarm_ComDevice.StopBits = (StopBits)stopBits;
+                try
+                {
+                    alarm_ComDevice.Open();
+                    Console.WriteLine("报警串口打开成功");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("报警串口打开发生错误，请检查所选端口及配置");
+                    return onlyone;
+                }
+            }
+            else
+            {
+                Console.WriteLine("端口已经打开");
+            }
+
+            return onlyone;
+        }
 
         //判断端口是否打开
         public bool isOpen()
         {
             if (ComDevice == null || ComDevice.IsOpen == false)
+                return false;
+            else
+                return true;
+        }
+        //报警串口使用
+        public bool alarm_isOpen()
+        {
+            if (alarm_ComDevice == null || alarm_ComDevice.IsOpen == false)
                 return false;
             else
                 return true;
@@ -147,6 +222,30 @@ namespace SilverTest.libs
                 catch
                 {
                     MessageBox.Show("关闭端口失败");
+                }
+            }
+            else
+            {
+                Console.WriteLine("SerialDriver.close : 没有打开的端口");
+            }
+            return onlyone;
+        }
+        //报警串口使用
+        public SerialDriver alarm_Close()
+        {
+            if (alarm_ComDevice.IsOpen)
+            {
+                try
+                {
+
+                    //ComDevice.DiscardOutBuffer();
+                    //ComDevice.DiscardInBuffer();
+                    alarm_ComDevice.Close();
+                    Console.WriteLine("serial is closed!");
+                }
+                catch
+                {
+                    MessageBox.Show("报警串口关闭端口失败");
                 }
             }
             else
@@ -177,6 +276,27 @@ namespace SilverTest.libs
             }
             return false;
         }
+        //报警串口使用
+        public bool alarm_Send(byte[] data)
+        {
+            if (alarm_ComDevice.IsOpen)
+            {
+                try
+                {
+                    alarm_ComDevice.Write(data, 0, data.Length);//发送数据  
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("发送数据错误");
+                }
+            }
+            else
+            {
+                Console.WriteLine("串口未打开");
+            }
+            return false;
+        }
 
         //销毁端口
         public void destroy()
@@ -187,6 +307,17 @@ namespace SilverTest.libs
 
             }
             ComDevice = null;
+            onlyone = null;
+        }
+        //报警串口使用
+        public void alarm_destroy()
+        {
+            if (alarm_ComDevice != null && alarm_ComDevice.IsOpen)
+            {
+                alarm_ComDevice.Close();
+
+            }
+            alarm_ComDevice = null;
             onlyone = null;
         }
 

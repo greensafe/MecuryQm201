@@ -32,10 +32,16 @@ namespace SilverTest
 
         private void Window_Initialized(object sender, EventArgs e)
         {
+            //初始化data 端口列表
             string[] ports = SerialDriver.GetDriver().GetPortList();
             foreach(string item in ports)
             {
                 dataComportCombo.Items.Add(item);
+            }
+            //初始化报警端口列表
+            foreach (string item in ports)
+            {
+                AlarmComportCombo.Items.Add(item);
             }
         }
 
@@ -61,7 +67,30 @@ namespace SilverTest
 
         private void AlarmApplybtn_Click(object sender, RoutedEventArgs e)
         {
-
+            SerialDriver.GetDriver().alarm_portname = AlarmComportCombo.SelectedValue as string;
+            SerialDriver.GetDriver().alarm_databits = int.Parse(AlarmDatacombo.SelectedValue as string);
+            SerialDriver.GetDriver().alarm_parity = 0;        //paritycombo.SelectedValue as string;
+            SerialDriver.GetDriver().alarm_rate = int.Parse(AlarmSpeedcombo.SelectedValue as string);
+            SerialDriver.GetDriver().alarm_stopbits = int.Parse(AlarmStopcombo.SelectedValue as string);
+            //尝试打开报警串口
+            if (SerialDriver.GetDriver().alarm_isOpen())
+            {
+                MessageBox.Show("报警串口已经打开,串口号=" + SerialDriver.GetDriver().alarm_portname);
+                Console.WriteLine("报警串口已经打开,串口号="+SerialDriver.GetDriver().alarm_portname);
+            }
+            else
+            {
+                SerialDriver.GetDriver().alarm_Open(SerialDriver.GetDriver().alarm_portname, SerialDriver.GetDriver().alarm_rate, SerialDriver.GetDriver().alarm_parity
+                    ,SerialDriver.GetDriver().alarm_databits, SerialDriver.GetDriver().alarm_stopbits);
+                if (SerialDriver.GetDriver().alarm_isOpen())
+                {
+                    MessageBox.Show("报警串口"+ SerialDriver.GetDriver().alarm_portname + "打开成功");
+                }
+                else
+                {
+                    MessageBox.Show("报警串口" + SerialDriver.GetDriver().alarm_portname + "打开失败");
+                }
+            }
         }
 
         private void AlarmExitbtn_Click(object sender, RoutedEventArgs e)

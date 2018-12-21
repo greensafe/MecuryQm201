@@ -51,11 +51,56 @@
                 115200
             </system:String>
         </x:Array>
+        <x:Array x:Key="alarm_speedary" Type="system:String">
+            <system:String>
+                300
+            </system:String>
+            <system:String>
+                600
+            </system:String>
+            <system:String>
+                1200
+            </system:String>
+            <system:String>
+                2400
+            </system:String>
+            <system:String>
+                4800
+            </system:String>
+            <system:String>
+                9600
+            </system:String>
+            <system:String>
+                19200
+            </system:String>
+            <system:String>
+                38400
+            </system:String>
+            <system:String>
+                43000
+            </system:String>
+            <system:String>
+                56000
+            </system:String>
+            <system:String>
+                57600
+            </system:String>
+            <system:String>
+                115200
+            </system:String>
+        </x:Array>        
+        
         <x:Array x:Key="evenary" Type="system:String">
             <system:String>
                 None
             </system:String>
         </x:Array>
+        <x:Array x:Key="alarm_evenary" Type="system:String">
+            <system:String>
+                None
+            </system:String>
+        </x:Array>
+        
         <x:Array x:Key="dataary" Type="system:String">
             <system:String>
                 8
@@ -67,6 +112,18 @@
                 6
             </system:String>
         </x:Array>
+        <x:Array x:Key="alarm_dataary" Type="system:String">
+            <system:String>
+                8
+            </system:String>
+            <system:String>
+                7
+            </system:String>
+            <system:String>
+                6
+            </system:String>
+        </x:Array>        
+        
         <x:Array x:Key="stopary" Type="system:String">
             <system:String>
                 1
@@ -78,6 +135,17 @@
                 3
             </system:String>
         </x:Array>
+        <x:Array x:Key="alarm_stopary" Type="system:String">
+            <system:String>
+                1
+            </system:String>
+            <system:String>
+                2
+            </system:String>
+            <system:String>
+                3
+            </system:String>
+        </x:Array>        
     </Window.Resources>
     <Grid>
         <TabControl x:Name="sampletab" DockPanel.Dock="Top" >
@@ -114,7 +182,7 @@
 
                 </DockPanel>
             </TabItem>
-            <TabItem x:Name="ewtabitem" Selector.Selected="OnAlarmSelected" 
+            <TabItem x:Name="alarmtabitem" Selector.Selected="OnAlarmSelected" 
                          controls:ControlsHelper.HeaderFontSize="14"
 						                         Header="报警">
                 <DockPanel>
@@ -124,19 +192,19 @@
                     </StackPanel>
                     <StackPanel DockPanel.Dock="Top" Margin="0,10,0,0" Orientation="Horizontal">
                         <Label Content="速率" Margin="100,0,10,0"></Label>
-                        <ComboBox x:Name="AlarmSpeedcombo" SelectedIndex="7" ItemsSource="{StaticResource ResourceKey=speedary}" Text="速率" Height="30" VerticalAlignment="Top" Width="100" Margin="20,0,0,0"/>
+                        <ComboBox x:Name="AlarmSpeedcombo" SelectedIndex="5" ItemsSource="{StaticResource ResourceKey=alarm_speedary}" Text="速率" Height="30" VerticalAlignment="Top" Width="100" Margin="20,0,0,0"/>
                     </StackPanel>
                     <StackPanel DockPanel.Dock="Top" Margin="0,10,0,0" Orientation="Horizontal">
                         <Label Content="奇偶校验" Margin="76,0,10,0"></Label>
-                        <ComboBox x:Name="AlarmParitycombo" ItemsSource="{StaticResource ResourceKey=evenary}" SelectedIndex="0" Text="奇偶校验" Height="30" VerticalAlignment="Top" Width="100" Margin="20,0,0,0"/>
+                        <ComboBox x:Name="AlarmParitycombo" ItemsSource="{StaticResource ResourceKey=alarm_evenary}" SelectedIndex="0" Text="奇偶校验" Height="30" VerticalAlignment="Top" Width="100" Margin="20,0,0,0"/>
                     </StackPanel>
                     <StackPanel DockPanel.Dock="Top" Margin="0,10,0,0" Orientation="Horizontal">
                         <Label Content="数据位" Margin="89,0,10,0"></Label>
-                        <ComboBox x:Name="AlarmDatacombo" SelectedIndex="0" ItemsSource="{StaticResource ResourceKey=dataary}" Text="数据位" Height="30" VerticalAlignment="Top" Width="100" Margin="20,0,0,0"/>
+                        <ComboBox x:Name="AlarmDatacombo" SelectedIndex="0" ItemsSource="{StaticResource ResourceKey=alarm_dataary}" Text="数据位" Height="30" VerticalAlignment="Top" Width="100" Margin="20,0,0,0"/>
                     </StackPanel>
                     <StackPanel DockPanel.Dock="Top" Margin="0,10,0,0" Orientation="Horizontal" Height="50" VerticalAlignment="Bottom">
                         <Label Content="数据停止位" Margin="65,0,10,0"></Label>
-                        <ComboBox x:Name="AlarmStopcombo" SelectedIndex="0" ItemsSource="{StaticResource ResourceKey=stopary}" Text="数据停止位" Height="30" VerticalAlignment="Top" Width="100" Margin="20,0,0,0"/>
+                        <ComboBox x:Name="AlarmStopcombo" SelectedIndex="0" ItemsSource="{StaticResource ResourceKey=alarm_stopary}" Text="数据停止位" Height="30" VerticalAlignment="Top" Width="100" Margin="20,0,0,0"/>
                     </StackPanel>
                     <StackPanel DockPanel.Dock="Bottom" Height="50" Orientation="Horizontal">
                         <Canvas>
@@ -144,7 +212,6 @@
                             <Button x:Name="AlarmExitbtn" Content="取消" Height="30" Width="60" Click="AlarmExitbtn_Click" Canvas.Left="227" Canvas.Top="10"/>
                         </Canvas>
                     </StackPanel>
-
                 </DockPanel>
             </TabItem>
         </TabControl>
