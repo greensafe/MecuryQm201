@@ -25,7 +25,7 @@ namespace SilverTest
             InitializeComponent();
         }
 
-        private void exitbtn_Click(object sender, RoutedEventArgs e)
+        private void dataExitbtn_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
@@ -35,17 +35,37 @@ namespace SilverTest
             string[] ports = SerialDriver.GetDriver().GetPortList();
             foreach(string item in ports)
             {
-                comportCombo.Items.Add(item);
+                dataComportCombo.Items.Add(item);
             }
         }
 
-        private void applybtn_Click(object sender, RoutedEventArgs e)
+        private void dataApplybtn_Click(object sender, RoutedEventArgs e)
         {
-            SerialDriver.GetDriver().portname = comportCombo.SelectedValue as string;
-            SerialDriver.GetDriver().databits = int.Parse(datacombo.SelectedValue as string);
+            SerialDriver.GetDriver().portname = dataComportCombo.SelectedValue as string;
+            SerialDriver.GetDriver().databits = int.Parse(dataDatacombo.SelectedValue as string);
             SerialDriver.GetDriver().parity = 0;        //paritycombo.SelectedValue as string;
-            SerialDriver.GetDriver().rate = int.Parse(speedcombo.SelectedValue as string);
-            SerialDriver.GetDriver().stopbits = int.Parse(stopcombo.SelectedValue as string);
+            SerialDriver.GetDriver().rate = int.Parse(dataSpeedcombo.SelectedValue as string);
+            SerialDriver.GetDriver().stopbits = int.Parse(dataStopcombo.SelectedValue as string);
+            this.Close();
+        }
+
+        private void OnAlarmSelected(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void OnTestDataSelected(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void AlarmApplybtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void AlarmExitbtn_Click(object sender, RoutedEventArgs e)
+        {
             this.Close();
         }
     }
