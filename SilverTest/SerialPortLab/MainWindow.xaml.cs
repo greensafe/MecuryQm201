@@ -24,6 +24,7 @@ namespace SerialPortLab
     public partial class MainWindow : Window
     {
         private SerialPort ComDevice = null;
+        private SerialPort alarmComDevice = null;
 
         public object MessageBoxButtons { get; private set; }
         public object MessageBoxIcon { get; private set; }
@@ -38,7 +39,7 @@ namespace SerialPortLab
 
         }
 
-        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void dataComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
         }
@@ -46,42 +47,79 @@ namespace SerialPortLab
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             ComDevice = new SerialPort();
+            alarmComDevice = new SerialPort();
             string[] a = SerialPort.GetPortNames();
             for (int i = 0; i < a.Length; i++)
             {
-                comporCombo.Items.Add(a[i]);
+                datacomporCombo.Items.Add(a[i]);
             }
-            comporCombo.SelectedIndex = 0;
+            datacomporCombo.SelectedIndex = 0;
+            for(int i = 0; i < a.Length; i++)
+            {
+                alarmcomporCombo.Items.Add(a[i]);
+            }
+            alarmcomporCombo.SelectedIndex = 0;
 
-            rate.Items.Add("300");
-            rate.Items.Add("600");
-            rate.Items.Add("1200");
-            rate.Items.Add("2400");
-            rate.Items.Add("4800");
-            rate.Items.Add("9600");
-            rate.Items.Add("19200");
-            rate.Items.Add("38400");
-            rate.Items.Add("43000");
-            rate.Items.Add("56000");
-            rate.Items.Add("57600");
-            rate.Items.Add("115200");
-            rate.SelectedIndex = 5;
+            datarate.Items.Add("300");
+            datarate.Items.Add("600");
+            datarate.Items.Add("1200");
+            datarate.Items.Add("2400");
+            datarate.Items.Add("4800");
+            datarate.Items.Add("9600");
+            datarate.Items.Add("19200");
+            datarate.Items.Add("38400");
+            datarate.Items.Add("43000");
+            datarate.Items.Add("56000");
+            datarate.Items.Add("57600");
+            datarate.Items.Add("115200");
+            datarate.SelectedIndex = 5;
 
 
-            cbbParity.Items.Add("None");
-            cbbParity.SelectedIndex = 0;
+            datacbbParity.Items.Add("None");
+            datacbbParity.SelectedIndex = 0;
 
-            cbbDataBits.Items.Add("8");
-            cbbDataBits.Items.Add("7");
-            cbbDataBits.Items.Add("6");
-            cbbDataBits.SelectedIndex = 0;
+            datacbbDataBits.Items.Add("8");
+            datacbbDataBits.Items.Add("7");
+            datacbbDataBits.Items.Add("6");
+            datacbbDataBits.SelectedIndex = 0;
 
-            cbbStopBits.Items.Add("1");
-            cbbStopBits.Items.Add("2");
-            cbbStopBits.Items.Add("3");
-            cbbStopBits.SelectedIndex = 0;
+            datacbbStopBits.Items.Add("1");
+            datacbbStopBits.Items.Add("2");
+            datacbbStopBits.Items.Add("3");
+            datacbbStopBits.SelectedIndex = 0;
+
+            //alarm
+            alarmrate.Items.Add("300");
+            alarmrate.Items.Add("600");
+            alarmrate.Items.Add("1200");
+            alarmrate.Items.Add("2400");
+            alarmrate.Items.Add("4800");
+            alarmrate.Items.Add("9600");
+            alarmrate.Items.Add("19200");
+            alarmrate.Items.Add("38400");
+            alarmrate.Items.Add("43000");
+            alarmrate.Items.Add("56000");
+            alarmrate.Items.Add("57600");
+            alarmrate.Items.Add("115200");
+            alarmrate.SelectedIndex = 5;
+
+
+            alarmcbbParity.Items.Add("None");
+            alarmcbbParity.SelectedIndex = 0;
+
+            alarmcbbDataBits.Items.Add("8");
+            alarmcbbDataBits.Items.Add("7");
+            alarmcbbDataBits.Items.Add("6");
+            alarmcbbDataBits.SelectedIndex = 0;
+
+            alarmcbbStopBits.Items.Add("1");
+            alarmcbbStopBits.Items.Add("2");
+            alarmcbbStopBits.Items.Add("3");
+            alarmcbbStopBits.SelectedIndex = 0;
+
 
             ComDevice.DataReceived += new SerialDataReceivedEventHandler(Com_DataReceived);//绑定事件
+            alarmComDevice.DataReceived += new SerialDataReceivedEventHandler(Com_alarmDataReceived);
         }
 
         /// <summary>
@@ -103,11 +141,32 @@ namespace SerialPortLab
             //outputData.Text = ReDatas.ToString();
             Dispatcher.BeginInvoke(new Action(() =>
             {
-                outputData.Text += sb.ToString();
-                wordcount.Text = outputData.Text.Length.ToString();
+                dataoutputData.Text += sb.ToString();
+                datawordcount.Text = dataoutputData.Text.Length.ToString();
                 //outputData.ScrollToEnd();
             }));
         
+        }
+
+        private void Com_alarmDataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            byte[] ReDatas = new byte[alarmComDevice.BytesToRead];
+            alarmComDevice.Read(ReDatas, 0, ReDatas.Length);//读取数据
+
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < ReDatas.Length; i++)
+            {
+                sb.AppendFormat("{0:x2}" + " ", ReDatas[i]);
+            }
+
+            //outputData.Text = ReDatas.ToString();
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                alarmoutputData.Text += sb.ToString();
+                datawordcount.Text = alarmoutputData.Text.Length.ToString();
+                //outputData.ScrollToEnd();
+            }));
+
         }
 
         /*
@@ -132,18 +191,19 @@ namespace SerialPortLab
         }
         */
 
-        private void openPort_Click(object sender, RoutedEventArgs e)
+        private void dataopenPort_Click(object sender, RoutedEventArgs e)
         {
             if (ComDevice.IsOpen == false)
             {
-                ComDevice.PortName = comporCombo.SelectedItem.ToString();
-                ComDevice.BaudRate = Convert.ToInt32(rate.SelectedItem.ToString());
-                ComDevice.Parity = (Parity)Convert.ToInt32(cbbParity.SelectedIndex.ToString());
-                ComDevice.DataBits = Convert.ToInt32(cbbDataBits.SelectedItem.ToString());
-                ComDevice.StopBits = (StopBits)Convert.ToInt32(cbbStopBits.SelectedItem.ToString());
+                ComDevice.PortName = datacomporCombo.SelectedItem.ToString();
+                ComDevice.BaudRate = Convert.ToInt32(datarate.SelectedItem.ToString());
+                ComDevice.Parity = (Parity)Convert.ToInt32(datacbbParity.SelectedIndex.ToString());
+                ComDevice.DataBits = Convert.ToInt32(datacbbDataBits.SelectedItem.ToString());
+                ComDevice.StopBits = (StopBits)Convert.ToInt32(datacbbStopBits.SelectedItem.ToString());
                 try
                 {
                     ComDevice.Open();
+                    dataoutputData.Text += "  "+ComDevice.PortName + "  :";
                     MessageBox.Show("打开成功");
                 }
                 catch (Exception ex)
@@ -166,12 +226,48 @@ namespace SerialPortLab
                 };
             }
         }
+        private void alarmopenPort_Click(object sender, RoutedEventArgs e)
+        {
+            if (alarmComDevice.IsOpen == false)
+            {
+                alarmComDevice.PortName = alarmcomporCombo.SelectedItem.ToString();
+                alarmComDevice.BaudRate = Convert.ToInt32(alarmrate.SelectedItem.ToString());
+                alarmComDevice.Parity = (Parity)Convert.ToInt32(alarmcbbParity.SelectedIndex.ToString());
+                alarmComDevice.DataBits = Convert.ToInt32(alarmcbbDataBits.SelectedItem.ToString());
+                alarmComDevice.StopBits = (StopBits)Convert.ToInt32(alarmcbbStopBits.SelectedItem.ToString());
+                try
+                {
+                    alarmComDevice.Open();
+                    alarmoutputData.Text += "  " + alarmComDevice.PortName + "  :";
+                    MessageBox.Show("打开成功");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "打开发生错误");
+                    return;
+                }
 
-        private void sendCommand_Click_1(object sender, RoutedEventArgs e)
+            }
+            else
+            {
+                try
+                {
+                    alarmComDevice.Close();
+                    MessageBox.Show("打开端口已经被关闭");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "无法关闭");
+                };
+            }
+        }
+
+
+        private void datasendCommand_Click_1(object sender, RoutedEventArgs e)
         {
             //构造数据
             byte[] sendData = null;
-            sendData = Encoding.ASCII.GetBytes(txtSendData.Text.Trim());
+            sendData = Encoding.ASCII.GetBytes(datatxtSendData.Text.Trim());
             /*
             if (rbtnSendHex.Checked)
             {
@@ -208,6 +304,22 @@ namespace SerialPortLab
 
             }
         }
+        private void alarmsendCommand_Click_1(object sender, RoutedEventArgs e)
+        {
+            //构造数据
+            byte[] sendData = null;
+            sendData = Encoding.ASCII.GetBytes(alarmtxtSendData.Text.Trim());
+       
+            if (this.alarmSendData(sendData))//发送数据成功计数  
+            {
+            }
+            else
+            {
+
+            }
+        }
+
+
         private bool SendData(byte[] data)
         {
             if (ComDevice.IsOpen)
@@ -229,7 +341,28 @@ namespace SerialPortLab
             return false;
         }
 
-        private void closeCom_Click(object sender, RoutedEventArgs e)
+        private bool alarmSendData(byte[] data)
+        {
+            if (alarmComDevice.IsOpen)
+            {
+                try
+                {
+                    alarmComDevice.Write(data, 0, data.Length);//发送数据  
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("发送数据错误");
+                }
+            }
+            else
+            {
+                MessageBox.Show("串口未打开");
+            }
+            return false;
+        }
+
+        private void datacloseCom_Click(object sender, RoutedEventArgs e)
         {
             if (ComDevice.IsOpen)
             {
@@ -248,13 +381,37 @@ namespace SerialPortLab
                 MessageBox.Show("没有打开的串口");
             }
         }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void alarmcloseCom_Click(object sender, RoutedEventArgs e)
         {
-            outputData.Text = "";
+            if (alarmComDevice.IsOpen)
+            {
+                try
+                {
+                    alarmComDevice.Close();
+                    MessageBox.Show("关闭串口成功");
+                }
+                catch
+                {
+                    MessageBox.Show("无法关闭串口");
+                }
+            }
+            else
+            {
+                MessageBox.Show("没有打开的串口");
+            }
         }
 
-        private void makeDataBtn_Click(object sender, RoutedEventArgs e)
+        private void dataButton_Click(object sender, RoutedEventArgs e)
+        {
+            dataoutputData.Text = "";
+        }
+        private void alarmButton_Click(object sender, RoutedEventArgs e)
+        {
+            dataoutputData.Text = "";
+        }
+
+
+        private void datamakeDataBtn_Click(object sender, RoutedEventArgs e)
         {
             FileStream afile = new FileStream("clip.txt", FileMode.Append);
             StreamWriter writer = new StreamWriter(afile);
@@ -278,5 +435,41 @@ namespace SerialPortLab
 
 
         }
+        private void alarmmakeDataBtn_Click(object sender, RoutedEventArgs e)
+        {
+            FileStream afile = new FileStream("clip.txt", FileMode.Append);
+            StreamWriter writer = new StreamWriter(afile);
+
+            FileStream rfile = new FileStream("realtestdata_fr2.txt", FileMode.Open);
+            StreamReader reader = new StreamReader(rfile);
+            string data = reader.ReadToEnd();
+            string[] r = Regex.Split(data, "I");
+            for (int i = 0; i < r.Length; i++)
+            {
+
+                writer.Write(r[i]);
+                writer.Write("I");
+                writer.Write("\r\n");
+            }
+
+            writer.Close();
+            afile.Close();
+            reader.Close();
+            rfile.Close();
+
+        }
+
+
+        private void OnDataTabSelected(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void OnAlarmTabSelected(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+
     }
 }

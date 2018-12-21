@@ -6,36 +6,73 @@
         xmlns:local="clr-namespace:SerialPortLab"
         xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="SerialPortLab.MainWindow"
         mc:Ignorable="d"
-        Title="RS232调试程序" Height="450" Width="800" Loaded="Window_Loaded">
+        Title="RS232调试程序" Height="871.028" Width="876.073" Loaded="Window_Loaded">
     <Grid Loaded="Grid_Loaded">
-        <StackPanel HorizontalAlignment="Left" Height="419" VerticalAlignment="Top" Width="792">
-            <StackPanel Height="20" Orientation="Horizontal">
-                <TextBlock Margin="20,0,0,0" >端口</TextBlock>
-                <TextBlock Margin="130,0,0,0">速率</TextBlock>
-                <TextBlock Margin="130,0,0,0">校验</TextBlock>
-                <TextBlock Margin="130,0,0,0">数据位</TextBlock>
-                <TextBlock Margin="130,0,0,0">停止位</TextBlock>
-            </StackPanel>
-            <DockPanel Height="100" LastChildFill="False">
-                <ComboBox Text="端口" x:Name="comporCombo" Height="42" VerticalAlignment="Top" Width="128" SelectionChanged="ComboBox_SelectionChanged" Margin="20,0,0,0"/>
-                <ComboBox Text="速率" x:Name="rate" Height="42" VerticalAlignment="Top" Width="128" SelectionChanged="ComboBox_SelectionChanged" Margin="20,0,0,0"></ComboBox>
-                <ComboBox x:Name="cbbParity" Height="42" VerticalAlignment="Top" Width="128" SelectionChanged="ComboBox_SelectionChanged" Margin="20,0,0,0"></ComboBox>
-                <ComboBox x:Name="cbbDataBits" Height="42" VerticalAlignment="Top" Width="128" SelectionChanged="ComboBox_SelectionChanged" Margin="20,0,0,0"></ComboBox>
-                <ComboBox x:Name="cbbStopBits" Height="42" VerticalAlignment="Top" Width="128" SelectionChanged="ComboBox_SelectionChanged" Margin="20,0,0,0"></ComboBox>
-            </DockPanel>
-            <DockPanel HorizontalAlignment="Left" Height="155" LastChildFill="False" VerticalAlignment="Top" Width="792" Margin="0,0,0,0">
-                <TextBox x:Name="outputData" Height="155" TextWrapping="Wrap" Text="输出数据:" VerticalAlignment="Top" Width="793" BorderThickness="4" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True"/>
-            </DockPanel>
-            <DockPanel Height="100" LastChildFill="False" >
-                <Button x:Name="closeCom" Content="close" Height="40" Width="75" DockPanel.Dock="Right" Margin="40,0" Click="closeCom_Click"/>
-                <Button x:Name="sendCommand" Content="send" Height="40" Width="75" DockPanel.Dock="Right" Margin="0,0,30,0" Click="sendCommand_Click_1"/>
-                <Button x:Name="openPort" Content="open" Height="40" Width="75" DockPanel.Dock="Right" Margin="0,0,30,0" Click="openPort_Click"/>
-                <TextBox x:Name="wordcount" Height="50" DockPanel.Dock="Left" TextWrapping="Wrap" Text="number" VerticalAlignment="Center" Width="70"/>
-                <Button Content="clear" Height="40" VerticalAlignment="Center" Width="75" Margin="15,0" DockPanel.Dock="Left" Click="Button_Click"/>
-                <Button x:Name="makeDataBtn" Content="创建模拟数据" Height="40" VerticalAlignment="Top" Width="75" Margin="0,30,0,0" Click="makeDataBtn_Click"/>
-            </DockPanel>
-            <TextBox x:Name="txtSendData" Height="61" TextWrapping="Wrap" Text="发送命令"/>
-        </StackPanel>
-
+        <TabControl DockPanel.Dock="Top" >
+            <TabItem x:Name="datatabitem" Selector.Selected="OnDataTabSelected" 
+                         Header="数据端口">
+                <StackPanel HorizontalAlignment="Left" Height="419" VerticalAlignment="Top" Width="792">
+                    <StackPanel Height="20" Orientation="Horizontal">
+                        <TextBlock  Margin="20,0,0,0" >端口</TextBlock>
+                        <TextBlock Margin="130,0,0,0">速率</TextBlock>
+                        <TextBlock Margin="130,0,0,0">校验</TextBlock>
+                        <TextBlock Margin="130,0,0,0">数据位</TextBlock>
+                        <TextBlock Margin="130,0,0,0">停止位</TextBlock>
+                    </StackPanel>
+                    <DockPanel Height="100" LastChildFill="False">
+                        <ComboBox Text="端口" x:Name="datacomporCombo" Height="42" VerticalAlignment="Top" Width="128" SelectionChanged="dataComboBox_SelectionChanged" Margin="20,0,0,0"/>
+                        <ComboBox Text="速率" x:Name="datarate" Height="42" VerticalAlignment="Top" Width="128" SelectionChanged="dataComboBox_SelectionChanged" Margin="20,0,0,0"></ComboBox>
+                        <ComboBox x:Name="datacbbParity" Height="42" VerticalAlignment="Top" Width="128" SelectionChanged="dataComboBox_SelectionChanged" Margin="20,0,0,0"></ComboBox>
+                        <ComboBox x:Name="datacbbDataBits" Height="42" VerticalAlignment="Top" Width="128" SelectionChanged="dataComboBox_SelectionChanged" Margin="20,0,0,0"></ComboBox>
+                        <ComboBox x:Name="datacbbStopBits" Height="42" VerticalAlignment="Top" Width="128" SelectionChanged="dataComboBox_SelectionChanged" Margin="20,0,0,0"></ComboBox>
+                    </DockPanel>
+                    <DockPanel HorizontalAlignment="Left" Height="155" LastChildFill="False" VerticalAlignment="Top" Width="792" Margin="0,0,0,0">
+                        <TextBox x:Name="dataoutputData" Height="155" TextWrapping="Wrap" Text="输出数据:" VerticalAlignment="Top" Width="793" BorderThickness="4" 
+                                 HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True"/>
+                    </DockPanel>
+                    <DockPanel Height="100" LastChildFill="False" >
+                        <Button x:Name="datacloseCom" Content="关闭串口" Height="40" Width="75" DockPanel.Dock="Right" Margin="40,0" Click="datacloseCom_Click"/>
+                        <Button x:Name="datasendCommand" Content="send" Height="40" Width="75" DockPanel.Dock="Right" Margin="0,0,30,0" Click="datasendCommand_Click_1"/>
+                        <Button x:Name="dataopenPort" Content="open" Height="40" Width="75" DockPanel.Dock="Right" Margin="0,0,30,0" Click="dataopenPort_Click"/>
+                        <TextBox x:Name="datawordcount" Height="50" DockPanel.Dock="Left" TextWrapping="Wrap" Text="number" VerticalAlignment="Center" Width="70"/>
+                        <Button Content="dataclear" Height="40" VerticalAlignment="Center" Width="75" Margin="15,0" DockPanel.Dock="Left" Click="dataButton_Click"/>
+                        <Button x:Name="datamakeDataBtn" Content="创建模拟数据" Height="40" VerticalAlignment="Top" Width="75" Margin="0,30,0,0" Click="datamakeDataBtn_Click"/>
+                    </DockPanel>
+                    <TextBox x:Name="datatxtSendData" Height="61" TextWrapping="Wrap" Text="发送命令"/>
+                </StackPanel>
+            </TabItem>
+            <TabItem x:Name="alarmtabitem" Selector.Selected="OnAlarmTabSelected"
+                     Header="警报端口">
+                <StackPanel HorizontalAlignment="Left" Height="419" VerticalAlignment="Top" Width="792">
+                    <StackPanel Height="20" Orientation="Horizontal">
+                        <TextBlock  Margin="20,0,0,0" >端口</TextBlock>
+                        <TextBlock Margin="130,0,0,0">速率</TextBlock>
+                        <TextBlock Margin="130,0,0,0">校验</TextBlock>
+                        <TextBlock Margin="130,0,0,0">数据位</TextBlock>
+                        <TextBlock Margin="130,0,0,0">停止位</TextBlock>
+                    </StackPanel>
+                    <DockPanel Height="100" LastChildFill="False">
+                        <ComboBox Text="端口" x:Name="alarmcomporCombo" Height="42" VerticalAlignment="Top" Width="128" Margin="20,0,0,0"/>
+                        <ComboBox Text="速率" x:Name="alarmrate" Height="42" VerticalAlignment="Top" Width="128" Margin="20,0,0,0"></ComboBox>
+                        <ComboBox x:Name="alarmcbbParity" Height="42" VerticalAlignment="Top" Width="128" Margin="20,0,0,0"></ComboBox>
+                        <ComboBox x:Name="alarmcbbDataBits" Height="42" VerticalAlignment="Top" Width="128" Margin="20,0,0,0"></ComboBox>
+                        <ComboBox x:Name="alarmcbbStopBits" Height="42" VerticalAlignment="Top" Width="128" Margin="20,0,0,0"></ComboBox>
+                    </DockPanel>
+                    <DockPanel HorizontalAlignment="Left" Height="155" LastChildFill="False" VerticalAlignment="Top" Width="792" Margin="0,0,0,0">
+                        <TextBox x:Name="alarmoutputData" Height="155" TextWrapping="Wrap" Text="输出数据:" VerticalAlignment="Top" Width="793" BorderThickness="4" 
+                                 HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True"/>
+                    </DockPanel>
+                    <DockPanel Height="100" LastChildFill="False" >
+                        <Button x:Name="alarmcloseCom" Content="关闭串口" Height="40" Width="75" DockPanel.Dock="Right" Margin="40,0" Click="alarmcloseCom_Click"/>
+                        <Button x:Name="alarmsendCommand" Content="send" Height="40" Width="75" DockPanel.Dock="Right" Margin="0,0,30,0" Click="alarmsendCommand_Click_1"/>
+                        <Button x:Name="alarmopenPort" Content="open" Height="40" Width="75" DockPanel.Dock="Right" Margin="0,0,30,0" Click="alarmopenPort_Click"/>
+                        <TextBox x:Name="alarmwordcount" Height="50" DockPanel.Dock="Left" TextWrapping="Wrap" Text="number" VerticalAlignment="Center" Width="70"/>
+                        <Button Content="dataclear" Height="40" VerticalAlignment="Center" Width="75" Margin="15,0" DockPanel.Dock="Left" Click="alarmButton_Click"/>
+                        <Button x:Name="alarmmakeDataBtn" Content="创建模拟数据" Height="40" VerticalAlignment="Top" Width="75" Margin="0,30,0,0" Click="alarmmakeDataBtn_Click"/>
+                    </DockPanel>
+                    <TextBox x:Name="alarmtxtSendData" Height="61" TextWrapping="Wrap" Text="发送命令"/>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>
