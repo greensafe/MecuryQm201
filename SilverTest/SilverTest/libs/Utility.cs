@@ -594,6 +594,36 @@ namespace SilverTest.libs
 
             return (UInt16)(CRCHigh << 8 | CRCLow);
         }
+
+        //报警相关
+        //开始报警
+        public static void StartAlarm()
+        {
+            byte[] datas = new byte[] { 0x46,0x41,0x53,0x31,0x49}; //FAS1I
+
+            if (SerialDriver.GetDriver().alarm_isOpen())
+            {
+                SerialDriver.GetDriver().alarm_Send(datas);
+            }
+            else
+            {
+                MessageBox.Show("数值超标，报警失败。请检查报警串口配置是否正确");
+            }
+        }
+        //停止报警
+        public static void StopAlarm()
+        {
+            byte[] datas = new byte[] { 0x46,0x41,0x53,0x30,0x49 };   //FAS0I
+
+            if (SerialDriver.GetDriver().alarm_isOpen())
+            {
+                SerialDriver.GetDriver().alarm_Send(datas);
+            }
+            else
+            {
+                MessageBox.Show("数值超标，报警失败。请检查报警串口配置是否正确");
+            }
+        }
     }
    
 }
