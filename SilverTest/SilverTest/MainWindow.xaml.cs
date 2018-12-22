@@ -138,11 +138,13 @@ namespace SilverTest
             string rs = Utility.GetValueFrXml("/config/QM201H/response/compute/R1", "pointstart");
             string re = Utility.GetValueFrXml("/config/QM201H/response/compute/R1", "end");
 
-            //初始化串口数据分析模块
+            //初始化数据串口分析模块
             SerialDriver.GetDriver().OnReceived(Com_DataReceived);
             DotManager.GetDotManger().onPacketCorrected(CorrectedPacketReceived);
             DotManager.GetDotManger().onPacketRecevied(PacketReceived);
             DotManager.GetDotManger().Start();
+            //初始化警告串口回调函数
+            SerialDriver.GetDriver().alarm_OnReceived(AlarmCom_DataReceived);
             //波形刷新timer
             waveFreshTimer = new DispatcherTimer();
             waveFreshTimer.Interval = new TimeSpan(0, 0, 0, 0, 1);  //1 millseconds
@@ -155,6 +157,11 @@ namespace SilverTest
             statusDayTimer.Start();
             //注册波形控件积分值变化事件
             realCpt.OnIntegrateValueChange(AreaIntegrateValueChangedHdlr);
+        }
+
+        private void AlarmCom_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            MessageBox.Show("报警串口收到数据");
         }
 
         private void statustimer_tickHdr(object sender, EventArgs e)

@@ -91,6 +91,7 @@ namespace SilverTest
                     MessageBox.Show("报警串口" + SerialDriver.GetDriver().alarm_portname + "打开失败");
                 }
             }
+            //only test
         }
 
         private void AlarmExitbtn_Click(object sender, RoutedEventArgs e)
