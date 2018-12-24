@@ -13,8 +13,9 @@ namespace SilverTest
     /// </summary>
     public partial class CommandPanelWnd : Window
     {
-        Regex numberreg = new Regex(@"\d*");
+        Regex numberreg = new Regex(@"\d*"); //整数
         Regex minusnumber = new Regex(@"^-\d*"); //负数
+        Regex realnumber = new Regex(@"^(\d{1}[.][0-9]*)$"); //小数
         CommandPanlStatus comstatus = CommandPanlStatus.Idle;
 
         public CommandPanelWnd()
@@ -1210,6 +1211,39 @@ namespace SilverTest
             {
                 MessageBox.Show("端口未打开");
             };
+        }
+
+        private void maintunckb_Unchecked(object sender, RoutedEventArgs e)
+        {
+            maintuntxt.IsEnabled = false;
+        }
+
+        private void maintunckb_Checked(object sender, RoutedEventArgs e)
+        {
+            maintuntxt.IsEnabled = true;
+        }
+
+        private void vicetunckb_Unchecked(object sender, RoutedEventArgs e)
+        {
+            vicetuntxt.IsEnabled = false;
+        }
+
+        private void vicetunckb_Checked(object sender, RoutedEventArgs e)
+        {
+            vicetuntxt.IsEnabled = true;
+        }
+
+        private void maintuntxt_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            //检查值必须为小数
+            //string s = realnumber.Match(maintuntxt.Text).Value;
+            
+        }
+
+        private void vicetuntxt_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            //检查值必须为小数
+            //vicetuntxt.Text = realnumber.Match(vicetuntxt.Text).Value;
         }
     }
 

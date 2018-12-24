@@ -8,13 +8,13 @@
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         x:Name="CmdPanelWindow"
-        Title="命令面板" Height="358.667" Width="431.999" Loaded="Window_Loaded">
-    <Grid x:Name="grid" Height="323" VerticalAlignment="Top" Background="White">
+        Title="命令面板" Height="378.988" Width="431.999" Loaded="Window_Loaded">
+    <Grid x:Name="grid" Height="349" VerticalAlignment="Top" Background="White">
         <Canvas MouseLeftButtonDown="Canvas_MouseLeftButtonDown" Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}" ClipToBounds="False"
-                Background="White" >
+                Background="White" Height="373" VerticalAlignment="Top" Margin="0,0,0,-24" >
             <Canvas x:Name="parampanel" Panel.ZIndex="10" Visibility="Collapsed" 
                     Background="White"
-                    Width="247" Height="277"
+                    Width="247" Height="339"
                         Canvas.Left="143" Canvas.Top="15">
                 <Canvas.Effect>
                     <DropShadowEffect ShadowDepth="5" BlurRadius="5"/>
@@ -67,21 +67,27 @@
                     <ComboBoxItem>12m</ComboBoxItem>
                 </ComboBox>
 
-                <Button x:Name="setparamok" Content="确定" HorizontalAlignment="Right" Click="setparamok_Click" Canvas.Left="55" Canvas.Top="237"/>
-                <Button x:Name="setparamcancel" Content="返回" HorizontalAlignment="Right" Click="setparamcancel_Click" Canvas.Left="158" Canvas.Top="237" RenderTransformOrigin="0.438,0.111"></Button>
+                <Button x:Name="setparamok" Content="确定" HorizontalAlignment="Right" Click="setparamok_Click" Canvas.Left="66" Canvas.Top="290"/>
+                <Button x:Name="setparamcancel" Content="返回" HorizontalAlignment="Right" Click="setparamcancel_Click" Canvas.Left="176" Canvas.Top="290" RenderTransformOrigin="0.438,0.111"></Button>
                 <RadioButton x:Name="timeckb" FontSize="7" Canvas.Left="34" Canvas.Top="17" Width="20" Height="20" Checked="timeckb_Checked" Unchecked="timeckb_Unchecked"/>
                 <RadioButton x:Name="fluentckb" FontSize="7" Canvas.Left="34" Canvas.Top="51" Width="20" Height="20" Checked="fluentckb_Checked" Unchecked="fluentckb_Unchecked" RenderTransformOrigin="0.483,0.1"/>
                 <RadioButton x:Name="amplifyckb" FontSize="7" Canvas.Left="34" Canvas.Top="85" Width="20" Height="20" Unchecked="amplifyckb_Unchecked" Checked="amplifyckb_Checked"/>
                 <RadioButton x:Name="washtimeckb" FontSize="7" Canvas.Left="34" Canvas.Top="119" Width="20" Height="20" Checked="washtimeckb_Checked" Unchecked="washtimeckb_Unchecked"/>
                 <RadioButton x:Name="highpressureckb" FontSize="7" Canvas.Left="34" Canvas.Top="154" Width="20" Height="20" Unchecked="highpressureckb_Unchecked" Checked="highpressureckb_Checked"/>
-                <Label Content="状态" Canvas.Left="27" Canvas.Top="198" Foreground="Red"/>
-                <Label x:Name="statustxt_2" Content="" Canvas.Left="66" Canvas.Top="198" Width="142"/>
-                <Separator Height="2" Canvas.Left="66" Margin="0" Canvas.Top="221" Width="142"/>
+                <Label Content="状态" Canvas.Left="20" Canvas.Top="258" Foreground="Red" RenderTransformOrigin="0.381,1.602"/>
+                <Label x:Name="statustxt_2" Content="" Canvas.Left="66" Canvas.Top="256" Width="142"/>
+                <Separator Height="2" Canvas.Left="66" Margin="0" Canvas.Top="281" Width="142"/>
+                <TextBox x:Name="maintuntxt" IsEnabled="False" Width="50" TextAlignment="Center" TextChanged="maintuntxt_TextChanged" Canvas.Left="133" Canvas.Top="189" Text="3.3"/>
+                <TextBlock Width="50" TextAlignment="Right" Canvas.Top="196" Canvas.Left="78" Text="主通道值"/>
+                <TextBox x:Name="vicetuntxt" IsEnabled="False" Width="50" TextAlignment="Center" TextChanged="vicetuntxt_TextChanged" Canvas.Left="133" Canvas.Top="226" Text="3.3"/>
+                <TextBlock Width="50" TextAlignment="Right" Canvas.Top="231" Canvas.Left="77" Text="副通道值"/>
+                <RadioButton x:Name="maintunckb" FontSize="7" Canvas.Left="34" Canvas.Top="191" Width="20" Height="20" Unchecked="maintunckb_Unchecked" Checked="maintunckb_Checked"/>
+                <RadioButton x:Name="vicetunckb" FontSize="7" Canvas.Left="34" Canvas.Top="226" Width="20" Height="20" Unchecked="vicetunckb_Unchecked" Checked="vicetunckb_Checked"/>
 
             </Canvas>
 
             <Button x:Name="getstatusbtn" Width="40" Height="40" Style="{StaticResource MirrorStyle}" Canvas.Left="335" Canvas.Top="234" Visibility="Collapsed"/>
-            <GroupBox Header="菜单" Canvas.Left="24" Canvas.Top="15" Height="277" ClipToBounds="False">
+            <GroupBox Header="菜单" Canvas.Left="24" Canvas.Top="15" Height="339" ClipToBounds="False">
                 <StackPanel x:Name="buttoncontainerstp" Width="104" 
                         Background="Transparent"
                         MouseLeftButtonDown="buttoncontainerstp_MouseLeftButtonDown" Canvas.Left="66" Canvas.Top="60" Margin="0,0,0,14">
@@ -104,7 +110,7 @@
                     <Button x:Name="pm7" FontSize="12" Content="状态获取"  Height="30" Width="70" HorizontalAlignment="Left" Click="pm7_Click"></Button>
                 </StackPanel>
             </GroupBox>
-            <Canvas Height="277" Canvas.Left="143" Canvas.Top="15" Width="247"
+            <Canvas Height="339" Canvas.Left="143" Canvas.Top="15" Width="247"
                        Background="White"
                    >
                 <Canvas.Effect>
@@ -137,7 +143,7 @@
                     </Canvas>
                 </StackPanel>
             </Canvas>
-            <Button x:Name="whidebtn" Content="退出" Height="28" Canvas.Left="338" Canvas.Top="242" Width="37" Click="whidebtn_Click"/>
+            <Button x:Name="whidebtn" Content="退出" Height="28" Canvas.Left="335" Canvas.Top="302" Width="37" Click="whidebtn_Click"/>
             <TextBox Visibility="Collapsed" x:Name="testbox" Width="70" Canvas.Top="6"></TextBox>
             <Button Visibility="Collapsed" x:Name="teststatusbtn" Width="30" Height="20" Canvas.Left="85" Canvas.Top="3" Click="teststatusbtn_Click">test</Button>
         </Canvas>

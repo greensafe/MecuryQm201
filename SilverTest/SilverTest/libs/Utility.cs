@@ -178,7 +178,7 @@ namespace SilverTest.libs
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return standData;
             }
@@ -252,7 +252,7 @@ namespace SilverTest.libs
                 }
             }
             ;
-            string standardfile = "history\\标样测试表格" + suffix+".xml";
+            string standardfile = "history\\标样测试表格" + suffix + ".xml";
             string newfile = "history\\样本测试表格" + suffix + ".xml";
 
             SaveToNewXmlFileCls.SaveToNewXmlFile(newclt, newfile);
@@ -281,10 +281,10 @@ namespace SilverTest.libs
             Microsoft.Office.Interop.Excel.Workbooks workbooks = xlApp.Workbooks;
             Microsoft.Office.Interop.Excel.Workbook workbook = workbooks.Add(Microsoft.Office.Interop.Excel.XlWBATemplate.xlWBATWorksheet);
             Microsoft.Office.Interop.Excel.Worksheet worksheet = (Microsoft.Office.Interop.Excel.Worksheet)workbook.Worksheets[1]; //取得sheet1
-            
+
 
             //统计可见列的数目
-            for(int i=0;i<dataGrid.Columns.Count;i++)
+            for (int i = 0; i < dataGrid.Columns.Count; i++)
             {
                 if (dataGrid.Columns[i].Visibility == Visibility.Visible)
                     colcount++;
@@ -293,7 +293,7 @@ namespace SilverTest.libs
             int k = 0;
             for (int i = 0; i < dataGrid.Columns.Count; i++)
             {
-                if(dataGrid.Columns[i].Visibility == Visibility.Visible)
+                if (dataGrid.Columns[i].Visibility == Visibility.Visible)
                 {
                     worksheet.Cells[1, k + 1] = dataGrid.Columns[i].Header;
                     k++;
@@ -308,7 +308,7 @@ namespace SilverTest.libs
                     if (dataGrid.Columns[i].Visibility == Visibility.Hidden ||
                         dataGrid.Columns[i].Visibility == Visibility.Collapsed)
                         continue;
-                    if ((dataGrid.Columns[i].GetCellContent(dataGrid.Items[r]) is null)){
+                    if ((dataGrid.Columns[i].GetCellContent(dataGrid.Items[r]) is null)) {
                         worksheet.Cells[r + 2, k + 1] = "NaN";
                     }
                     else {
@@ -347,16 +347,16 @@ namespace SilverTest.libs
          *      start - 数据开始位置
          *      len - 数据长度
          *  
-         */ 
+         */
         static public int ConvertStrToInt_Big(byte[] data, int start, int len)
         {
             int total = 0;
 
             if (len > data.Length)
                 return -1;
-            for(int i =0; i< len; i++)
+            for (int i = 0; i < len; i++)
             {
-                total += data[start+i] - 0x30;
+                total += data[start + i] - 0x30;
                 total *= 10;
             }
             return total /= 10;
@@ -403,9 +403,9 @@ namespace SilverTest.libs
             if (dots.Count <= 0)
                 return -1;
 
-            for(int i = start_abs; i< end_abs; i++)
+            for (int i = start_abs; i < end_abs; i++)
             {
-                if(dots[i].Rvalue > max)
+                if (dots[i].Rvalue > max)
                 {
                     max = dots[i].Rvalue;
                 }
@@ -420,7 +420,7 @@ namespace SilverTest.libs
          *  x - x轴数据
          *  y - y轴数据
          */
-         static public void ComputeAB(out double a, out double b, double[] x, double[] y )
+        static public void ComputeAB(out double a, out double b, double[] x, double[] y)
         {
             //double[] ydata = new double[] { 42.0, 43.5, 45.0, 45.5, 45.0, 47.5, 49.0, 53.0, 50.0, 55.0, 55.0, 60.0 };
             //double[] xdata = new double[] { 0.10, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.20, 0.21, 0.23 };
@@ -462,9 +462,9 @@ namespace SilverTest.libs
             //xdoc.RemoveAll();
             xdoc = null;
             string t = node.Attributes[propertyname].Value;
-            
+
             return t;
-            
+
         }
 
         /*
@@ -473,7 +473,7 @@ namespace SilverTest.libs
          *  xpath - 定位元素。 比如
          *              descendant::Ratio
          */
-        static public void SetValueToXml(string xpath, string propertyname,string v)
+        static public void SetValueToXml(string xpath, string propertyname, string v)
         {
             XmlDocument xdoc = new XmlDocument();
             xdoc.Load(@"config\config.xml");
@@ -500,12 +500,12 @@ namespace SilverTest.libs
         {
             double t = 0;
 
-            for (int i = start_abs; i<end_abs; i++)
+            for (int i = start_abs; i < end_abs; i++)
             {
                 t += dots[i].Rvalue * 1;
             }
 
-            return ( t / (end_abs - start_abs) ) * ratio;
+            return (t / (end_abs - start_abs)) * ratio;
         }
 
         /*
@@ -597,9 +597,9 @@ namespace SilverTest.libs
 
         //报警相关
         //开始报警
-        public static void StartAlarm()
+        public static void SendStartAlarm()
         {
-            byte[] datas = new byte[] { 0x46,0x41,0x53,0x31,0x49}; //FAS1I
+            byte[] datas = new byte[] { 0x46, 0x41, 0x53, 0x31, 0x49 }; //FAS1I
 
             if (SerialDriver.GetDriver().alarm_isOpen())
             {
@@ -611,9 +611,9 @@ namespace SilverTest.libs
             }
         }
         //停止报警
-        public static void StopAlarm()
+        public static void SendStopAlarm()
         {
-            byte[] datas = new byte[] { 0x46,0x41,0x53,0x30,0x49 };   //FAS0I
+            byte[] datas = new byte[] { 0x46, 0x41, 0x53, 0x30, 0x49 };   //FAS0I
 
             if (SerialDriver.GetDriver().alarm_isOpen())
             {
@@ -625,5 +625,157 @@ namespace SilverTest.libs
             }
         }
     }
-   
+
+    //当汞浓度超出预期值时，报警
+    //每次只能报警一个超标值。每次每个超标值报警最多三次，每次持续1分钟，间隔三分钟。
+    public class AlarmRedObject
+    {
+        static AlarmRedObject onlyone = null;
+        //报警次数
+        int alarmtimes = 0;
+        //报警状态
+        AlarmStatus alarmstatus = AlarmStatus.NONE;
+        //用户手动取消报警
+        bool usercancel = false;
+        //间隔定时器
+        DispatcherTimer actiontimer = new DispatcherTimer();
+        //持续定时器
+        DispatcherTimer silenttimer = new DispatcherTimer();
+        private AlarmRedObject()
+        {
+            actiontimer.Interval = new TimeSpan(0, 1, 0);
+            silenttimer.Interval = new TimeSpan(0, 3, 0);
+            actiontimer.Tick += new EventHandler(actiontimer_tick_hdlr);
+            silenttimer.Tick += new EventHandler(silenttimer_tick_hdlr);
+            actiontimer.IsEnabled = false;
+            silenttimer.IsEnabled = false;
+        }
+        private void silenttimer_tick_hdlr(object sender, EventArgs e)
+        {
+            //报警被用户中途取消
+            if(usercancel == true)
+            {
+                usercancel = false;
+                ClearAlarmObject();
+
+                //发送停止停止报警请求
+                Utility.SendStopAlarm();
+                return;
+            }
+            
+            //即将进入alarm状态
+            alarmstatus = AlarmStatus.ALARM;
+            actiontimer.IsEnabled = true;
+            silenttimer.IsEnabled = false;
+            //发送开始报警
+            Utility.SendStartAlarm();
+        }
+
+        private void actiontimer_tick_hdlr(object sender, EventArgs e)
+        {
+            //报警被用户中途取消
+            if(usercancel == true)
+            {
+                usercancel = false;
+                ClearAlarmObject();
+
+                //发送停止停止报警请求
+                Utility.SendStopAlarm();
+                return;
+            }
+
+            //报警超过三次，停止报警
+            if(alarmtimes > 2)
+            {
+                ClearAlarmObject();
+                return;
+            }
+
+            alarmtimes++;
+            //即将进入silent状态
+            alarmstatus = AlarmStatus.SILENT;
+            actiontimer.IsEnabled = false;
+            silenttimer.IsEnabled = true;
+            //发送停止报警
+            Utility.SendStopAlarm();
+        }
+
+        static AlarmRedObject GetAlarmObject()
+        {
+            if (onlyone != null)
+                return onlyone;
+            else
+            {
+                onlyone = new AlarmRedObject();
+                return onlyone;
+            }
+        }
+
+        void ClearAlarmObject()
+        {
+            alarmstatus = AlarmStatus.NONE;
+            alarmtimes = 0;
+            silenttimer.Stop();
+            silenttimer.IsEnabled = false;
+            actiontimer.Stop();
+            actiontimer.IsEnabled = false;
+        }
+
+        //公共接口
+        public void NeedAlarm()
+        {
+            //在needalarm之前调用Cancel没有意义，直接忽略usercancel标志
+            if (usercancel == true)
+                usercancel = false;
+            //
+            if(GetAlarmObject().alarmstatus == AlarmStatus.NONE)
+            {
+                //即将进入alarm状态
+                GetAlarmObject().alarmstatus = AlarmStatus.ALARM;
+
+                actiontimer.Start();
+                actiontimer.IsEnabled = true;
+
+                silenttimer.Start();
+                silenttimer.IsEnabled = false;
+
+                //发送报警
+                GetAlarmObject().alarmtimes = 0;
+                Utility.SendStartAlarm();
+            }
+            else
+            {
+                //上次的报警还没结束，直接忽略本次的报警请求
+                return;
+                ;
+            }
+        }
+      
+        //用户手动关闭报警
+        //只有在报警响起后cancel才有意义。当数据正常时，用户取消报警没有意义，直接忽略
+        public void Cancel()
+        {
+            this.usercancel = true;
+
+            alarmstatus = AlarmStatus.NONE;
+            alarmtimes = 0;
+            silenttimer.Stop();
+            actiontimer.Stop();
+            //向报警器发送停止报警命令
+            Utility.SendStopAlarm();
+        }
+
+    }
+
+    public enum AlarmStatus
+    {
+        //报警
+        ALARM,
+        //间隔安静
+        SILENT,
+        //报警结束
+        NONE
+    }
+
+        
 }
