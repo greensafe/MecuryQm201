@@ -77,9 +77,27 @@
                 <Label Content="状态" Canvas.Left="20" Canvas.Top="258" Foreground="Red" RenderTransformOrigin="0.381,1.602"/>
                 <Label x:Name="statustxt_2" Content="" Canvas.Left="66" Canvas.Top="256" Width="142"/>
                 <Separator Height="2" Canvas.Left="66" Margin="0" Canvas.Top="281" Width="142"/>
-                <TextBox x:Name="maintuntxt" IsEnabled="False" Width="50" TextAlignment="Center" TextChanged="maintuntxt_TextChanged" Canvas.Left="133" Canvas.Top="189" Text="3.3"/>
+                <ComboBox x:Name="maintuntxt" IsEnabled="False" Width="75"  Canvas.Left="133" Canvas.Top="189" Text="3.3" SelectedIndex="0">
+                    <ComboBoxItem>0</ComboBoxItem>
+                    <ComboBoxItem>1</ComboBoxItem>
+                    <ComboBoxItem>2</ComboBoxItem>
+                    <ComboBoxItem>3</ComboBoxItem>
+                    <ComboBoxItem>4</ComboBoxItem>
+                    <ComboBoxItem>5</ComboBoxItem>
+                    <ComboBoxItem>6</ComboBoxItem>
+                    <ComboBoxItem>7</ComboBoxItem>
+                </ComboBox>
                 <TextBlock Width="50" TextAlignment="Right" Canvas.Top="196" Canvas.Left="78" Text="主通道值"/>
-                <TextBox x:Name="vicetuntxt" IsEnabled="False" Width="50" TextAlignment="Center" TextChanged="vicetuntxt_TextChanged" Canvas.Left="133" Canvas.Top="226" Text="3.3"/>
+                <ComboBox x:Name="vicetuntxt" IsEnabled="False" Width="75" Canvas.Left="133" Canvas.Top="226" Text="3.3" SelectedIndex="0">
+                    <ComboBoxItem>0</ComboBoxItem>
+                    <ComboBoxItem>1</ComboBoxItem>
+                    <ComboBoxItem>2</ComboBoxItem>
+                    <ComboBoxItem>3</ComboBoxItem>
+                    <ComboBoxItem>4</ComboBoxItem>
+                    <ComboBoxItem>5</ComboBoxItem>
+                    <ComboBoxItem>6</ComboBoxItem>
+                    <ComboBoxItem>7</ComboBoxItem>
+                </ComboBox>
                 <TextBlock Width="50" TextAlignment="Right" Canvas.Top="231" Canvas.Left="77" Text="副通道值"/>
                 <RadioButton x:Name="maintunckb" FontSize="7" Canvas.Left="34" Canvas.Top="191" Width="20" Height="20" Unchecked="maintunckb_Unchecked" Checked="maintunckb_Checked"/>
                 <RadioButton x:Name="vicetunckb" FontSize="7" Canvas.Left="34" Canvas.Top="226" Width="20" Height="20" Unchecked="vicetunckb_Unchecked" Checked="vicetunckb_Checked"/>

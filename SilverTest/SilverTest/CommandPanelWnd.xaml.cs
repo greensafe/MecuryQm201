@@ -275,6 +275,44 @@ namespace SilverTest
                     comstatus = CommandPanlStatus.ParamSet_Waiting;
                 }
             }
+            if (maintunckb.IsChecked == true)
+            {
+                if (maintuntxt.Text != null && maintuntxt.Text != "")
+                {
+                    data[3] = 0x07; //子菜单
+                    data[4] = 0x00;  //清空数据高位
+                    //data[5] = byte.Parse(washtimeParamTxt.Text);
+                    data[5] = (byte)maintuntxt.SelectedIndex;
+                }
+                crc = Utility.CRC16(data, 6);
+                data[6] = (byte)(crc >> 8);
+                data[7] = (byte)crc;
+                if (SerialDriver.GetDriver().Send(data))
+                {
+                    statustxt.Text = "主通道设置命令已发出";
+                    statustxt_2.Content = "主通道设置命令已发出";
+
+                }
+            }
+            if(vicetunckb.IsChecked == true)
+            {
+                if (vicetuntxt.Text != null && vicetuntxt.Text != "")
+                {
+                    data[3] = 0x08; //子菜单
+                    data[4] = 0x00;  //清空数据高位
+                    //data[5] = byte.Parse(washtimeParamTxt.Text);
+                    data[5] = (byte)vicetuntxt.SelectedIndex;
+                }
+                crc = Utility.CRC16(data, 6);
+                data[6] = (byte)(crc >> 8);
+                data[7] = (byte)crc;
+                if (SerialDriver.GetDriver().Send(data))
+                {
+                    statustxt.Text = "副通道设置命令已发出";
+                    statustxt_2.Content = "副通道设置命令已发出";
+
+                }
+            }
         }
 
         private void fluParamTxt_TextChanged(object sender, TextChangedEventArgs e)
@@ -400,6 +438,44 @@ namespace SilverTest
                         {
                             statustxt.Text = "归0完成";
                             statustxt_2.Content = "归0完成";
+                        }
+                        comstatus = CommandPanlStatus.ParamSet_Finished;
+                        EnableUI();
+                        break;
+                    case 0x17: //参数设置-主通道值
+                        if (result == 0)
+                        {
+                            statustxt.Text = "设置主通道值失败";
+                            statustxt_2.Content = "设置主通道值失败";
+                        }
+                        else if (result == 1)
+                        {
+                            statustxt.Text = "正在设置主通道值";
+                            statustxt_2.Content = "正在设置主通道值";
+                        }
+                        else if (result == 2)
+                        {
+                            statustxt.Text = "设置主通道值成功";
+                            statustxt_2.Content = "设置主通道值成功";
+                        }
+                        comstatus = CommandPanlStatus.ParamSet_Finished;
+                        EnableUI();
+                        break;
+                    case 0x18: //参数设置-副通道值
+                        if (result == 0)
+                        {
+                            statustxt.Text = "设置副通道值失败";
+                            statustxt_2.Content = "设置副通道值失败";
+                        }
+                        else if (result == 1)
+                        {
+                            statustxt.Text = "正在设置副通道值";
+                            statustxt_2.Content = "正在设置副通道值";
+                        }
+                        else if (result == 2)
+                        {
+                            statustxt.Text = "设置副通道值成功";
+                            statustxt_2.Content = "设置副通道值成功";
                         }
                         comstatus = CommandPanlStatus.ParamSet_Finished;
                         EnableUI();
@@ -1231,19 +1307,6 @@ namespace SilverTest
         private void vicetunckb_Checked(object sender, RoutedEventArgs e)
         {
             vicetuntxt.IsEnabled = true;
-        }
-
-        private void maintuntxt_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            //检查值必须为小数
-            //string s = realnumber.Match(maintuntxt.Text).Value;
-            
-        }
-
-        private void vicetuntxt_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            //检查值必须为小数
-            //vicetuntxt.Text = realnumber.Match(vicetuntxt.Text).Value;
         }
     }
 
