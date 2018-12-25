@@ -6,36 +6,24 @@
         xmlns:local="clr-namespace:SilverTest"
         mc:Ignorable="d"
         WindowStyle="None"
-        Title="欢迎" Height="400" Width="600" WindowStartupLocation="CenterScreen" 
-        BorderBrush="#cc119eDA"
+        Title="欢迎" Height="397.71" Width="569.249" WindowStartupLocation="CenterScreen" 
         BorderThickness="1"
         ResizeMode="NoResize" Loaded="welecomeWindow_Loaded">
     <Window.Effect>
         <DropShadowEffect/>
     </Window.Effect>
-    <Grid x:Name="grid" Background="AliceBlue" >
+    <Grid x:Name="grid" Background="AliceBlue" Margin="0,0,18,-2" >
         <Grid.Effect>
             <DropShadowEffect/>
         </Grid.Effect>
-        <StackPanel Background="#FFB4DCFD">
-            <DockPanel Height="30">
-                <!--
-                <materialDesign:PackIcon Kind="WindowClose" Foreground="Purple" DockPanel.Dock="Right" HorizontalAlignment="Right" Margin="0,5,5,0" MouseLeftButtonDown="PackIcon_MouseLeftButtonDown"/>
-                -->
-            </DockPanel>
-                <TextBlock VerticalAlignment="Center" Margin="0 0 0 0"
-                        FontSize="25" FontFamily="Monotype Corsiva"
-                        TextAlignment="Center"
-                        >QM201G 荧光测试仪器
-                </TextBlock>
-            <StackPanel Height="250" Background="#FFB4DCFD" >
-                <Image Width="300" DockPanel.Dock="Left" Source="images/zong1.bmp" Margin="0,40,0,0"></Image>
+        <Canvas Margin="0,0,-21,-38">
+            <StackPanel Height="398" Background="#FFB4DCFD" Width="568" >
+                <Image Source="images/welcome.jpg" Margin="0,0,0,0" Height="403"/>
             </StackPanel>
-            <TextBlock TextAlignment="Center" FontSize="25" FontFamily="STCaiyun" >带蠕动泵</TextBlock>
-            <DockPanel DockPanel.Dock="Bottom" Height="50">
+            <DockPanel DockPanel.Dock="Bottom" Height="50" Panel.ZIndex="99" Canvas.Left="395" Canvas.Top="337">
                 <TextBlock DockPanel.Dock="Right" VerticalAlignment="Bottom" Margin="0,0,10,0" FontSize="15"
                            HorizontalAlignment="Right" Foreground="Purple">苏州市青安仪器有限公司</TextBlock>
             </DockPanel>
-        </StackPanel>
+        </Canvas>
     </Grid>
 </Window>
