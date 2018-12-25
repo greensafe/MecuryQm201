@@ -643,8 +643,10 @@ namespace SilverTest.libs
         DispatcherTimer silenttimer = new DispatcherTimer();
         private AlarmRedObject()
         {
-            actiontimer.Interval = new TimeSpan(0, 1, 0);
-            silenttimer.Interval = new TimeSpan(0, 3, 0);
+            //actiontimer.Interval = new TimeSpan(0, 1, 0);
+            //silenttimer.Interval = new TimeSpan(0, 3, 0);
+            actiontimer.Interval = new TimeSpan(0,0,1);
+            silenttimer.Interval = new TimeSpan(0, 0, 2);
             actiontimer.Tick += new EventHandler(actiontimer_tick_hdlr);
             silenttimer.Tick += new EventHandler(silenttimer_tick_hdlr);
             actiontimer.IsEnabled = false;
@@ -669,6 +671,8 @@ namespace SilverTest.libs
             silenttimer.IsEnabled = false;
             //发送开始报警
             Utility.SendStartAlarm();
+            Console.WriteLine("停止静默");
+            Console.WriteLine("开始报警");
         }
 
         private void actiontimer_tick_hdlr(object sender, EventArgs e)
@@ -688,6 +692,7 @@ namespace SilverTest.libs
             if(alarmtimes > 2)
             {
                 ClearAlarmObject();
+                Console.WriteLine("报警彻底结束");
                 return;
             }
 
@@ -698,9 +703,12 @@ namespace SilverTest.libs
             silenttimer.IsEnabled = true;
             //发送停止报警
             Utility.SendStopAlarm();
+
+            Console.WriteLine("已报警"+alarmtimes.ToString()+"次");
+            Console.WriteLine("开始静默");
         }
 
-        static AlarmRedObject GetAlarmObject()
+        public static AlarmRedObject GetAlarmObject()
         {
             if (onlyone != null)
                 return onlyone;
@@ -742,6 +750,8 @@ namespace SilverTest.libs
                 //发送报警
                 GetAlarmObject().alarmtimes = 0;
                 Utility.SendStartAlarm();
+
+                Console.WriteLine("发出报警指令");
             }
             else
             {

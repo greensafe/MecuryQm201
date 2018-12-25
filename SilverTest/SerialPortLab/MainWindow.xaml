@@ -73,6 +73,13 @@
                     <TextBox x:Name="alarmtxtSendData" Height="61" TextWrapping="Wrap" Text="发送命令"/>
                 </StackPanel>
             </TabItem>
+            <TabItem x:Name="testtabitem" Selector.Selected="OntestbSelected"
+                     Header="测试按钮">
+                <Canvas>
+                    <Button x:Name="testalarmobject" Content="测试alarmobject" Height="35" Width="82" Canvas.Left="82" Canvas.Top="69" Click="Testalarmobject_Click"/>
+                </Canvas>
+            </TabItem>
+
         </TabControl>
     </Grid>
 </Window>

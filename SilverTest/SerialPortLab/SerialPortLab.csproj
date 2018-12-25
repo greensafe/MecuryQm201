@@ -101,5 +101,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SilverTest\SilverTest.csproj">
+      <Project>{8f791c00-2188-499d-bbb2-5f9f5513e0f3}</Project>
+      <Name>SilverTest</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

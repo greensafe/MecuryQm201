@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SilverTest.libs;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Ports;
@@ -228,16 +229,18 @@ namespace SerialPortLab
         }
         private void alarmopenPort_Click(object sender, RoutedEventArgs e)
         {
-            if (alarmComDevice.IsOpen == false)
+            if (SerialDriver.GetDriver().alarm_isOpen() == false)
             {
-                alarmComDevice.PortName = alarmcomporCombo.SelectedItem.ToString();
-                alarmComDevice.BaudRate = Convert.ToInt32(alarmrate.SelectedItem.ToString());
-                alarmComDevice.Parity = (Parity)Convert.ToInt32(alarmcbbParity.SelectedIndex.ToString());
-                alarmComDevice.DataBits = Convert.ToInt32(alarmcbbDataBits.SelectedItem.ToString());
-                alarmComDevice.StopBits = (StopBits)Convert.ToInt32(alarmcbbStopBits.SelectedItem.ToString());
+                SerialDriver.GetDriver().alarm_portname = alarmcomporCombo.SelectedItem.ToString();
+                SerialDriver.GetDriver().alarm_rate = Convert.ToInt32(alarmrate.SelectedItem.ToString());
+                SerialDriver.GetDriver().alarm_parity = Convert.ToInt32(alarmcbbParity.SelectedIndex.ToString());
+                SerialDriver.GetDriver().alarm_databits = Convert.ToInt32(alarmcbbDataBits.SelectedItem.ToString());
+                SerialDriver.GetDriver().alarm_stopbits = Convert.ToInt32(alarmcbbStopBits.SelectedItem.ToString());
                 try
                 {
-                    alarmComDevice.Open();
+                    SerialDriver.GetDriver().alarm_Open(SerialDriver.GetDriver().alarm_portname, SerialDriver.GetDriver().alarm_rate, SerialDriver.GetDriver().alarm_parity,
+                        SerialDriver.GetDriver().alarm_databits, SerialDriver.GetDriver().alarm_stopbits);
+                    
                     alarmoutputData.Text += "  " + alarmComDevice.PortName + "  :";
                     MessageBox.Show("打开成功");
                 }
@@ -252,7 +255,7 @@ namespace SerialPortLab
             {
                 try
                 {
-                    alarmComDevice.Close();
+                    SerialDriver.GetDriver().alarm_Close();
                     MessageBox.Show("打开端口已经被关闭");
                 }
                 catch (Exception ex)
@@ -470,6 +473,14 @@ namespace SerialPortLab
 
         }
 
+        private void Testalarmobject_Click(object sender, RoutedEventArgs e)
+        {
+            AlarmRedObject.GetAlarmObject().NeedAlarm();
+        }
 
+        private void OntestbSelected(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
