@@ -822,6 +822,46 @@ namespace SilverTest
                             ;
                         }
                         break;
+                    case 0x91:// 报警测试
+                        if (result == 0)
+                        {
+                            statustxt.Text = "报警测试命令执行失败";
+                            statustxt_2.Content = "报警测试命令执行失败";
+                        }
+                        else
+                        {
+                            statustxt.Text = "报警测试命令执行成功";
+                            statustxt_2.Content = "报警测试命令执行成功";
+                        }
+                        comstatus = CommandPanlStatus.GetStatus_Finished;
+                        EnableUI();
+                        //显示参数
+                        if (myparams != null)
+                        {
+                            //todo
+                            ;
+                        }
+                        break;
+                    case 0x92: //停止报警测试
+                        if (result == 0)
+                        {
+                            statustxt.Text = "停止报警测试命令执行失败";
+                            statustxt_2.Content = "停止报警测试命令执行失败";
+                        }
+                        else
+                        {
+                            statustxt.Text = "停止报警测试命令执行成功";
+                            statustxt_2.Content = "停止报警测试命令执行成功";
+                        }
+                        comstatus = CommandPanlStatus.GetStatus_Finished;
+                        EnableUI();
+                        //显示参数
+                        if (myparams != null)
+                        {
+                            //todo
+                            ;
+                        }
+                        break;
                     default:
                         break;
                 }
@@ -1307,6 +1347,60 @@ namespace SilverTest
         private void vicetunckb_Checked(object sender, RoutedEventArgs e)
         {
             vicetuntxt.IsEnabled = true;
+        }
+
+        private void Pm9_Click(object sender, RoutedEventArgs e)
+        {
+            if(m91.Visibility == Visibility.Collapsed)
+            {
+                m91.Visibility = Visibility.Visible;
+                m92.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                m91.Visibility = Visibility.Collapsed;
+                m92.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void M91_Click(object sender, RoutedEventArgs e)
+        {
+            //向报警器发出报警命令
+            byte[] data = new byte[8] { 0x01, 0x01, 0x09, 0x01, 0x00, 0x00, 0, 0 };
+
+            ushort crc = Utility.CRC16(data, 6);
+
+            data[6] = (byte)(crc >> 8);
+            data[7] = (byte)crc;
+            if (SerialDriver.GetDriver().Send(data))
+            {
+                statustxt.Text = "报警测试命令已发出";
+                statustxt_2.Content = "报警测试命令已发出";
+            }
+            else
+            {
+                MessageBox.Show("端口未打开");
+            };
+        }
+
+        private void M92_Click(object sender, RoutedEventArgs e)
+        {
+            //向报警器发出停止报警命令
+            byte[] data = new byte[8] { 0x01, 0x01, 0x09, 0x02, 0x00, 0x00, 0, 0 };
+
+            ushort crc = Utility.CRC16(data, 6);
+
+            data[6] = (byte)(crc >> 8);
+            data[7] = (byte)crc;
+            if (SerialDriver.GetDriver().Send(data))
+            {
+                statustxt.Text = "停止报警测试命令已发出";
+                statustxt_2.Content = "停止报警测试命令已发出";
+            }
+            else
+            {
+                MessageBox.Show("端口未打开");
+            };
         }
     }
 
