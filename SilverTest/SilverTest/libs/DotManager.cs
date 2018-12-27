@@ -92,10 +92,16 @@ namespace SilverTest.libs
             return DataFormater.getDataFormater().GetDots();
         }
 
+        public Collection<ADot> GetViceDots()
+        {
+            return DataFormater.getDataFormater().GetViceDots();
+        }
+
         //清空Dots，rawText所有数据
         public void ReleaseData()
         {
             DataFormater.getDataFormater().GetDots().Clear();
+            DataFormater.getDataFormater().GetViceDots().Clear();
             PhyCombine.GetPhyCombine().Clear();
         }
 

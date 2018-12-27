@@ -759,7 +759,9 @@ namespace SilverTest
                     }));
                     break;
                 case PacketType.VICE_DATA_VALUE:
-                    ;
+                    double vicey = (dot as ADot).Rvalue;
+                    Console.WriteLine(vicey);
+                    Console.WriteLine(sequence);
                     break;
                 case PacketType.DATA_VALUE:
 
