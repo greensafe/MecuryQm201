@@ -758,6 +758,9 @@ namespace SilverTest
                         }
                     }));
                     break;
+                case PacketType.VICE_DATA_VALUE:
+                    ;
+                    break;
                 case PacketType.DATA_VALUE:
 
                     double x = currentSecond;

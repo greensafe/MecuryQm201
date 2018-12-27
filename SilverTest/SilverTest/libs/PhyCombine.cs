@@ -99,6 +99,13 @@ namespace SilverTest.libs
             public int NorCmdResPctDStart { get; set; } //普通命令回应包数据开始位置
             public int NorCmdResPctDataWidth { get; set; } //普通命令回应包数据长度
             public int NorCmdResPctVStart { get; set; } //普通命令回应包纠正包开始位置
+
+            //辅道数据包
+            public int ViceDataPctLength { get; set; } //辅道数据包长度
+            public int ViceDataPctEndTag { get; set; } //辅道数据包结束标志位置
+            public int ViceDataPctMiddleTag { get; set; } //辅道数据中间标志位置
+            public int ViceDataPctVStart { get; set; }       //辅道数据包校验位开始位置
+            public int ViceDataPctDStart { get; set; }       //辅道数据包数据开始位置
         }
 
         //数据包类型
@@ -106,6 +113,7 @@ namespace SilverTest.libs
         {
             MACHINE_TYPE,               //机器类型
             DATA_VALUE,                 //机器采样到的一个数据值
+            VICE_DATA_VALUE,                 //机器采样到的一个辅道数据值
             RES_COMPUTE_VALUE,          //计算包
             SEQUENCE,                   //数据值的序号包
             CORRECT_RESPONSE,           //校验出错重发命令的响应包
@@ -122,6 +130,7 @@ namespace SilverTest.libs
                                     OK,                         // OK - 包是完整的包。
                                     FRAGMENT_MACHINE_TYPE,      //包是个机器信息头碎片
                                     FRAGMENT_VALUE,             //包是一个数据值碎片
+                                    FRAGMENT_VICE_VALUE,             //包是一个辅道数据值碎片
                                     FRAGMENT_RES_COMPUTE,       //包是一个计算包碎片
                                     FRAGMENT_SEQUENCE,          //包是一个序号碎片
                                     FRAGMENT_CORRECT,           //包是校验出错响应包碎片
@@ -148,6 +157,7 @@ namespace SilverTest.libs
             NOT_FOUND_MACHINE_HEADER_LONG,  //长时间不能收到机器类型包
             NOT_FOUND_START_TAG_LONG,       //长时间不能找到包的其始标志
             VALUE_PCT_DATA_FORMAT_ERROR,          //数据包的格式有错，找不到包的结束位置,和中间标志位置
+            VICE_VALUE_PCT_DATA_FORMAT_ERROR,          //辅道数据包的格式有错，找不到包的结束位置,和中间标志位置
             RES_COMPUTE_VALUE_PCT_DATA_FORMAT_ERROR, //计算包格式有错误，找不到包的结束位置,和中间标志位置
             SEQUENCE_PCT_DATA_FORMAT_ERROR,          //序号包的格式有错，找不到包的结束位置,和中间标志位置
             CORRECT_PCT_DATA_FORMAT_ERROR,          //纠正包的格式有错，找不到数据包的结束位置,和中间标志位置
@@ -200,6 +210,13 @@ namespace SilverTest.libs
             machineinfo.DataPctMiddleTag = 7;
             machineinfo.DataPctDStart = 2;
             machineinfo.DataPctVStart = 8;
+
+            machineinfo.ViceDataPctEndTag = 10;     //辅道数据包
+            machineinfo.ViceDataPctLength = 11;
+            machineinfo.ViceDataPctMiddleTag = 7;
+            machineinfo.ViceDataPctDStart = 2;
+            machineinfo.ViceDataPctVStart = 8;
+
 
             machineinfo.ResComputePctEndTag = 10;        //回应计算包
             machineinfo.ResComputePctLength = 11;
@@ -424,6 +441,22 @@ namespace SilverTest.libs
                                         }
 
                                         break;
+                                    case PacketType.VICE_DATA_VALUE:
+                                        if (rawText_purepct_prt + machineinfo.ViceDataPctLength == rawText_length)
+                                        {
+                                            if (appendCRLF())
+                                            {
+                                                rawText_length += "\r\n".Length;
+                                                rawText_bigpct_prt = rawText_length;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            rawText_bigpct_prt = (rawText_purepct_prt + machineinfo.ViceDataPctLength);
+                                        }
+
+                                        break;
+
                                     case PacketType.RES_COMPUTE_VALUE:
                                         if (rawText_purepct_prt + machineinfo.ResComputePctLength == rawText_length)
                                         {
@@ -529,6 +562,10 @@ namespace SilverTest.libs
                                         rawText_bigpct_prt = rawText_purepct_prt + machineinfo.DataPctLength;
                                         if (CombineError_Ev != null) CombineError_Ev(CombineErrorInfo.VALUE_PCT_DATA_FORMAT_ERROR);
                                         break;
+                                    case PacketCombineStatus.FRAGMENT_VICE_VALUE:
+                                        rawText_bigpct_prt = rawText_purepct_prt + machineinfo.ViceDataPctLength;
+                                        if (CombineError_Ev != null) CombineError_Ev(CombineErrorInfo.VICE_VALUE_PCT_DATA_FORMAT_ERROR);
+                                        break;
                                     case PacketCombineStatus.FRAGMENT_RES_COMPUTE:
                                         rawText_bigpct_prt = rawText_purepct_prt + machineinfo.ResComputePctLength;
                                         if (CombineError_Ev != null) CombineError_Ev(CombineErrorInfo.RES_COMPUTE_VALUE_PCT_DATA_FORMAT_ERROR);
@@ -629,6 +666,7 @@ namespace SilverTest.libs
                 case PacketCombineStatus.FRAGMENT_CORRECT:
                 case PacketCombineStatus.FRAGMENT_SEQUENCE:
                 case PacketCombineStatus.FRAGMENT_VALUE:
+                case PacketCombineStatus.FRAGMENT_VICE_VALUE:
                 case PacketCombineStatus.FRAGMENT_RES_COMPUTE:
                 case PacketCombineStatus.FRAGMENT_AIR_FLUENT:
                 case PacketCombineStatus.FRAGMENT_AIR_SAMPLE_TIME:
@@ -690,6 +728,9 @@ namespace SilverTest.libs
                 case 0x47: //'G',数据包, H, I
                     return cut(out ptype, out fragtype,PacketType.DATA_VALUE,true,0x48,
                         machineinfo.DataPctMiddleTag,0x49,machineinfo.DataPctEndTag,machineinfo.DataPctLength);
+                case 0x55: //'U',数据包, H, I
+                    return cut(out ptype, out fragtype, PacketType.VICE_DATA_VALUE, true, 0x48,
+                        machineinfo.ViceDataPctMiddleTag, 0x49, machineinfo.ViceDataPctEndTag, machineinfo.ViceDataPctLength);
                 case 0x58   : //'X' 回应计算包, H, I
                     return cut(out ptype, out fragtype, PacketType.RES_COMPUTE_VALUE, true, 0x48,
                         machineinfo.ResComputePctMiddleTag, 0x49, machineinfo.ResComputePctEndTag, machineinfo.ResComputePctLength);
@@ -731,6 +772,9 @@ namespace SilverTest.libs
                 case PacketCombineStatus.FRAGMENT_VALUE: //'G',数据包
                     return cut(out ptype, out fragtype, PacketType.DATA_VALUE, true, 0x48,
                         machineinfo.DataPctMiddleTag, 0x49, machineinfo.DataPctEndTag, machineinfo.DataPctLength);
+                case PacketCombineStatus.FRAGMENT_VICE_VALUE: //'U',数据包
+                    return cut(out ptype, out fragtype, PacketType.VICE_DATA_VALUE, true, 0x48,
+                        machineinfo.ViceDataPctMiddleTag, 0x49, machineinfo.ViceDataPctEndTag, machineinfo.ViceDataPctLength);
                 case PacketCombineStatus.FRAGMENT_RES_COMPUTE: //'X' 回应计算包
                     return cut(out ptype, out fragtype, PacketType.RES_COMPUTE_VALUE, true, 0x48,
                         machineinfo.ResComputePctMiddleTag, 0x49, machineinfo.ResComputePctEndTag, machineinfo.ResComputePctLength);
@@ -803,6 +847,8 @@ namespace SilverTest.libs
             {
                 case PacketType.DATA_VALUE:
                     return CombineErrorInfo.VALUE_PCT_DATA_FORMAT_ERROR;
+                case PacketType.VICE_DATA_VALUE:
+                    return CombineErrorInfo.VICE_VALUE_PCT_DATA_FORMAT_ERROR;
                 case PacketType.RES_COMPUTE_VALUE:
                     return CombineErrorInfo.RES_COMPUTE_VALUE_PCT_DATA_FORMAT_ERROR;
                 case PacketType.CORRECT_RESPONSE:
@@ -828,6 +874,8 @@ namespace SilverTest.libs
             {
                 case PacketType.DATA_VALUE:
                     return PacketCombineStatus.FRAGMENT_VALUE;
+                case PacketType.VICE_DATA_VALUE:
+                    return PacketCombineStatus.FRAGMENT_VICE_VALUE;
                 case PacketType.RES_COMPUTE_VALUE:
                     return PacketCombineStatus.FRAGMENT_RES_COMPUTE;
                 case PacketType.CORRECT_RESPONSE:

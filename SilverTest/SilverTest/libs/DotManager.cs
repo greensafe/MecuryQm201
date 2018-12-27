@@ -132,6 +132,9 @@ namespace SilverTest.libs
                 case CombineErrorInfo.VALUE_PCT_DATA_FORMAT_ERROR:
                     Console.WriteLine("数据包格式出错");
                     break;
+                case CombineErrorInfo.VICE_VALUE_PCT_DATA_FORMAT_ERROR:
+                    Console.WriteLine("辅道数据包格式出错");
+                    break;
                 case CombineErrorInfo.RES_COMPUTE_VALUE_PCT_DATA_FORMAT_ERROR:
                     Console.WriteLine("回应计算包格式出错");
                     break;
@@ -169,6 +172,9 @@ namespace SilverTest.libs
             //目前忽略气体包的校验错，仅对数据包进行纠正
             switch (ptype)
             {
+                case PacketType.VICE_DATA_VALUE:
+                    Console.WriteLine("辅道数据包校验出错");
+                    return;
                 case PacketType.AIR_FLUENT:
                     Console.WriteLine("气体流量包校验出错");
                     return;

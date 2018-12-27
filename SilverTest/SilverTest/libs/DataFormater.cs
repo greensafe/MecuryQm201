@@ -153,6 +153,29 @@ namespace SilverTest.libs
 
                     }
                     break;
+
+                case PacketType.VICE_DATA_VALUE:
+                    if (validateData(packet, PhyCombine.GetPhyCombine().GetMachineInfo().ViceDataPctDStart,
+                        PhyCombine.GetPhyCombine().GetMachineInfo().DataWidth, twoint(packet, PhyCombine.GetPhyCombine().GetMachineInfo().ViceDataPctVStart)) == true)
+                    {
+                        if (PacketRecevied_Ev != null)
+                        {
+                            //todo: save the vice data
+                            //通知收到一个包
+                            PacketRecevied_Ev(null, Utility.ConvertStrToInt_Big(packet, PhyCombine.GetPhyCombine().GetMachineInfo().ViceDataPctDStart,
+                                    PhyCombine.GetPhyCombine().GetMachineInfo().DataWidth), PacketType.VICE_DATA_VALUE);
+                        }
+                    }
+                    else
+                    {
+                        //发生错误
+                        if (PacketCheckError_Ev != null)
+                        {
+                            PacketCheckError_Ev(0, PacketType.VICE_DATA_VALUE);
+                        }
+                    }
+                    break;
+
                 case PacketType.RES_COMPUTE_VALUE:
                     if (validateData(packet, PhyCombine.GetPhyCombine().GetMachineInfo().ResComputePctDStart,
                         PhyCombine.GetPhyCombine().GetMachineInfo().DataWidth, twoint(packet, PhyCombine.GetPhyCombine().GetMachineInfo().ResComputePctVStart)) == true)
