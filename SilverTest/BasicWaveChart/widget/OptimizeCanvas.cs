@@ -36,6 +36,10 @@ namespace BasicWaveChart.widget
         Polyline waveply = new Polyline();
         PointCollection datas_ = new PointCollection();
         PointCollection dvalues = new PointCollection();
+        //辅道波形
+        Polyline vice_waveply = new Polyline();
+        PointCollection vice_datas_ = new PointCollection();
+        PointCollection vice_dvalues = new PointCollection();
 
         //self-abandon function
         AddPointDelegate AddPointRocket;
@@ -49,6 +53,8 @@ namespace BasicWaveChart.widget
             waveply.StrokeThickness = 3;
             this.Children.Add(waveply);
             datas_ = waveply.Points;
+            //辅道数据
+             vice_datas_ = vice_waveply.Points;
 
             //self register event
             this.Loaded += new RoutedEventHandler(self_Loaded);
@@ -196,8 +202,11 @@ namespace BasicWaveChart.widget
             OptimizeCanvas_Canvas_Left = 0;
             dvalues.Clear();
             waveply.Points.Clear();
+            //清除辅道数据
+            vice_dvalues.Clear();
+            vice_waveply.Points.Clear();
             //清除积分中的图形痕迹
-            foreach(UIElement item in wincanvas.Children)
+            foreach (UIElement item in wincanvas.Children)
             {
                 if (item is HandleCtl || item is TextBlock)
                     item.Visibility = Visibility.Hidden;

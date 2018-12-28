@@ -832,7 +832,7 @@ namespace SilverTest
         {
             //SerialDriver.GetDriver().OnReceived(Com_DataReceived);
             //realCpt.NumberOfDValue = 200000;
-            ProduceFakeData pfd = new ProduceFakeData("realtestdata_fr2.txt");
+            ProduceFakeData pfd = new ProduceFakeData("realtestdata_fr3.txt");
             pfd.Send(1);
             showconnectedIcon();
         }

@@ -482,5 +482,54 @@ namespace SerialPortLab
         {
 
         }
+
+        private void Makevicedatabtn_Click(object sender, RoutedEventArgs e)
+        {
+            FileStream afile = new FileStream("clip.txt", FileMode.Append);
+            StreamWriter writer = new StreamWriter(afile);
+            string str;
+            int iend = 0;
+            char[] desstr = new char[11];
+            FileStream rfile = new FileStream("realtestdata_fr2.txt", FileMode.Open);
+            StreamReader reader = new StreamReader(rfile);
+            
+            while(reader.EndOfStream == false)
+            {
+                str = reader.ReadLine();
+                if (str.Length != 11) continue;
+                for(int i = 0; i < 11; i++)
+                {
+                    desstr[i] = '\0';
+                }
+                for(int i=0; i < desstr.Length; i++)
+                {
+                    desstr[i] = str[i];
+                }
+                writer.Write(desstr);
+                writer.Write("\r\n");
+                desstr[1] = 'U';
+                switch(iend % 4)
+                {
+                    case 0:
+                        writer.Write("FU20010H03I\r\n");
+                        break;
+                    case 1:
+                        writer.Write("FU20011H04I\r\n");
+                        break;
+                    case 2:
+                        writer.Write("FU20012H05I\r\n");
+                        break;
+                    case 3:
+                        writer.Write("FU20013H06I\r\n");
+                        break;
+                }
+                iend++;
+            }
+
+            writer.Close();
+            afile.Close();
+            reader.Close();
+            rfile.Close();
+        }
     }
 }
