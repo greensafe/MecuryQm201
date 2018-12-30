@@ -121,6 +121,7 @@ namespace BasicWaveChart.widget
                         if(ovice_dvalue != null)
                         {
                             vice_dvalue = (Point)ovice_dvalue;
+                            vice_dvalues.Add(vice_dvalue);
 
                             if (vice_dvalue.Y > yaxis.YScaleMaxValue)
                             {
@@ -281,6 +282,11 @@ namespace BasicWaveChart.widget
         public PointCollection GetDValues()
         {
             return dvalues;
+        }
+
+        public PointCollection GetViceDValues()
+        {
+            return vice_dvalues;
         }
 
         public PointCollection GetDatas()

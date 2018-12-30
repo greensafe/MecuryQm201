@@ -1,4 +1,5 @@
-﻿using BasicWaveChart.widget;
+﻿using BasicWaveChart.Feature.integral;
+using BasicWaveChart.widget;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static BasicWaveChart.Feature.integral.IntegralWorker;
 
 namespace BasicWaveChart
 {
@@ -301,6 +303,12 @@ namespace BasicWaveChart
         #endregion
 
         #region public function
+        public void RegisterIntegrateFunc(IntegrateAreaDelegate func)
+        {
+            IntegralWorker.myIntegrateArea = func;
+        }
+
+
         public PointCollection GetDValues()
         {
             return optimizeCanvas.GetDValues();

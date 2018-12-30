@@ -114,7 +114,7 @@ namespace SilverTest
 
             //初始化xml文档
             AirDensityXml.Load(@"resources\ChinaAirDensity.xml");
-    
+
             newTestClt =
                     Utility.getNewTestTargetDataFromXml("resources\\NewTestTarget_Table.xml");
             NewTargetDgd.DataContext = newTestClt;
@@ -157,6 +157,32 @@ namespace SilverTest
             statusDayTimer.Start();
             //注册波形控件积分值变化事件
             realCpt.OnIntegrateValueChange(AreaIntegrateValueChangedHdlr);
+            //注册面积积分方法
+            realCpt.RegisterIntegrateFunc(IntegrateArea);
+
+        }
+
+        private double IntegrateArea(int dvalues_start, int dvalues_end)
+        {
+            double total = 0;
+
+            Collection<ADot> dvalues = DotManager.GetDotManger().GetDots();
+            Collection<ADot> vice_dvalues = DotManager.GetDotManger().GetViceDots();
+
+            for (int i = dvalues_start; i <= dvalues_end; i++)
+            {
+                if (i >= vice_dvalues.Count) break;
+                if (vice_dvalues[i].Rvalue == 0)
+                {
+                    total += 0;
+                }
+                else
+                {
+                    total += dvalues[i].Rvalue / vice_dvalues[i].Rvalue;
+                }
+            }
+            total /= (dvalues_end - dvalues_start);
+            return total;
         }
 
         private void AlarmCom_DataReceived(object sender, SerialDataReceivedEventArgs e)
