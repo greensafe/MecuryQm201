@@ -180,6 +180,7 @@ namespace SilverTest
         {
             int dotscount = DotManager.GetDotManger().GetDots().Count;
             Collection<ADot> dots = DotManager.GetDotManger().GetDots();
+            Collection<ADot> vicedots = DotManager.GetDotManger().GetViceDots();
             if (WaveDrawSite.to_pos_index_rel > dotscount - 1)
             {
                 return;
@@ -188,7 +189,12 @@ namespace SilverTest
             for(int i = WaveDrawSite.to_pos_index_rel; i< WaveDrawSite.to_pos_index_rel + todrawcount; i++)
             {
                 //draw dot
-                realCpt.AddPoint(new Point(WaveDrawSite.to_pos_index_rel, dots[WaveDrawSite.to_pos_index_rel].Rvalue));
+                realCpt.AddPoint(new Point(WaveDrawSite.to_pos_index_rel, dots[WaveDrawSite.to_pos_index_rel].Rvalue),null);
+                //绘制副通道值
+                if(WaveDrawSite.to_pos_index_rel < vicedots.Count)
+                {
+                    realCpt.AddPoint(null,new Point(WaveDrawSite.to_pos_index_rel, vicedots[WaveDrawSite.to_pos_index_rel].Rvalue));
+                }
             }
             WaveDrawSite.to_pos_index_rel += todrawcount;
         }
@@ -2106,7 +2112,7 @@ namespace SilverTest
             while (!sr.EndOfStream)
             {
                 yscale = int.Parse( sr.ReadLine() );
-                realCpt.AddPoint(new Point(xscale,yscale));
+                realCpt.AddPoint(new Point(xscale,yscale),null);
                 xscale++;
             }
 

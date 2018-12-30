@@ -364,9 +364,11 @@ namespace BasicWaveChart
         }
 
         //add point to draw
-        public void AddPoint(Point dvalue)
+        // @ dvalue - 主通道值
+        //   vice_dvalue - 副通道值
+        public void AddPoint(Object dvalue,Object vice_dvalue)
         {
-            optimizeCanvas.AddPoint(dvalue);
+            optimizeCanvas.AddPoint(dvalue,vice_dvalue);
         }
         #endregion
 

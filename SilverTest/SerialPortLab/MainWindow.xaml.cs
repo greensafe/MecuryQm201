@@ -511,16 +511,16 @@ namespace SerialPortLab
                 switch(iend % 4)
                 {
                     case 0:
-                        writer.Write("FU20010H03I\r\n");
+                        writer.Write("FU00310H04I\r\n");
                         break;
                     case 1:
-                        writer.Write("FU20011H04I\r\n");
+                        writer.Write("FU00311H05I\r\n");
                         break;
                     case 2:
-                        writer.Write("FU20012H05I\r\n");
+                        writer.Write("FU00312H06I\r\n");
                         break;
                     case 3:
-                        writer.Write("FU20013H06I\r\n");
+                        writer.Write("FU00313H07I\r\n");
                         break;
                 }
                 iend++;

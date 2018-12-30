@@ -108,7 +108,7 @@ namespace SilverTest
             while (!sr.EndOfStream)
             {
                 yscale = int.Parse( sr.ReadLine() );
-                historywaveuc.AddPoint(new Point(xscale,yscale));
+                historywaveuc.AddPoint(new Point(xscale,yscale),null);
                 xscale++;
             }
 

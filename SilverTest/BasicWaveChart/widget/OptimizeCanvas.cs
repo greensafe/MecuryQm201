@@ -18,6 +18,9 @@ namespace BasicWaveChart.widget
         readonly int maxy_step = 100;
         double comparepoint_x = 0;
         double comparepoint_y = 0;
+        double vice_comparepoint_x = 0;
+        double vice_comparepoint_y = 0;
+
 
         //effective point that can draw
         readonly double effectiveW = 0.5;
@@ -54,15 +57,22 @@ namespace BasicWaveChart.widget
             this.Children.Add(waveply);
             datas_ = waveply.Points;
             //辅道数据
-             vice_datas_ = vice_waveply.Points;
+            vice_waveply.Stroke = new SolidColorBrush(Colors.Blue);
+            vice_waveply.StrokeThickness = 3;
+            this.Children.Add(vice_waveply);
+            vice_datas_ = vice_waveply.Points;
+
+            //主通道点是有效的，待绘制
+            bool main_dot_is_effected = false;
 
             //self register event
             this.Loaded += new RoutedEventHandler(self_Loaded);
 
             //self-abandon function
-
-            AddPointRocketOrigin = delegate (Point dvalue) {
-                
+            //理想状况下副通道值与主通道值一一对应。故波形移动仅仅由主通道控制
+            AddPointRocketOrigin = delegate (Object odvalue ,Object ovice_dvalue) {
+                Point dvalue;
+                Point vice_dvalue;
                 switch (parent.MoveMode)
                 {
                     case WaveMoveMode.PACKED:
@@ -71,48 +81,125 @@ namespace BasicWaveChart.widget
                     case WaveMoveMode.HORIZONTAL:
                     default:
                         #region phase 1 - push
-                        if(dvalue.X <= xaxis.XScaleMaxValue)
+                        if (odvalue != null)
                         {
-                            dvalues.Add(dvalue);
-                            
-                            if (dvalue.Y > yaxis.YScaleMaxValue)
+                            dvalue = (Point)odvalue;
+                            if (dvalue.X <= xaxis.XScaleMaxValue)
                             {
-                                int temp = (int)(dvalue.Y / maxy_step + 1) * maxy_step;
+                                dvalues.Add(dvalue);
+
+                                if (dvalue.Y > yaxis.YScaleMaxValue)
+                                {
+                                    int temp = (int)(dvalue.Y / maxy_step + 1) * maxy_step;
+                                    parent.SetScale(0, 0, 0, temp); // the scalechanged_ev will trigger draw action
+                                }
+                                else
+                                {
+                                    if (datas_.Count == 0)
+                                    {
+                                        datas_.Add(new Point(xaxis.GetXX((int)dvalue.X), yaxis.GetYY((int)dvalue.Y)));
+                                        comparepoint_y = yaxis.GetYY((int)dvalue.Y);
+                                        comparepoint_x = xaxis.GetXX((int)dvalue.X);
+                                    }
+                                    else
+                                    {
+                                        if (isEffected(dvalue))
+                                        {
+                                            main_dot_is_effected = true;
+                                            datas_.Add(new Point(xaxis.GetXX((int)dvalue.X), yaxis.GetYY((int)dvalue.Y)));
+                                        }
+                                    }
+                                }
+                            }
+                            /*
+                            if (dvalue.X < xaxis.XScaleMaxValue)
+                                return;
+                            */
+                        }
+                       
+                        //副通道
+                        if(ovice_dvalue != null)
+                        {
+                            vice_dvalue = (Point)ovice_dvalue;
+
+                            if (vice_dvalue.Y > yaxis.YScaleMaxValue)
+                            {
+                                int temp = (int)(vice_dvalue.Y / maxy_step + 1) * maxy_step;
                                 parent.SetScale(0, 0, 0, temp); // the scalechanged_ev will trigger draw action
                             }
                             else
                             {
-                                if (datas_.Count == 0)
+                                if (vice_datas_.Count == 0)
                                 {
-                                    datas_.Add(new Point(xaxis.GetXX((int)dvalue.X), yaxis.GetYY((int)dvalue.Y)));
-                                    comparepoint_y = yaxis.GetYY((int)dvalue.Y);
-                                    comparepoint_x = xaxis.GetXX((int)dvalue.X);
+                                    vice_datas_.Add(new Point(xaxis.GetXX((int)vice_dvalue.X), yaxis.GetYY((int)vice_dvalue.Y)));
+                                    vice_comparepoint_y = yaxis.GetYY((int)vice_dvalue.Y);
+                                    vice_comparepoint_x = xaxis.GetXX((int)vice_dvalue.X);
                                 }
                                 else
                                 {
-                                    if (isEffected(dvalue)) datas_.Add(new Point(xaxis.GetXX((int)dvalue.X), yaxis.GetYY((int)dvalue.Y)));
+                                    //if (isEffected(vice_dvalue)) vice_datas_.Add(new Point(xaxis.GetXX((int)vice_dvalue.X), yaxis.GetYY((int)vice_dvalue.Y)));
+                                    if (main_dot_is_effected == true)
+                                    {
+                                        main_dot_is_effected = false;
+                                        vice_datas_.Add(new Point(xaxis.GetXX((int)vice_dvalue.X), yaxis.GetYY((int)vice_dvalue.Y)));
+                                    }
                                 }
                             }
                         }
-                        if (dvalue.X < xaxis.XScaleMaxValue)
-                            return;
+                        //副通道不要影响移动逻辑
+                        if (odvalue == null) return;
+
+                        if (odvalue != null){
+                            dvalue = (Point)odvalue;
+                            if (dvalue.X < xaxis.XScaleMaxValue)
+                                return;
+                        }
                         //add the XScaleMaxValue and abandon
                         #endregion
                         #region phase 2 - move
-                        AddPointRocket = delegate (Point dvalue_move)
+                        AddPointRocket = delegate (Object odvalue_move, Object ovice_dvalue_move)
                         {
-                            dvalues.Add(dvalue_move);
-                            if(dvalue_move.Y > yaxis.YScaleMaxValue)
+                            Point dvalue_move;
+                            Point vice_dvalue_move;
+
+                            if (odvalue_move != null)
                             {
-                                moveleft(dvalue_move);
-                                parent.SetScale(0, 0, 0, (int)(dvalue_move.Y / maxy_step + 1)* maxy_step); //scalechanged_ev will call draw action
-                            }
-                            else
-                            {
-                                if(isEffected(dvalue_move))
+                                dvalue_move = (Point)odvalue_move;
+                                dvalues.Add(dvalue_move);
+                                if (dvalue_move.Y > yaxis.YScaleMaxValue)
                                 {
                                     moveleft(dvalue_move);
-                                    datas_.Add(new Point(xaxis.GetXX((int)dvalue_move.X),yaxis.GetYY((int)dvalue_move.Y)));
+                                    parent.SetScale(0, 0, 0, (int)(dvalue_move.Y / maxy_step + 1) * maxy_step); //scalechanged_ev will call draw action
+                                }
+                                else
+                                {
+                                    if (isEffected(dvalue_move))
+                                    {
+                                        main_dot_is_effected = true;
+                                        moveleft(dvalue_move);
+                                        datas_.Add(new Point(xaxis.GetXX((int)dvalue_move.X), yaxis.GetYY((int)dvalue_move.Y)));
+                                    }
+                                }
+                            }
+
+                            //副通道
+                            if (ovice_dvalue_move != null)
+                            {
+                                vice_dvalue_move = (Point)ovice_dvalue_move;
+                                vice_dvalues.Add(vice_dvalue_move);
+                                if (vice_dvalue_move.Y > yaxis.YScaleMaxValue)
+                                {
+                                    //moveleft(dvalue_move);
+                                    parent.SetScale(0, 0, 0, (int)(vice_dvalue_move.Y / maxy_step + 1) * maxy_step); //scalechanged_ev will call draw action
+                                }
+                                else
+                                {
+                                    if (main_dot_is_effected == true)
+                                    {
+                                        //moveleft(dvalue_move);
+                                        main_dot_is_effected = false;
+                                        vice_datas_.Add(new Point(xaxis.GetXX((int)vice_dvalue_move.X), yaxis.GetYY((int)vice_dvalue_move.Y)));
+                                    }
                                 }
                             }
                         };
@@ -166,9 +253,14 @@ namespace BasicWaveChart.widget
 
         #region public function
         //add a point to the wave
-        public void AddPoint(Point dvalue)
+        //@ dvalue - 主通道值
+        //  vice_dvalue - 副通道值
+        // 应该只有两种方式。
+        //    主通道调用   AddPoint(dvalue,null)
+        //    副通道调用   AddPoint(null, vice_dvalue)
+        public void AddPoint(Object dvalue,Object vice_dvalue)
         {
-            AddPointRocket(dvalue);
+            AddPointRocket(dvalue,vice_dvalue);
         }
 
         //show full view of wave
@@ -225,7 +317,9 @@ namespace BasicWaveChart.widget
 
 
         #region private area
-        private delegate void AddPointDelegate(Point dvalue);
+        //@ dvalue - 主通道值
+        //  vice_dvalue - 副通道值
+        private delegate void AddPointDelegate(Object odvalue, Object ovice_dvalue);
 
         //judge whether the dvalue is needed to draw for optimization
         private bool isEffected(Point dvalue)
