@@ -809,6 +809,8 @@ namespace SilverTest
                     Console.WriteLine("--- dot " + sequence.ToString() + ": " + (dot as ADot).Rvalue + "\r\n");
 
                     //采样到达一定点数后，自动结束测试，计算并且显示测试结果。
+                    //暂时注释掉，以下位机发的FX包作为计算结果
+                    /*
                     if(sequence% stop_test_position >= (stop_test_position-1))
                     {
                         Dispatcher.BeginInvoke(new Action(() =>
@@ -833,6 +835,7 @@ namespace SilverTest
                             //AnimatedColorButton.Visibility = Visibility.Hidden;
                         }));
                     }
+                    */
                     break;
             }
 
