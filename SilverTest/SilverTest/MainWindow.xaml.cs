@@ -108,6 +108,9 @@ namespace SilverTest
         //指向命令面板窗口
         CommandPanelWnd cmdpanelWnd;
 
+        //报警阀值
+        public double AlarmValue;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -771,6 +774,14 @@ namespace SilverTest
                     break;
                 case PacketType.RES_COMPUTE_VALUE:
                     Console.WriteLine("计算响应值:" + sequence.ToString());
+                    //如果是监控状态，则查看是否要报警
+                    if(cmdpanelWnd != null && cmdpanelWnd.is_watching == true)
+                    {
+                        if(sequence > AlarmValue)
+                        {
+                            Utility.SendStartAlarm();
+                        }
+                    }
                     //将结果显示到表格之中
                     Dispatcher.BeginInvoke(new Action(() =>
                     {
@@ -2167,5 +2178,6 @@ namespace SilverTest
             }
             cmdpanelWnd.Show();
         }
+
     }
 }

@@ -126,12 +126,16 @@
                     <Button x:Name="m53" FontSize="12" Content="返回上一级" Height="30" Width="75" HorizontalAlignment="Left" Background="LightPink" Margin="20,2,0,0" Visibility="Collapsed" Click="m53_Click"></Button>
                     <Button x:Name="pm6" FontSize="12" Content="参数设置"  Height="30" Width="70" HorizontalAlignment="Left" Click="pm6_Click"></Button>
                     <Button x:Name="pm7" FontSize="12" Content="状态获取"  Height="30" Width="70" HorizontalAlignment="Left" Click="pm7_Click"></Button>
-                    <Button x:Name="pm8" FontSize="12" Content="监控"  Height="30" Width="70" HorizontalAlignment="Left"></Button>
+                    <Button x:Name="pm8" FontSize="12" Content="监控"  Height="30" Width="70" HorizontalAlignment="Left" Click="Pm8_Click"></Button>
+                    <Button x:Name="m81" FontSize="12" Content="开始监控" Height="30" Width="60" HorizontalAlignment="Left" Background="LightPink" 
+                            Margin="20,2,0,0" Visibility="Collapsed" Click="M81_Click" ></Button>
+                    <Button x:Name="m82" FontSize="12" Content="停止监控" Height="30" Width="60" HorizontalAlignment="Left" Background="LightPink" 
+                            Margin="20,2,0,0" Visibility="Collapsed" Click="M82_Click" ></Button>
                     <Button x:Name="pm9" FontSize="12" Content="报警测试"  Height="30" Width="70" HorizontalAlignment="Left" Click="Pm9_Click"></Button>
                     <Button x:Name="m91" FontSize="12" Content="开始测试" Height="30" Width="60" HorizontalAlignment="Left" Background="LightPink" 
-                            Margin="20,2,0,0" Visibility="Visible" Click="M91_Click" ></Button>
+                            Margin="20,2,0,0" Visibility="Collapsed" Click="M91_Click" ></Button>
                     <Button x:Name="m92" FontSize="12" Content="停止测试" Height="30" Width="60" HorizontalAlignment="Left" Background="LightPink" 
-                            Margin="20,2,0,0" Visibility="Visible" Click="M92_Click" ></Button>                    
+                            Margin="20,2,0,0" Visibility="Collapsed" Click="M92_Click" ></Button>                    
                 </StackPanel>
             </GroupBox>
             <Canvas Height="339" Canvas.Left="143" Canvas.Top="15" Width="247"

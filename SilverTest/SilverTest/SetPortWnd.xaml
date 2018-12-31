@@ -11,7 +11,7 @@
         mc:Ignorable="d"
         xmlns:system="clr-namespace:System;assembly=mscorlib"
         
-        Title="设置串口参数" Height="340" Width="380.901" Initialized="Window_Initialized" Icon="images/write.png">
+        Title="参数设置" Height="340" Width="380.901" Initialized="Window_Initialized" Icon="images/write.png">
     <Window.Resources>
         <x:Array x:Key="speedary" Type="system:String">
             <system:String>
@@ -88,8 +88,8 @@
             <system:String>
                 115200
             </system:String>
-        </x:Array>        
-        
+        </x:Array>
+
         <x:Array x:Key="evenary" Type="system:String">
             <system:String>
                 None
@@ -100,7 +100,7 @@
                 None
             </system:String>
         </x:Array>
-        
+
         <x:Array x:Key="dataary" Type="system:String">
             <system:String>
                 8
@@ -122,8 +122,8 @@
             <system:String>
                 6
             </system:String>
-        </x:Array>        
-        
+        </x:Array>
+
         <x:Array x:Key="stopary" Type="system:String">
             <system:String>
                 1
@@ -145,75 +145,97 @@
             <system:String>
                 3
             </system:String>
-        </x:Array>        
+        </x:Array>
     </Window.Resources>
     <Grid>
-        <TabControl x:Name="sampletab" DockPanel.Dock="Top" >
-            <TabItem x:Name="testdatatabitem" Selector.Selected="OnTestDataSelected" 
+        <TabControl TabStripPlacement="Left" BorderBrush="#FF28C9D1" >
+            <TabItem Header="串口" controls:ControlsHelper.HeaderFontSize="14">
+                <TabControl x:Name="sampletab" DockPanel.Dock="Top" >
+                    <TabItem x:Name="testdatatabitem" Selector.Selected="OnTestDataSelected" 
                          controls:ControlsHelper.HeaderFontSize="14"
 						                         Header="测试">
-                <DockPanel>
-                    <StackPanel DockPanel.Dock="Top" Margin="0,10,0,0" Orientation="Horizontal">
-                        <Label Content="端口" Margin="100,0,10,0"></Label>
-                        <ComboBox Text="端口" SelectedIndex="0" x:Name="dataComportCombo" Height="30" VerticalAlignment="Top" Width="100" Margin="20,0,0,0"/>
-                    </StackPanel>
-                    <StackPanel DockPanel.Dock="Top" Margin="0,10,0,0" Orientation="Horizontal">
-                        <Label Content="速率" Margin="100,0,10,0"></Label>
-                        <ComboBox x:Name="dataSpeedcombo" SelectedIndex="7" ItemsSource="{StaticResource ResourceKey=speedary}" Text="速率" Height="30" VerticalAlignment="Top" Width="100" Margin="20,0,0,0"/>
-                    </StackPanel>
-                    <StackPanel DockPanel.Dock="Top" Margin="0,10,0,0" Orientation="Horizontal">
-                        <Label Content="奇偶校验" Margin="76,0,10,0"></Label>
-                        <ComboBox x:Name="dataParitycombo" ItemsSource="{StaticResource ResourceKey=evenary}" SelectedIndex="0" Text="奇偶校验" Height="30" VerticalAlignment="Top" Width="100" Margin="20,0,0,0"/>
-                    </StackPanel>
-                    <StackPanel DockPanel.Dock="Top" Margin="0,10,0,0" Orientation="Horizontal">
-                        <Label Content="数据位" Margin="89,0,10,0"></Label>
-                        <ComboBox x:Name="dataDatacombo" SelectedIndex="0" ItemsSource="{StaticResource ResourceKey=dataary}" Text="数据位" Height="30" VerticalAlignment="Top" Width="100" Margin="20,0,0,0"/>
-                    </StackPanel>
-                    <StackPanel DockPanel.Dock="Top" Margin="0,10,0,0" Orientation="Horizontal" Height="50" VerticalAlignment="Bottom">
-                        <Label Content="数据停止位" Margin="65,0,10,0"></Label>
-                        <ComboBox x:Name="dataStopcombo" SelectedIndex="0" ItemsSource="{StaticResource ResourceKey=stopary}" Text="数据停止位" Height="30" VerticalAlignment="Top" Width="100" Margin="20,0,0,0"/>
-                    </StackPanel>
-                    <StackPanel DockPanel.Dock="Bottom" Height="50" Orientation="Horizontal">
-                        <Canvas>
-                            <Button x:Name="dataApplybtn" Content="应用" Height="30" Width="60" Click="dataApplybtn_Click" Canvas.Left="91" Canvas.Top="10"/>
-                            <Button x:Name="dataExitbtn" Content="取消" Height="30" Width="60" Click="dataExitbtn_Click" Canvas.Left="227" Canvas.Top="10"/>
-                        </Canvas>
-                    </StackPanel>
+                        <DockPanel>
+                            <StackPanel DockPanel.Dock="Top" Margin="0,10,0,0" Orientation="Horizontal">
+                                <Label Content="端口" Margin="100,0,10,0"></Label>
+                                <ComboBox Text="端口" SelectedIndex="0" x:Name="dataComportCombo" Height="30" VerticalAlignment="Top" Width="100" Margin="20,0,0,0"/>
+                            </StackPanel>
+                            <StackPanel DockPanel.Dock="Top" Margin="0,10,0,0" Orientation="Horizontal">
+                                <Label Content="速率" Margin="100,0,10,0"></Label>
+                                <ComboBox x:Name="dataSpeedcombo" SelectedIndex="7" ItemsSource="{StaticResource ResourceKey=speedary}" Text="速率" Height="30" VerticalAlignment="Top" Width="100" Margin="20,0,0,0"/>
+                            </StackPanel>
+                            <StackPanel DockPanel.Dock="Top" Margin="0,10,0,0" Orientation="Horizontal">
+                                <Label Content="奇偶校验" Margin="76,0,10,0"></Label>
+                                <ComboBox x:Name="dataParitycombo" ItemsSource="{StaticResource ResourceKey=evenary}" SelectedIndex="0" Text="奇偶校验" Height="30" VerticalAlignment="Top" Width="100" Margin="20,0,0,0"/>
+                            </StackPanel>
+                            <StackPanel DockPanel.Dock="Top" Margin="0,10,0,0" Orientation="Horizontal">
+                                <Label Content="数据位" Margin="89,0,10,0"></Label>
+                                <ComboBox x:Name="dataDatacombo" SelectedIndex="0" ItemsSource="{StaticResource ResourceKey=dataary}" Text="数据位" Height="30" VerticalAlignment="Top" Width="100" Margin="20,0,0,0"/>
+                            </StackPanel>
+                            <StackPanel DockPanel.Dock="Top" Margin="0,10,0,0" Orientation="Horizontal" Height="50" VerticalAlignment="Bottom">
+                                <Label Content="数据停止位" Margin="65,0,10,0"></Label>
+                                <ComboBox x:Name="dataStopcombo" SelectedIndex="0" ItemsSource="{StaticResource ResourceKey=stopary}" Text="数据停止位" Height="30" VerticalAlignment="Top" Width="100" Margin="20,0,0,0"/>
+                            </StackPanel>
+                            <StackPanel DockPanel.Dock="Bottom" Height="50" Orientation="Horizontal">
+                                <Canvas>
+                                    <Button x:Name="dataApplybtn" Content="应用" Height="30" Width="60" Click="dataApplybtn_Click" Canvas.Left="91" Canvas.Top="10"/>
+                                    <Button x:Name="dataExitbtn" Content="取消" Height="30" Width="60" Click="dataExitbtn_Click" Canvas.Left="227" Canvas.Top="10"/>
+                                </Canvas>
+                            </StackPanel>
 
-                </DockPanel>
-            </TabItem>
-            <TabItem x:Name="alarmtabitem" Selector.Selected="OnAlarmSelected" 
+                        </DockPanel>
+                    </TabItem>
+                    <TabItem x:Name="alarmtabitem" Selector.Selected="OnAlarmSelected" 
                          controls:ControlsHelper.HeaderFontSize="14"
 						                         Header="报警">
-                <DockPanel>
-                    <StackPanel DockPanel.Dock="Top" Margin="0,10,0,0" Orientation="Horizontal">
-                        <Label Content="端口" Margin="100,0,10,0"></Label>
-                        <ComboBox Text="端口" SelectedIndex="0" x:Name="AlarmComportCombo" Height="30" VerticalAlignment="Top" Width="100" Margin="20,0,0,0"/>
-                    </StackPanel>
-                    <StackPanel DockPanel.Dock="Top" Margin="0,10,0,0" Orientation="Horizontal">
-                        <Label Content="速率" Margin="100,0,10,0"></Label>
-                        <ComboBox x:Name="AlarmSpeedcombo" SelectedIndex="5" ItemsSource="{StaticResource ResourceKey=alarm_speedary}" Text="速率" Height="30" VerticalAlignment="Top" Width="100" Margin="20,0,0,0"/>
-                    </StackPanel>
-                    <StackPanel DockPanel.Dock="Top" Margin="0,10,0,0" Orientation="Horizontal">
-                        <Label Content="奇偶校验" Margin="76,0,10,0"></Label>
-                        <ComboBox x:Name="AlarmParitycombo" ItemsSource="{StaticResource ResourceKey=alarm_evenary}" SelectedIndex="0" Text="奇偶校验" Height="30" VerticalAlignment="Top" Width="100" Margin="20,0,0,0"/>
-                    </StackPanel>
-                    <StackPanel DockPanel.Dock="Top" Margin="0,10,0,0" Orientation="Horizontal">
-                        <Label Content="数据位" Margin="89,0,10,0"></Label>
-                        <ComboBox x:Name="AlarmDatacombo" SelectedIndex="0" ItemsSource="{StaticResource ResourceKey=alarm_dataary}" Text="数据位" Height="30" VerticalAlignment="Top" Width="100" Margin="20,0,0,0"/>
-                    </StackPanel>
-                    <StackPanel DockPanel.Dock="Top" Margin="0,10,0,0" Orientation="Horizontal" Height="50" VerticalAlignment="Bottom">
-                        <Label Content="数据停止位" Margin="65,0,10,0"></Label>
-                        <ComboBox x:Name="AlarmStopcombo" SelectedIndex="0" ItemsSource="{StaticResource ResourceKey=alarm_stopary}" Text="数据停止位" Height="30" VerticalAlignment="Top" Width="100" Margin="20,0,0,0"/>
-                    </StackPanel>
-                    <StackPanel DockPanel.Dock="Bottom" Height="50" Orientation="Horizontal">
-                        <Canvas>
-                            <Button x:Name="AlarmApplybtn" Content="应用" Height="30" Width="60" Click="AlarmApplybtn_Click" Canvas.Left="91" Canvas.Top="10"/>
-                            <Button x:Name="AlarmExitbtn" Content="取消" Height="30" Width="60" Click="AlarmExitbtn_Click" Canvas.Left="227" Canvas.Top="10"/>
-                        </Canvas>
-                    </StackPanel>
-                </DockPanel>
+                        <DockPanel>
+                            <StackPanel DockPanel.Dock="Top" Margin="0,10,0,0" Orientation="Horizontal">
+                                <Label Content="端口" Margin="100,0,10,0"></Label>
+                                <ComboBox Text="端口" SelectedIndex="0" x:Name="AlarmComportCombo" Height="30" VerticalAlignment="Top" Width="100" Margin="20,0,0,0"/>
+                            </StackPanel>
+                            <StackPanel DockPanel.Dock="Top" Margin="0,10,0,0" Orientation="Horizontal">
+                                <Label Content="速率" Margin="100,0,10,0"></Label>
+                                <ComboBox x:Name="AlarmSpeedcombo" SelectedIndex="5" ItemsSource="{StaticResource ResourceKey=alarm_speedary}" Text="速率" Height="30" VerticalAlignment="Top" Width="100" Margin="20,0,0,0"/>
+                            </StackPanel>
+                            <StackPanel DockPanel.Dock="Top" Margin="0,10,0,0" Orientation="Horizontal">
+                                <Label Content="奇偶校验" Margin="76,0,10,0"></Label>
+                                <ComboBox x:Name="AlarmParitycombo" ItemsSource="{StaticResource ResourceKey=alarm_evenary}" SelectedIndex="0" Text="奇偶校验" Height="30" VerticalAlignment="Top" Width="100" Margin="20,0,0,0"/>
+                            </StackPanel>
+                            <StackPanel DockPanel.Dock="Top" Margin="0,10,0,0" Orientation="Horizontal">
+                                <Label Content="数据位" Margin="89,0,10,0"></Label>
+                                <ComboBox x:Name="AlarmDatacombo" SelectedIndex="0" ItemsSource="{StaticResource ResourceKey=alarm_dataary}" Text="数据位" Height="30" VerticalAlignment="Top" Width="100" Margin="20,0,0,0"/>
+                            </StackPanel>
+                            <StackPanel DockPanel.Dock="Top" Margin="0,10,0,0" Orientation="Horizontal" Height="50" VerticalAlignment="Bottom">
+                                <Label Content="数据停止位" Margin="65,0,10,0"></Label>
+                                <ComboBox x:Name="AlarmStopcombo" SelectedIndex="0" ItemsSource="{StaticResource ResourceKey=alarm_stopary}" Text="数据停止位" Height="30" VerticalAlignment="Top" Width="100" Margin="20,0,0,0"/>
+                            </StackPanel>
+                            <StackPanel DockPanel.Dock="Bottom" Height="50" Orientation="Horizontal">
+                                <Canvas>
+                                    <Button x:Name="AlarmApplybtn" Content="应用" Height="30" Width="60" Click="AlarmApplybtn_Click" Canvas.Left="91" Canvas.Top="10"/>
+                                    <Button x:Name="AlarmExitbtn" Content="取消" Height="30" Width="60" Click="AlarmExitbtn_Click" Canvas.Left="227" Canvas.Top="10"/>
+                                </Canvas>
+                            </StackPanel>
+                        </DockPanel>
+                    </TabItem>
+                </TabControl>
             </TabItem>
+            <TabItem Header="监控" controls:ControlsHelper.HeaderFontSize="14">
+                <Canvas>
+                    <Label Content="报警值" Canvas.Left="104" Canvas.Top="66" RenderTransformOrigin="0.63,0.52"/>
+                    <TextBox x:Name="alarm_value_txt" Height="23" Canvas.Left="163" TextWrapping="Wrap" Canvas.Top="66" Width="47"/>
+                    <Button x:Name="WatchApplybtn" Content="应用" Height="30" Width="60" Canvas.Left="64" Canvas.Top="247" Click="WatchApplybtn_Click"/>
+                    <Button x:Name="aAlarmExitbtn" Content="取消" Height="30" Width="60" Click="AlarmExitbtn_Click" Canvas.Left="219" Canvas.Top="247"/>
+                    <Label Content="间隔时长" Canvas.Left="92" Canvas.Top="103"/>
+                    <ComboBox x:Name="watchspantxt" Height="25" Canvas.Left="163" Text="" Canvas.Top="103" Width="72" SelectedIndex="1">
+                        <ComboBoxItem>0.5小时</ComboBoxItem>
+                        <ComboBoxItem>1小时</ComboBoxItem>
+                        <ComboBoxItem>2小时</ComboBoxItem>
+                        <ComboBoxItem>3小时</ComboBoxItem>
+                        <ComboBoxItem>4小时</ComboBoxItem>
+                    </ComboBox>
+                </Canvas>
+            </TabItem>
+            <TextBox Height="23" TextWrapping="Wrap" Text="TextBox" Width="120"/>
         </TabControl>
+
     </Grid>
 </Window>

@@ -17,6 +17,7 @@ namespace SilverTest
         Regex minusnumber = new Regex(@"^-\d*"); //负数
         Regex realnumber = new Regex(@"^(\d{1}[.][0-9]*)$"); //小数
         CommandPanlStatus comstatus = CommandPanlStatus.Idle;
+        public bool is_watching;
 
         public CommandPanelWnd()
         {
@@ -822,6 +823,46 @@ namespace SilverTest
                             ;
                         }
                         break;
+                    case 0x81:
+                        if (result == 0)
+                        {
+                            statustxt.Text = "开始监控命令执行失败";
+                            statustxt_2.Content = "开始监控命令执行失败";
+                        }
+                        else
+                        {
+                            statustxt.Text = "开始监控命令执行成功";
+                            statustxt_2.Content = "开始监控命令执行成功";
+                        }
+                        comstatus = CommandPanlStatus.GetStatus_Finished;
+                        EnableUI();
+                        //显示参数
+                        if (myparams != null)
+                        {
+                            //todo
+                            ;
+                        }
+                        break;
+                    case 0x82:
+                        if (result == 0)
+                        {
+                            statustxt.Text = "停止监控命令执行失败";
+                            statustxt_2.Content = "停止监控命令执行失败";
+                        }
+                        else
+                        {
+                            statustxt.Text = "停止监控命令执行成功";
+                            statustxt_2.Content = "停止监控命令执行成功";
+                        }
+                        comstatus = CommandPanlStatus.GetStatus_Finished;
+                        EnableUI();
+                        //显示参数
+                        if (myparams != null)
+                        {
+                            //todo
+                            ;
+                        }
+                        break;
                     case 0x91:// 报警测试
                         if (result == 0)
                         {
@@ -1401,6 +1442,63 @@ namespace SilverTest
             {
                 MessageBox.Show("端口未打开");
             };
+        }
+
+        private void M81_Click(object sender, RoutedEventArgs e)
+        {
+            //通知下维机开始监控
+            byte[] data = new byte[8] { 0x01, 0x01, 0x08, 0x01, 0x00, 0x00, 0, 0 };
+
+            ushort crc = Utility.CRC16(data, 6);
+
+            data[6] = (byte)(crc >> 8);
+            data[7] = (byte)crc;
+            if (SerialDriver.GetDriver().Send(data))
+            {
+                statustxt.Text = "开始监控命令已发出";
+                statustxt_2.Content = "开始监控命令已发出";
+            }
+            else
+            {
+                MessageBox.Show("端口未打开");
+            };
+
+            is_watching = true;
+        }
+
+        private void M82_Click(object sender, RoutedEventArgs e)
+        {
+            is_watching = false;
+            //通知下维机停止监控
+            byte[] data = new byte[8] { 0x01, 0x01, 0x08, 0x02, 0x00, 0x00, 0, 0 };
+
+            ushort crc = Utility.CRC16(data, 6);
+
+            data[6] = (byte)(crc >> 8);
+            data[7] = (byte)crc;
+            if (SerialDriver.GetDriver().Send(data))
+            {
+                statustxt.Text = "停止监控命令已发出";
+                statustxt_2.Content = "停止监控命令已发出";
+            }
+            else
+            {
+                MessageBox.Show("端口未打开");
+            };
+        }
+
+        private void Pm8_Click(object sender, RoutedEventArgs e)
+        {
+            if (m81.Visibility == Visibility.Visible)
+            {
+                m81.Visibility = Visibility.Collapsed;
+                m82.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                m81.Visibility = Visibility.Visible;
+                m82.Visibility = Visibility.Visible;
+            }
         }
     }
 

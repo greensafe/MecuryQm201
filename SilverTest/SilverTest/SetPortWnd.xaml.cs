@@ -98,5 +98,43 @@ namespace SilverTest
         {
             this.Close();
         }
+
+        private void WatchApplybtn_Click(object sender, RoutedEventArgs e)
+        {
+            double alarmvalue = 0;
+
+            try
+            {
+                alarmvalue = double.Parse(alarm_value_txt.Text);
+                MainWindow pw= this.Owner as MainWindow; 
+                pw.AlarmValue = alarmvalue;
+            }
+            catch
+            {
+                MessageBox.Show("报警值格式不正确，请重新输入");
+            }
+            //设置监控时间间隔
+            byte[] data = new byte[8] { 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0, 0 };
+            ushort crc;
+
+            if (watchspantxt.Text != null && watchspantxt.Text != "")
+            {
+                data[3] = 0x09; //子菜单
+                data[4] = 0x00;  //清空数据高位
+                                 //data[5] = byte.Parse(watchspantxt.Text);
+                data[5] = (byte)watchspantxt.SelectedIndex;
+            }
+            crc = Utility.CRC16(data, 6);
+            data[6] = (byte)(crc >> 8);
+            data[7] = (byte)crc;
+            /*
+            if (SerialDriver.GetDriver().Send(data))
+            {
+                statustxt.Text = "时间设置命令已发出";
+                statustxt_2.Content = "时间设置命令已发出";
+                comstatus = CommandPanlStatus.ParamSet_Waiting;
+            }
+            */
+        }
     }
 }
