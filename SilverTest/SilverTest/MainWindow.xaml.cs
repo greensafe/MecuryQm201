@@ -134,8 +134,6 @@ namespace SilverTest
 
         private void window_Loaded(object sender, RoutedEventArgs e)
         {
-
-
             //加载config数据
             //string s = Utility.GetValueFrXml("QM201H/response/compute", "ratio");
             string rs = Utility.GetValueFrXml("/config/QM201H/response/compute/R1", "pointstart");

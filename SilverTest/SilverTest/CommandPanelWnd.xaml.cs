@@ -903,6 +903,48 @@ namespace SilverTest
                             ;
                         }
                         break;
+                    case 0xa1:
+                        //快速测量
+                        if (result == 0)
+                        {
+                            statustxt.Text = "快速测量命令执行失败";
+                            statustxt_2.Content = "快速测量命令执行失败";
+                        }
+                        else
+                        {
+                            statustxt.Text = "快速测量命令执行成功";
+                            statustxt_2.Content = "快速测量命令执行成功";
+                        }
+                        comstatus = CommandPanlStatus.GetStatus_Finished;
+                        EnableUI();
+                        //显示参数
+                        if (myparams != null)
+                        {
+                            //todo
+                            ;
+                        }
+                        break;
+                    case 0xa2:
+                        //停止快速测量
+                        if (result == 0)
+                        {
+                            statustxt.Text = "停止快速测量命令执行失败";
+                            statustxt_2.Content = "停止快速测量命令执行失败";
+                        }
+                        else
+                        {
+                            statustxt.Text = "停止快速测量命令执行成功";
+                            statustxt_2.Content = "停止快速测量命令执行成功";
+                        }
+                        comstatus = CommandPanlStatus.GetStatus_Finished;
+                        EnableUI();
+                        //显示参数
+                        if (myparams != null)
+                        {
+                            //todo
+                            ;
+                        }
+                        break;
                     default:
                         break;
                 }
@@ -1499,6 +1541,60 @@ namespace SilverTest
                 m81.Visibility = Visibility.Visible;
                 m82.Visibility = Visibility.Visible;
             }
+        }
+
+        private void Pma_Click(object sender, RoutedEventArgs e)
+        {
+            if(ma1.Visibility == Visibility.Visible)
+            {
+                ma1.Visibility = Visibility.Collapsed;
+                ma2.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                ma1.Visibility = Visibility.Visible;
+                ma2.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void Ma1_Click(object sender, RoutedEventArgs e)
+        {
+            //发出快速测量命令
+            byte[] data = new byte[8] { 0x01, 0x01, 0x0a, 0x01, 0x00, 0x00, 0, 0 };
+
+            ushort crc = Utility.CRC16(data, 6);
+
+            data[6] = (byte)(crc >> 8);
+            data[7] = (byte)crc;
+            if (SerialDriver.GetDriver().Send(data))
+            {
+                statustxt.Text = "快速测量命令已发出";
+                statustxt_2.Content = "快速测量命令已发出";
+            }
+            else
+            {
+                MessageBox.Show("端口未打开");
+            };
+        }
+
+        private void Ma2_Click(object sender, RoutedEventArgs e)
+        {
+            //发出快速测量命令
+            byte[] data = new byte[8] { 0x01, 0x01, 0x0a, 0x02, 0x00, 0x00, 0, 0 };
+
+            ushort crc = Utility.CRC16(data, 6);
+
+            data[6] = (byte)(crc >> 8);
+            data[7] = (byte)crc;
+            if (SerialDriver.GetDriver().Send(data))
+            {
+                statustxt.Text = "停止快速测量命令已发出";
+                statustxt_2.Content = "停止快速测量命令已发出";
+            }
+            else
+            {
+                MessageBox.Show("端口未打开");
+            };
         }
     }
 
