@@ -641,6 +641,8 @@ namespace SilverTest.libs
         DispatcherTimer actiontimer = new DispatcherTimer();
         //持续定时器
         DispatcherTimer silenttimer = new DispatcherTimer();
+        //主窗口
+        MainWindow mw = null;
         private AlarmRedObject()
         {
             //actiontimer.Interval = new TimeSpan(0, 1, 0);
@@ -651,6 +653,7 @@ namespace SilverTest.libs
             silenttimer.Tick += new EventHandler(silenttimer_tick_hdlr);
             actiontimer.IsEnabled = false;
             silenttimer.IsEnabled = false;
+
         }
         private void silenttimer_tick_hdlr(object sender, EventArgs e)
         {
@@ -685,6 +688,7 @@ namespace SilverTest.libs
 
                 //发送停止停止报警请求
                 Utility.SendStopAlarm();
+                AlarmActionFunc?.Invoke(false);
                 return;
             }
 
@@ -693,6 +697,7 @@ namespace SilverTest.libs
             {
                 ClearAlarmObject();
                 Console.WriteLine("报警彻底结束");
+                AlarmActionFunc?.Invoke(false);
                 return;
             }
 
@@ -729,9 +734,18 @@ namespace SilverTest.libs
             actiontimer.IsEnabled = false;
         }
 
+        public delegate void AlarmActionDelegate(bool todo);
+        AlarmActionDelegate AlarmActionFunc = null;
+
+        public void RegisterAlarmAction(AlarmActionDelegate alr)
+        {
+            AlarmActionFunc = alr;
+        }
+
         //公共接口
         public void NeedAlarm()
         {
+            //mw = mainwindow;
             //在needalarm之前调用Cancel没有意义，直接忽略usercancel标志
             if (usercancel == true)
                 usercancel = false;
@@ -752,6 +766,8 @@ namespace SilverTest.libs
                 Utility.SendStartAlarm();
 
                 Console.WriteLine("发出报警指令");
+
+                AlarmActionFunc?.Invoke(true);
             }
             else
             {
@@ -763,7 +779,7 @@ namespace SilverTest.libs
       
         //用户手动关闭报警
         //只有在报警响起后cancel才有意义。当数据正常时，用户取消报警没有意义，直接忽略
-        public void Cancel()
+        public void Cancel(MainWindow mainwindow)
         {
             this.usercancel = true;
 
@@ -773,6 +789,7 @@ namespace SilverTest.libs
             actiontimer.Stop();
             //向报警器发送停止报警命令
             Utility.SendStopAlarm();
+            AlarmActionFunc?.Invoke(false);
         }
 
     }

@@ -234,7 +234,7 @@
                     </ComboBox>
                 </Canvas>
             </TabItem>
-            <TextBox Height="23" TextWrapping="Wrap" Text="TextBox" Width="120"/>
+           
         </TabControl>
 
     </Grid>

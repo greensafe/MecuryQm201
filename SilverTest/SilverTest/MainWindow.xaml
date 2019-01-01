@@ -370,7 +370,8 @@
                 <Button x:Name="DelRowBtn" DockPanel.Dock="Right"  HorizontalAlignment="Right" Width="80" Height="30" FontSize="12" Content="删除" Margin="0,1,20,0" Click="DelRowBtn_Click" />
                 <Button x:Name="pauseTestBtn" Width="80" DockPanel.Dock="Right" HorizontalAlignment="Right" Height="30" FontSize="12" Content="暂停测试" Margin="0,1,60,0" Click="pauseTestBtn_Click" />
                 <Button x:Name="startTestBtn" Width="80" DockPanel.Dock="Right" HorizontalAlignment="Right" Height="30" FontSize="12" Content="开始测试" Margin="0,1,20,0" Click="startTestBtn_Click" />
-                <iconPacks:PackIconMaterial x:Name="AnimatedColorButton" Visibility="Hidden" Kind="CheckCircle" Foreground="Red" Width="40" Height="40" Spin="True" Margin="0,3,0,0"></iconPacks:PackIconMaterial>
+                <iconPacks:PackIconMaterial x:Name="AnimatedColorButton" Visibility="Collapsed" Kind="CheckCircle" Foreground="Red" Width="40" Height="40" Spin="True" Margin="0,3,0,0"></iconPacks:PackIconMaterial>
+                <iconPacks:PackIconMaterial x:Name="AnimatedWarningButton" Visibility="Collapsed" Kind="AlarmLight" Foreground="Red" Width="40" Height="40"  Margin="10,3,0,0" ToolTip="点击停止报警" MouseLeftButtonUp="AnimatedWarningButton_MouseLeftButtonUp"/>
             </DockPanel>
             <!--
             <StackPanel  DockPanel.Dock="Top" Height="50" Orientation="Vertical">

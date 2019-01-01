@@ -162,7 +162,23 @@ namespace SilverTest
             realCpt.OnIntegrateValueChange(AreaIntegrateValueChangedHdlr);
             //注册面积积分方法
             realCpt.RegisterIntegrateFunc(IntegrateArea);
+            //注册报警方法
+            AlarmRedObject.GetAlarmObject().RegisterAlarmAction(ShowAlarmFunc);
+        }
 
+        private void ShowAlarmFunc(bool todo)
+        {
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                if(todo == true)
+                {
+                    this.AnimatedWarningButton.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    this.AnimatedWarningButton.Visibility = Visibility.Hidden;
+                }
+            }));
         }
 
         private double IntegrateArea(int dvalues_start, int dvalues_end)
@@ -779,7 +795,8 @@ namespace SilverTest
                     {
                         if(sequence > AlarmValue)
                         {
-                            Utility.SendStartAlarm();
+                            AlarmRedObject.GetAlarmObject().NeedAlarm();
+                            //AnimatedWarningButton.Visibility = Visibility.Visible;
                         }
                     }
                     //将结果显示到表格之中
@@ -2179,5 +2196,9 @@ namespace SilverTest
             cmdpanelWnd.Show();
         }
 
+        private void AnimatedWarningButton_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            AlarmRedObject.GetAlarmObject().Cancel(this);
+        }
     }
 }

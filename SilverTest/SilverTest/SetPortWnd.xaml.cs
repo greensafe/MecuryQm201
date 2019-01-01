@@ -52,7 +52,7 @@ namespace SilverTest
             SerialDriver.GetDriver().parity = 0;        //paritycombo.SelectedValue as string;
             SerialDriver.GetDriver().rate = int.Parse(dataSpeedcombo.SelectedValue as string);
             SerialDriver.GetDriver().stopbits = int.Parse(dataStopcombo.SelectedValue as string);
-            this.Close();
+            MessageBox.Show("端口设置成功");
         }
 
         private void OnAlarmSelected(object sender, RoutedEventArgs e)
