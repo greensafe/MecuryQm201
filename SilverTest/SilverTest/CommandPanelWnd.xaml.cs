@@ -55,6 +55,24 @@ namespace SilverTest
                 }
             }
 
+            switch((this.Owner as MainWindow).moudleid)
+            {
+                case MainWindow.ModuleID.STANDARD:
+                    pm8.Visibility = Visibility.Collapsed;  //监控
+                    pm9.Visibility = Visibility.Collapsed;  //报警
+                    pm5.Visibility = Visibility.Collapsed;  //液体测量
+                    break;
+                case MainWindow.ModuleID.ALARM:
+                    pm8.Visibility = Visibility.Visible;  //监控
+                    pm9.Visibility = Visibility.Visible;  //报警
+                    pm5.Visibility = Visibility.Collapsed;  //液体测量
+                    break;
+                case MainWindow.ModuleID.LIQUID:
+                    pm8.Visibility = Visibility.Collapsed;  //监控
+                    pm9.Visibility = Visibility.Collapsed;  //报警
+                    pm5.Visibility = Visibility.Visible;  //液体测量
+                    break;
+            }
         }
 
         

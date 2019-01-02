@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using MahApps.Metro.IconPacks;
+using Microsoft.Win32;
 using SilverTest.libs;
 using System;
 using System.Collections.Generic;
@@ -111,6 +112,17 @@ namespace SilverTest
         //报警阀值
         public double AlarmValue;
 
+        //check icon
+        PackIconMaterial checkicon = new PackIconMaterial();
+
+        //模块值
+        public ModuleID moudleid = ModuleID.STANDARD;
+        public enum ModuleID{
+            STANDARD,
+            ALARM,
+            LIQUID
+        }
+
         public MainWindow()
         {
             InitializeComponent();
@@ -162,6 +174,11 @@ namespace SilverTest
             realCpt.RegisterIntegrateFunc(IntegrateArea);
             //注册报警方法
             AlarmRedObject.GetAlarmObject().RegisterAlarmAction(ShowAlarmFunc);
+
+            checkicon.Kind = PackIconMaterialKind.Check;
+            standardmitm.Icon = checkicon;
+            warnmitm.Icon = null;
+            liquidmitm.Icon = null;
         }
 
         private void ShowAlarmFunc(bool todo)
@@ -2197,6 +2214,34 @@ namespace SilverTest
         private void AnimatedWarningButton_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             AlarmRedObject.GetAlarmObject().Cancel(this);
+        }
+
+        private void Standardmitm_Click(object sender, RoutedEventArgs e)
+        {
+            moudleid = ModuleID.STANDARD;
+
+            standardmitm.Icon = checkicon;
+            warnmitm.Icon = null;
+            liquidmitm.Icon = null;
+        }
+
+        private void Warnmitm_Click(object sender, RoutedEventArgs e)
+        {
+            moudleid = ModuleID.ALARM;
+
+
+            standardmitm.Icon = null;
+            warnmitm.Icon = checkicon;
+            liquidmitm.Icon = null;
+        }
+
+        private void Liquidmitm_Click(object sender, RoutedEventArgs e)
+        {
+            moudleid = ModuleID.LIQUID;
+
+            standardmitm.Icon = null;
+            warnmitm.Icon = null;
+            liquidmitm.Icon = checkicon;
         }
     }
 }

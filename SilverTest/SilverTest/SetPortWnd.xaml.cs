@@ -136,5 +136,25 @@ namespace SilverTest
             }
             */
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            switch((this.Owner as MainWindow).moudleid)
+            {
+                case MainWindow.ModuleID.STANDARD:
+                    watchtab.Visibility = Visibility.Collapsed;
+                    alarmtabitem.Visibility = Visibility.Collapsed;
+                    break;
+                case MainWindow.ModuleID.ALARM:
+                    watchtab.Visibility = Visibility.Visible;
+                    alarmtabitem.Visibility = Visibility.Visible;
+                    break;
+                case MainWindow.ModuleID.LIQUID:
+                    watchtab.Visibility = Visibility.Collapsed;
+                    alarmtabitem.Visibility = Visibility.Collapsed;
+                    break;
+            }
+            ;
+        }
     }
 }

@@ -11,7 +11,7 @@
         mc:Ignorable="d"
         xmlns:system="clr-namespace:System;assembly=mscorlib"
         
-        Title="参数设置" Height="340" Width="380.901" Initialized="Window_Initialized" Icon="images/write.png">
+        Title="参数设置" Height="340" Width="380.901" Initialized="Window_Initialized" Icon="images/write.png" Loaded="Window_Loaded">
     <Window.Resources>
         <x:Array x:Key="speedary" Type="system:String">
             <system:String>
@@ -218,7 +218,7 @@
                     </TabItem>
                 </TabControl>
             </TabItem>
-            <TabItem Header="监控" controls:ControlsHelper.HeaderFontSize="14">
+            <TabItem x:Name="watchtab" Header="监控" controls:ControlsHelper.HeaderFontSize="14">
                 <Canvas>
                     <Label Content="报警值" Canvas.Left="104" Canvas.Top="66" RenderTransformOrigin="0.63,0.52"/>
                     <TextBox x:Name="alarm_value_txt" Height="23" Canvas.Left="163" TextWrapping="Wrap" Canvas.Top="66" Width="47"/>

@@ -103,6 +103,11 @@
                     <MenuItem Header="砷浓度"></MenuItem>
                     <MenuItem Header="样品中砷的含量"></MenuItem>
                 </MenuItem>
+                <MenuItem Height="28" Header="模块">
+                    <MenuItem Header="标准" x:Name="standardmitm" Click="Standardmitm_Click"></MenuItem>
+                    <MenuItem Header="监控模块" x:Name="warnmitm" Click="Warnmitm_Click"></MenuItem>
+                    <MenuItem Header="液体" x:Name="liquidmitm" Click="Liquidmitm_Click"></MenuItem>
+                </MenuItem>
                 <MenuItem  Height="28" Header="工具">
                     <MenuItem x:Name="printRmenu" Header="打印相关系数图" Click="printRmenu_Click">
                         <MenuItem.Icon>
@@ -126,7 +131,7 @@
                     <MenuItem Header="测汞"></MenuItem>
                     <MenuItem Header="测砷"></MenuItem>
                 </MenuItem>
-                <MenuItem  Height="28" Header="气体或液体">
+                <MenuItem  Height="28" Header="气体或液体" Visibility="Collapsed">
                     <MenuItem x:Name="testliquidMenu" Header="测液体" Click="testliquidMenu_Click"/>
                     <MenuItem x:Name="testairMenu" Header="测气体" Click="testairMenu_Click"/>
                 </MenuItem>
