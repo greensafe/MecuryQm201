@@ -49,7 +49,7 @@ namespace SilverTest
                     responsevaluetxt.Text = standarditem.ResponseValue1;
                     sampletimetxt.IsEnabled = false;
                     sampletimelable.IsEnabled = false;
-                    fluentlabel.IsEnabled = false;
+                    fluenttxt.IsEnabled = false;
                     break; 
             }
         }

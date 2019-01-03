@@ -16,7 +16,7 @@
             <Label x:Name="sampletimelable" Width="60" Height="26" HorizontalContentAlignment="Right" Content="取样时间" Canvas.Left="91" Canvas.Top="52"/>
             <TextBox x:Name="sampletimetxt" Width="80" Height="20" Canvas.Left="163" Canvas.Top="52" ></TextBox>
             <Label x:Name="fluentlabel" Width="60" Height="26" HorizontalContentAlignment="Right" Content="流量" Canvas.Left="91" Canvas.Top="83"/>
-            <TextBox x:Name="fluenttxt" Width="80" Height="20" Canvas.Left="163" Canvas.Top="83" IsEnabled="False"/>
+            <TextBox x:Name="fluenttxt" Width="80" Height="20" Canvas.Left="163" Canvas.Top="83" IsEnabled="True"/>
         </Canvas>
         <Canvas Height="60">
             <Button  x:Name="checkbtn" Width="60" Height="30" Click="checkbtn_Click" Content="审查" Canvas.Left="61" Canvas.Top="10" />
