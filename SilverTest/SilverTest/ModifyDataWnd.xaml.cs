@@ -50,6 +50,7 @@ namespace SilverTest
                     sampletimetxt.IsEnabled = false;
                     sampletimelable.IsEnabled = false;
                     fluentlabel.IsEnabled = false;
+                    fluenttxt.IsEnabled = false;
                     break; 
             }
         }

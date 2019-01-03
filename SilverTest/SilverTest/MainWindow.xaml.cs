@@ -500,20 +500,52 @@ namespace SilverTest
             //double d = (avr * t2 * t3 / 1000);
             //double den = (avr - b) / a;
             //newTestClt[cltindex].Density = den.ToString();
-            
+
 
             //NewTargetDgd.DataContext = null;
             //NewTargetDgd.DataContext = newTestClt;
             //计算气体体积
-            if (newTestClt[cltindex].AirFluent == "" || newTestClt[cltindex].AirFluent is null||
-                newTestClt[cltindex].AirSampleTime == "" || newTestClt[cltindex].AirSampleTime is null)
+            switch (moudleid)
             {
-                return;
+                case ModuleID.STANDARD:
+                case ModuleID.ALARM:
+                    if (newTestClt[cltindex].AirFluent == "" || newTestClt[cltindex].AirFluent is null ||
+                        newTestClt[cltindex].AirSampleTime == "" || newTestClt[cltindex].AirSampleTime is null)
+                    {
+                        return;
+                    }
+                    newTestClt[cltindex].AirTotolBulk = (Math.Round(double.Parse(newTestClt[cltindex].AirFluent) * double.Parse(newTestClt[cltindex].AirSampleTime),
+                        2)).ToString();
+                    break;
             }
-            newTestClt[cltindex].AirTotolBulk = (Math.Round(double.Parse(newTestClt[cltindex].AirFluent) * double.Parse(newTestClt[cltindex].AirSampleTime),
-                2)).ToString();
+
             //y-b/a
-            newTestClt[cltindex].AirG = Math.Round(0.001*(double.Parse(newTestClt[cltindex].ResponseValue1) - b) / a, 5).ToString();
+            switch (moudleid)
+            {
+                case ModuleID.STANDARD:
+                case ModuleID.ALARM:
+                    newTestClt[cltindex].AirG = Math.Round(0.001 * (double.Parse(newTestClt[cltindex].ResponseValue1) - b) / a, 5).ToString();
+                    break;
+                case ModuleID.LIQUID:
+                    newTestClt[cltindex].Density = Math.Round(0.001 * (double.Parse(newTestClt[cltindex].ResponseValue1) - b) / a, 5).ToString();
+                    break;
+            }
+
+            //计算样品中的汞含量
+            switch (moudleid)
+            {
+                case ModuleID.LIQUID:
+                    if (newTestClt[cltindex].Weight == "" || newTestClt[cltindex].Weight is null ||
+                        newTestClt[cltindex].AirTotolBulk == "" || newTestClt[cltindex].AirTotolBulk is null)
+                        return;
+                    double bulk = double.Parse(newTestClt[cltindex].AirTotolBulk); //消化液体积
+                    double weight = double.Parse(newTestClt[cltindex].Weight); //质量
+                    double density = double.Parse(newTestClt[cltindex].Density); //汞浓度
+                    //样品中的汞
+                    double mercuryinsample = density * bulk /weight /1000;
+                    newTestClt[cltindex].AirG = mercuryinsample.ToString();
+                    break;
+            }
         }
 
         private void modifyBtn_Click(object sender, RoutedEventArgs e)
@@ -934,17 +966,37 @@ namespace SilverTest
             {
                 if (item.GroupName == groupname)
                 {
-                    if(item.ResponseValue1 == "" || item.ResponseValue1 is null ||
-                       item.AirG =="" || item.AirG is null
-                        )
+                    switch (moudleid)
                     {
-                        MessageBox.Show("测试未完成，无法计算");
-                        return;
+                        case ModuleID.STANDARD:
+                        case ModuleID.ALARM:
+                            if (item.ResponseValue1 == "" || item.ResponseValue1 is null ||
+                               item.AirG == "" || item.AirG is null
+                                )
+                            {
+                                MessageBox.Show("测试未完成，无法计算");
+                                return;
+                            }
+                            else
+                            {
+                                len++;
+                            }
+                            break;
+                        case ModuleID.LIQUID:
+                            if (item.ResponseValue1 == "" || item.ResponseValue1 is null ||
+                               item.Density == "" || item.Density is null
+                                )
+                            {
+                                MessageBox.Show("测试未完成，无法计算");
+                                return;
+                            }
+                            else
+                            {
+                                len++;
+                            }
+                            break;
                     }
-                    else
-                    {
-                        len++;
-                    }
+                   
                 }
             }
             x = new double[len];
@@ -953,7 +1005,17 @@ namespace SilverTest
             {
                 if (v.GroupName == groupname)
                 {
-                    x[index] = double.Parse(v.AirG);
+                    switch (moudleid)
+                    {
+                        case ModuleID.STANDARD:
+                        case ModuleID.ALARM:
+                            x[index] = double.Parse(v.AirG);
+                            break;
+                        case ModuleID.LIQUID:
+                            x[index] = double.Parse(v.Density);
+                            break;
+                    }
+
                     y[index] = double.Parse(v.ResponseValue1);
                     index++;
                 }
@@ -1063,7 +1125,16 @@ namespace SilverTest
             xline.X2 = rCanvas.Width - rightmargin + 20;
             xline.Y2 = rCanvas.Height - bottommargin;
             rCanvas.Children.Add(xline);
-            xtext.Text = "X 汞量(ng)";
+            switch (moudleid)
+            {
+                case ModuleID.STANDARD:
+                case ModuleID.ALARM:
+                    xtext.Text = "X 汞量(ng)";
+                    break;
+                case ModuleID.LIQUID:
+                    xtext.Text = "X 汞浓度ug/L";
+                    break;
+            }
             Canvas.SetTop(xtext, rCanvas.Height - 20 - bottommargin);
             Canvas.SetLeft(xtext, rCanvas.Width - rightmargin + 20);
             rCanvas.Children.Add(xtext);
@@ -1134,7 +1205,17 @@ namespace SilverTest
             TextBlock RparamSpTxbl = new TextBlock();
             //RparamSpTxbl.Text = "";
             RparamSpTxbl.Width = 150;
-            RparamSpTxbl.Text = "样品名称  响应值  汞量ng\r\n";
+            switch (moudleid)
+            {
+                case ModuleID.STANDARD:
+                case ModuleID.ALARM:
+                    RparamSpTxbl.Text = "样品名称  响应值  汞量ng\r\n";
+                    break;
+                case ModuleID.LIQUID:
+                    RparamSpTxbl.Text = "样品名称  响应值  汞浓度ug/L\r\n";
+                    break;
+            }
+            
             int j = 0;
             for (int i=0; i < x.Length; i++)
             {
@@ -1144,8 +1225,9 @@ namespace SilverTest
                     {
                         RparamSpTxbl.Text += standardSampleClt[k].SampleName +
                             "\t" + cutnn(standardSampleClt[k].ResponseValue1) + "\t" +
-                            standardSampleClt[k].AirG + "\r\n";
-                        j=k+1;
+                            //standardSampleClt[k].AirG + "\r\n";
+                            x[k].ToString() + "\r\n";
+                        j =k+1;
                         break;
                     }
                 }
@@ -1225,17 +1307,37 @@ namespace SilverTest
             {
                 if (item.GroupName == groupname)
                 {
-                    if (item.ResponseValue1 == "" || item.ResponseValue1 is null ||
-                        item.AirG == "" || item.AirG is null
-                        )
+                    switch (moudleid)
                     {
-                        //MessageBox.Show("测试未完成，无法计算R");
-                        return;
+                        case ModuleID.STANDARD:
+                        case ModuleID.ALARM:
+                            if (item.ResponseValue1 == "" || item.ResponseValue1 is null ||
+                                item.AirG == "" || item.AirG is null
+                                )
+                            {
+                                //MessageBox.Show("测试未完成，无法计算R");
+                                return;
+                            }
+                            else
+                            {
+                                len++;
+                            }
+                            break;
+                        case ModuleID.LIQUID:
+                            if (item.ResponseValue1 == "" || item.ResponseValue1 is null ||
+                                item.Density == "" || item.Density is null
+                                )
+                            {
+                                //MessageBox.Show("测试未完成，无法计算R");
+                                return;
+                            }
+                            else
+                            {
+                                len++;
+                            }
+                            break;
                     }
-                    else
-                    {
-                        len++;
-                    }
+
                 }
             }
 
@@ -1246,7 +1348,16 @@ namespace SilverTest
             {
                 if (v.GroupName == groupname)
                 {
-                    x[index] = double.Parse(v.AirG);
+                    switch (moudleid)
+                    {
+                        case ModuleID.STANDARD:
+                        case ModuleID.ALARM:
+                            x[index] = double.Parse(v.AirG);
+                            break;
+                        case ModuleID.LIQUID:
+                            x[index] = double.Parse(v.Density);
+                            break;
+                    }
                     y[index] = double.Parse(v.ResponseValue1);
                     index++;
                 }
@@ -2223,6 +2334,21 @@ namespace SilverTest
             standardmitm.Icon = checkicon;
             warnmitm.Icon = null;
             liquidmitm.Icon = null;
+
+            newAirSampTimeCol.Visibility = Visibility.Visible;
+            newAirFluentCol.Visibility = Visibility.Visible;
+            newQualityCol.Header = "样品质量";
+            newtotalbulkCol.Header = "样品总体积L";
+            newghltotalCol.Header = "样品中汞含量mg/m3";
+            newgndCol.Header = "汞浓度ug/L";
+            newgndCol.Visibility = Visibility.Hidden;
+            //标样列
+            airtemperature.Visibility = Visibility.Visible;
+            airbulk.Header = "标样体积";
+            airhan.Visibility = Visibility.Visible;
+            standardzl.Visibility = Visibility.Visible;
+            standardAirDensityCol.Header = "汞浓度ug/L";
+            standardAirDensityCol.Visibility = Visibility.Hidden;
         }
 
         private void Warnmitm_Click(object sender, RoutedEventArgs e)
@@ -2233,6 +2359,22 @@ namespace SilverTest
             standardmitm.Icon = null;
             warnmitm.Icon = checkicon;
             liquidmitm.Icon = null;
+
+
+            newAirSampTimeCol.Visibility = Visibility.Visible;
+            newAirFluentCol.Visibility = Visibility.Visible;
+            newQualityCol.Header = "样品质量";
+            newtotalbulkCol.Header = "样品总体积L";
+            newghltotalCol.Header = "样品中汞含量mg/m3";
+            newgndCol.Header = "汞浓度ug/L";
+            newgndCol.Visibility = Visibility.Hidden;
+            //标样列
+            airtemperature.Visibility = Visibility.Visible;
+            airbulk.Header = "标样体积";
+            airhan.Visibility = Visibility.Visible;
+            standardzl.Visibility = Visibility.Visible;
+            standardAirDensityCol.Header = "汞浓度ug/L";
+            standardAirDensityCol.Visibility = Visibility.Hidden;
         }
 
         private void Liquidmitm_Click(object sender, RoutedEventArgs e)
@@ -2242,6 +2384,21 @@ namespace SilverTest
             standardmitm.Icon = null;
             warnmitm.Icon = null;
             liquidmitm.Icon = checkicon;
+
+            newAirSampTimeCol.Visibility = Visibility.Collapsed;
+            newAirFluentCol.Visibility = Visibility.Collapsed;
+            newQualityCol.Header = "样品质量g";
+            newtotalbulkCol.Header = "样品消化液总体积mL";
+            newghltotalCol.Header = "样品中汞含量mg/kg";
+            newgndCol.Header = "汞浓度ug/L";
+            newgndCol.Visibility = Visibility.Visible;
+            //标样列
+            airtemperature.Visibility = Visibility.Collapsed;
+            airbulk.Header = "总体积ml";
+            airhan.Visibility = Visibility.Collapsed;
+            standardzl.Visibility = Visibility.Collapsed;
+            standardAirDensityCol.Header = "汞浓度ug/L";
+            standardAirDensityCol.Visibility = Visibility.Visible;
         }
     }
 }

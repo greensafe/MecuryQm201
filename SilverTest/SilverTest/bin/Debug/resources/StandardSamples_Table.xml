@@ -4,6 +4,7 @@
     <SampleName>ag</SampleName>
     <GroupName>a</GroupName>
     <Code>8</Code>
+    <Density>13</Density>
     <ResponseValue1>2.4
 
 </ResponseValue1>
@@ -21,6 +22,7 @@
     <SampleName>db</SampleName>
     <GroupName>a</GroupName>
     <Code>9</Code>
+    <Density>12</Density>
     <ResponseValue1>10003
 </ResponseValue1>
     <Weight>1</Weight>
@@ -37,6 +39,7 @@
     <SampleName>db3</SampleName>
     <GroupName>a</GroupName>
     <Code>10</Code>
+    <Density>12</Density>
     <ResponseValue1>10005
 </ResponseValue1>
     <Weight>1</Weight>
