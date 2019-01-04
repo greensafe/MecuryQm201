@@ -34,7 +34,7 @@ namespace SilverTest
                 SerialDriver.GetDriver().stopbits);
 
             MainWindow parentwindow = (MainWindow)this.Owner;
-            this.Owner = null;
+            //this.Owner = null;
             parentwindow.showconnectedIcon();
 
             if (SerialDriver.GetDriver().isOpen())
