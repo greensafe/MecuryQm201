@@ -260,6 +260,36 @@ namespace SilverTest.libs
             MessageBox.Show("测试数据已保存到history目录中");
         }
 
+        static public string ToDecimal(string a)
+        {
+            bool adot = false;
+            if (a.Length == 0) return a;
+            string stemp = null;
+
+            for (int i = 0; i < a.Length; i++)
+            {
+                if ((a[i] < '0' || a[i] > '9') && (a[i] != '.')) //非数字
+                {
+                }
+                else
+                {
+                    if (a[i] == '.')
+                    {
+                        if (adot == false)
+                        {
+                            stemp += a[i];
+                            adot = true;
+                        }
+                    }
+                    else
+                    {
+                        stemp += a[i];
+                    }
+                }
+            }
+            return stemp;
+        }
+
         static public void Save2excel(DataGrid dataGrid)
         {
             int colcount = 0;

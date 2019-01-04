@@ -2400,5 +2400,10 @@ namespace SilverTest
             standardAirDensityCol.Header = "汞浓度ug/L";
             standardAirDensityCol.Visibility = Visibility.Visible;
         }
+
+        private void NewQualityCol_CopyingCellClipboardContent(object sender, DataGridCellClipboardEventArgs e)
+        {
+
+        }
     }
 }
