@@ -129,12 +129,12 @@
                     <Button x:Name="ma1" FontSize="12" Content="开始" Height="30" Width="75" HorizontalAlignment="Left" Background="LightPink" Margin="20,2,0,0" Visibility="Collapsed" Click="Ma1_Click"></Button>
                     <Button x:Name="ma2" FontSize="12" Content="停止" Height="30" Width="75" HorizontalAlignment="Left" Background="LightPink" Margin="20,2,0,0" Visibility="Collapsed" Click="Ma2_Click"></Button>
                     <Button x:Name="pm7" FontSize="12" Content="状态获取"  Height="30" Width="70" HorizontalAlignment="Left" Click="pm7_Click"></Button>
-                    <Button x:Name="pm8" FontSize="12" Content="监控"  Height="30" Width="70" HorizontalAlignment="Left" Click="Pm8_Click"></Button>
+                    <Button x:Name="pm8" FontSize="12" Content="监控>"  Height="30" Width="70" HorizontalAlignment="Left" Click="Pm8_Click"></Button>
                     <Button x:Name="m81" FontSize="12" Content="开始监控" Height="30" Width="60" HorizontalAlignment="Left" Background="LightPink" 
                             Margin="20,2,0,0" Visibility="Collapsed" Click="M81_Click" ></Button>
                     <Button x:Name="m82" FontSize="12" Content="停止监控" Height="30" Width="60" HorizontalAlignment="Left" Background="LightPink" 
                             Margin="20,2,0,0" Visibility="Collapsed" Click="M82_Click" ></Button>
-                    <Button x:Name="pm9" FontSize="12" Content="报警测试"  Height="30" Width="70" HorizontalAlignment="Left" Click="Pm9_Click"></Button>
+                    <Button x:Name="pm9" FontSize="12" Content="报警测试>"  Height="30" Width="70" HorizontalAlignment="Left" Click="Pm9_Click"></Button>
                     <Button x:Name="m91" FontSize="12" Content="开始测试" Height="30" Width="60" HorizontalAlignment="Left" Background="LightPink" 
                             Margin="20,2,0,0" Visibility="Collapsed" Click="M91_Click" ></Button>
                     <Button x:Name="m92" FontSize="12" Content="停止测试" Height="30" Width="60" HorizontalAlignment="Left" Background="LightPink" 

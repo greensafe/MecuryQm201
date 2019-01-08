@@ -37,6 +37,7 @@
                         <TextBox x:Name="datawordcount" Height="50" DockPanel.Dock="Left" TextWrapping="Wrap" Text="number" VerticalAlignment="Center" Width="70"/>
                         <Button Content="dataclear" Height="40" VerticalAlignment="Center" Width="75" Margin="15,0" DockPanel.Dock="Left" Click="dataButton_Click"/>
                         <Button x:Name="datamakeDataBtn" Content="创建模拟数据" Height="40" VerticalAlignment="Top" Width="75" Margin="0,30,0,0" Click="datamakeDataBtn_Click"/>
+                        <Button x:Name="datamakeZeroDataBtn" Content="创建0数据" Height="40" VerticalAlignment="Top" Width="75" Margin="0,30,0,0" Click="DatamakeZeroDataBtn_Click"/>
                     </DockPanel>
                     <TextBox x:Name="datatxtSendData" Height="61" TextWrapping="Wrap" Text="发送命令"/>
                 </StackPanel>

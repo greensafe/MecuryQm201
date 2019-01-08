@@ -531,5 +531,29 @@ namespace SerialPortLab
             reader.Close();
             rfile.Close();
         }
+
+        private void DatamakeZeroDataBtn_Click(object sender, RoutedEventArgs e)
+        {
+            FileStream afile = new FileStream("clip.txt", FileMode.Append);
+            StreamWriter writer = new StreamWriter(afile);
+
+            FileStream rfile = new FileStream("realtestdata_fr3.txt", FileMode.Open);
+            StreamReader reader = new StreamReader(rfile);
+            string data = reader.ReadToEnd();
+            string[] r = Regex.Split(data, "I");
+            for (int i = 0; i < 7506; i++)
+            {
+                writer.Write("FG00000H00I");
+                //writer.Write(r[i]);
+                //writer.Write("I");
+                writer.Write("\r\n");
+            }
+
+            writer.Close();
+            afile.Close();
+            reader.Close();
+            rfile.Close();
+
+        }
     }
 }
