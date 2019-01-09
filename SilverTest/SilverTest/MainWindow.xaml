@@ -16,7 +16,7 @@
         TextElement.FontSize="13"
         TextOptions.TextFormattingMode="Ideal"
         TextOptions.TextRenderingMode="Auto"        
-        Title="QM201G" Height="850" Width="1000" Loaded="window_Loaded" WindowStartupLocation="CenterScreen" 
+        Title="QM201G便携式测汞仪" Height="850" Width="1000" Loaded="window_Loaded" WindowStartupLocation="CenterScreen" 
         Icon="images/test.png" Closed="window_Closed">
     <Window.Resources>
         <ContextMenu x:Key="newtableMenu">
@@ -306,8 +306,7 @@
                             </DataGrid.GroupStyle>
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="序号" Width="80" Binding="{Binding Path=Code,Mode=TwoWay}" IsReadOnly="True"></DataGridTextColumn>
-                                <DataGridTextColumn Header="组名" Width="80" Binding="{Binding Path=GroupName,Mode=TwoWay}"></DataGridTextColumn>
-                                <DataGridTextColumn Header="样品名" Width="80" Binding="{Binding Path=SampleName,Mode=TwoWay}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="标样名" Width="80" Binding="{Binding Path=SampleName,Mode=TwoWay}"></DataGridTextColumn>
                                 <DataGridTextColumn x:Name="standardAirDensityCol" Header="汞浓度ng/mL" Width="80" Binding="{Binding Path=Density,Mode=TwoWay}" Visibility="Hidden" IsReadOnly="False" ></DataGridTextColumn>
                                 <DataGridTextColumn Header="响应值" Width="80" Binding="{Binding Path=ResponseValue1,Mode=TwoWay}" IsReadOnly="True"></DataGridTextColumn>
                                 <DataGridTextColumn x:Name="standardAirSampleTimeCol" Header="取样时间m" Width="90" Binding="{Binding AirSampleTime,Mode=TwoWay}" Visibility="Hidden" IsReadOnly="False"></DataGridTextColumn>
@@ -322,6 +321,7 @@
                                 <DataGridTextColumn Header="斜率" Width="70" Binding="{Binding Path=A,Mode=TwoWay}" IsReadOnly="True"></DataGridTextColumn>
                                 <DataGridTextColumn Header="截距" Width="70" Binding="{Binding Path=B,Mode=TwoWay}" IsReadOnly="True"></DataGridTextColumn>
                                 <DataGridTextColumn Header="相关系数" Width="*" Binding="{Binding Path=R,Mode=TwoWay}" IsReadOnly="True"></DataGridTextColumn>
+                                <DataGridTextColumn Header="组名" Width="80" Binding="{Binding Path=GroupName,Mode=TwoWay}"></DataGridTextColumn>                                
                             </DataGrid.Columns>
                         </DataGrid>
                     </StackPanel>

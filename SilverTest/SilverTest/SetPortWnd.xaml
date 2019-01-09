@@ -178,7 +178,7 @@
                             <StackPanel DockPanel.Dock="Bottom" Height="50" Orientation="Horizontal">
                                 <Canvas>
                                     <Button x:Name="dataApplybtn" Content="应用" Height="30" Width="60" Click="dataApplybtn_Click" Canvas.Left="91" Canvas.Top="10"/>
-                                    <Button x:Name="dataExitbtn" Content="取消" Height="30" Width="60" Click="dataExitbtn_Click" Canvas.Left="227" Canvas.Top="10"/>
+                                    <Button x:Name="dataExitbtn" Content="关闭" Height="30" Width="60" Click="dataExitbtn_Click" Canvas.Left="227" Canvas.Top="10"/>
                                 </Canvas>
                             </StackPanel>
 
@@ -211,7 +211,7 @@
                             <StackPanel DockPanel.Dock="Bottom" Height="50" Orientation="Horizontal">
                                 <Canvas>
                                     <Button x:Name="AlarmApplybtn" Content="应用" Height="30" Width="60" Click="AlarmApplybtn_Click" Canvas.Left="91" Canvas.Top="10"/>
-                                    <Button x:Name="AlarmExitbtn" Content="取消" Height="30" Width="60" Click="AlarmExitbtn_Click" Canvas.Left="227" Canvas.Top="10"/>
+                                    <Button x:Name="AlarmExitbtn" Content="关闭" Height="30" Width="60" Click="AlarmExitbtn_Click" Canvas.Left="227" Canvas.Top="10"/>
                                 </Canvas>
                             </StackPanel>
                         </DockPanel>
@@ -223,7 +223,7 @@
                     <Label Content="报警值" Canvas.Left="104" Canvas.Top="66" RenderTransformOrigin="0.63,0.52"/>
                     <TextBox x:Name="alarm_value_txt" Height="23" Canvas.Left="163" TextWrapping="Wrap" Canvas.Top="66" Width="47"/>
                     <Button x:Name="WatchApplybtn" Content="应用" Height="30" Width="60" Canvas.Left="64" Canvas.Top="247" Click="WatchApplybtn_Click"/>
-                    <Button x:Name="aAlarmExitbtn" Content="取消" Height="30" Width="60" Click="AlarmExitbtn_Click" Canvas.Left="219" Canvas.Top="247"/>
+                    <Button x:Name="aAlarmExitbtn" Content="关闭" Height="30" Width="60" Click="AlarmExitbtn_Click" Canvas.Left="219" Canvas.Top="247"/>
                     <Label Content="间隔时长" Canvas.Left="92" Canvas.Top="103"/>
                     <ComboBox x:Name="watchspantxt" Height="25" Canvas.Left="163" Text="" Canvas.Top="103" Width="72" SelectedIndex="1">
                         <ComboBoxItem>0.5小时</ComboBoxItem>
