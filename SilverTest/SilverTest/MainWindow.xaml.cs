@@ -1605,12 +1605,15 @@ namespace SilverTest
                     NewTestTarget n1 = new NewTestTarget();
                     n1.Code = "1";
                     n1.NewName = "样品一";
+                    n1.GlobalID = GIDMaker.GetMaker().GetNId();
                     NewTestTarget n2 = new NewTestTarget();
                     n2.Code = "2";
                     n2.NewName = "样品二";
+                    n2.GlobalID = GIDMaker.GetMaker().GetNId();
                     NewTestTarget n3 = new NewTestTarget();
                     n3.Code = "3";
                     n3.NewName = "样品三";
+                    n3.GlobalID = GIDMaker.GetMaker().GetNId();
                     newTestClt.Add(n1);
                     newTestClt.Add(n2);
                     newTestClt.Add(n3);
@@ -1624,15 +1627,17 @@ namespace SilverTest
                     s1.Code = "1";
                     s1.SampleName = "标样一";
                     s1.GroupName = "组一";
-
+                    s1.GlobalID = GIDMaker.GetMaker().GetSId();
                     StandardSample s2 = new StandardSample();
                     s2.Code = "2";
                     s2.SampleName = "标样二";
                     s2.GroupName = "组一";
+                    s2.GlobalID = GIDMaker.GetMaker().GetSId();
                     StandardSample s3 = new StandardSample();
                     s3.Code = "3";
                     s3.SampleName = "标样三";
                     s3.GroupName = "组一";
+                    s3.GlobalID = GIDMaker.GetMaker().GetSId();
                     standardSampleClt.Add(s1);
                     standardSampleClt.Add(s2);
                     standardSampleClt.Add(s3);
