@@ -232,7 +232,7 @@
                                   Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}" 
                                   CanUserAddRows="False"
                                   ItemsSource="{Binding}"  
-                                  Margin="0,0,0,0" AutoGenerateColumns="False" CellEditEnding="NewTargetDgd_CellEditEnding" MouseRightButtonDown="NewTargetDgd_MouseRightButtonDown" LoadingRow="NewTargetDgd_LoadingRow">
+                                  Margin="0,0,0,0" AutoGenerateColumns="False" CellEditEnding="NewTargetDgd_CellEditEnding" MouseRightButtonDown="NewTargetDgd_MouseRightButtonDown" LoadingRow="NewTargetDgd_LoadingRow" controls:DataGridHelper.EnableCellEditAssist="True" SelectedCellsChanged="NewTargetDgd_SelectedCellsChanged">
                             <DataGrid.Style>
                                 <Style BasedOn="{StaticResource MetroDataGrid}" TargetType="{x:Type DataGrid}">
                                     <Setter Property="AlternatingRowBackground" Value="{DynamicResource GrayBrush7}" />
@@ -240,7 +240,7 @@
                             </DataGrid.Style>
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="序号" Width="80" Binding="{Binding Code,Mode=TwoWay}" IsReadOnly="True"></DataGridTextColumn>
-                                <DataGridTextColumn Header="样品名" Width="80" Binding="{Binding NewName,Mode=TwoWay}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="样品名" x:Name="newsamplenamecol" Width="80" Binding="{Binding NewName,Mode=TwoWay}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="产地" Width="80" Binding="{Binding Place,Mode=TwoWay}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="响应值" Width="80" Binding="{Binding ResponseValue1,Mode=TwoWay}" IsReadOnly="True"></DataGridTextColumn>
                                 <DataGridTextColumn Header="响应值2" Width="80" Binding="{Binding ResponseValue2,Mode=TwoWay}" Visibility="Hidden" IsReadOnly="True"></DataGridTextColumn>
@@ -280,7 +280,7 @@
                                   Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}" 
                                   ItemsSource="{Binding}"
                                   CanUserAddRows="False"
-                                  Margin="0,0,0,0" AutoGenerateColumns="False" SelectionChanged="standardSampleDgd_SelectionChanged" CellEditEnding="standardSampleDgd_CellEditEnding" MouseRightButtonDown="standardSampleDgd_MouseRightButtonDown" LoadingRow="standardSampleDgd_LoadingRow">
+                                  Margin="0,0,0,0" AutoGenerateColumns="False" SelectionChanged="standardSampleDgd_SelectionChanged" CellEditEnding="standardSampleDgd_CellEditEnding" MouseRightButtonDown="standardSampleDgd_MouseRightButtonDown" LoadingRow="standardSampleDgd_LoadingRow" SelectedCellsChanged="StandardSampleDgd_SelectedCellsChanged">
                             <DataGrid.Style>
                                 <Style BasedOn="{StaticResource MetroDataGrid}" TargetType="{x:Type DataGrid}">
                                     <Setter Property="AlternatingRowBackground" Value="{DynamicResource GrayBrush7}" />
@@ -298,7 +298,7 @@
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="序号" Width="80" Binding="{Binding Path=Code,Mode=TwoWay}" IsReadOnly="True"></DataGridTextColumn>
                                 <DataGridTextColumn Header="组名" Width="80" Binding="{Binding Path=GroupName,Mode=TwoWay}"></DataGridTextColumn>
-                                <DataGridTextColumn Header="样品名" Width="80" Binding="{Binding Path=SampleName,Mode=TwoWay}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="样品名" x:Name="standardnamecol" Width="80" Binding="{Binding Path=SampleName,Mode=TwoWay}"></DataGridTextColumn>
                                 <DataGridTextColumn x:Name="standardAirDensityCol" Header="汞浓度ng/mL" Width="80" Binding="{Binding Path=Density,Mode=TwoWay}" Visibility="Hidden" IsReadOnly="True" ></DataGridTextColumn>
                                 <DataGridTextColumn Header="响应值" Width="80" Binding="{Binding Path=ResponseValue1,Mode=TwoWay}" IsReadOnly="True"></DataGridTextColumn>
                                 <DataGridTextColumn x:Name="standardAirSampleTimeCol" Header="取样时间m" Width="90" Binding="{Binding AirSampleTime,Mode=TwoWay}" Visibility="Hidden" IsReadOnly="False"></DataGridTextColumn>
