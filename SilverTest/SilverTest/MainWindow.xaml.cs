@@ -1805,19 +1805,34 @@ namespace SilverTest
                     }
                     NewTestTarget n1 = new NewTestTarget();
                     n1.Code = "1";
-                    n1.NewName = "样品一";
+                    n1.NewName = "样品空白";
                     n1.GlobalID = GIDMaker.GetMaker().GetNId(); 
                     NewTestTarget n2 = new NewTestTarget();
                     n2.Code = "2";
-                    n2.NewName = "样品二";
+                    n2.NewName = "样品一";
                     n2.GlobalID = GIDMaker.GetMaker().GetNId(); 
                     NewTestTarget n3 = new NewTestTarget();
                     n3.Code = "3";
-                    n3.NewName = "样品三";
-                    n3.GlobalID = GIDMaker.GetMaker().GetNId(); 
+                    n3.NewName = "样品二";
+                    n3.GlobalID = GIDMaker.GetMaker().GetNId();
+                    NewTestTarget n4 = new NewTestTarget();
+                    n4.Code = "4";
+                    n4.NewName = "样品三";
+                    n4.GlobalID = GIDMaker.GetMaker().GetNId();
                     newTestClt.Add(n1);
                     newTestClt.Add(n2);
                     newTestClt.Add(n3);
+                    newTestClt.Add(n4);
+
+                    switch (moudleid)
+                    {
+                        case ModuleID.STANDARD:
+                        case ModuleID.ALARM:
+                        case ModuleID.LIQUID:
+                            n1.AirG = "0";
+                            n1.Density = "0";
+                            break;
+                    }
                     break;
                 case 1: //标样
                     while (standardSampleClt.Count > 0)
@@ -1826,22 +1841,38 @@ namespace SilverTest
                     }
                     StandardSample s1 = new StandardSample();
                     s1.Code = "1";
-                    s1.SampleName = "标样一";
+                    s1.SampleName = "标样空白";
                     s1.GroupName = "组一";
                     s1.GlobalID = GIDMaker.GetMaker().GetSId();
                     StandardSample s2 = new StandardSample();
                     s2.Code = "2";
-                    s2.SampleName = "标样二";
+                    s2.SampleName = "标样一";
                     s2.GroupName = "组一";
                     s2.GlobalID = GIDMaker.GetMaker().GetSId();
                     StandardSample s3 = new StandardSample();
                     s3.Code = "3";
-                    s3.SampleName = "标样三";
+                    s3.SampleName = "标样二";
                     s3.GroupName = "组一";
                     s3.GlobalID = GIDMaker.GetMaker().GetSId();
+                    StandardSample s4 = new StandardSample();
+                    s4.Code = "4";
+                    s4.SampleName = "标样三";
+                    s4.GroupName = "组一";
+                    s4.GlobalID = GIDMaker.GetMaker().GetSId();
                     standardSampleClt.Add(s1);
                     standardSampleClt.Add(s2);
                     standardSampleClt.Add(s3);
+                    standardSampleClt.Add(s4);
+
+                    switch (moudleid)
+                    {
+                        case ModuleID.STANDARD:
+                        case ModuleID.ALARM:
+                        case ModuleID.LIQUID:
+                            s1.AirG = "0";
+                            s2.Density = "0";
+                            break;
+                    }
                     break;
             }
         }
@@ -2409,6 +2440,26 @@ namespace SilverTest
         private void NewQualityCol_CopyingCellClipboardContent(object sender, DataGridCellClipboardEventArgs e)
         {
 
+        }
+
+        private void NewTargetDgd_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
+        {
+            if (NewTargetDgd.SelectedItem == null) return;
+            NewTestTarget a = NewTargetDgd.SelectedItem as NewTestTarget;
+            if (a.NewName == "样品空白")
+                newnamecol.IsReadOnly = true;
+            else
+                newnamecol.IsReadOnly = false;
+        }
+
+        private void StandardSampleDgd_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
+        {
+            if (standardSampleDgd.SelectedItem == null) return;
+            StandardSample a = standardSampleDgd.SelectedItem as StandardSample;
+            if (a.SampleName == "标样空白")
+                standardsamplenamecol.IsReadOnly = true;
+            else
+                standardsamplenamecol.IsReadOnly = false;
         }
     }
 }
