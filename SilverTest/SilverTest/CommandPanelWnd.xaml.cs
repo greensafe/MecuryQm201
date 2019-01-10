@@ -22,6 +22,7 @@ namespace SilverTest
         //正在返回上级菜单
         //参数设置界面点击"返回时候置为真"
         bool is_returning_top_menu = false;
+        bool is_returning_top_menu_for_tunnel = false;
 
         public CommandPanelWnd()
         {
@@ -1648,6 +1649,63 @@ namespace SilverTest
             {
                 MessageBox.Show("端口未打开");
             };
+        }
+
+        private void Pmb_Click(object sender, RoutedEventArgs e)
+        {
+            if (channelsetpanel.Visibility == Visibility.Visible)
+                channelsetpanel.Visibility = Visibility.Collapsed;
+            else
+                channelsetpanel.Visibility = Visibility.Visible;
+        }
+
+        private void setchannelclose_Click(object sender, RoutedEventArgs e)
+        {
+            //返回主菜单
+            //启动定时器，发出返回命令
+            if (is_returning_top_menu_for_tunnel == false)
+            {
+                //禁用UI
+                setchannelok.IsEnabled = false;
+                setchannelclose.IsEnabled = false;
+                //开启timer，发送二次推出命令
+                DispatcherTimer atimer = new DispatcherTimer();
+                atimer.Interval = new TimeSpan(0, 0, 0, 0, 100);
+                atimer.Tag = 0;
+                atimer.Tick += new EventHandler(ReturnForChannelTimerHdlr);
+                atimer.Start();
+            }
+        }
+
+        private void ReturnForChannelTimerHdlr(object sender, EventArgs e)
+        {
+            DispatcherTimer atimer = (sender as DispatcherTimer);
+
+            //从能量值调整界面返回
+            byte[] data = new byte[8] { 0x01, 0x01, 0x04, 0x06, 0x00, 0x00, 0, 0 };
+            ushort crc;
+
+            crc = Utility.CRC16(data, 6);
+            data[6] = (byte)(crc >> 8);
+            data[7] = (byte)crc;
+            if (SerialDriver.GetDriver().Send(data))
+            {
+                statustxt.Text = "能量值调整返回命令已发出";
+                statustxt_2.Content = "能量值调整返回命令已发出";
+            }
+            Console.WriteLine("能量值调整界面返回命令发出一次");
+
+            atimer.Tag = (int)atimer.Tag + 1;
+            if ((int)atimer.Tag == 2)
+            {
+                atimer.Stop();
+                atimer = null;
+                is_returning_top_menu_for_tunnel = false;
+
+                setchannelok.IsEnabled = true;
+                setchannelclose.IsEnabled = true;
+                channelsetpanel.Visibility = Visibility.Collapsed;
+            }
         }
     }
 

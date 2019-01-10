@@ -12,7 +12,39 @@
     <Grid x:Name="grid" Height="349" VerticalAlignment="Top" Background="White">
         <Canvas MouseLeftButtonDown="Canvas_MouseLeftButtonDown" Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}" ClipToBounds="False"
                 Background="White" Height="373" VerticalAlignment="Top" Margin="0,0,0,-24" >
-            <Canvas x:Name="parampanel" Panel.ZIndex="10" Visibility="Hidden" 
+            <Canvas x:Name="channelsetpanel" Panel.ZIndex="10" Visibility="Visible" 
+                    Background="White"
+                    Width="247" Height="339"
+                    Canvas.Left="143" Canvas.Top="15">
+                <ComboBox x:Name="maintuntxt" IsEnabled="False" Width="75"  Canvas.Left="138" Canvas.Top="37" Text="3.3" SelectedIndex="0">
+                    <ComboBoxItem>0</ComboBoxItem>
+                    <ComboBoxItem>1</ComboBoxItem>
+                    <ComboBoxItem>2</ComboBoxItem>
+                    <ComboBoxItem>3</ComboBoxItem>
+                    <ComboBoxItem>4</ComboBoxItem>
+                    <ComboBoxItem>5</ComboBoxItem>
+                    <ComboBoxItem>6</ComboBoxItem>
+                    <ComboBoxItem>7</ComboBoxItem>
+                </ComboBox>
+                <TextBlock Width="50" TextAlignment="Right" Canvas.Top="45" Canvas.Left="83" Text="主通道值"/>
+                <ComboBox x:Name="vicetuntxt" IsEnabled="False" Width="75" Canvas.Left="138" Canvas.Top="75" Text="3.3" SelectedIndex="0">
+                    <ComboBoxItem>0</ComboBoxItem>
+                    <ComboBoxItem>1</ComboBoxItem>
+                    <ComboBoxItem>2</ComboBoxItem>
+                    <ComboBoxItem>3</ComboBoxItem>
+                    <ComboBoxItem>4</ComboBoxItem>
+                    <ComboBoxItem>5</ComboBoxItem>
+                    <ComboBoxItem>6</ComboBoxItem>
+                    <ComboBoxItem>7</ComboBoxItem>
+                </ComboBox>
+                <TextBlock Width="50" TextAlignment="Right" Canvas.Top="79" Canvas.Left="82" Text="副通道值"/>
+                <RadioButton x:Name="maintunckb" FontSize="7" Canvas.Left="39" Canvas.Top="39" Width="20" Height="20" Unchecked="maintunckb_Unchecked" Checked="maintunckb_Checked" RenderTransformOrigin="0.8,-6.8"/>
+                <RadioButton x:Name="vicetunckb" FontSize="7" Canvas.Left="39" Canvas.Top="75" Width="20" Height="20" Unchecked="vicetunckb_Unchecked" Checked="vicetunckb_Checked"/>
+
+                <Button x:Name="setchannelok" Content="确定" HorizontalAlignment="Right" Click="setparamok_Click" Canvas.Left="66" Canvas.Top="290"/>
+                <Button x:Name="setchannelclose" Content="返回" HorizontalAlignment="Right"  Canvas.Left="154" Canvas.Top="290" Click="setchannelclose_Click"/>
+            </Canvas>
+            <Canvas x:Name="parampanel" Panel.ZIndex="10" Visibility="Collapsed" 
                     Background="White"
                     Width="247" Height="339"
                         Canvas.Left="143" Canvas.Top="15">
@@ -78,30 +110,6 @@
                 <Label Content="状态" Canvas.Left="20" Canvas.Top="258" Foreground="Red" RenderTransformOrigin="0.381,1.602"/>
                 <Label x:Name="statustxt_2" Content="" Canvas.Left="66" Canvas.Top="256" Width="142"/>
                 <Separator Height="2" Canvas.Left="66" Margin="0" Canvas.Top="281" Width="142"/>
-                <ComboBox x:Name="maintuntxt" IsEnabled="False" Width="75"  Canvas.Left="133" Canvas.Top="189" Text="3.3" SelectedIndex="0">
-                    <ComboBoxItem>0</ComboBoxItem>
-                    <ComboBoxItem>1</ComboBoxItem>
-                    <ComboBoxItem>2</ComboBoxItem>
-                    <ComboBoxItem>3</ComboBoxItem>
-                    <ComboBoxItem>4</ComboBoxItem>
-                    <ComboBoxItem>5</ComboBoxItem>
-                    <ComboBoxItem>6</ComboBoxItem>
-                    <ComboBoxItem>7</ComboBoxItem>
-                </ComboBox>
-                <TextBlock Width="50" TextAlignment="Right" Canvas.Top="196" Canvas.Left="78" Text="主通道值"/>
-                <ComboBox x:Name="vicetuntxt" IsEnabled="False" Width="75" Canvas.Left="133" Canvas.Top="226" Text="3.3" SelectedIndex="0">
-                    <ComboBoxItem>0</ComboBoxItem>
-                    <ComboBoxItem>1</ComboBoxItem>
-                    <ComboBoxItem>2</ComboBoxItem>
-                    <ComboBoxItem>3</ComboBoxItem>
-                    <ComboBoxItem>4</ComboBoxItem>
-                    <ComboBoxItem>5</ComboBoxItem>
-                    <ComboBoxItem>6</ComboBoxItem>
-                    <ComboBoxItem>7</ComboBoxItem>
-                </ComboBox>
-                <TextBlock Width="50" TextAlignment="Right" Canvas.Top="231" Canvas.Left="77" Text="副通道值"/>
-                <RadioButton x:Name="maintunckb" FontSize="7" Canvas.Left="34" Canvas.Top="191" Width="20" Height="20" Unchecked="maintunckb_Unchecked" Checked="maintunckb_Checked"/>
-                <RadioButton x:Name="vicetunckb" FontSize="7" Canvas.Left="34" Canvas.Top="226" Width="20" Height="20" Unchecked="vicetunckb_Unchecked" Checked="vicetunckb_Checked"/>
 
             </Canvas>
 
@@ -126,6 +134,7 @@
                     <Button x:Name="m52" FontSize="12" Content="测量" Height="30" Width="60" HorizontalAlignment="Left" Background="LightPink" Margin="20,2,0,0" Visibility="Collapsed" Click="m52_Click" ></Button>
                     <Button x:Name="m53" FontSize="12" Content="返回上一级" Height="30" Width="75" HorizontalAlignment="Left" Background="LightPink" Margin="20,2,0,0" Visibility="Collapsed" Click="m53_Click"></Button>
                     <Button x:Name="pm6" FontSize="12" Content="参数设置"  Height="30" Width="70" HorizontalAlignment="Left" Click="pm6_Click"></Button>
+                    <Button x:Name="pmb" FontSize="12" Content="能量值调整"  Height="30" Width="70" HorizontalAlignment="Left" Click="Pmb_Click"></Button>
                     <Button x:Name="pma" FontSize="12" Content="快速测量"  Height="30" Width="70" HorizontalAlignment="Left" Click="Pma_Click"></Button>
                     <Button x:Name="ma1" FontSize="12" Content="开始" Height="30" Width="75" HorizontalAlignment="Left" Background="LightPink" Margin="20,2,0,0" Visibility="Collapsed" Click="Ma1_Click"></Button>
                     <Button x:Name="ma2" FontSize="12" Content="停止" Height="30" Width="75" HorizontalAlignment="Left" Background="LightPink" Margin="20,2,0,0" Visibility="Collapsed" Click="Ma2_Click"></Button>
