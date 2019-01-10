@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-
+using System.Windows.Threading;
 
 namespace SilverTest
 {
@@ -18,6 +18,10 @@ namespace SilverTest
         Regex realnumber = new Regex(@"^(\d{1}[.][0-9]*)$"); //小数
         CommandPanlStatus comstatus = CommandPanlStatus.Idle;
         public bool is_watching;
+
+        //正在返回上级菜单
+        //参数设置界面点击"返回时候置为真"
+        bool is_returning_top_menu = false;
 
         public CommandPanelWnd()
         {
@@ -1204,6 +1208,26 @@ namespace SilverTest
 
         private void setparamcancel_Click(object sender, RoutedEventArgs e)
         {
+ 
+            //启动定时器，发出返回命令
+            if(is_returning_top_menu == false)
+            {
+                //禁用UI
+                setparamcancel.IsEnabled = false;
+                setparamok.IsEnabled = false;
+                //开启timer，发送三次推出命令
+                DispatcherTimer atimer = new DispatcherTimer();
+                atimer.Interval = new TimeSpan(0, 0, 0, 0,100);
+                atimer.Tag = 0;
+                atimer.Tick += new EventHandler(returnTimerHdlr);
+                atimer.Start();
+            }
+        }
+
+        private void returnTimerHdlr(object sender, EventArgs e)
+        {
+            DispatcherTimer atimer = (sender as DispatcherTimer);
+            
             //退出参数设置界面
             byte[] data = new byte[8] { 0x01, 0x01, 0x01, 0x06, 0x00, 0x00, 0, 0 };
             ushort crc;
@@ -1216,8 +1240,19 @@ namespace SilverTest
                 statustxt.Text = "返回命令已发出";
                 statustxt_2.Content = "返回命令已发出";
             }
+            Console.WriteLine("返回上级菜单命令发出一次");
 
-            parampanel.Visibility = Visibility.Collapsed;
+            atimer.Tag = (int)atimer.Tag + 1;
+            if((int)atimer.Tag == 3)
+            {
+                atimer.Stop();
+                atimer = null;
+                is_returning_top_menu = false;
+
+                setparamcancel.IsEnabled = true;
+                setparamok.IsEnabled = true;
+                parampanel.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void setparamok_Click(object sender, RoutedEventArgs e)

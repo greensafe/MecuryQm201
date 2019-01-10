@@ -12,7 +12,7 @@
     <Grid x:Name="grid" Height="349" VerticalAlignment="Top" Background="White">
         <Canvas MouseLeftButtonDown="Canvas_MouseLeftButtonDown" Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}" ClipToBounds="False"
                 Background="White" Height="373" VerticalAlignment="Top" Margin="0,0,0,-24" >
-            <Canvas x:Name="parampanel" Panel.ZIndex="10" Visibility="Visible" 
+            <Canvas x:Name="parampanel" Panel.ZIndex="10" Visibility="Hidden" 
                     Background="White"
                     Width="247" Height="339"
                         Canvas.Left="143" Canvas.Top="15">
