@@ -977,18 +977,36 @@ namespace SilverTest
             int len = 0;
             int index = 0;
             double a, b, R;
-        
-            if(standardSampleDgd.SelectedIndex == -1)
+
+            double blankvalue = 0;
+            int blankindex = -1;
+
+            Collection<string> samplenames = new Collection<string>();
+
+            if (standardSampleDgd.SelectedIndex == -1)
             {
                 MessageBox.Show("请选择标样组");
                 return;
             }
             if (getStandardCltIndex(standardSampleDgd.SelectedIndex) == -1) return;
             string groupname = standardSampleClt[getStandardCltIndex( standardSampleDgd.SelectedIndex )].GroupName;
+            //计算组的成员个数，同时寻找标样空白的响应值
             foreach(StandardSample item in standardSampleClt)
             {
                 if (item.GroupName == groupname)
                 {
+                    if(item.SampleName == "标样空白")
+                    {
+                        try
+                        {
+                            blankvalue = double.Parse(item.ResponseValue1);
+                        }
+                        catch
+                        {
+                            ;
+                        }
+                        continue;
+                    }
                     switch (moudleid)
                     {
                         case ModuleID.STANDARD:
@@ -1022,11 +1040,13 @@ namespace SilverTest
                    
                 }
             }
+
+            
             x = new double[len];
             y = new double[len];
             foreach(StandardSample v in standardSampleClt)
             {
-                if (v.GroupName == groupname)
+                if (v.GroupName == groupname && v.SampleName != "标样空白")
                 {
                     switch (moudleid)
                     {
@@ -1039,7 +1059,8 @@ namespace SilverTest
                             break;
                     }
 
-                    y[index] = double.Parse(v.ResponseValue1);
+                    y[index] = double.Parse(v.ResponseValue1) - blankvalue;
+                    samplenames.Add(v.SampleName);
                     index++;
                 }
                 
@@ -1055,13 +1076,15 @@ namespace SilverTest
                     v.R = Math.Round(R,4).ToString();
                 }
             }
+            drawR(x, y, a, b, R, groupname, samplenames);
+
         }
 
         /*
          * 绘制相关系数点直线图
          * 
          */
-        private void drawR(double[] x, double[] y, double a, double b, double r, string groupname)
+        private void drawR(double[] x, double[] y, double a, double b, double r, string groupname,Collection<string> samplenames)
         {
             double maxX = 0, maxY = 0,ratiox = 0,ratioy = 0;
             Line scaleline;
@@ -1239,12 +1262,15 @@ namespace SilverTest
                     break;
             }
             
-            int j = 0;
             for (int i=0; i < x.Length; i++)
             {
+                RparamSpTxbl.Text += samplenames[i] +
+                    "\t" + y[i].ToString() + "\t" +
+                    x[i].ToString() + "\r\n";
+                /*
                 for(int k=j; k < standardSampleClt.Count; k++)
                 {
-                    if(standardSampleClt[k].GroupName == groupname)
+                    if(standardSampleClt[k].GroupName == groupname && standardSampleClt[k].SampleName != "标样空白")
                     {
                         RparamSpTxbl.Text += standardSampleClt[k].SampleName +
                             "\t" + cutnn(standardSampleClt[k].ResponseValue1) + "\t" +
@@ -1254,7 +1280,40 @@ namespace SilverTest
                         break;
                     }
                 }
-                
+                */
+                /*
+                for (int k = 0; k < standardSampleClt.Count; k++)
+                {
+                    switch (moudleid)
+                    {
+                        case ModuleID.STANDARD:
+                        case ModuleID.ALARM:
+                            if (standardSampleClt[k].GroupName == groupname && standardSampleClt[k].SampleName != "标样空白" &&
+                                standardSampleClt[k].ResponseValue1 == y[i].ToString()&&
+                                standardSampleClt[k].AirG == x[i].ToString()
+                                )
+                            {
+                                RparamSpTxbl.Text += standardSampleClt[k].SampleName +
+                                    "\t" + y[i] + "\t" +
+                                    x[i].ToString() + "\r\n";
+                                break;
+                            }
+                                break;
+                        case ModuleID.LIQUID:
+                            if (standardSampleClt[k].GroupName == groupname && standardSampleClt[k].SampleName != "标样空白" &&
+                                standardSampleClt[k].ResponseValue1 == y[i].ToString() &&
+                                standardSampleClt[k].Density == x[i].ToString()
+                                )
+                            {
+                                RparamSpTxbl.Text += standardSampleClt[k].SampleName +
+                                    "\t" + y[i] + "\t" +
+                                    x[i].ToString() + "\r\n";
+                                break;
+                            }
+                            break;
+                    }
+                }
+                */
             }
             RparamSpTxbl.Text += "\r\n";
             RparamSpTxbl.Text += "斜率:  " + a.ToString() + "\r\n";
@@ -1319,17 +1378,33 @@ namespace SilverTest
             int cltindex = 0;
             double a, b, R;
 
+            double blankindex = -1;
+            double blankvalue = 0;
+
+            Collection<string> samplenames = new Collection<string>() ;
+
             if (standardSampleDgd.SelectedIndex < 0) return;
 
             cltindex = getStandardCltIndex(standardSampleDgd.SelectedIndex);
             if (cltindex == -1) return;
 
-            //数据未测试完成，则不计算相关系数
+            //数据未测试完成，则不计算相关系数.
+            //同时统计组中项目个数，寻找空白标样
             string groupname = standardSampleClt[cltindex].GroupName;
             foreach (StandardSample item in standardSampleClt)
             {
                 if (item.GroupName == groupname)
                 {
+                    if(item.SampleName == "标样空白")
+                    {
+                        try
+                        {
+                            blankvalue = double.Parse(item.ResponseValue1);
+                        }
+                        catch {; }
+                        continue;
+                    }
+
                     switch (moudleid)
                     {
                         case ModuleID.STANDARD:
@@ -1344,6 +1419,7 @@ namespace SilverTest
                             else
                             {
                                 len++;
+
                             }
                             break;
                         case ModuleID.LIQUID:
@@ -1357,6 +1433,7 @@ namespace SilverTest
                             else
                             {
                                 len++;
+
                             }
                             break;
                     }
@@ -1369,7 +1446,7 @@ namespace SilverTest
             y = new double[len];
             foreach (StandardSample v in standardSampleClt)
             {
-                if (v.GroupName == groupname)
+                if (v.GroupName == groupname && v.SampleName!="标样空白")
                 {
                     switch (moudleid)
                     {
@@ -1381,7 +1458,8 @@ namespace SilverTest
                             x[index] = double.Parse(v.Density);
                             break;
                     }
-                    y[index] = double.Parse(v.ResponseValue1);
+                    y[index] = double.Parse(v.ResponseValue1) - blankvalue;
+                    samplenames.Add(v.SampleName);
                     index++;
                 }
             }
@@ -1403,7 +1481,7 @@ namespace SilverTest
             //绘制R 线性回归图
             //
             if (a.ToString() == "NaN" || b.ToString() == "NaN") return;
-            drawR(x, y, Math.Round(a, 2), Math.Round(b, 2), Math.Round(R, 4), groupname);
+            drawR(x, y, Math.Round(a, 2), Math.Round(b, 2), Math.Round(R, 4), groupname,samplenames);
         }
 
         private void testliquidMenu_Click(object sender, RoutedEventArgs e)
