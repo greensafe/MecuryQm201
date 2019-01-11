@@ -519,15 +519,38 @@ namespace SilverTest
                     break;
             }
 
+            //寻找空白样品响应值
+            int blankindex = -1;
+            int blankvalue = 0;
+            for(int i = 0; i < newTestClt.Count; i++)
+            {
+                if(newTestClt[i].NewName == "样品空白")
+                {
+                    blankindex = i;
+                    break;
+                }
+            }
+            if(blankindex != -1)
+            {
+                try
+                {
+                    blankvalue = int.Parse(newTestClt[blankindex].ResponseValue1);
+                }
+                catch
+                {
+                    ;
+                }
+            }
+
             //y-b/a
             switch (moudleid)
             {
                 case ModuleID.STANDARD:
                 case ModuleID.ALARM:
-                    newTestClt[cltindex].AirG = Math.Round(0.001 * (double.Parse(newTestClt[cltindex].ResponseValue1) - b) / a, 5).ToString();
+                    newTestClt[cltindex].AirG = Math.Round(0.001 * ( (double.Parse(newTestClt[cltindex].ResponseValue1)-blankvalue) - b) / a, 5).ToString();
                     break;
                 case ModuleID.LIQUID:
-                    newTestClt[cltindex].Density = Math.Round(0.001 * (double.Parse(newTestClt[cltindex].ResponseValue1) - b) / a, 5).ToString();
+                    newTestClt[cltindex].Density = Math.Round(0.001 * ( (double.Parse(newTestClt[cltindex].ResponseValue1)-blankvalue) - b) / a, 5).ToString();
                     break;
             }
 
@@ -1974,9 +1997,9 @@ namespace SilverTest
                 filename += "0" + DateTime.Now.Minute;
 
             if(DateTime.Now.Second.ToString().Length == 2)
-                filename += DateTime.Now.Second + ".bin";
+                filename += DateTime.Now.Second + ".mer";
             else
-                filename += "0" + DateTime.Now.Second + ".bin";
+                filename += "0" + DateTime.Now.Second + ".mer";
 
             //Utility.SaveToNewXmlFileCls.SaveToNewXmlFile(newTestClt, "resources\\NewTestTarget_Table.xml");
             saveNewDotsToFile(@"history\"+filename);
@@ -2020,9 +2043,9 @@ namespace SilverTest
                 filename += "0" + DateTime.Now.Minute;
 
             if(DateTime.Now.Second.ToString().Length == 2)
-                filename += DateTime.Now.Second + ".bin";
+                filename += DateTime.Now.Second + ".mer";
             else
-                filename += "0" + DateTime.Now.Second + ".bin";
+                filename += "0" + DateTime.Now.Second + ".mer";
 
             //Utility.SaveToNewXmlFileCls.SaveToNewXmlFile(newTestClt, "resources\\NewTestTarget_Table.xml");
             saveNewDotsToFile(@"history\"+filename);

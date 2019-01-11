@@ -77,7 +77,7 @@ namespace SilverTest
             //构建list
             List<HistoryItem> datas = new List<HistoryItem>();
             DirectoryInfo folder = new DirectoryInfo(@"history");
-            foreach (FileInfo file in folder.GetFiles("*.bin"))
+            foreach (FileInfo file in folder.GetFiles("*.mer"))
             {
                 if(file.Name.IndexOf(gid)>=0)
                     datas.Add(new HistoryItem(file.Name,file.FullName));

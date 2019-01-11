@@ -32,7 +32,7 @@ namespace test
             random = new Random();
             /*InitializeComponent();*/
 
-            readFile = new FileStream("realdata.bin", FileMode.Open);
+            readFile = new FileStream("realdata.mer", FileMode.Open);
             readstream = new StreamReader(readFile);
         }
 
