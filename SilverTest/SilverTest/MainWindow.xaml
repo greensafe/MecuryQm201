@@ -30,7 +30,7 @@
                     <Image Source="images\save.png" Width="25" Height="25"/>
                 </MenuItem.Icon>
             </MenuItem>
-            <MenuItem x:Name="newitemfullsavePMenu" Header="保存完整数据" Click="newitemfullsavePMenu_Click">
+            <MenuItem x:Name="newitemfullsavePMenu" Header="保存波形数据" Click="newitemfullsavePMenu_Click">
             </MenuItem>
             <Separator />
         </ContextMenu>
@@ -80,7 +80,7 @@
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem x:Name="loadhistory" Header="载入现场" Click="loadhistory_Click"></MenuItem>
-                    <MenuItem x:Name="loadkeyhistory" Header="载入关键数据" Click="loadkeyhistory_Click"></MenuItem>
+                    <MenuItem x:Name="loadkeyhistory" Header="载入波形数据" Click="loadkeyhistory_Click"></MenuItem>
                     <MenuItem x:Name="exportexcelmenu" Header="输出到excel" Click="exportexcelmenu_Click">
                         <MenuItem.Icon>
                             <iconPacks:PackIconMaterial Kind="FileExport" />
