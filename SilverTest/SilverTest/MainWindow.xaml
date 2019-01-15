@@ -297,7 +297,6 @@
                             </DataGrid.GroupStyle>
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="序号" Width="80" Binding="{Binding Path=Code,Mode=TwoWay}" IsReadOnly="True"></DataGridTextColumn>
-                                <DataGridTextColumn Header="组名" Width="80" Binding="{Binding Path=GroupName,Mode=TwoWay}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="样品名" x:Name="standardnamecol" Width="80" Binding="{Binding Path=SampleName,Mode=TwoWay}"></DataGridTextColumn>
                                 <DataGridTextColumn x:Name="standardAirDensityCol" Header="汞浓度ng/mL" Width="80" Binding="{Binding Path=Density,Mode=TwoWay}" Visibility="Hidden" IsReadOnly="True" ></DataGridTextColumn>
                                 <DataGridTextColumn Header="响应值" Width="80" Binding="{Binding Path=ResponseValue1,Mode=TwoWay}" IsReadOnly="True"></DataGridTextColumn>
@@ -313,6 +312,7 @@
                                 <DataGridTextColumn Header="斜率" Width="70" Binding="{Binding Path=A,Mode=TwoWay}" IsReadOnly="True"></DataGridTextColumn>
                                 <DataGridTextColumn Header="截距" Width="70" Binding="{Binding Path=B,Mode=TwoWay}" IsReadOnly="True"></DataGridTextColumn>
                                 <DataGridTextColumn Header="相关系数" Width="*" Binding="{Binding Path=R,Mode=TwoWay}" IsReadOnly="True"></DataGridTextColumn>
+                                <DataGridTextColumn Header="组名" Width="80" Binding="{Binding Path=GroupName,Mode=TwoWay}"></DataGridTextColumn>
                             </DataGrid.Columns>
                         </DataGrid>
                     </StackPanel>
