@@ -1,23 +1,25 @@
 <?xml version="1.0"?>
 <ArrayOfNewTestTarget xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <NewTestTarget>
-    <NewName>鞋子</NewName>
-    <Code>11</Code>
-    <Weight />
-    <GlobalID>N000000018</GlobalID>
+    <NewName>样品空白</NewName>
+    <Code>1</Code>
+    <Density>0</Density>
+    <AirG>0</AirG>
+    <GlobalID>N000000235</GlobalID>
   </NewTestTarget>
   <NewTestTarget>
-    <NewName>得</NewName>
-    <Code>13</Code>
-    <Weight>we</Weight>
-    <Place />
-    <AirTotolBulk>23g</AirTotolBulk>
-    <GlobalID>N000000020</GlobalID>
+    <NewName>样品1</NewName>
+    <Code>2</Code>
+    <GlobalID>N000000236</GlobalID>
   </NewTestTarget>
   <NewTestTarget>
-    <Code>14</Code>
-    <Weight />
-    <Place />
-    <GlobalID>N000000022</GlobalID>
+    <NewName>样品2</NewName>
+    <Code>3</Code>
+    <GlobalID>N000000237</GlobalID>
+  </NewTestTarget>
+  <NewTestTarget>
+    <NewName>样品3</NewName>
+    <Code>4</Code>
+    <GlobalID>N000000238</GlobalID>
   </NewTestTarget>
 </ArrayOfNewTestTarget>

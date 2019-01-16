@@ -1,55 +1,29 @@
 <?xml version="1.0"?>
 <ArrayOfStandardSample xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <StandardSample>
-    <SampleName>ag</SampleName>
-    <GroupName>a</GroupName>
-    <Code>8</Code>
-    <Density>13</Density>
-    <ResponseValue1>2.4
-
-</ResponseValue1>
-    <Weight>1</Weight>
-    <Temperature>1</Temperature>
-    <AirML>1</AirML>
-    <AirG>2.4</AirG>
-    <BuyDate>2018.1.1</BuyDate>
-    <A>2083.88</A>
-    <B>-3332.47</B>
-    <R>0.866</R>
-    <GlobalID>S000000018</GlobalID>
+    <SampleName>标样空白</SampleName>
+    <GroupName>组1</GroupName>
+    <Code>1</Code>
+    <AirG>0</AirG>
+    <GlobalID>S000000121</GlobalID>
   </StandardSample>
   <StandardSample>
-    <SampleName>db</SampleName>
-    <GroupName>a</GroupName>
-    <Code>9</Code>
-    <Density>12</Density>
-    <ResponseValue1>10003
-</ResponseValue1>
-    <Weight>1</Weight>
-    <Temperature>1</Temperature>
-    <AirML>2</AirML>
-    <AirG>4.8</AirG>
-    <BuyDate>2018.1.1</BuyDate>
-    <A>2083.88</A>
-    <B>-3332.47</B>
-    <R>0.866</R>
-    <GlobalID>S000000020</GlobalID>
+    <SampleName>标样1</SampleName>
+    <GroupName>组1</GroupName>
+    <Code>2</Code>
+    <Density>0</Density>
+    <GlobalID>S000000122</GlobalID>
   </StandardSample>
   <StandardSample>
-    <SampleName>db3</SampleName>
-    <GroupName>a</GroupName>
-    <Code>10</Code>
-    <Density>12</Density>
-    <ResponseValue1>10005
-</ResponseValue1>
-    <Weight>1</Weight>
-    <Temperature>1</Temperature>
-    <AirML>3</AirML>
-    <AirG>7.2</AirG>
-    <BuyDate>2018.1.1</BuyDate>
-    <A>2083.88</A>
-    <B>-3332.47</B>
-    <R>0.866</R>
-    <GlobalID>S000000021</GlobalID>
+    <SampleName>标样2</SampleName>
+    <GroupName>组1</GroupName>
+    <Code>3</Code>
+    <GlobalID>S000000123</GlobalID>
+  </StandardSample>
+  <StandardSample>
+    <SampleName>标样3</SampleName>
+    <GroupName>组1</GroupName>
+    <Code>4</Code>
+    <GlobalID>S000000124</GlobalID>
   </StandardSample>
 </ArrayOfStandardSample>
