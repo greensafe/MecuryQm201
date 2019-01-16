@@ -106,7 +106,7 @@ namespace SilverTest
                 {
                     Directory.CreateDirectory("changelog\\");
                 }
-                FileStream aFile = new FileStream(filename, FileMode.OpenOrCreate);
+                FileStream aFile = new FileStream(filename, FileMode.Create);
                 StreamWriter sr = new StreamWriter(aFile);
                 sr.Write(text);
                 sr.Close();
