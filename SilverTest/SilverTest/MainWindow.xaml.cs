@@ -177,6 +177,25 @@ namespace SilverTest
             statusDayTimer.Start();
             //注册波形控件积分值变化事件
             realCpt.OnIntegrateValueChange(AreaIntegrateValueChangedHdlr);
+
+            //创建文件夹
+            if (!Directory.Exists("changelog\\"))
+            {
+                Directory.CreateDirectory("changelog\\");
+            }
+            if (!Directory.Exists("history\\"))
+            {
+                Directory.CreateDirectory("history\\");
+            }
+            if (!Directory.Exists("config\\"))
+            {
+                Directory.CreateDirectory("config\\");
+            }
+            if (!Directory.Exists("resources\\"))
+            {
+                Directory.CreateDirectory("resources\\");
+            }
+
         }
 
         private void statustimer_tickHdr(object sender, EventArgs e)
