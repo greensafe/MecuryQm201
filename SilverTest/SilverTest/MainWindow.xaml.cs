@@ -179,6 +179,24 @@ namespace SilverTest
             standardmitm.Icon = checkicon;
             warnmitm.Icon = null;
             liquidmitm.Icon = null;
+
+            //创建文件夹
+            if (!Directory.Exists("changelog\\"))
+            {
+                Directory.CreateDirectory("changelog\\");
+            }
+            if (!Directory.Exists("history\\"))
+            {
+                Directory.CreateDirectory("history\\");
+            }
+            if (!Directory.Exists("config\\"))
+            {
+                Directory.CreateDirectory("config\\");
+            }
+            if (!Directory.Exists("resources\\"))
+            {
+                Directory.CreateDirectory("resources\\");
+            }
         }
 
         private void ShowAlarmFunc(bool todo)
