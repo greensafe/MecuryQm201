@@ -173,7 +173,21 @@ namespace SilverTest
             {
                 Directory.CreateDirectory("resources\\");
             }
-            
+
+            //自适应窗口，并且居中
+            double heightgap = 0;
+            if(this.Height > SystemParameters.WorkArea.Size.Height)
+            {
+                double screenHeight = SystemParameters.PrimaryScreenHeight;
+                double screenWidth = SystemParameters.PrimaryScreenWidth;
+
+                heightgap = this.Height - SystemParameters.WorkArea.Size.Height;
+                standardSampleDgd.Height -= heightgap;
+                NewTargetDgd.Height -= heightgap;
+                this.Height -= heightgap;
+                this.Top = (SystemParameters.WorkArea.Size.Height - this.Height) / 2;
+                this.Left = (SystemParameters.WorkArea.Size.Width - this.Width) / 2;
+            }
         }
 
         private void statustimer_tickHdr(object sender, EventArgs e)
