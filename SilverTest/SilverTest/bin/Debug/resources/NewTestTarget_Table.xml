@@ -1,108 +1,15 @@
 <?xml version="1.0"?>
 <ArrayOfNewTestTarget xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <NewTestTarget>
-    <NewName>黄金泥</NewName>
-    <Code>14</Code>
-    <Weight>10</Weight>
-    <ResponseValue1>21000</ResponseValue1>
-    <Density>224.68551</Density>
-    <AirTotolBulk>1584</AirTotolBulk>
-    <AirSampleTime>16</AirSampleTime>
-    <AirFluent>99</AirFluent>
-    <AirG>∞</AirG>
-    <ThingInSamle>355.90185</ThingInSamle>
-    <GlobalID>N000000022</GlobalID>
+    <NewName>样品1</NewName>
+    <Code>1</Code>
   </NewTestTarget>
   <NewTestTarget>
-    <NewName>白银雪</NewName>
-    <Code>15</Code>
-    <Weight>6</Weight>
-    <ResponseValue1>6801</ResponseValue1>
-    <Density>5063.40652</Density>
-    <AirTotolBulk>23</AirTotolBulk>
-    <AirSampleTime />
-    <AirFluent>22</AirFluent>
-    <AirG />
-    <ThingInSamle>116.45835</ThingInSamle>
-    <InSampleQuality>6</InSampleQuality>
-    <GlobalID>N000000171</GlobalID>
+    <NewName>样品2</NewName>
+    <Code>2</Code>
   </NewTestTarget>
   <NewTestTarget>
-    <NewName>黄铜肌</NewName>
-    <Code>16</Code>
-    <Weight>8</Weight>
-    <ResponseValue1>6801</ResponseValue1>
-    <Density>521.7334</Density>
-    <AirTotolBulk>112</AirTotolBulk>
-    <AirSampleTime />
-    <AirFluent />
-    <AirG>0.52173</AirG>
-    <ThingInSamle>∞</ThingInSamle>
-    <GlobalID>N000000172</GlobalID>
-  </NewTestTarget>
-  <NewTestTarget>
-    <NewName>铁炉削</NewName>
-    <Code>17</Code>
-    <Weight>23</Weight>
-    <ResponseValue1>6801</ResponseValue1>
-    <Density>NaN</Density>
-    <AirTotolBulk>23</AirTotolBulk>
-    <AirSampleTime>23</AirSampleTime>
-    <AirFluent>23</AirFluent>
-    <AirG>0.00115</AirG>
-    <ThingInSamle>NaN</ThingInSamle>
-    <InSampleQuality>2323</InSampleQuality>
-    <GlobalID>N000000173</GlobalID>
-  </NewTestTarget>
-  <NewTestTarget>
-    <Code>19</Code>
-    <Weight>3</Weight>
-    <ResponseValue1>3222</ResponseValue1>
-    <Density>∞</Density>
-    <AirTotolBulk>3</AirTotolBulk>
-    <AirSampleTime>23</AirSampleTime>
-    <AirFluent>2</AirFluent>
-    <AirG>∞</AirG>
-    <GlobalID>N000000183</GlobalID>
-  </NewTestTarget>
-  <NewTestTarget>
-    <NewName>12</NewName>
-    <Code>21</Code>
-    <Weight>2</Weight>
-    <AirTotolBulk>42</AirTotolBulk>
-    <AirFluent>42</AirFluent>
-    <AirTotalFluent>32</AirTotalFluent>
-    <ThingInSamle>62</ThingInSamle>
-    <GlobalID>N000000185</GlobalID>
-  </NewTestTarget>
-  <NewTestTarget>
-    <NewName>22</NewName>
-    <Code>24</Code>
-    <Weight>3</Weight>
-    <AirTotolBulk>42</AirTotolBulk>
-    <AirFluent>52</AirFluent>
-    <AirTotalFluent>42</AirTotalFluent>
-    <ThingInSamle>72</ThingInSamle>
-    <GlobalID>N000000192</GlobalID>
-  </NewTestTarget>
-  <NewTestTarget>
-    <NewName>32</NewName>
-    <Code>25</Code>
-    <Weight>4</Weight>
-    <AirTotolBulk>42</AirTotolBulk>
-    <AirFluent>62</AirFluent>
-    <AirTotalFluent>52</AirTotalFluent>
-    <ThingInSamle>82</ThingInSamle>
-    <GlobalID>N000000193</GlobalID>
-  </NewTestTarget>
-  <NewTestTarget>
-    <NewName>42</NewName>
-    <Code>26</Code>
-    <Weight>5</Weight>
-    <AirTotolBulk>42</AirTotolBulk>
-    <AirFluent>72</AirFluent>
-    <AirTotalFluent>62</AirTotalFluent>
-    <ThingInSamle>92</ThingInSamle>
-    <GlobalID>N000000194</GlobalID>
+    <NewName>样品3</NewName>
+    <Code>3</Code>
   </NewTestTarget>
 </ArrayOfNewTestTarget>

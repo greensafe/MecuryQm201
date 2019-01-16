@@ -273,6 +273,7 @@ namespace SilverTest
                     }
                     newitem.Code = se.ToString();
                     newitem.GlobalID = GIDMaker.GetMaker().GetNId();
+                    newitem.NewName = "样品" + (newTestClt.Count + 1).ToString();
                     newTestClt.Add(newitem);
                     break;
                 //标样测试
@@ -295,6 +296,8 @@ namespace SilverTest
                     }
                     standarditem.Code = se.ToString();
                     standarditem.GlobalID = GIDMaker.GetMaker().GetSId();
+                    standarditem.SampleName = "标样" + (standardSampleClt.Count + 1).ToString() ;
+                    standarditem.GroupName = "组1";
                     standardSampleClt.Add(standarditem);
 
                     break;
@@ -1787,13 +1790,13 @@ namespace SilverTest
                     }
                     NewTestTarget n1 = new NewTestTarget();
                     n1.Code = "1";
-                    n1.NewName = "样品一";
+                    n1.NewName = "样品1";
                     NewTestTarget n2 = new NewTestTarget();
                     n2.Code = "2";
-                    n2.NewName = "样品二";
+                    n2.NewName = "样品2";
                     NewTestTarget n3 = new NewTestTarget();
                     n3.Code = "3";
-                    n3.NewName = "样品三";
+                    n3.NewName = "样品3";
                     newTestClt.Add(n1);
                     newTestClt.Add(n2);
                     newTestClt.Add(n3);
@@ -1805,17 +1808,17 @@ namespace SilverTest
                     }
                     StandardSample s1 = new StandardSample();
                     s1.Code = "1";
-                    s1.SampleName = "标样一";
-                    s1.GroupName = "组一";
+                    s1.SampleName = "标样1";
+                    s1.GroupName = "组1";
 
                     StandardSample s2 = new StandardSample();
                     s2.Code = "2";
-                    s2.SampleName = "标样二";
-                    s2.GroupName = "组一";
+                    s2.SampleName = "标样2";
+                    s2.GroupName = "组1";
                     StandardSample s3 = new StandardSample();
                     s3.Code = "3";
-                    s3.SampleName = "标样三";
-                    s3.GroupName = "组一";
+                    s3.SampleName = "标样3";
+                    s3.GroupName = "组1";
                     standardSampleClt.Add(s1);
                     standardSampleClt.Add(s2);
                     standardSampleClt.Add(s3);
