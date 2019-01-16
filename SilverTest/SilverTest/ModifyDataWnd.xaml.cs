@@ -102,8 +102,11 @@ namespace SilverTest
                 //save to change log 
                 string md5 = EasyEncryption.MD5.ComputeMD5Hash(text);
                 string filename = "changelog\\"+ md5 + ".change";
-
-                FileStream aFile = new FileStream(filename, FileMode.Create);
+                if (!Directory.Exists("changelog\\"))
+                {
+                    Directory.CreateDirectory("changelog\\");
+                }
+                FileStream aFile = new FileStream(filename, FileMode.OpenOrCreate);
                 StreamWriter sr = new StreamWriter(aFile);
                 sr.Write(text);
                 sr.Close();

@@ -232,6 +232,7 @@ namespace SilverTest
                     }
                     newitem.Code = se.ToString();
                     newitem.GlobalID = GIDMaker.GetMaker().GetNId();
+                    newitem.NewName = "样品"+ newTestClt.Count.ToString();
                     newTestClt.Add(newitem);
                     break;
                 //标样测试
@@ -254,6 +255,8 @@ namespace SilverTest
                     }
                     standarditem.Code = se.ToString();
                     standarditem.GlobalID = GIDMaker.GetMaker().GetSId();
+                    standarditem.SampleName = "标样" + standardSampleClt.Count.ToString();
+                    standarditem.GroupName = "组1";
                     standardSampleClt.Add(standarditem);
 
                     break;
@@ -1609,15 +1612,15 @@ namespace SilverTest
                     n1.AirG = "0";
                     NewTestTarget n2 = new NewTestTarget();
                     n2.Code = "2";
-                    n2.NewName = "样品一";
+                    n2.NewName = "样品1";
                     n2.GlobalID = GIDMaker.GetMaker().GetNId();
                     NewTestTarget n3 = new NewTestTarget();
                     n3.Code = "3";
-                    n3.NewName = "样品二";
+                    n3.NewName = "样品2";
                     n3.GlobalID = GIDMaker.GetMaker().GetNId();
                     NewTestTarget n4 = new NewTestTarget();
                     n4.Code = "4";
-                    n4.NewName = "样品三";
+                    n4.NewName = "样品3";
                     n4.GlobalID = GIDMaker.GetMaker().GetNId();
 
                     newTestClt.Add(n1);
@@ -1634,23 +1637,23 @@ namespace SilverTest
 
                     s1.Code = "1";
                     s1.SampleName = "标样空白";
-                    s1.GroupName = "组一";
+                    s1.GroupName = "组1";
                     s1.AirG = "0";
                     s1.GlobalID = GIDMaker.GetMaker().GetSId();
                     StandardSample s2 = new StandardSample();
                     s2.Code = "2";
-                    s2.SampleName = "标样一";
-                    s2.GroupName = "组一";
+                    s2.SampleName = "标样1";
+                    s2.GroupName = "组1";
                     s2.GlobalID = GIDMaker.GetMaker().GetSId();
                     StandardSample s3 = new StandardSample();
                     s3.Code = "3";
-                    s3.SampleName = "标样二";
-                    s3.GroupName = "组一";
+                    s3.SampleName = "标样2";
+                    s3.GroupName = "组1";
                     s3.GlobalID = GIDMaker.GetMaker().GetSId();
                     StandardSample s4 = new StandardSample();
                     s4.Code = "4";
-                    s4.SampleName = "标样三";
-                    s4.GroupName = "组一";
+                    s4.SampleName = "标样3";
+                    s4.GroupName = "组1";
                     s4.GlobalID = GIDMaker.GetMaker().GetSId();
                     standardSampleClt.Add(s1);
                     standardSampleClt.Add(s2);
