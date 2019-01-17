@@ -265,12 +265,12 @@
                                 <DataGridTemplateColumn Header="选择标样" Width="*">
                                     <DataGridTemplateColumn.CellTemplate >
                                         <DataTemplate>
-                                            <ComboBox x:Name="standardCmb" SelectionChanged="standardCmb_SelectionChanged" 
+                                            <ComboBox x:Name="standardCmb" 
                                                       ItemsSource="{Binding ItemsSource, ElementName=standardSampleDgd}"
                                                       DisplayMemberPath="GroupName" SelectedValuePath="Code"
                                                       Width="100"
                                                       HorizontalAlignment="Left"
-                                                      SelectedValue="{Binding SampleName}" Loaded="standardCmb_Loaded">
+                                                      SelectedValue="{Binding SampleName}" Loaded="standardCmb_Loaded" DropDownClosed="StandardCmb_DropDownClosed">
                                             </ComboBox>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
