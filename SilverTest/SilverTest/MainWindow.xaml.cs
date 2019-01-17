@@ -913,7 +913,7 @@ namespace SilverTest
                 {
                     v.A = Math.Round(a,2).ToString();
                     v.B = Math.Round(b,2).ToString();
-                    v.R = Math.Round(R,3).ToString();
+                    v.R = Math.Round(R,4).ToString();
                 }
             }
         }
@@ -1207,7 +1207,7 @@ namespace SilverTest
                 {
                     v.A = Math.Round(a,2).ToString();
                     v.B = Math.Round(b,2).ToString();
-                    v.R = Math.Round(R,3).ToString();
+                    v.R = Math.Round(R,4).ToString();
                 }
 
             }
@@ -1215,7 +1215,7 @@ namespace SilverTest
             //绘制R 线性回归图
             //
             if (a.ToString() == "NaN" || b.ToString() == "NaN") return;
-            drawR(x, y, Math.Round(a, 2), Math.Round(b, 2), Math.Round(R, 3), groupname);
+            drawR(x, y, Math.Round(a, 2), Math.Round(b, 2), Math.Round(R, 4), groupname);
         }
 
         private void testliquidMenu_Click(object sender, RoutedEventArgs e)
