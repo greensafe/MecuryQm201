@@ -1025,13 +1025,13 @@ namespace SilverTest
                 return;
             }
             if (getStandardCltIndex(standardSampleDgd.SelectedIndex) == -1) return;
-            string groupname = standardSampleClt[getStandardCltIndex( standardSampleDgd.SelectedIndex )].GroupName;
+            string groupname = standardSampleClt[getStandardCltIndex(standardSampleDgd.SelectedIndex)].GroupName;
             //计算组的成员个数，同时寻找标样空白的响应值
-            foreach(StandardSample item in standardSampleClt)
+            foreach (StandardSample item in standardSampleClt)
             {
                 if (item.GroupName == groupname)
                 {
-                    if(item.SampleName == "标样空白")
+                    if (item.SampleName == "标样空白")
                     {
                         try
                         {
@@ -1073,14 +1073,14 @@ namespace SilverTest
                             }
                             break;
                     }
-                   
+
                 }
             }
 
-            
+
             x = new double[len];
             y = new double[len];
-            foreach(StandardSample v in standardSampleClt)
+            foreach (StandardSample v in standardSampleClt)
             {
                 if (v.GroupName == groupname && v.SampleName != "标样空白")
                 {
@@ -1099,10 +1099,14 @@ namespace SilverTest
                     samplenames.Add(v.SampleName);
                     index++;
                 }
-                
+
             }
             Utility.ComputeAB(out a, out b, x, y);
             R = Utility.ComputeR(x, y);
+            if (x.Length == 1) { 
+                R = 1;
+                a = 1;
+            }
             foreach(StandardSample v in standardSampleClt)
             {
                 if (v.GroupName == groupname)
@@ -1503,6 +1507,12 @@ namespace SilverTest
             Utility.ComputeAB(out a, out b, x, y);
 
             R = Utility.ComputeR(x, y);
+            if (x.Length == 1)
+            {
+                R = 1;
+                a = 1;
+            }
+                
             foreach (StandardSample v in standardSampleClt)
             {
                 if (v.GroupName == groupname)

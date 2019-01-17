@@ -14,7 +14,7 @@
       </compute>
     </response>
     <wavehistory>
-      <fileid newsample="242" standardsample="130" />
+      <fileid newsample="242" standardsample="133" />
     </wavehistory>
   </QM201H>
 </config>
