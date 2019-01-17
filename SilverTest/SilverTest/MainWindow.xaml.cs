@@ -987,6 +987,11 @@ namespace SilverTest
             }
             Utility.ComputeAB(out a, out b, x, y);
             R = Utility.ComputeR(x, y);
+            if(x.Length == 1)
+            {
+                R = 1;
+                a = 1;
+            }
             foreach(StandardSample v in standardSampleClt)
             {
                 if (v.GroupName == groupname)
@@ -1339,6 +1344,11 @@ namespace SilverTest
             Utility.ComputeAB(out a, out b, x, y);
 
             R = Utility.ComputeR(x, y);
+            if(x.Length == 1)
+            {
+                R = 1;
+                a = 1;
+            }
             foreach (StandardSample v in standardSampleClt)
             {
                 if (v.GroupName == groupname)
