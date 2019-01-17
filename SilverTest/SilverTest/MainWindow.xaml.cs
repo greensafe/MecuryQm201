@@ -2682,5 +2682,58 @@ namespace SilverTest
 //            var grid = (DataGrid)sender;
             //grid.CommitEdit(DataGridEditingUnit.Row, true);
         }
+
+        private void StandardCmb_DropDownClosed(object sender, EventArgs e)
+        {
+            double a, b, r;
+            int rowNo;
+            int cltindex;
+
+            try
+            {
+                ComboBox cb = sender as ComboBox;
+                int i = cb.SelectedIndex;
+                StandardSample ss = cb.SelectedItem as StandardSample;
+
+                rowNo = NewTargetDgd.SelectedIndex;
+                cltindex = getNewCltIndex(rowNo);
+                if (cltindex == -1) return;
+                if (rowNo < 0)
+                    return;
+                if (newTestClt[cltindex].ResponseValue1 == "" ||
+                    newTestClt[cltindex].ResponseValue1 == null ||
+                    ss.A is null ||
+                    ss.B is null ||
+                    ss.R is null
+                    )
+                    return;
+
+                if (newTestClt[cltindex].AirFluent == "" || newTestClt[cltindex].AirFluent is null ||
+                    newTestClt[cltindex].AirSampleTime == "" || newTestClt[cltindex].AirSampleTime is null)
+                {
+                    return;
+                }
+
+                aTxb.Text = ss.A;
+                bTxb.Text = ss.B;
+                rTxt.Text = ss.R;
+
+                a = double.Parse(ss.A);
+                b = double.Parse(ss.B);
+                r = double.Parse(ss.R);
+            }
+            catch
+            {
+                return;
+            }
+
+            //如果有平均值则计算汞浓度
+            newTestClt[cltindex].AirTotolBulk =
+                (Math.Round(double.Parse(newTestClt[cltindex].AirFluent) * double.Parse(newTestClt[cltindex].AirSampleTime),
+                    2)).ToString();
+            //y-b/a
+            newTestClt[cltindex].AirG =
+                Math.Round(0.001 * (double.Parse(newTestClt[cltindex].ResponseValue1) - b) / a, 5).ToString();
+        }
     }
 }
