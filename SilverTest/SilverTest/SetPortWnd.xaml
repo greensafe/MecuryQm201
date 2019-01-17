@@ -102,7 +102,7 @@
             <StackPanel DockPanel.Dock="Bottom" Height="50" Orientation="Horizontal">
                 <Canvas>
                     <Button x:Name="applybtn" Content="应用" Height="30" Width="60" Click="applybtn_Click" Canvas.Left="91" Canvas.Top="10"/>
-                    <Button x:Name="exitbtn" Content="取消" Height="30" Width="60" Click="exitbtn_Click" Canvas.Left="227" Canvas.Top="10"/>
+                    <Button x:Name="exitbtn" Content="关闭" Height="30" Width="60" Click="exitbtn_Click" Canvas.Left="227" Canvas.Top="10"/>
                 </Canvas>
             </StackPanel>
 
