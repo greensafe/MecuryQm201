@@ -259,7 +259,6 @@
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="序号" Width="80" Binding="{Binding Code,Mode=TwoWay}" IsReadOnly="True"></DataGridTextColumn>
                                 <DataGridTextColumn Header="样品名" Width="80" Binding="{Binding NewName,Mode=TwoWay}"></DataGridTextColumn>
-                                <DataGridTextColumn Header="产地" Width="80" Visibility="Collapsed" Binding="{Binding Place,Mode=TwoWay}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="响应值" Width="80" Binding="{Binding ResponseValue1,Mode=TwoWay}" IsReadOnly="True"></DataGridTextColumn>
                                 <DataGridTextColumn Header="响应值2" Width="80" Binding="{Binding ResponseValue2,Mode=TwoWay}" Visibility="Hidden" IsReadOnly="True"></DataGridTextColumn>
                                 <DataGridTextColumn Header="响应值3" Width="80" Binding="{Binding ResponseValue3,Mode=TwoWay}" Visibility="Hidden" IsReadOnly="True"></DataGridTextColumn>
@@ -289,7 +288,7 @@
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
-
+                                <DataGridTextColumn Header="产地" Width="80" Visibility="Collapsed" Binding="{Binding Place,Mode=TwoWay}"></DataGridTextColumn>
                             </DataGrid.Columns>
                         </DataGrid>
                     </StackPanel>

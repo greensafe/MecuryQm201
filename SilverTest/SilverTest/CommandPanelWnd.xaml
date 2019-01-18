@@ -21,7 +21,7 @@
                 </Canvas.Effect>
 
                 <TextBlock Width="50" TextAlignment="Right" Canvas.Top="22" Canvas.Left="77">时间</TextBlock>
-                <ComboBox x:Name="timeParamTxt" Width="75" SelectedIndex="0"
+                <ComboBox x:Name="timeParamTxt" Width="75" SelectedIndex="5"
                                          Canvas.Left="133" Canvas.Top="17" Height="13"
                                          IsEnabled="False"   
                          >
@@ -42,11 +42,11 @@
                 <TextBlock Width="50" TextAlignment="Right" Canvas.Top="90" Canvas.Left="78">放大倍数</TextBlock>
                 <TextBox x:Name="enlargeParamTxt" Width="50" TextAlignment="Center" TextChanged="enlargeParamTxt_TextChanged" 
                                          Height="13" IsEnabled="False"
-                                         Canvas.Left="133" Canvas.Top="85">1</TextBox>
+                                         Canvas.Left="133" Canvas.Top="85">3</TextBox>
                 <TextBlock Width="50" TextAlignment="Right" Canvas.Top="159" Canvas.Left="77">高压</TextBlock>
                 <TextBox x:Name="presureParamTxt" IsEnabled="False" Width="50" TextAlignment="Center" TextChanged="presureParamTxt_TextChanged" Canvas.Left="133" Canvas.Top="154">-500</TextBox>
                 <TextBlock Width="50" TextAlignment="Right" Canvas.Top="56" Canvas.Left="77">流量</TextBlock>
-                <ComboBox  x:Name="fluParamTxt" SelectedIndex="0" IsEnabled="False" Width="75" Canvas.Left="133" Canvas.Top="51">
+                <ComboBox  x:Name="fluParamTxt" SelectedIndex="4" IsEnabled="False" Width="75" Canvas.Left="133" Canvas.Top="51">
                     <ComboBoxItem>0.2L/m</ComboBoxItem>
                     <ComboBoxItem>0.3L/m</ComboBoxItem>
                     <ComboBoxItem>0.4L/m</ComboBoxItem>
@@ -56,7 +56,7 @@
                     <ComboBoxItem>1.0L/m</ComboBoxItem>
                 </ComboBox>
                 <TextBlock Width="50" TextAlignment="Right" Canvas.Top="124" Canvas.Left="78">清洗时长</TextBlock>
-                <ComboBox  x:Name="washtimeParamTxt" SelectedIndex="0" IsEnabled="False" Width="75" Canvas.Left="133" Canvas.Top="119">
+                <ComboBox  x:Name="washtimeParamTxt" SelectedIndex="4" IsEnabled="False" Width="75" Canvas.Left="133" Canvas.Top="119">
                     <ComboBoxItem>2m</ComboBoxItem>
                     <ComboBoxItem>3m</ComboBoxItem>
                     <ComboBoxItem>4m</ComboBoxItem>
@@ -125,9 +125,9 @@
                             </Label>
                         </StackPanel>
                         <StackPanel Width="127" Margin="0,5,0,0">
-                            <TextBox x:Name="enlargeblk" Width="90" Height="20" IsEnabled="False" HorizontalAlignment="Left">1</TextBox>
-                            <TextBox x:Name="fluentblk" Width="90" Height="20" IsEnabled="False" HorizontalAlignment="Left">3</TextBox>
-                            <TextBox Width="90" Height="25"  IsEnabled="False" HorizontalAlignment="Left">2</TextBox>
+                            <TextBox x:Name="enlargeblk" Width="90" Height="20" IsEnabled="False" HorizontalAlignment="Left">0</TextBox>
+                            <TextBox x:Name="fluentblk" Width="90" Height="20" IsEnabled="False" HorizontalAlignment="Left">0</TextBox>
+                            <TextBox Width="90" Height="25"  IsEnabled="False" HorizontalAlignment="Left">0</TextBox>
                         </StackPanel>
                     </StackPanel>
                     <Canvas Height="30" >
