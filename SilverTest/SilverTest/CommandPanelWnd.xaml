@@ -118,7 +118,7 @@
                 <StackPanel x:Name="buttoncontainerstp" Width="104" 
                         Background="Transparent"
                         MouseLeftButtonDown="buttoncontainerstp_MouseLeftButtonDown" Canvas.Left="66" Canvas.Top="60" Margin="0,0,0,14">
-                    <Button x:Name="pm1" FontSize="12" Content="测量 >" Height="30" Width="70" HorizontalAlignment="Left" MouseEnter="pm1_MouseEnter" Click="pm1_Click" >
+                    <Button x:Name="pm1" FontSize="12" Content="液体测量 >" Height="30" Width="70" HorizontalAlignment="Left" MouseEnter="pm1_MouseEnter" Click="pm1_Click" >
                     </Button>
                     <Button x:Name="m11" FontSize="12" Content="取样" Height="30" Width="60" HorizontalAlignment="Left" Background="LightPink" Margin="20,2,0,0"  Visibility="Collapsed" Click="m11_Click"></Button>
                     <Button x:Name="m12" FontSize="12" Content="清洗" Height="30" Width="60" HorizontalAlignment="Left" Background="LightPink" Margin="20,2,0,0" Visibility="Collapsed" Click="m12_Click"></Button>
@@ -133,7 +133,7 @@
                     <Button x:Name="m51" Content="清洗" Height="30" Width="60" HorizontalAlignment="Left" Background="LightPink" Margin="20,2,0,0" Visibility="Collapsed" Click="m51_Click"></Button>
                     <Button x:Name="m52" FontSize="12" Content="测量" Height="30" Width="60" HorizontalAlignment="Left" Background="LightPink" Margin="20,2,0,0" Visibility="Collapsed" Click="m52_Click" ></Button>
                     <Button x:Name="m53" FontSize="12" Content="返回上一级" Height="30" Width="75" HorizontalAlignment="Left" Background="LightPink" Margin="20,2,0,0" Visibility="Collapsed" Click="m53_Click"></Button>
-                    <Button x:Name="pm6" FontSize="12" Content="参数设置"  Height="30" Width="70" HorizontalAlignment="Left" Click="pm6_Click"></Button>
+                    <Button x:Name="pm6" FontSize="12" Content="参数设置"  Height="30" Width="70" HorizontalAlignment="Left" Click="pm6_Click" Visibility="Collapsed"></Button>
                     <Button x:Name="pmb" FontSize="12" Content="能量值调整"  Height="30" Width="70" HorizontalAlignment="Left" Click="Pmb_Click"></Button>
                     <Button x:Name="pma" FontSize="12" Content="快速测量"  Height="30" Width="70" HorizontalAlignment="Left" Click="Pma_Click"></Button>
                     <Button x:Name="ma1" FontSize="12" Content="开始" Height="30" Width="75" HorizontalAlignment="Left" Background="LightPink" Margin="20,2,0,0" Visibility="Collapsed" Click="Ma1_Click"></Button>
@@ -161,20 +161,30 @@
                     <StackPanel Height="150" Orientation="Horizontal" Margin="0,20">
                         <StackPanel Width="100">
                             <Label Width="90" Height="30" HorizontalAlignment="Right" HorizontalContentAlignment="Right">
+                                主通道调整值:
+                            </Label>
+                            <Label Width="90" Height="30" HorizontalAlignment="Right" HorizontalContentAlignment="Right">
+                                副通道调整值:
+                            </Label>
+                            <Label Width="90" Height="30" HorizontalAlignment="Right" HorizontalContentAlignment="Right"
+                                   Visibility="Collapsed">
                                 放大倍数:
                             </Label>
-                            <Label Width="90" Height="30" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Content="流量:"/>
-                            <Label Width="90" Height="30" HorizontalAlignment="Right" HorizontalContentAlignment="Right">
+                            <Label Width="90" Height="30" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Content="流量:"
+                                   Visibility="Collapsed"/>
+                            <Label Width="90" Height="30" HorizontalAlignment="Right" HorizontalContentAlignment="Right"
+                                   Visibility="Collapsed">
                                 高压值:
                             </Label>
-                            <Label Width="90" Height="30" HorizontalAlignment="Right" HorizontalContentAlignment="Right">
+                            <Label Width="90" Height="30" HorizontalAlignment="Right" HorizontalContentAlignment="Right"
+                                   Visibility="Collapsed">
                                 实时:
                             </Label>
                         </StackPanel>
                         <StackPanel Width="127" Margin="0,5,0,0">
-                            <TextBox x:Name="enlargeblk" Width="90" Height="20" IsEnabled="False" HorizontalAlignment="Left">1</TextBox>
-                            <TextBox x:Name="fluentblk" Width="90" Height="20" IsEnabled="False" HorizontalAlignment="Left">3</TextBox>
-                            <TextBox Width="90" Height="25"  IsEnabled="False" HorizontalAlignment="Left">2</TextBox>
+                            <TextBox x:Name="enlargeblk" Width="90" Height="20" IsEnabled="False" HorizontalAlignment="Left" >3</TextBox>
+                            <TextBox x:Name="fluentblk" Width="90" Height="20" IsEnabled="False" HorizontalAlignment="Left" >3</TextBox>
+                            <TextBox Width="90" Height="25"  IsEnabled="False" HorizontalAlignment="Left" Visibility="Collapsed">2</TextBox>
                         </StackPanel>
                     </StackPanel>
                     <Canvas Height="30" >

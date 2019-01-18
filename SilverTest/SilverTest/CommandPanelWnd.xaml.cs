@@ -1272,9 +1272,9 @@ namespace SilverTest
         private void pm1_Click(object sender, RoutedEventArgs e)
         {
             //气体测量父菜单
-            if(m11.Visibility == Visibility.Collapsed)
+            if(m12.Visibility == Visibility.Collapsed)
             {
-                m11.Visibility = Visibility.Visible;
+                m11.Visibility = Visibility.Collapsed;
                 m12.Visibility = Visibility.Visible;
                 m13.Visibility = Visibility.Visible;
                 m14.Visibility = Visibility.Visible;
@@ -1283,7 +1283,7 @@ namespace SilverTest
             }
             else
             {
-                m11.Visibility = Visibility.Collapsed;
+                m12.Visibility = Visibility.Collapsed;
                 m12.Visibility = Visibility.Collapsed;
                 m13.Visibility = Visibility.Collapsed;
                 m14.Visibility = Visibility.Collapsed;
