@@ -896,10 +896,12 @@ namespace SilverTest
                     break;
                 case PacketType.RES_COMPUTE_VALUE:
                     Console.WriteLine("计算响应值:" + sequence.ToString());
+                    double sequence_double = (double)sequence;
+                    sequence_double = sequence_double / 100;  //将值左移动2位
                     //如果是监控状态，则查看是否要报警
                     if(cmdpanelWnd != null && cmdpanelWnd.is_watching == true)
                     {
-                        if(sequence > AlarmValue)
+                        if(sequence_double > AlarmValue)
                         {
                             AlarmRedObject.GetAlarmObject().NeedAlarm();
                             //AnimatedWarningButton.Visibility = Visibility.Visible;
@@ -914,12 +916,12 @@ namespace SilverTest
                                 newcltindex = getNewCltIndexFromSelected(testing_selected_new);
                                 if (newcltindex == -1) return;
                                 newTestClt[newcltindex].ResponseValue1 =
-                                    sequence.ToString();
+                                    sequence_double.ToString();
                                 break;
                             case 1:         //标样测试
                                 if (getStandardCltIndexFromSelected(testing_selected_standard) == -1) return;
                                 standardSampleClt[getStandardCltIndexFromSelected(testing_selected_standard)].ResponseValue1 =
-                                    sequence.ToString();
+                                    sequence_double.ToString();
                                 break;
                         }
                     }));
