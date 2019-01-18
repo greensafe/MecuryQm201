@@ -16,7 +16,7 @@
                     Background="White"
                     Width="247" Height="339"
                     Canvas.Left="143" Canvas.Top="15">
-                <ComboBox x:Name="maintuntxt" IsEnabled="False" Width="75"  Canvas.Left="138" Canvas.Top="37" Text="3.3" SelectedIndex="0">
+                <ComboBox x:Name="maintuntxt" IsEnabled="False" Width="75"  Canvas.Left="138" Canvas.Top="37" Text="3.3" SelectedIndex="3">
                     <ComboBoxItem>0</ComboBoxItem>
                     <ComboBoxItem>1</ComboBoxItem>
                     <ComboBoxItem>2</ComboBoxItem>
@@ -27,7 +27,7 @@
                     <ComboBoxItem>7</ComboBoxItem>
                 </ComboBox>
                 <TextBlock Width="50" TextAlignment="Right" Canvas.Top="45" Canvas.Left="83" Text="主通道值"/>
-                <ComboBox x:Name="vicetuntxt" IsEnabled="False" Width="75" Canvas.Left="138" Canvas.Top="75" Text="3.3" SelectedIndex="0">
+                <ComboBox x:Name="vicetuntxt" IsEnabled="False" Width="75" Canvas.Left="138" Canvas.Top="75" Text="3.3" SelectedIndex="3">
                     <ComboBoxItem>0</ComboBoxItem>
                     <ComboBoxItem>1</ComboBoxItem>
                     <ComboBoxItem>2</ComboBoxItem>
