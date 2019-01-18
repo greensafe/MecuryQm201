@@ -643,7 +643,7 @@ namespace SilverTest
                             statustxt.Text = "校准命令执行失败";
                             statustxt_2.Content = "校准命令执行失败";
                         }
-                        else
+                        else if(result == 2)
                         {
                             statustxt.Text = "校转命令执行成功";
                             statustxt_2.Content = "校转命令执行成功";
@@ -657,7 +657,7 @@ namespace SilverTest
                             statustxt.Text = "通信命令执行失败";
                             statustxt_2.Content = "通信命令执行失败";
                         }
-                        else
+                        else if(result == 2)
                         {
                             statustxt.Text = "同行命令执行成功";
                             statustxt_2.Content = "同行命令执行成功";
@@ -671,7 +671,7 @@ namespace SilverTest
                             statustxt.Text = "液体清洗命令执行失败";
                             statustxt_2.Content = "液体清洗命令执行失败";
                         }
-                        else
+                        else if(result == 2)
                         {
                             statustxt.Text = "液体清洗命令执行成功";
                             statustxt_2.Content = "液体清洗命令执行成功";
@@ -725,13 +725,33 @@ namespace SilverTest
                         comstatus = CommandPanlStatus.Liquid_Testing_Finished;
                         EnableUI();
                         break;
+                    case 0xc3:  //液体测量-保存数据
+                        if (result == 0)
+                        {
+                            statustxt.Text = "液体保存命令执行失败";
+                            statustxt_2.Content = "液体保存命令执行失败";
+                        }
+                        else if(result ==1)
+                        {
+                            statustxt.Text = "液体保存命令正在执行";
+                            statustxt_2.Content = "液体保存命令正在执行";
+                        }
+                        else if(result == 2)
+                        {
+                            statustxt.Text = "液体保存命令执行成功";
+                            statustxt_2.Content = "液体保存命令执行成功";
+
+                        }
+                        comstatus = CommandPanlStatus.Idle;
+                        EnableUI();
+                        break;
                     case 0x70: //状态获取
                         if (result == 0)
                         {
                             statustxt.Text = "获取状态命令执行失败";
                             statustxt_2.Content = "获取状态命令执行失败";
                         }
-                        else
+                        else if(result == 2)
                         {
                             statustxt.Text = "获取状态命令执行成功";
                             statustxt_2.Content = "获取状态命令执行成功";
@@ -793,8 +813,8 @@ namespace SilverTest
             m13.Visibility = Visibility.Collapsed;
             m14.Visibility = Visibility.Collapsed;
 
-            m51.Visibility = Visibility.Collapsed;
-            m52.Visibility = Visibility.Collapsed;
+            //m51.Visibility = Visibility.Collapsed;
+            //m52.Visibility = Visibility.Collapsed;
         }
 
         private void m11_Click(object sender, RoutedEventArgs e)
@@ -1095,11 +1115,15 @@ namespace SilverTest
 
                 m51.Visibility = Visibility.Visible;
                 m52.Visibility = Visibility.Visible;
+                m53.Visibility = Visibility.Visible;
+                m54.Visibility = Visibility.Visible;
             }
             else
             {
                 m51.Visibility = Visibility.Collapsed;
                 m52.Visibility = Visibility.Collapsed;
+                m53.Visibility = Visibility.Collapsed;
+                m54.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -1259,6 +1283,29 @@ namespace SilverTest
                 MessageBox.Show("端口未打开");
             };
         }
+
+        private void m54_Click(object sender, RoutedEventArgs e)
+        {
+            //液体测量-保存
+            if (comstatus == CommandPanlStatus.Liquid_Testing_Data_Saving)
+                return; //donn't repeat send
+            byte[] data = new byte[8] { 0x01, 0x01, 0x0c, 0x03, 0x00, 0x00, 0, 0 };
+
+            ushort crc = Utility.CRC16(data, 6);
+
+            data[6] = (byte)(crc >> 8);
+            data[7] = (byte)crc;
+            if (SerialDriver.GetDriver().Send(data))
+            {
+                statustxt.Text = "液体测量保存命令已发出";
+                statustxt_2.Content = "液体测量保存命令已发出";
+                comstatus = CommandPanlStatus.Liquid_Testing_Data_Saving;
+            }
+            else
+            {
+                MessageBox.Show("端口未打开");
+            };
+        }
     }
 
     public enum CommandPanlStatus
@@ -1294,6 +1341,6 @@ namespace SilverTest
         AirTestReturn_Finished,     //气体测量返回上一级菜单命令完成
         LiquidTestReturn_Waiting,   //液体测量返回上一级菜单   
         LiquidTestReturn_Finished,  //液体测量返回上一级菜单命令完成
-
+        Liquid_Testing_Data_Saving, //液体测量正在保存数据
     }
 }
