@@ -813,8 +813,14 @@ namespace SilverTest
             m13.Visibility = Visibility.Collapsed;
             m14.Visibility = Visibility.Collapsed;
 
-            //m51.Visibility = Visibility.Collapsed;
-            //m52.Visibility = Visibility.Collapsed;
+            m21.Visibility = Visibility.Collapsed;
+            m22.Visibility = Visibility.Collapsed;
+
+            m51.Visibility = Visibility.Collapsed;
+            m52.Visibility = Visibility.Collapsed;
+            m53.Visibility = Visibility.Collapsed;
+            m54.Visibility = Visibility.Collapsed;
+
         }
 
         private void m11_Click(object sender, RoutedEventArgs e)
