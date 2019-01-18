@@ -1011,7 +1011,7 @@ namespace SilverTest
                 setparamok.IsEnabled = false;
                 //开启timer，发送三次推出命令
                 DispatcherTimer atimer = new DispatcherTimer();
-                atimer.Interval = new TimeSpan(0, 0, 0, 1);
+                atimer.Interval = new TimeSpan(0, 0, 0, 0,100);
                 atimer.Tag = 0;
                 atimer.Tick += new EventHandler(returnTimerHdlr);
                 atimer.Start();
