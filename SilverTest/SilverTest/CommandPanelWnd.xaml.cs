@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-
+using System.Windows.Threading;
 
 namespace SilverTest
 {
@@ -984,9 +984,11 @@ namespace SilverTest
                 parampanel.Visibility = Visibility.Collapsed;
         }
 
+        bool is_returning_top_menu = false; //从参数设置屏幕返回上级菜单
         private void setparamcancel_Click(object sender, RoutedEventArgs e)
         {
             //退出参数设置界面
+            /*
             byte[] data = new byte[8] { 0x01, 0x01, 0x01, 0x06, 0x00, 0x00, 0, 0 };
             ushort crc;
 
@@ -1000,6 +1002,51 @@ namespace SilverTest
             }
 
             parampanel.Visibility = Visibility.Collapsed;
+            */
+            //启动定时器，发出返回命令
+            if (is_returning_top_menu == false)
+            {
+                //禁用UI
+                setparamcancel.IsEnabled = false;
+                setparamok.IsEnabled = false;
+                //开启timer，发送三次推出命令
+                DispatcherTimer atimer = new DispatcherTimer();
+                atimer.Interval = new TimeSpan(0, 0, 0, 1);
+                atimer.Tag = 0;
+                atimer.Tick += new EventHandler(returnTimerHdlr);
+                atimer.Start();
+            }
+        }
+
+        private void returnTimerHdlr(object sender, EventArgs e)
+        {
+            DispatcherTimer atimer = (sender as DispatcherTimer);
+
+            //退出参数设置界面
+            byte[] data = new byte[8] { 0x01, 0x01, 0x01, 0x06, 0x00, 0x00, 0, 0 };
+            ushort crc;
+
+            crc = Utility.CRC16(data, 6);
+            data[6] = (byte)(crc >> 8);
+            data[7] = (byte)crc;
+            if (SerialDriver.GetDriver().Send(data))
+            {
+                statustxt.Text = "返回命令已发出";
+                statustxt_2.Content = "返回命令已发出";
+            }
+            Console.WriteLine("返回上级菜单命令发出一次");
+
+            atimer.Tag = (int)atimer.Tag + 1;
+            if ((int)atimer.Tag == 5)
+            {
+                atimer.Stop();
+                atimer = null;
+                is_returning_top_menu = false;
+
+                setparamcancel.IsEnabled = true;
+                setparamok.IsEnabled = true;
+                parampanel.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void setparamok_Click(object sender, RoutedEventArgs e)
