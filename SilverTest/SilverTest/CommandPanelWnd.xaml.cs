@@ -766,7 +766,7 @@ namespace SilverTest
                         comstatus = CommandPanlStatus.Communicate_Finished;
                         EnableUI();
                         break;
-                    case 0x61: //液体测量-清洗
+                    case 0xc1: //液体测量-清洗
                         if (result == 0)
                         {
                             statustxt.Text = "液体清洗命令执行失败";
@@ -781,7 +781,7 @@ namespace SilverTest
                         comstatus = CommandPanlStatus.Liquid_Wash_Finished;
                         EnableUI();
                         break;
-                    case 0x62: //液体测量-测量
+                    case 0xc2: //液体测量-测量
                         if (result == 0)
                         {
                             statustxt.Text = "液体测量命令执行失败";
@@ -1115,7 +1115,7 @@ namespace SilverTest
             //液体清洗命令
             if (comstatus == CommandPanlStatus.Liquid_Wash_Doing || comstatus == CommandPanlStatus.Liquid_Wash_Waiting)
                 return; //donn't repeat send command
-            byte[] data = new byte[8] { 0x01, 0x01, 0x08, 0x01, 0x00, 0x00, 0, 0 };
+            byte[] data = new byte[8] { 0x01, 0x01, 0x0c, 0x01, 0x00, 0x00, 0, 0 };
 
             ushort crc = Utility.CRC16(data, 6);
 
@@ -1181,7 +1181,7 @@ namespace SilverTest
             //液体测量
             if (comstatus == CommandPanlStatus.Liquid_Wash_Doing || comstatus == CommandPanlStatus.Liquid_Wash_Waiting)
                 return; //donn't repeat send
-            byte[] data = new byte[8] { 0x01, 0x01, 0x08, 0x02, 0x00, 0x00, 0, 0 };
+            byte[] data = new byte[8] { 0x01, 0x01, 0x0c, 0x02, 0x00, 0x00, 0, 0 };
 
             ushort crc = Utility.CRC16(data, 6);
 
@@ -1342,7 +1342,7 @@ namespace SilverTest
         private void m53_Click(object sender, RoutedEventArgs e)
         {
             //液体测量-返回上一级菜单
-            byte[] data = new byte[8] { 0x01, 0x01, 0x08, 0x06, 0x00, 0x00, 0, 0 };
+            byte[] data = new byte[8] { 0x01, 0x01, 0x0c, 0x06, 0x00, 0x00, 0, 0 };
 
             ushort crc = Utility.CRC16(data, 6);
 
