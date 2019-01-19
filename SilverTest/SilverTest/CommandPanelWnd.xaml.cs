@@ -793,8 +793,13 @@ namespace SilverTest
             m13.Visibility = Visibility.Collapsed;
             m14.Visibility = Visibility.Collapsed;
 
+            m21.Visibility = Visibility.Collapsed;
+            m22.Visibility = Visibility.Collapsed;
+
             m51.Visibility = Visibility.Collapsed;
             m52.Visibility = Visibility.Collapsed;
+            m53.Visibility = Visibility.Collapsed;
+            m54.Visibility = Visibility.Collapsed;
         }
 
         private void m11_Click(object sender, RoutedEventArgs e)
@@ -1094,11 +1099,15 @@ namespace SilverTest
 
                 m51.Visibility = Visibility.Visible;
                 m52.Visibility = Visibility.Visible;
+                m53.Visibility = Visibility.Visible;
+                m54.Visibility = Visibility.Collapsed;
             }
             else
             {
                 m51.Visibility = Visibility.Collapsed;
                 m52.Visibility = Visibility.Collapsed;
+                m53.Visibility = Visibility.Collapsed;
+                m54.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -1258,6 +1267,28 @@ namespace SilverTest
                 MessageBox.Show("端口未打开");
             };
         }
+
+        private void m54_Click(object sender, RoutedEventArgs e)
+        {
+            //液体测量-保存
+            if (comstatus == CommandPanlStatus.Liquid_Data_Saving)
+                return;   //donn't repeat send command
+            byte[] data = new byte[8] { 0x01, 0x01, 0x0c, 0x03, 0x00, 0x00, 0, 0 };
+
+            ushort crc = Utility.CRC16(data, 6);
+            data[6] = (byte)(crc >> 8);
+            data[7] = (byte)crc;
+            if (SerialDriver.GetDriver().Send(data))
+            {
+                statustxt.Text = "液体测量数据保存命令已发出";
+                statustxt_2.Content = "液体测量数据保存命令已发出";
+                comstatus = CommandPanlStatus.Air_Test_Waiting;
+            }
+            else
+            {
+                MessageBox.Show("端口未打开");
+            };
+        }
     }
 
     public enum CommandPanlStatus
@@ -1293,6 +1324,7 @@ namespace SilverTest
         AirTestReturn_Finished,     //气体测量返回上一级菜单命令完成
         LiquidTestReturn_Waiting,   //液体测量返回上一级菜单   
         LiquidTestReturn_Finished,  //液体测量返回上一级菜单命令完成
-
+        Liquid_Data_Saving,         //液体测量数据正在保存中
+        Liquid_Data_Save_Finishing, //液体测量数据保存成功
     }
 }
