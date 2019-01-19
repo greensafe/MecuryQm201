@@ -1122,7 +1122,7 @@ namespace SilverTest
                 m51.Visibility = Visibility.Visible;
                 m52.Visibility = Visibility.Visible;
                 m53.Visibility = Visibility.Visible;
-                m54.Visibility = Visibility.Visible;
+                m54.Visibility = Visibility.Collapsed;
             }
             else
             {

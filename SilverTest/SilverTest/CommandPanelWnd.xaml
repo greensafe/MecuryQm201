@@ -97,7 +97,7 @@
                     <Button x:Name="pm3" FontSize="12" Content="校准"  Height="30" Width="70" HorizontalAlignment="Left" Click="pm3_Click"></Button>
                     <Button x:Name="pm4" FontSize="12" Content="通信"  Height="30" Width="70" HorizontalAlignment="Left" Click="pm4_Click" Visibility="Collapsed"></Button>
                     <Button x:Name="pm5" FontSize="12" Content="液体测量>"  Height="30" Width="70" HorizontalAlignment="Left" MouseEnter="pm5_MouseEnter" Click="pm5_Click"/>
-                    <Button x:Name="m51" Content="清洗" Height="30" Width="60" HorizontalAlignment="Left" Background="LightPink" Margin="20,2,0,0" Visibility="Collapsed" Click="m51_Click"></Button>
+                    <Button x:Name="m51" FontSize="12" Content="清洗" Height="30" Width="60" HorizontalAlignment="Left" Background="LightPink" Margin="20,2,0,0" Visibility="Collapsed" Click="m51_Click"></Button>
                     <Button x:Name="m52" FontSize="12" Content="测量" Height="30" Width="60" HorizontalAlignment="Left" Background="LightPink" Margin="20,2,0,0" Visibility="Collapsed" Click="m52_Click" ></Button>
                     <Button x:Name="m54" FontSize="12" Content="保存" Height="30" Width="60" HorizontalAlignment="Left" Background="LightPink" Margin="20,2,0,0" Visibility="Collapsed" Click="m54_Click" ></Button>
                     <Button x:Name="m53" FontSize="12" Content="返回上一级" Height="30" Width="75" HorizontalAlignment="Left" Background="LightPink" Margin="20,2,0,0" Visibility="Collapsed" Click="m53_Click"></Button>
