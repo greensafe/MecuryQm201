@@ -100,6 +100,7 @@ namespace SilverTest
                     m12.IsEnabled = true;               //测量-清洗
                     m13.IsEnabled = true;               //测量-测量
                     m14.IsEnabled = true;               //测量-返回
+                    m15.IsEnabled = true;               //测量-保存
 
                     pm2.IsEnabled = true;               //连续测量
                     pm3.IsEnabled = true;               //校准
@@ -119,6 +120,7 @@ namespace SilverTest
                     m12.IsEnabled = false;               //测量-清洗
                     m13.IsEnabled = false;               //测量-测量
                     m14.IsEnabled = false;               //测量-返回
+                    m15.IsEnabled = false;               //测量-保存
 
                     pm2.IsEnabled = false;               //连续测量
                     pm3.IsEnabled = false;               //校准
@@ -138,6 +140,7 @@ namespace SilverTest
                     m12.IsEnabled = false;               //测量-清洗
                     m13.IsEnabled = true;               //测量-测量
                     m14.IsEnabled = false;               //测量-返回
+                    m15.IsEnabled = false;
 
                     pm2.IsEnabled = false;               //连续测量
                     pm3.IsEnabled = false;               //校准
@@ -157,6 +160,7 @@ namespace SilverTest
                     m12.IsEnabled = false;               //测量-清洗
                     m13.IsEnabled = false;               //测量-测量
                     m14.IsEnabled = false;               //测量-返回
+                    m15.IsEnabled = false;
 
                     pm2.IsEnabled = true;               //连续测量
                     pm3.IsEnabled = false;               //校准
@@ -176,6 +180,7 @@ namespace SilverTest
                     m12.IsEnabled = false;               //测量-清洗
                     m13.IsEnabled = false;               //测量-测量
                     m14.IsEnabled = false;               //测量-返回
+                    m15.IsEnabled = false;
 
                     pm2.IsEnabled = false;               //连续测量
                     pm3.IsEnabled = false;               //校准
@@ -520,6 +525,7 @@ namespace SilverTest
                             m14.IsEnabled = false;  //测量-返回上一级菜单
                             m21.IsEnabled = false;  //连续测量-开始
                             m22.IsEnabled = false;  //连续测量-退出
+                            m23.IsEnabled = false;   //连续测量-保存
                             pm3.IsEnabled = false;  //校准
                             pm4.IsEnabled = false;  //通信
                             m51.IsEnabled = false;  //液体-清洗
@@ -539,6 +545,7 @@ namespace SilverTest
                             m14.IsEnabled = true;  //测量-返回上一级菜单
                             m21.IsEnabled = true;  //连续测量-开始
                             m22.IsEnabled = true;  //连续测量-退出
+                            m23.IsEnabled = true;  //连续测量-save
                             pm3.IsEnabled = true;  //校准
                             pm4.IsEnabled = true;  //通信
                             m51.IsEnabled = true;  //液体-清洗
@@ -585,6 +592,7 @@ namespace SilverTest
                             m14.IsEnabled = false;  //测量-返回上一级菜单
                             m21.IsEnabled = false;  //连续测量-开始
                             m22.IsEnabled = false;  //连续测量-退出
+                            m23.IsEnabled = false; ;  //连续测量-save
                             pm3.IsEnabled = false;  //校准
                             pm4.IsEnabled = false;  //通信
                             m51.IsEnabled = false;  //液体-清洗
@@ -603,6 +611,7 @@ namespace SilverTest
                             m14.IsEnabled = true;  //测量-返回上一级菜单
                             m21.IsEnabled = true;  //连续测量-开始
                             m22.IsEnabled = true;  //连续测量-退出
+                            m23.IsEnabled = true;  //连续测量-save
                             pm3.IsEnabled = true;  //校准
                             pm4.IsEnabled = true;  //通信
                             m51.IsEnabled = true;  //液体-清洗
@@ -610,6 +619,32 @@ namespace SilverTest
                             m53.IsEnabled = true;  //液体-返回上一级
                             pm6.IsEnabled = true;  //参数设置
                             pm7.IsEnabled = true;  //状态获取
+                        }else if(result == 3)   //拒绝保存
+                        {
+                            statustxt.Text = "拒绝测量保存命令";
+                            statustxt_2.Content = "拒绝测量保存命令";
+                            m11.IsEnabled = true;   //测量-采样按钮
+                            m12.IsEnabled = true;  //测量-清洗按钮
+                            m13.IsEnabled = true;  //测量-测量
+                            m14.IsEnabled = true;  //测量-返回上一级菜单
+                            m21.IsEnabled = true;  //连续测量-开始
+                            m22.IsEnabled = true;  //连续测量-退出
+                            m23.IsEnabled = true;  //连续测量-save
+                            pm3.IsEnabled = true;  //校准
+                            pm4.IsEnabled = true;  //通信
+                            m51.IsEnabled = true;  //液体-清洗
+                            m52.IsEnabled = true;  //液体-测量
+                            m53.IsEnabled = true;  //液体-返回上一级
+                            pm6.IsEnabled = true;  //参数设置
+                            pm7.IsEnabled = true;  //状态获取
+                        }else if(result == 4)
+                        {
+                            statustxt.Text = "接受测量保存命令";
+                            statustxt_2.Content = "接受测量保存命令";
+                        }else if(result == 5)
+                        {
+                            statustxt.Text = "测量保存命令执行成功";
+                            statustxt_2.Content = "测量保存命令执行成功";
                         }
                         comstatus = CommandPanlStatus.Air_Test_Finished;
                         EnableUI();
@@ -635,6 +670,7 @@ namespace SilverTest
                             m14.IsEnabled = false;  //测量-返回上一级菜单
                             m21.IsEnabled = false;  //连续测量-开始
                             m22.IsEnabled = true;  //连续测量-退出
+                            m23.IsEnabled = true;  //连续测量-save
                             pm3.IsEnabled = false;  //校准
                             pm4.IsEnabled = false;  //通信
                             m51.IsEnabled = false;  //液体-清洗
@@ -653,6 +689,7 @@ namespace SilverTest
                             m14.IsEnabled = true;  //测量-返回上一级菜单
                             m21.IsEnabled = true;  //连续测量-开始
                             m22.IsEnabled = true;  //连续测量-退出
+                            m23.IsEnabled = true;  //连续测量-save
                             pm3.IsEnabled = true;  //校准
                             pm4.IsEnabled = true;  //通信
                             m51.IsEnabled = true;  //液体-清洗
@@ -682,6 +719,7 @@ namespace SilverTest
                             m14.IsEnabled = false;  //测量-返回上一级菜单
                             m21.IsEnabled = false;  //连续测量-开始
                             m22.IsEnabled = true;  //连续测量-退出
+                            m23.IsEnabled = true;  //连续测量-save
                             pm3.IsEnabled = false;  //校准
                             pm4.IsEnabled = false;  //通信
                             m51.IsEnabled = false;  //液体-清洗
@@ -700,6 +738,7 @@ namespace SilverTest
                             m14.IsEnabled = true;  //测量-返回上一级菜单
                             m21.IsEnabled = true;  //连续测量-开始
                             m22.IsEnabled = true;  //连续测量-退出
+                            m23.IsEnabled = true;  //连续测量-save
                             pm3.IsEnabled = true;  //校准
                             pm4.IsEnabled = true;  //通信
                             m51.IsEnabled = true;  //液体-清洗
@@ -707,6 +746,19 @@ namespace SilverTest
                             m53.IsEnabled = true;  //液体-返回上一级
                             pm6.IsEnabled = true;  //参数设置
                             pm7.IsEnabled = true;  //状态获取
+                        }
+                        else if(result == 10)
+                        {
+                            statustxt.Text = "拒绝连续测量保存命令";
+                            statustxt_2.Content = "拒绝连续测量保存命令";
+                        }else if(result == 11)
+                        {
+                            statustxt.Text = "接受连续测量保存命令";
+                            statustxt_2.Content = "接受连续测量保存命令";
+                        }else if(result == 12)
+                        {
+                            statustxt.Text = "连续测量保存命令执行成功";
+                            statustxt_2.Content = "连续测量保存命令执行成功";
                         }
                         comstatus = CommandPanlStatus.ContinueTest_Finished;
                         EnableUI();
@@ -727,6 +779,7 @@ namespace SilverTest
                             m14.IsEnabled = true;  //测量-返回上一级菜单
                             m21.IsEnabled = true;  //连续测量-开始
                             m22.IsEnabled = true;  //连续测量-退出
+                            m23.IsEnabled = true;  //连续测量-save
                             pm3.IsEnabled = true;  //校准
                             pm4.IsEnabled = true;  //通信
                             m51.IsEnabled = true;  //液体-清洗
@@ -797,6 +850,7 @@ namespace SilverTest
                             m14.IsEnabled = false;  //测量-返回上一级菜单
                             m21.IsEnabled = false;  //连续测量-开始
                             m22.IsEnabled = false;  //连续测量-退出
+                            m23.IsEnabled = false;  //连续测量-save
                             pm3.IsEnabled = false;  //校准
                             pm4.IsEnabled = false;  //通信
                             m51.IsEnabled = false;  //液体-清洗
@@ -815,6 +869,7 @@ namespace SilverTest
                             m14.IsEnabled = true;  //测量-返回上一级菜单
                             m21.IsEnabled = true;  //连续测量-开始
                             m22.IsEnabled = true;  //连续测量-退出
+                            m23.IsEnabled = true;  //连续测量-save
                             pm3.IsEnabled = true;  //校准
                             pm4.IsEnabled = true;  //通信
                             m51.IsEnabled = true;  //液体-清洗
@@ -1011,13 +1066,27 @@ namespace SilverTest
 
         private void buttoncontainerstp_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            m51.Visibility = Visibility.Collapsed;
+            m52.Visibility = Visibility.Collapsed;
+
             m11.Visibility = Visibility.Collapsed;
             m12.Visibility = Visibility.Collapsed;
             m13.Visibility = Visibility.Collapsed;
             m14.Visibility = Visibility.Collapsed;
+            m15.Visibility = Visibility.Collapsed;
 
-            m51.Visibility = Visibility.Collapsed;
-            m52.Visibility = Visibility.Collapsed;
+            m21.Visibility = Visibility.Collapsed;
+            m22.Visibility = Visibility.Collapsed;
+            m23.Visibility = Visibility.Collapsed;
+
+            ma1.Visibility = Visibility.Collapsed;
+            ma2.Visibility = Visibility.Collapsed;
+
+            m81.Visibility = Visibility.Collapsed;
+            m82.Visibility = Visibility.Collapsed;
+
+            m91.Visibility = Visibility.Collapsed;
+            m92.Visibility = Visibility.Collapsed;
         }
 
         private void m11_Click(object sender, RoutedEventArgs e)
@@ -1278,6 +1347,8 @@ namespace SilverTest
                 m12.Visibility = Visibility.Visible;
                 m13.Visibility = Visibility.Visible;
                 m14.Visibility = Visibility.Visible;
+                m15.Visibility = Visibility.Visible;
+
                 m51.Visibility = Visibility.Collapsed;
                 m52.Visibility = Visibility.Collapsed;
             }
@@ -1287,6 +1358,7 @@ namespace SilverTest
                 m12.Visibility = Visibility.Collapsed;
                 m13.Visibility = Visibility.Collapsed;
                 m14.Visibility = Visibility.Collapsed;
+                m15.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -1416,11 +1488,13 @@ namespace SilverTest
             {
                 m21.Visibility = Visibility.Visible;
                 m22.Visibility = Visibility.Visible;
+                m23.Visibility = Visibility.Visible;
             }
             else
             {
                 m21.Visibility = Visibility.Collapsed;
                 m22.Visibility = Visibility.Collapsed;
+                m23.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -1707,6 +1781,74 @@ namespace SilverTest
                 channelsetpanel.Visibility = Visibility.Collapsed;
             }
         }
+
+        private void CmdPanelWindow_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            switch ((this.Owner as MainWindow).moudleid)
+            {
+                case MainWindow.ModuleID.STANDARD:
+                    pm8.Visibility = Visibility.Collapsed;  //监控
+                    pm9.Visibility = Visibility.Collapsed;  //报警
+                    pm5.Visibility = Visibility.Collapsed;  //液体测量
+                    break;
+                case MainWindow.ModuleID.ALARM:
+                    pm8.Visibility = Visibility.Visible;  //监控
+                    pm9.Visibility = Visibility.Visible;  //报警
+                    pm5.Visibility = Visibility.Collapsed;  //液体测量
+                    break;
+                case MainWindow.ModuleID.LIQUID:
+                    pm8.Visibility = Visibility.Collapsed;  //监控
+                    pm9.Visibility = Visibility.Collapsed;  //报警
+                    pm5.Visibility = Visibility.Visible;  //液体测量
+                    break;
+            }
+        }
+
+        private void m15_Click(object sender, RoutedEventArgs e)
+        {
+            //测量-保存
+            
+            if (comstatus == CommandPanlStatus.AIR_DATA_SAVING)
+                return;   //donn't repeat send command
+            
+            byte[] data = new byte[8] { 0x01, 0x01, 0x02, 0x03, 0x00, 0x01, 0, 0 };
+
+            ushort crc = Utility.CRC16(data, 6);
+            data[6] = (byte)(crc >> 8);
+            data[7] = (byte)crc;
+            if (SerialDriver.GetDriver().Send(data))
+            {
+                statustxt.Text = "测量数据保存命令已发出";
+                statustxt_2.Content = "测量数据保存命令已发出";
+                comstatus = CommandPanlStatus.AIR_DATA_SAVING;
+            }
+            else
+            {
+                MessageBox.Show("端口未打开");
+            };
+
+        }
+
+        private void m23_Click(object sender, RoutedEventArgs e)
+        {
+            //连续测量-保存数据
+            byte[] data = new byte[8] { 0x01, 0x01, 0x03, 0x01, 0x00, 0x01, 0, 0 };
+
+            ushort crc = Utility.CRC16(data, 6);
+
+            data[6] = (byte)(crc >> 8);
+            data[7] = (byte)crc;
+            if (SerialDriver.GetDriver().Send(data))
+            {
+                statustxt.Text = "连续测量保存命令已发出";
+                statustxt_2.Content = "连续测量保存命令已发出";
+                comstatus = CommandPanlStatus.Idle;
+            }
+            else
+            {
+                MessageBox.Show("端口未打开");
+            };
+        }
     }
 
     public enum CommandPanlStatus
@@ -1742,6 +1884,6 @@ namespace SilverTest
         AirTestReturn_Finished,     //气体测量返回上一级菜单命令完成
         LiquidTestReturn_Waiting,   //液体测量返回上一级菜单   
         LiquidTestReturn_Finished,  //液体测量返回上一级菜单命令完成
-
+        AIR_DATA_SAVING    ,        //测量数据保存中
     }
 }
