@@ -264,9 +264,14 @@ namespace SilverTest
                         //找到一个可能的空洞
                         se = int.Parse(newTestClt[i].Code + 1);
                     }
-                    newitem.Code = se.ToString();
+                    //newitem.Code = se.ToString();
                     newitem.GlobalID = GIDMaker.GetMaker().GetNId();
-                    newitem.NewName = "样品"+ newTestClt.Count.ToString();
+                    newitem.NewName = "样品";
+                    for (int i = 1; i < newitem.GlobalID.Length; i++)
+                    {
+                        newitem.Code += newitem.GlobalID[i];
+                        newitem.NewName += newitem.GlobalID[i];
+                    }
                     newTestClt.Add(newitem);
                     break;
                 //标样测试
@@ -287,12 +292,16 @@ namespace SilverTest
                         //找到一个空洞
                         se = int.Parse(standardSampleClt[i].Code + 1);
                     }
-                    standarditem.Code = se.ToString();
+                    //standarditem.Code = se.ToString();
                     standarditem.GlobalID = GIDMaker.GetMaker().GetSId();
-                    standarditem.SampleName = "标样" + standardSampleClt.Count.ToString();
+                    standarditem.SampleName = "标样";
                     standarditem.GroupName = "组1";
+                    for (int i = 1; i < standarditem.GlobalID.Length; i++)
+                    {
+                        standarditem.Code += standarditem.GlobalID[i];
+                        standarditem.SampleName += standarditem.GlobalID[i];
+                    }
                     standardSampleClt.Add(standarditem);
-
                     break;
                 default:
 
@@ -1662,27 +1671,45 @@ namespace SilverTest
                         newTestClt.RemoveAt(0);
                     }
                     NewTestTarget n1 = new NewTestTarget();
-                    n1.Code = "1";
                     n1.NewName = "样品空白";
                     n1.GlobalID = GIDMaker.GetMaker().GetNId();
-                    n1.AirG = "0";
+                    for (int i = 1; i < n1.GlobalID.Length; i++)
+                    {
+                        n1.Code += n1.GlobalID[i].ToString();
+                    }
                     NewTestTarget n2 = new NewTestTarget();
-                    n2.Code = "2";
-                    n2.NewName = "样品1";
+                    n2.NewName = "样品";
                     n2.GlobalID = GIDMaker.GetMaker().GetNId();
+                    for (int i = 1; i < n2.GlobalID.Length; i++)
+                    {
+                        n2.NewName += n2.GlobalID[i].ToString();
+                        n2.Code += n2.GlobalID[i].ToString();
+                    }
                     NewTestTarget n3 = new NewTestTarget();
-                    n3.Code = "3";
-                    n3.NewName = "样品2";
+                    n3.NewName = "样品";
                     n3.GlobalID = GIDMaker.GetMaker().GetNId();
+                    for (int i = 1; i < n3.GlobalID.Length; i++)
+                    {
+                        n3.NewName += n3.GlobalID[i].ToString();
+                        n3.Code += n3.GlobalID[i].ToString();
+                    }
                     NewTestTarget n4 = new NewTestTarget();
-                    n4.Code = "4";
-                    n4.NewName = "样品3";
+                    n4.NewName = "样品";
                     n4.GlobalID = GIDMaker.GetMaker().GetNId();
-
+                    for (int i = 1; i < n4.GlobalID.Length; i++)
+                    {
+                        n4.NewName += n4.GlobalID[i].ToString();
+                        n4.Code += n4.GlobalID[i].ToString();
+                    }
                     newTestClt.Add(n1);
                     newTestClt.Add(n2);
                     newTestClt.Add(n3);
                     newTestClt.Add(n4);
+
+     
+                    n1.AirG = "0";
+                    n1.Density = "0";
+     
                     break;
                 case 1: //标样
                     while (standardSampleClt.Count > 0)
@@ -1690,31 +1717,48 @@ namespace SilverTest
                         standardSampleClt.RemoveAt(0);
                     }
                     StandardSample s1 = new StandardSample();
-
-                    s1.Code = "1";
                     s1.SampleName = "标样空白";
                     s1.GroupName = "组1";
-                    s1.AirG = "0";
                     s1.GlobalID = GIDMaker.GetMaker().GetSId();
+                    for (int i = 1; i < s1.GlobalID.Length; i++)
+                    {
+                        s1.Code += s1.GlobalID[i].ToString();
+                    }
                     StandardSample s2 = new StandardSample();
-                    s2.Code = "2";
-                    s2.SampleName = "标样1";
+                    s2.SampleName = "标样";
                     s2.GroupName = "组1";
                     s2.GlobalID = GIDMaker.GetMaker().GetSId();
+                    for (int i = 1; i < s2.GlobalID.Length; i++)
+                    {
+                        s2.SampleName += s2.GlobalID[i].ToString();
+                        s2.Code += s2.GlobalID[i].ToString();
+                    }
                     StandardSample s3 = new StandardSample();
-                    s3.Code = "3";
-                    s3.SampleName = "标样2";
+                    s3.SampleName = "标样";
                     s3.GroupName = "组1";
                     s3.GlobalID = GIDMaker.GetMaker().GetSId();
+                    for (int i = 1; i < s3.GlobalID.Length; i++)
+                    {
+                        s3.SampleName += s3.GlobalID[i].ToString();
+                        s3.Code += s3.GlobalID[i].ToString();
+                    }
                     StandardSample s4 = new StandardSample();
-                    s4.Code = "4";
-                    s4.SampleName = "标样3";
+                    s4.SampleName = "标样";
                     s4.GroupName = "组1";
                     s4.GlobalID = GIDMaker.GetMaker().GetSId();
+                    for (int i = 1; i < s4.GlobalID.Length; i++)
+                    {
+                        s4.SampleName += s4.GlobalID[i].ToString();
+                        s4.Code += s4.GlobalID[i].ToString();
+                    }
                     standardSampleClt.Add(s1);
                     standardSampleClt.Add(s2);
                     standardSampleClt.Add(s3);
                     standardSampleClt.Add(s4);
+
+                    s1.AirG = "0";
+                    s2.Density = "0";
+
                     break;
             }
         }
