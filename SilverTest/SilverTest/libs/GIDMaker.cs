@@ -35,9 +35,9 @@ namespace SilverTest.libs
             string t = "N";
             newmaxid++;
             Utility.SetValueToXml("/config/QM201H/wavehistory/fileid", "newsample", newmaxid.ToString());
-            if (newmaxid.ToString().Length < 10)
+            if (newmaxid.ToString().Length < 5)
             {
-                for(int i=0; i < 9 - newmaxid.ToString().Length; i++)
+                for(int i=0; i < 4 - newmaxid.ToString().Length; i++)
                 {
                     t += '0';
                 }
@@ -52,9 +52,9 @@ namespace SilverTest.libs
             string t = "S";
             samplemaxid++;
             Utility.SetValueToXml("/config/QM201H/wavehistory/fileid", "standardsample", samplemaxid.ToString());
-            if (samplemaxid.ToString().Length < 10)
+            if (samplemaxid.ToString().Length < 5)
             {
-                for (int i = 0; i < 9 - samplemaxid.ToString().Length; i++)
+                for (int i = 0; i < 4 - samplemaxid.ToString().Length; i++)
                 {
                     t += '0';
                 }
