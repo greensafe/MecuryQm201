@@ -1,15 +1,24 @@
 <?xml version="1.0"?>
 <ArrayOfNewTestTarget xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <NewTestTarget>
-    <NewName>样品1</NewName>
+    <NewName>样品空白</NewName>
     <Code>1</Code>
+    <AirG>0</AirG>
+    <GlobalID>N000000215</GlobalID>
+  </NewTestTarget>
+  <NewTestTarget>
+    <NewName>样品1</NewName>
+    <Code>2</Code>
+    <GlobalID>N000000216</GlobalID>
   </NewTestTarget>
   <NewTestTarget>
     <NewName>样品2</NewName>
-    <Code>2</Code>
+    <Code>3</Code>
+    <GlobalID>N000000217</GlobalID>
   </NewTestTarget>
   <NewTestTarget>
     <NewName>样品3</NewName>
-    <Code>3</Code>
+    <Code>4</Code>
+    <GlobalID>N000000218</GlobalID>
   </NewTestTarget>
 </ArrayOfNewTestTarget>

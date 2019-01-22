@@ -1,18 +1,28 @@
 <?xml version="1.0"?>
 <ArrayOfStandardSample xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <StandardSample>
-    <SampleName>标样1</SampleName>
+    <SampleName>标样空白</SampleName>
     <GroupName>组1</GroupName>
     <Code>1</Code>
+    <AirG>0</AirG>
+    <GlobalID>S000000119</GlobalID>
+  </StandardSample>
+  <StandardSample>
+    <SampleName>标样1</SampleName>
+    <GroupName>组1</GroupName>
+    <Code>2</Code>
+    <GlobalID>S000000120</GlobalID>
   </StandardSample>
   <StandardSample>
     <SampleName>标样2</SampleName>
     <GroupName>组1</GroupName>
-    <Code>2</Code>
+    <Code>3</Code>
+    <GlobalID>S000000121</GlobalID>
   </StandardSample>
   <StandardSample>
     <SampleName>标样3</SampleName>
     <GroupName>组1</GroupName>
-    <Code>3</Code>
+    <Code>4</Code>
+    <GlobalID>S000000122</GlobalID>
   </StandardSample>
 </ArrayOfStandardSample>
