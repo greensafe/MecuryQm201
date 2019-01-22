@@ -98,7 +98,8 @@ namespace SilverTest
         private ObservableCollection<StandardSample> standardSampleClt;
 
         //正在测试中的条目id号
-        string testingitemgid = "";
+        string testingitemgid_new = "-1";
+        string testingitemgid_std = "-1";
         //点击开始测试后，被选中的表格条目的相对索引号
         NewTestTarget testing_selected_new = null;
         StandardSample testing_selected_standard = null;
@@ -560,15 +561,21 @@ namespace SilverTest
                             }
 
                             testing_selected_new = NewTargetDgd.SelectedItem as NewTestTarget;
-                            this.testingitemgid = newTestClt[getNewCltIndex(NewTargetDgd.SelectedIndex)].GlobalID;
+                            this.testingitemgid_new = newTestClt[getNewCltIndex(NewTargetDgd.SelectedIndex)].GlobalID;
+                            this.testingitemgid_std = "-1";
+                            
                             NewTargetDgd.DataContext = null;
                             NewTargetDgd.DataContext = newTestClt;
+
+                            standardSampleDgd.DataContext = null;
+                            standardSampleDgd.DataContext = standardSampleClt;
                             break;
                         case "停止测试":
                             AnimatedColorButton.Visibility = Visibility.Hidden;
                             AnimatedColorButton.Visibility = Visibility.Hidden;
+                            this.testingitemgid_new = "-1";
 
-                            
+
                             startTestBtn.Content = "开始测试";
                             if (SerialDriver.GetDriver().isOpen() == true)
                             {
@@ -638,14 +645,20 @@ namespace SilverTest
                             }
 
                             testing_selected_standard = standardSampleDgd.SelectedItem as StandardSample;
-                            testingitemgid = standardSampleClt[getStandardCltIndex(standardSampleDgd.SelectedIndex)].GlobalID;
+                            testingitemgid_std = standardSampleClt[getStandardCltIndex(standardSampleDgd.SelectedIndex)].GlobalID;
+                            testingitemgid_new = "-1";
                             standardSampleDgd.DataContext = null;
                             standardSampleDgd.DataContext = standardSampleClt;
+
+                            NewTargetDgd.DataContext = null;
+                            NewTargetDgd.DataContext = newTestClt;
                             break;
                         case "停止测试":
                             AnimatedColorButton.Visibility = Visibility.Hidden;
                             AnimatedColorButton.Visibility = Visibility.Hidden;
                             startTestBtn.Content = "开始测试";
+                            testingitemgid_std = "-1";
+
                             if (SerialDriver.GetDriver().isOpen() == true)
                             {
                                 System.Threading.Thread CloseDown1 =
@@ -1878,7 +1891,7 @@ namespace SilverTest
             SolidColorBrush br = new SolidColorBrush();
             br.Color = Color.FromArgb(0xff,0xff,0x8b,0x8b);
             string gid = (e.Row.Item as NewTestTarget).GlobalID;
-            if (gid == testingitemgid)
+            if (gid == testingitemgid_new)
                 e.Row.Background = br;
         }
 
@@ -1887,7 +1900,7 @@ namespace SilverTest
             SolidColorBrush br = new SolidColorBrush();
             br.Color = Color.FromArgb(0xff, 0xff, 0x8b, 0x8b);
             string gid = (e.Row.Item as StandardSample).GlobalID;
-            if (gid == testingitemgid)
+            if (gid == testingitemgid_std)
                 e.Row.Background = br;
         }
 
