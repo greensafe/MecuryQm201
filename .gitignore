@@ -1,39 +1,8 @@
 #ignore obj
-obj/
-
-
 #ignore visual studio generated file
-.vs/
-
 *.tmp
-
 Thumbs.db
-
-
 #ignore all files in release directory
 
 SilverTest/SerialPortLab/bin/Debug/clip.txt
 SilverTest/SerialPortLab/bin/Debug/实际数据.txt
-SilverTest/SilverTest/bin/Debug/rawtext.txt
-
-BasicWaveChart/BasicWaveChart/BasicWaveChart/bin/Debug/BasicWaveChart.dll
-BasicWaveChart/BasicWaveChart/BasicWaveChart/bin/Debug/BasicWaveChart.pdb
-BasicWaveChart/BasicWaveChart/test/bin/Debug/BasicWaveChart.dll
-BasicWaveChart/BasicWaveChart/test/bin/Debug/BasicWaveChart.pdb
-BasicWaveChart/BasicWaveChart/test/bin/Debug/test.exe
-BasicWaveChart/BasicWaveChart/test/bin/Debug/test.pdb
-
-SilverTest/SilverTest/bin/Debug/BasicWaveChart.dll
-SilverTest/SilverTest/bin/Debug/BasicWaveChart.pdb
-SilverTest/SilverTest/bin/Debug/QM201H.exe
-SilverTest/SilverTest/bin/Debug/QM201H.exe.config
-SilverTest/SilverTest/bin/Debug/QM201H.pdb
-SilverTest/SilverTest/bin/Debug/history/
-SilverTest/SilverTest/bin/Debug/changelog/
-
-SilverTest/SilverTest/bin/Debug/NModbus4.Serial.dll
-SilverTest/SilverTest/bin/Debug/NModbus4.dll
-
-SilverTest/test/bin
-
-
