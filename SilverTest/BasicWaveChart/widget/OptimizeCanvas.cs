@@ -91,7 +91,12 @@ namespace BasicWaveChart.widget
                                 if (dvalue.Y > yaxis.YScaleMaxValue)
                                 {
                                     int temp = (int)(dvalue.Y / maxy_step + 1) * maxy_step;
-                                    parent.SetScale(0, 0, 0, temp); // the scalechanged_ev will trigger draw action
+                                    int scale = (int)(temp / 5 / 5);  //期望能显示5个大刻度，一个大刻包含5个小刻
+                                    if (scale > 50)
+                                    {
+                                        scale = ((int)(scale / 50)) * 50;//去掉脆数，便于观察
+                                    }
+                                    parent.SetScale(0, 0, scale, temp); // the scalechanged_ev will trigger draw action
                                 }
                                 else
                                 {
@@ -126,7 +131,12 @@ namespace BasicWaveChart.widget
                             if (vice_dvalue.Y > yaxis.YScaleMaxValue)
                             {
                                 int temp = (int)(vice_dvalue.Y / maxy_step + 1) * maxy_step;
-                                parent.SetScale(0, 0, 0, temp); // the scalechanged_ev will trigger draw action
+                                int scale = (int)(temp / 5 / 5);  //期望能显示5个大刻度，一个大刻包含5个小刻
+                                if (scale > 50)
+                                {
+                                    scale = ((int)(scale / 50)) * 50;//去掉脆数，便于观察
+                                }
+                                parent.SetScale(0, 0, scale, temp); // the scalechanged_ev will trigger draw action
                             }
                             else
                             {
@@ -170,7 +180,14 @@ namespace BasicWaveChart.widget
                                 if (dvalue_move.Y > yaxis.YScaleMaxValue)
                                 {
                                     moveleft(dvalue_move);
-                                    parent.SetScale(0, 0, 0, (int)(dvalue_move.Y / maxy_step + 1) * maxy_step); //scalechanged_ev will call draw action
+                                    int temp = (int)(dvalue_move.Y / maxy_step + 1) * maxy_step;
+                                    int scale = (int)(temp / 5 / 5);  //期望能显示5个大刻度，一个大刻包含5个小刻
+                                    if (scale > 50)
+                                    {
+                                        scale = ((int)(scale / 50)) * 50;//去掉脆数，便于观察
+                                    }
+                                    parent.SetScale(0, 0, scale, temp);
+                                    //parent.SetScale(0, 0, 0, (int)(dvalue_move.Y / maxy_step + 1) * maxy_step); //scalechanged_ev will call draw action
                                 }
                                 else
                                 {
@@ -191,7 +208,14 @@ namespace BasicWaveChart.widget
                                 if (vice_dvalue_move.Y > yaxis.YScaleMaxValue)
                                 {
                                     //moveleft(dvalue_move);
-                                    parent.SetScale(0, 0, 0, (int)(vice_dvalue_move.Y / maxy_step + 1) * maxy_step); //scalechanged_ev will call draw action
+                                    int temp = (int)(vice_dvalue_move.Y / maxy_step + 1) * maxy_step;
+                                    int scale = (int)(temp / 5 / 5);  //期望能显示5个大刻度，一个大刻包含5个小刻
+                                    if (scale > 50)
+                                    {
+                                        scale = ((int)(scale / 50)) * 50;//去掉脆数，便于观察
+                                    }
+                                    parent.SetScale(0, 0, scale, temp);
+                                    //parent.SetScale(0, 0, 0, (int)(vice_dvalue_move.Y / maxy_step + 1) * maxy_step); //scalechanged_ev will call draw action
                                 }
                                 else
                                 {
