@@ -832,9 +832,7 @@ namespace SilverTest
                     Console.WriteLine("气体流量包: "+sequence.ToString());
                     Dispatcher.BeginInvoke(new Action(() =>
                     {
-                        if (NewTargetDgd.SelectedIndex == -1)
-                            return;
-                        newcltindex = getNewCltIndex(NewTargetDgd.SelectedIndex);
+                        newcltindex = getNewCltIndexFromSelected(testing_selected_new);
                         if (newcltindex == -1) return;
                         newTestClt[newcltindex].AirFluent = sequence.ToString();
                     }));
@@ -843,9 +841,7 @@ namespace SilverTest
                     Console.WriteLine("气体采样时间包: " + sequence.ToString());
                     Dispatcher.BeginInvoke(new Action(() =>
                     {
-                        if (NewTargetDgd.SelectedIndex == -1)
-                            return;
-                        newcltindex = getNewCltIndex(NewTargetDgd.SelectedIndex);
+                        newcltindex = getNewCltIndexFromSelected(testing_selected_new);
                         if (newcltindex == -1) return;
                         newTestClt[newcltindex].AirSampleTime = sequence.ToString();
                     }));
