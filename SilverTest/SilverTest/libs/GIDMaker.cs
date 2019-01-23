@@ -30,7 +30,7 @@ namespace SilverTest.libs
             }
         }
         //获取newtable中itemid号
-        public string GetNId()
+        public string GetNId(out int index_out)
         {
             string t = "N";
             newmaxid++;
@@ -43,11 +43,11 @@ namespace SilverTest.libs
                 }
             }
             t += newmaxid.ToString();
-
+            index_out = newmaxid;
             return t;
         }
         //获取sampletable中itemid号
-        public string GetSId()
+        public string GetSId(out int index_out)
         {
             string t = "S";
             samplemaxid++;
@@ -59,6 +59,7 @@ namespace SilverTest.libs
                     t += '0';
                 }
             }
+            index_out = samplemaxid;
             return t + samplemaxid.ToString();
             ;
         }
