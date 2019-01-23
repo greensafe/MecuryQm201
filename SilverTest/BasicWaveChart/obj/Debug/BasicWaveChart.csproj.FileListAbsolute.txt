@@ -1,0 +1,14 @@
+D:\workshop\greensafe\208B\origin\SilverTest\BasicWaveChart\bin\Debug\BasicWaveChart.dll
+D:\workshop\greensafe\208B\origin\SilverTest\BasicWaveChart\bin\Debug\BasicWaveChart.pdb
+D:\workshop\greensafe\208B\origin\SilverTest\BasicWaveChart\obj\Debug\BasicWaveChart.csprojAssemblyReference.cache
+D:\workshop\greensafe\208B\origin\SilverTest\BasicWaveChart\obj\Debug\BasicWaveChartUC.g.cs
+D:\workshop\greensafe\208B\origin\SilverTest\BasicWaveChart\obj\Debug\GeneratedInternalTypeHelper.g.cs
+D:\workshop\greensafe\208B\origin\SilverTest\BasicWaveChart\obj\Debug\BasicWaveChart_MarkupCompile.cache
+D:\workshop\greensafe\208B\origin\SilverTest\BasicWaveChart\obj\Debug\BasicWaveChart_MarkupCompile.lref
+D:\workshop\greensafe\208B\origin\SilverTest\BasicWaveChart\obj\Debug\BasicWaveChartUC.baml
+D:\workshop\greensafe\208B\origin\SilverTest\BasicWaveChart\obj\Debug\BasicWaveChart.g.resources
+D:\workshop\greensafe\208B\origin\SilverTest\BasicWaveChart\obj\Debug\BasicWaveChart.Properties.Resources.resources
+D:\workshop\greensafe\208B\origin\SilverTest\BasicWaveChart\obj\Debug\BasicWaveChart.csproj.GenerateResource.cache
+D:\workshop\greensafe\208B\origin\SilverTest\BasicWaveChart\obj\Debug\BasicWaveChart.csproj.CoreCompileInputs.cache
+D:\workshop\greensafe\208B\origin\SilverTest\BasicWaveChart\obj\Debug\BasicWaveChart.dll
+D:\workshop\greensafe\208B\origin\SilverTest\BasicWaveChart\obj\Debug\BasicWaveChart.pdb
