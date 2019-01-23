@@ -3,26 +3,26 @@
   <StandardSample>
     <SampleName>标样空白</SampleName>
     <GroupName>组1</GroupName>
-    <Code>0001</Code>
+    <Code>1</Code>
     <AirG>0</AirG>
     <GlobalID>S0001</GlobalID>
   </StandardSample>
   <StandardSample>
-    <SampleName>标样0002</SampleName>
+    <SampleName>标样1</SampleName>
     <GroupName>组1</GroupName>
-    <Code>0002</Code>
+    <Code>2</Code>
     <GlobalID>S0002</GlobalID>
   </StandardSample>
   <StandardSample>
-    <SampleName>标样0003</SampleName>
+    <SampleName>标样2</SampleName>
     <GroupName>组1</GroupName>
-    <Code>0003</Code>
+    <Code>3</Code>
     <GlobalID>S0003</GlobalID>
   </StandardSample>
   <StandardSample>
-    <SampleName>标样0004</SampleName>
+    <SampleName>标样3</SampleName>
     <GroupName>组1</GroupName>
-    <Code>0004</Code>
+    <Code>4</Code>
     <GlobalID>S0004</GlobalID>
   </StandardSample>
 </ArrayOfStandardSample>
