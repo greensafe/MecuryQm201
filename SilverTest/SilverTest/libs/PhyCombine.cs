@@ -233,7 +233,7 @@ namespace SilverTest.libs
 
             //状态获取命令回应包
             machineinfo.GetStatusResPctDataWidth = 8;
-            machineinfo.GetStatusResPctDStart = 4;
+            machineinfo.GetStatusResPctDStart = 5;
             machineinfo.GetStatusResPctEndStart = 16;
             machineinfo.GetStatusResPctEndTag = 0x49;
             machineinfo.GetStatusResPctLength = 17;

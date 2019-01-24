@@ -771,6 +771,33 @@ namespace SilverTest
             }));
         }
 
+        //下维机获取状态回应命令
+        //result 0 - 表示失败 ，1 - 接受命令, 2 - 表示成功. res_datas中存放的，比如31
+        public void ShowGetStatusRes(int result, byte[] res_datas)
+        {
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                switch (result)
+                {
+                    case 0:
+                        statustxt.Text = "获取状态失败";
+                        statustxt_2.Content = "获取状态失败";
+                        break;
+                    case 1:
+                    case 2:
+                        statustxt.Text = "获取状态成功";
+                        statustxt_2.Content = "获取状态成功";
+                        //主道值
+                        /*
+                        maintunvalue_txt.Text = res_datas[3].ToString();
+                        viceunvalue_txt.Text = res_datas[4].ToString();
+                        */
+                        break;
+                }
+            }));
+        }
+
+
         private void whidebtn_Click(object sender, RoutedEventArgs e)
         {
             this.Hide();
