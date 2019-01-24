@@ -11,6 +11,7 @@
         xmlns:Feature="clr-namespace:BasicWaveChart.Feature.integral;assembly=BasicWaveChart"
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:generalcontrols="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"
@@ -64,6 +65,11 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
+        </Style>
+        <Style x:Key="MyColumnHeader" 
+               BasedOn="{StaticResource MetroDataGridColumnHeader}" 
+               TargetType="{x:Type DataGridColumnHeader}">
+            <Setter Property="generalcontrols:ControlsHelper.ContentCharacterCasing" Value="Normal"/>
         </Style>
         <System:DateTime x:Key="current"></System:DateTime>
     </Window.Resources>
@@ -249,6 +255,7 @@
                         <DataGrid x:Name="NewTargetDgd" Height="300" DockPanel.Dock="Top" 
                                   Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}" 
                                   CanUserAddRows="False"
+                                  ColumnHeaderStyle="{StaticResource MyColumnHeader}"
                                   ItemsSource="{Binding}"  
                                   Margin="0,0,0,0" AutoGenerateColumns="False" CellEditEnding="NewTargetDgd_CellEditEnding" MouseRightButtonDown="NewTargetDgd_MouseRightButtonDown" LoadingRow="NewTargetDgd_LoadingRow">
                             <DataGrid.Style>
@@ -301,6 +308,7 @@
                         <DataGrid x:Name="standardSampleDgd" Height="300" DockPanel.Dock="Top" 
                                   Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}" 
                                   ItemsSource="{Binding}"
+                                  ColumnHeaderStyle="{StaticResource MyColumnHeader}"
                                   CanUserAddRows="False"
                                   Margin="0,0,0,0" AutoGenerateColumns="False" SelectionChanged="standardSampleDgd_SelectionChanged" CellEditEnding="standardSampleDgd_CellEditEnding" MouseRightButtonDown="standardSampleDgd_MouseRightButtonDown" LoadingRow="standardSampleDgd_LoadingRow" Unloaded="standardSampleDgd_Unloaded">
                             <DataGrid.Style>
