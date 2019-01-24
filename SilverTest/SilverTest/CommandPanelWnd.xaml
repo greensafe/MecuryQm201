@@ -12,7 +12,7 @@
     <Grid x:Name="grid" Height="349" VerticalAlignment="Top" Background="White">
         <Canvas MouseLeftButtonDown="Canvas_MouseLeftButtonDown" Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}" ClipToBounds="False"
                 Background="White" Height="373" VerticalAlignment="Top" Margin="0,0,0,-24" >
-            <Canvas x:Name="channelsetpanel" Panel.ZIndex="10" Visibility="Visible" 
+            <Canvas x:Name="channelsetpanel" Panel.ZIndex="10" Visibility="Collapsed" 
                     Background="White"
                     Width="247" Height="339"
                     Canvas.Left="143" Canvas.Top="15">
@@ -184,8 +184,8 @@
                             </Label>
                         </StackPanel>
                         <StackPanel Width="127" Margin="0,5,0,0">
-                            <TextBox x:Name="enlargeblk" Width="90" Height="20" IsEnabled="False" HorizontalAlignment="Left" >3</TextBox>
-                            <TextBox x:Name="fluentblk" Width="90" Height="20" IsEnabled="False" HorizontalAlignment="Left" >3</TextBox>
+                            <TextBox x:Name="maintunvalue_txt" Width="90" Height="20" IsEnabled="False" HorizontalAlignment="Left" >3</TextBox>
+                            <TextBox x:Name="viceunvalue_txt" Width="90" Height="20" IsEnabled="False" HorizontalAlignment="Left" >3</TextBox>
                             <TextBox Width="90" Height="25"  IsEnabled="False" HorizontalAlignment="Left" Visibility="Collapsed">2</TextBox>
                         </StackPanel>
                     </StackPanel>

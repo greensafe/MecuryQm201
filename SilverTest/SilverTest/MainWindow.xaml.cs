@@ -903,12 +903,21 @@ namespace SilverTest
                     }));
                     break;
                 case PacketType.GETSTATUS_RESPONSE:
+                    /*
                     byte[] r1 = dot as byte[];
                     Console.WriteLine("普通命令回应包: 主菜单=" + r1[0].ToString() + ",次菜单=" + r1[1].ToString() + ",结果=" + r1[2].ToString());
                     //在面板中显示结果
                     if (cmdpanelWnd != null)
                     {
                         cmdpanelWnd.ShowNormalCmndRes(((r1[0]-48)<<4)+r1[1]-48,r1[2]-48,r1);
+                    }
+                    */
+                    byte[] getstatus_datas = dot as byte[];  //dot存放数据
+                    int getstatus_status = sequence;   //sequence存放执行状态
+                    Console.WriteLine("状态回应包：状态 - " + getstatus_status.ToString());
+                    Console.WriteLine("状态回应包：数据 - " + getstatus_datas.ToString());
+                    if (cmdpanelWnd != null){
+                        cmdpanelWnd.ShowGetStatusRes(getstatus_status, getstatus_datas);
                     }
                     break;
                 case PacketType.NORCMD_RESPONSE:

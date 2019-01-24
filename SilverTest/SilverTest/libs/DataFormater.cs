@@ -266,13 +266,15 @@ namespace SilverTest.libs
                     {
                         if (PacketRecevied_Ev != null)
                         {
-                            //通知收到一个包, 使用dot传递结果
+                            //通知收到一个包, 使用dot存放数据，sequence存放执行状态
                             byte[] statusres_packt_data = new byte[8];
                             for(int i = 0; i<8; i++)
                             {
                                 statusres_packt_data[i] = packet[PhyCombine.GetPhyCombine().GetMachineInfo().GetStatusResPctDStart + i];
                             }
-                            PacketRecevied_Ev(statusres_packt_data, -1,PacketType.GETSTATUS_RESPONSE);
+                            int getstatus_status = packet[PhyCombine.GetPhyCombine().GetMachineInfo().GetStatusResPctDStart - 1];
+                            PacketRecevied_Ev(statusres_packt_data, getstatus_status,
+                                PacketType.GETSTATUS_RESPONSE);
                         }
                     }
                     else
