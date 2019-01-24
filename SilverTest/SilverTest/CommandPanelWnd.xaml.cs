@@ -1046,10 +1046,10 @@ namespace SilverTest
                         statustxt.Text = "获取状态成功";
                         statustxt_2.Content = "获取状态成功";
                         //主道值
-                        /*
+                        
                         maintunvalue_txt.Text = res_datas[3].ToString();
                         viceunvalue_txt.Text = res_datas[4].ToString();
-                        */
+                        
                         break;
                 }
             }));
