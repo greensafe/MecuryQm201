@@ -161,32 +161,30 @@
                 </Canvas.Effect>
                 <StackPanel Orientation="Vertical">
                     <StackPanel Height="150" Orientation="Horizontal" Margin="0,20">
-                        <StackPanel Width="100">
-                            <Label Width="90" Height="30" HorizontalAlignment="Right" HorizontalContentAlignment="Right">
-                                主通道调整值:
+                        <Canvas Width="100">
+                            <Label Width="100" Height="30" HorizontalAlignment="Right" HorizontalContentAlignment="Right">
+                                主通道放大倍数:
                             </Label>
-                            <Label Width="90" Height="30" HorizontalAlignment="Right" HorizontalContentAlignment="Right">
-                                副通道调整值:
+                            <Label Width="100" Height="30" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Canvas.Top="26">
+                                副通道放大倍数:
                             </Label>
-                            <Label Width="90" Height="30" HorizontalAlignment="Right" HorizontalContentAlignment="Right"
-                                   Visibility="Collapsed">
-                                放大倍数:
+                            <Label Width="100" Height="30" HorizontalAlignment="Right" HorizontalContentAlignment="Right"
+                                   Visibility="Visible" Canvas.Top="56">
+                                取样时间:
                             </Label>
-                            <Label Width="90" Height="30" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Content="流量:"
-                                   Visibility="Collapsed"/>
-                            <Label Width="90" Height="30" HorizontalAlignment="Right" HorizontalContentAlignment="Right"
-                                   Visibility="Collapsed">
-                                高压值:
+                            <Label x:Name="samplefluent" Width="100" Height="30" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Content="流量:"
+                                   Visibility="Visible" Canvas.Top="80"/>
+                            <Label Width="100" Height="30" HorizontalAlignment="Right" HorizontalContentAlignment="Right"
+                                   Visibility="Visible" Canvas.Top="105">
+                                清洗时长:
                             </Label>
-                            <Label Width="90" Height="30" HorizontalAlignment="Right" HorizontalContentAlignment="Right"
-                                   Visibility="Collapsed">
-                                实时:
-                            </Label>
-                        </StackPanel>
+                        </Canvas>
                         <StackPanel Width="127" Margin="0,5,0,0">
                             <TextBox x:Name="maintunvalue_txt" Width="90" Height="20" IsEnabled="False" HorizontalAlignment="Left" >3</TextBox>
                             <TextBox x:Name="viceunvalue_txt" Width="90" Height="20" IsEnabled="False" HorizontalAlignment="Left" >3</TextBox>
-                            <TextBox Width="90" Height="25"  IsEnabled="False" HorizontalAlignment="Left" Visibility="Collapsed">2</TextBox>
+                            <TextBox x:Name="sampletime_txt" Width="90" Height="25"  IsEnabled="False" HorizontalAlignment="Left" Visibility="Visible">2</TextBox>
+                            <TextBox x:Name="samplefluent_txt" Width="90" Height="25"  IsEnabled="False" HorizontalAlignment="Left" Visibility="Visible">2</TextBox>
+                            <TextBox x:Name="washtime_txt" Width="90" Height="25"  IsEnabled="False" HorizontalAlignment="Left" Visibility="Visible">2</TextBox>
                         </StackPanel>
                     </StackPanel>
                     <Canvas Height="30" >

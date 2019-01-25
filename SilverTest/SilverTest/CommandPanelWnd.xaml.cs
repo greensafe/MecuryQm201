@@ -1046,10 +1046,15 @@ namespace SilverTest
                         statustxt.Text = "获取状态成功";
                         statustxt_2.Content = "获取状态成功";
                         //主道值
-                        
-                        maintunvalue_txt.Text = res_datas[3].ToString();
-                        viceunvalue_txt.Text = res_datas[4].ToString();
-                        
+                        maintunvalue_txt.Text = (res_datas[3]-0x30).ToString();
+                        //副道值
+                        viceunvalue_txt.Text = (res_datas[4]-0x30).ToString();
+                        //取样时间
+                        sampletime_txt.Text = Utility.MapSampleTime((res_datas[0]-0x30)*10+(res_datas[1]-0x30));
+                        //取样流量
+                        samplefluent_txt.Text = Utility.MapSampleFluent(res_datas[2] - 0x30);
+                        //清洗时长
+                        washtime_txt.Text = Utility.MapWashTime(res_datas[3] - 0x30);
                         break;
                 }
             }));

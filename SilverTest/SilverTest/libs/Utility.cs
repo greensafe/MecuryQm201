@@ -654,6 +654,92 @@ namespace SilverTest.libs
                 MessageBox.Show("数值超标，报警失败。请检查报警串口配置是否正确");
             }
         }
+
+
+        //下拉列表采样时间映射值
+        public static string MapSampleTime(int id)
+        {
+            switch (id)
+            {
+                case 0:
+                    return "0.25m";
+                case 1:
+                    return "0.5m";
+                case 2:
+                    return "1.0m";
+                case 3:
+                    return "2.0m";
+                case 4:
+                    return "3.0m";
+                case 5:
+                    return "5.0m";
+                case 6:
+                    return "8.0m";
+                case 7:
+                    return "10.0m";
+                case 8:
+                    return "13.0m";
+                case 9:
+                    return "15.0m";
+                case 10:
+                    return "17.0m";
+                case 11:
+                    return "20.0m";
+                default:
+                    return "0m";
+            }
+        }
+
+        //下啦列表取样流量映射表
+        public static string MapSampleFluent(int id)
+        {
+            switch (id)
+            {
+                case 0:
+                    return "0.2L/m";
+                case 1:
+                    return "0.3L/m";
+                case 2:
+                    return "0.4L/m";
+                case 3:
+                    return "0.5L/m";
+                case 4:
+                    return "0.6L/m";
+                case 5:
+                    return "0.8L/m";
+                case 6:
+                    return "1.0L/m";
+                default:
+                    return "0L/m";
+            }
+        }
+
+        //下拉列表清洗时长映射表
+        public static string MapWashTime(int id)
+        {
+            switch (id)
+            {
+                case 0:
+                    return "2m";
+                case 1:
+                    return "3m";
+                case 2:
+                    return "4m";
+                case 3:
+                    return "5m";
+                case 4:
+                    return "6m";
+                case 5:
+                    return "8m";
+                case 6:
+                    return "10m";
+                case 7:
+                    return "12m";
+                default:
+                    return "0m";
+
+            }
+        }
     }
 
     //当汞浓度超出预期值时，报警
@@ -821,6 +907,7 @@ namespace SilverTest.libs
             Utility.SendStopAlarm();
             AlarmActionFunc?.Invoke(false);
         }
+
 
     }
 
