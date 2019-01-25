@@ -248,7 +248,7 @@
                                   CanUserAddRows="False"
                                   ItemsSource="{Binding}"  
                                   ColumnHeaderStyle="{StaticResource MyColumnHeader}"
-                                  Margin="0,0,0,0" AutoGenerateColumns="False" CellEditEnding="NewTargetDgd_CellEditEnding" MouseRightButtonDown="NewTargetDgd_MouseRightButtonDown" LoadingRow="NewTargetDgd_LoadingRow" SelectedCellsChanged="NewTargetDgd_SelectedCellsChanged">
+                                  Margin="0,0,0,0" AutoGenerateColumns="False" CellEditEnding="NewTargetDgd_CellEditEnding" MouseRightButtonDown="NewTargetDgd_MouseRightButtonDown" LoadingRow="NewTargetDgd_LoadingRow" SelectedCellsChanged="NewTargetDgd_SelectedCellsChanged" SelectionChanged="NewTargetDgd_SelectionChanged">
                             <DataGrid.Style>
                                 <Style BasedOn="{StaticResource MetroDataGrid}" TargetType="{x:Type DataGrid}">
                                     <Setter Property="AlternatingRowBackground" Value="{DynamicResource GrayBrush7}" />

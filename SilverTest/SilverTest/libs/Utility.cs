@@ -18,6 +18,7 @@ using System.Windows.Threading;
 using System.Xml;
 using System.Xml.Serialization;
 using static SilverTest.libs.DataFormater;
+using static SilverTest.MainWindow;
 
 namespace SilverTest.libs
 {
@@ -763,7 +764,7 @@ namespace SilverTest.libs
         {
             //actiontimer.Interval = new TimeSpan(0, 1, 0);
             //silenttimer.Interval = new TimeSpan(0, 3, 0);
-            actiontimer.Interval = new TimeSpan(0,0,1);
+            actiontimer.Interval = new TimeSpan(0, 0, 1);
             silenttimer.Interval = new TimeSpan(0, 0, 2);
             actiontimer.Tick += new EventHandler(actiontimer_tick_hdlr);
             silenttimer.Tick += new EventHandler(silenttimer_tick_hdlr);
@@ -774,7 +775,7 @@ namespace SilverTest.libs
         private void silenttimer_tick_hdlr(object sender, EventArgs e)
         {
             //报警被用户中途取消
-            if(usercancel == true)
+            if (usercancel == true)
             {
                 usercancel = false;
                 ClearAlarmObject();
@@ -783,7 +784,7 @@ namespace SilverTest.libs
                 Utility.SendStopAlarm();
                 return;
             }
-            
+
             //即将进入alarm状态
             alarmstatus = AlarmStatus.ALARM;
             actiontimer.IsEnabled = true;
@@ -797,7 +798,7 @@ namespace SilverTest.libs
         private void actiontimer_tick_hdlr(object sender, EventArgs e)
         {
             //报警被用户中途取消
-            if(usercancel == true)
+            if (usercancel == true)
             {
                 usercancel = false;
                 ClearAlarmObject();
@@ -809,7 +810,7 @@ namespace SilverTest.libs
             }
 
             //报警超过三次，停止报警
-            if(alarmtimes > 2)
+            if (alarmtimes > 2)
             {
                 ClearAlarmObject();
                 Console.WriteLine("报警彻底结束");
@@ -825,7 +826,7 @@ namespace SilverTest.libs
             //发送停止报警
             Utility.SendStopAlarm();
 
-            Console.WriteLine("已报警"+alarmtimes.ToString()+"次");
+            Console.WriteLine("已报警" + alarmtimes.ToString() + "次");
             Console.WriteLine("开始静默");
         }
 
@@ -866,7 +867,7 @@ namespace SilverTest.libs
             if (usercancel == true)
                 usercancel = false;
             //
-            if(GetAlarmObject().alarmstatus == AlarmStatus.NONE)
+            if (GetAlarmObject().alarmstatus == AlarmStatus.NONE)
             {
                 //即将进入alarm状态
                 GetAlarmObject().alarmstatus = AlarmStatus.ALARM;
@@ -892,7 +893,7 @@ namespace SilverTest.libs
                 ;
             }
         }
-      
+
         //用户手动关闭报警
         //只有在报警响起后cancel才有意义。当数据正常时，用户取消报警没有意义，直接忽略
         public void Cancel(MainWindow mainwindow)
@@ -910,6 +911,117 @@ namespace SilverTest.libs
 
 
     }
+
+    //缓存测试dvalue，供在切换波形使用
+    public class TableCache
+    {
+        private CacheItem[] datas;
+        static private TableCache onlyone;
+        private int maxcount;
+        private int currentlength;
+        private TableCache()
+        {
+            maxcount = 100;
+            datas = new CacheItem[maxcount];
+        }
+
+        public int GetMaxCount()
+        {
+            return maxcount;
+        }
+
+        public static TableCache GetTableCache()
+        {
+            if (TableCache.onlyone == null)
+            {
+                onlyone = new TableCache();
+            }
+            return onlyone;
+        }
+
+        public bool isExist(TestingTabType type,string testing_gid)
+        {
+            for(int i = 0; i < currentlength; i++)
+            {
+                if (datas[i].type == type && datas[i].gid == testing_gid)
+                    return true;
+            }
+            return false;
+        }
+
+        public void CacheWave(TestingTabType type,string testing_gid, Collection<ADot> main_tune_dvalues)
+        {
+            if (main_tune_dvalues == null)
+                return;
+            int index = -1;
+            //已经存在
+            for(int i = 0; i<datas.Length; i++)
+            {
+                if(datas[i].type == type && datas[i].gid == testing_gid)
+                {
+                    index = i;
+                    break;
+                }
+            }
+            if(index != -1)
+            {
+                datas[index].wave = null;
+                datas[index].wave = main_tune_dvalues;
+                datas[index].refcount++;
+                return;
+            }
+            //还有空槽
+            if(currentlength < maxcount)
+            {
+                CacheItem newitm = new CacheItem();
+                newitm.gid = testing_gid;
+                newitm.type = type;
+                newitm.wave = main_tune_dvalues;
+                newitm.refcount = 1;
+                datas[currentlength] = newitm;
+                currentlength++;
+                return;
+            }
+            //已满，寻找不常用项，替换它
+            int oldmanindex = 0;
+            int maxref = 0;
+            for(int i = 0; i < currentlength; i++)
+            {
+                if (datas[i].refcount > maxref)
+                {
+                    maxref = datas[i].refcount;
+                    oldmanindex = i;
+                }
+            }
+            datas[oldmanindex].refcount = 1;
+            datas[oldmanindex].wave = main_tune_dvalues;
+            datas[oldmanindex].gid = testing_gid;
+            datas[oldmanindex].type = type;
+        }
+
+        public Collection<ADot> FindWave( TestingTabType type,string gid)
+        {
+            for(int i=0; i<currentlength; i++)
+            {
+                if (datas[i].gid == gid && datas[i].type == type)
+                {
+                    datas[i].refcount++;    
+                    return datas[i].wave;
+                }
+            }
+            return null;
+        }
+    }
+
+    public class CacheItem
+    {
+        public int refcount { get; set; }
+        public TestingTabType type { get; set; }
+        public Collection<ADot> wave { get; set; }
+        public Collection<ADot> vicetune_wave { get; set; }
+        public string gid { get; set; }
+    }
+
 
     public enum AlarmStatus
     {

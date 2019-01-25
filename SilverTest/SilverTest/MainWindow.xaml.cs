@@ -67,6 +67,13 @@ namespace SilverTest
         SOLID
     }
 
+    public enum TestingStatus
+    {
+        TESTING,
+        STOPPED,
+        IDLE
+    }
+
     public partial class MainWindow : Window
     {
 
@@ -101,6 +108,7 @@ namespace SilverTest
         //正在测试中的条目id号
         string testingitemgid_new = "-1";
         string testingitemgid_std = "-1";
+        string testing_gid = "";   //真正测试条目的global id
         //点击开始测试后，被选中的表格条目的相对索引号
         NewTestTarget testing_selected_new = null;
         StandardSample testing_selected_standard = null;
@@ -123,6 +131,16 @@ namespace SilverTest
             ALARM,
             LIQUID
         }
+
+        public enum TestingTabType
+        {
+            NEW,
+            STANDARD
+        }
+
+        //测试状态
+        TestingStatus teststatus = TestingStatus.IDLE;
+        TestingTabType testtabtype = TestingTabType.NEW;
 
         public MainWindow()
         {
@@ -675,6 +693,10 @@ namespace SilverTest
                                 newTestClt[newcltindex].AirSampleTime = "";
                                 newTestClt[newcltindex].AirTotolBulk = "";
                                 newTestClt[newcltindex].AirG = "";
+
+                                teststatus = TestingStatus.TESTING;
+                                testing_gid = newTestClt[newcltindex].GlobalID;
+                                testtabtype = TestingTabType.NEW;
                             }
 
                             if (SerialDriver.GetDriver().isOpen() == false)
@@ -720,6 +742,8 @@ namespace SilverTest
                             AnimatedColorButton.Visibility = Visibility.Hidden;
                             this.testingitemgid_new = "-1";
 
+                            teststatus = TestingStatus.STOPPED;
+
                             startTestBtn.Content = "开始测试";
                             if (SerialDriver.GetDriver().isOpen() == true)
                             {
@@ -757,6 +781,10 @@ namespace SilverTest
                                 if (MessageBox.Show("将清除上次的测试结果，是否继续?", "", MessageBoxButton.YesNo) == MessageBoxResult.No)
                                     return;
                                 standardSampleClt[getStandardCltIndex(standardSampleDgd.SelectedIndex)].ResponseValue1 = "";
+
+                                teststatus = TestingStatus.TESTING;
+                                testing_gid = standardSampleClt[getStandardCltIndex(standardSampleDgd.SelectedIndex)].GlobalID;
+                                testtabtype = TestingTabType.STANDARD;
                             }
 
                             if (SerialDriver.GetDriver().isOpen() == false)
@@ -803,6 +831,8 @@ namespace SilverTest
                             AnimatedColorButton.Visibility = Visibility.Hidden;
                             startTestBtn.Content = "开始测试";
                             testingitemgid_std = "-1";
+
+                            teststatus = TestingStatus.STOPPED;
 
                             if (SerialDriver.GetDriver().isOpen() == true)
                             {
@@ -1465,6 +1495,9 @@ namespace SilverTest
             cltindex = getStandardCltIndex(standardSampleDgd.SelectedIndex);
             if (cltindex == -1) return;
 
+            //切换时候载入波形
+
+      
             //数据未测试完成，则不计算相关系数.
             //同时统计组中项目个数，寻找空白标样
             string groupname = standardSampleClt[cltindex].GroupName;
@@ -2763,6 +2796,37 @@ namespace SilverTest
             //y-b/a
             newTestClt[cltindex].AirG =
                 Math.Round(0.001 * (double.Parse(newTestClt[cltindex].ResponseValue1) - b) / a, 5).ToString();
+        }
+
+        private void NewTargetDgd_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            //正在测试，不能切换波形
+            if (this.teststatus == TestingStatus.TESTING)
+                return;
+            //测试停止，离开测试条目之前，cache波形数据
+            if(this.teststatus == TestingStatus.STOPPED )
+            {
+                //从测试条目离开，保存测试波形
+                NewTestTarget aold = e.RemovedItems[0] as NewTestTarget;
+                if( aold != null && DotManager.GetDotManger().GetDots()!=null && aold.GlobalID == testing_gid)
+                {
+                    if (!TableCache.GetTableCache().isExist(TestingTabType.NEW, testing_gid))
+                    {
+                        TableCache.GetTableCache().CacheWave(TestingTabType.NEW, testing_gid, DotManager.GetDotManger().GetDots());
+                    }
+                }
+                //加载波形
+                Collection<ADot> wave = TableCache.GetTableCache().FindWave(TestingTabType.NEW, (e.AddedItems[0] as NewTestTarget).GlobalID);
+                if (wave == null) return;
+                realCpt.SetScale(100, 2000, 0, 50);
+                realCpt.SetNumberOfDValueP(10000);
+                realCpt.ClearData();
+                for(int i = 0; i < wave.Count; i++)
+                {
+                    realCpt.AddPoint(new Point(i, wave[i].Rvalue), null);
+                }
+            }
+
         }
     }
 }
