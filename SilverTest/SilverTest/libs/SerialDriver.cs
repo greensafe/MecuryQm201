@@ -25,7 +25,7 @@ namespace SilverTest.libs
         static private SerialDriver onlyone = null;
 
         public string portname = "COM5";
-        public int rate = 38400;
+        public int rate = 57600;
         public int parity = 0 ;
         public int databits = 8;
         public int stopbits = 1;

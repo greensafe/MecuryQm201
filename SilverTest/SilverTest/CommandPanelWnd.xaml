@@ -12,7 +12,7 @@
     <Grid x:Name="grid" Height="323" VerticalAlignment="Top" Background="White">
         <Canvas MouseLeftButtonDown="Canvas_MouseLeftButtonDown" Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}" ClipToBounds="False"
                 Background="White" Margin="0,0,0,-35" >
-            <Canvas x:Name="parampanel" Panel.ZIndex="10" Visibility="Visible" 
+            <Canvas x:Name="parampanel" Panel.ZIndex="10" Visibility="Collapsed" 
                     Background="White"
                     Width="247" Height="323"
                         Canvas.Left="143" Canvas.Top="15">
@@ -121,9 +121,7 @@
                             <Label Width="90" Height="30" HorizontalAlignment="Right" HorizontalContentAlignment="Right">
                                 高压值:
                             </Label>
-                            <Label Width="90" Height="30" HorizontalAlignment="Right" HorizontalContentAlignment="Right">
-                                实时:
-                            </Label>
+
                         </StackPanel>
                         <StackPanel Width="127" Margin="0,5,0,0">
                             <TextBox x:Name="enlargeblk" Width="90" Height="20" IsEnabled="False" HorizontalAlignment="Left">0</TextBox>
