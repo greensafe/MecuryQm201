@@ -31,7 +31,7 @@
             <StackPanel Height="250" Background="#FFB4DCFD" >
                 <Image Width="300" DockPanel.Dock="Left" Source="images/zong1.bmp" Margin="0,40,0,0"></Image>
             </StackPanel>
-            <TextBlock TextAlignment="Center" FontSize="25" FontFamily="STCaiyun" >带蠕动泵</TextBlock>
+            <TextBlock TextAlignment="Center" FontSize="25" FontFamily="STCaiyun" ><Run Text="带蠕动泵"/><Run Text="  release date()"/></TextBlock>
             <DockPanel DockPanel.Dock="Bottom" Height="50">
                 <TextBlock DockPanel.Dock="Right" VerticalAlignment="Bottom" Margin="0,0,10,0" FontSize="15"
                            HorizontalAlignment="Right" Foreground="Purple">苏州市青安仪器有限公司</TextBlock>

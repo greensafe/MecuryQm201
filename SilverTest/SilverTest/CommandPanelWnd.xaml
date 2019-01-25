@@ -113,22 +113,19 @@
                 </Canvas.Effect>
                 <StackPanel Orientation="Vertical">
                     <StackPanel Height="150" Orientation="Horizontal" Margin="0,20">
-                        <StackPanel Width="100">
-                            <Label Width="90" Height="30" HorizontalAlignment="Right" HorizontalContentAlignment="Right">
+                        <Canvas Width="100">
+                            <Label Width="90" Height="30" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Canvas.Top="5">
                                 放大倍数:
                             </Label>
-                            <Label Width="90" Height="30" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Content="流量:"/>
-                            <Label Width="90" Height="30" HorizontalAlignment="Right" HorizontalContentAlignment="Right">
+                            <Label Width="90" Height="30" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Content="流量:" Canvas.Top="30"/>
+                            <Label Width="90" Height="30" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Canvas.Top="56">
                                 高压值:
                             </Label>
-                            <Label Width="90" Height="30" HorizontalAlignment="Right" HorizontalContentAlignment="Right">
-                                实时:
-                            </Label>
-                        </StackPanel>
+                        </Canvas>
                         <StackPanel Width="127" Margin="0,5,0,0">
                             <TextBox x:Name="enlargeblk" Width="90" Height="20" IsEnabled="False" HorizontalAlignment="Left">1</TextBox>
                             <TextBox x:Name="fluentblk" Width="90" Height="20" IsEnabled="False" HorizontalAlignment="Left">3</TextBox>
-                            <TextBox Width="90" Height="25"  IsEnabled="False" HorizontalAlignment="Left">2</TextBox>
+                            <TextBox x:Name="pressureblk"  Width="90" Height="25"  IsEnabled="False" HorizontalAlignment="Left">2</TextBox>
                         </StackPanel>
                     </StackPanel>
                     <Canvas Height="30" >
