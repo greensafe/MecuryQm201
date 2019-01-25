@@ -117,15 +117,23 @@
                             <Label Width="90" Height="30" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Canvas.Top="5">
                                 放大倍数:
                             </Label>
-                            <Label Width="90" Height="30" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Content="流量:" Canvas.Top="30"/>
+                            <Label Width="90" Height="30" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Content="取流量:" Canvas.Top="30"/>
                             <Label Width="90" Height="30" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Canvas.Top="56">
                                 高压值:
                             </Label>
+                            <Label Width="90" Height="30" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Canvas.Top="79">
+                                采样时长:
+                            </Label>
+                            <Label Width="90" Height="30" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Canvas.Top="109">
+                                清洗时长:
+                            </Label>
                         </Canvas>
                         <StackPanel Width="127" Margin="0,5,0,0">
-                            <TextBox x:Name="enlargeblk" Width="90" Height="20" IsEnabled="False" HorizontalAlignment="Left">1</TextBox>
-                            <TextBox x:Name="fluentblk" Width="90" Height="20" IsEnabled="False" HorizontalAlignment="Left">3</TextBox>
-                            <TextBox x:Name="pressureblk"  Width="90" Height="25"  IsEnabled="False" HorizontalAlignment="Left">2</TextBox>
+                            <TextBox x:Name="enlargeblk" Width="90" Height="20" IsEnabled="False" HorizontalAlignment="Left">0</TextBox>
+                            <TextBox x:Name="fluentblk" Width="90" Height="20" IsEnabled="False" HorizontalAlignment="Left">0</TextBox>
+                            <TextBox x:Name="pressureblk"  Width="90" Height="25"  IsEnabled="False" HorizontalAlignment="Left">0</TextBox>
+                            <TextBox x:Name="sampletimeblk"  Width="90" Height="25"  IsEnabled="False" HorizontalAlignment="Left">0</TextBox>
+                            <TextBox x:Name="washtimeblk"  Width="90" Height="25"  IsEnabled="False" HorizontalAlignment="Left">0</TextBox>
                         </StackPanel>
                     </StackPanel>
                     <Canvas Height="30" >
