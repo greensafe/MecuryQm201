@@ -29,6 +29,13 @@ namespace SilverTest.libs
             public int No { get; set; }                 //数据序号
             public int Rvalue { get; set; }             //下维机返回值
             public DotStaus Status { get; set; }        //点值状态
+            public ADot(int n, int r, DotStaus s)
+            {
+                No = n;
+                Rvalue = r;
+                Status = s;
+            }
+            public ADot() { }
         }
 
         public enum DotStaus

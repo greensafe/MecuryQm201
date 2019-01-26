@@ -922,6 +922,7 @@ namespace SilverTest.libs
         private TableCache()
         {
             maxcount = 100;
+            currentlength = 0;
             datas = new CacheItem[maxcount];
         }
 
@@ -955,7 +956,7 @@ namespace SilverTest.libs
                 return;
             int index = -1;
             //已经存在
-            for(int i = 0; i<datas.Length; i++)
+            for(int i = 0; i<currentlength; i++)
             {
                 if(datas[i].type == type && datas[i].gid == testing_gid)
                 {
@@ -966,7 +967,11 @@ namespace SilverTest.libs
             if(index != -1)
             {
                 datas[index].wave = null;
-                datas[index].wave = main_tune_dvalues;
+                datas[index].wave = new Collection<ADot>(); 
+                for(int i = 0; i < main_tune_dvalues.Count; i++)
+                {
+                    datas[index].wave.Add(new ADot(main_tune_dvalues[i].No,main_tune_dvalues[i].Rvalue,main_tune_dvalues[i].Status));
+                }
                 datas[index].refcount++;
                 return;
             }
@@ -976,7 +981,13 @@ namespace SilverTest.libs
                 CacheItem newitm = new CacheItem();
                 newitm.gid = testing_gid;
                 newitm.type = type;
-                newitm.wave = main_tune_dvalues;
+                //datas[index].wave = null;
+                newitm.wave = new Collection<ADot>();
+                for (int i = 0; i < main_tune_dvalues.Count; i++)
+                {
+                    newitm.wave.Add(new ADot(main_tune_dvalues[i].No, main_tune_dvalues[i].Rvalue, main_tune_dvalues[i].Status));
+                }
+                //newitm.wave = main_tune_dvalues;
                 newitm.refcount = 1;
                 datas[currentlength] = newitm;
                 currentlength++;
@@ -994,7 +1005,13 @@ namespace SilverTest.libs
                 }
             }
             datas[oldmanindex].refcount = 1;
-            datas[oldmanindex].wave = main_tune_dvalues;
+            datas[oldmanindex].wave = null;
+            datas[oldmanindex].wave = new Collection<ADot>();
+            for (int i = 0; i < main_tune_dvalues.Count; i++)
+            {
+                datas[oldmanindex].wave.Add(new ADot(main_tune_dvalues[i].No, main_tune_dvalues[i].Rvalue, main_tune_dvalues[i].Status));
+            }
+            //datas[oldmanindex].wave = main_tune_dvalues;
             datas[oldmanindex].gid = testing_gid;
             datas[oldmanindex].type = type;
         }

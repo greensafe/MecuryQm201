@@ -20,6 +20,9 @@
   <NewTestTarget>
     <NewName>样品3</NewName>
     <Code>4</Code>
+    <ResponseValue1>1.01</ResponseValue1>
+    <AirSampleTime>14</AirSampleTime>
+    <AirFluent>5</AirFluent>
     <GlobalID>N0004</GlobalID>
   </NewTestTarget>
 </ArrayOfNewTestTarget>

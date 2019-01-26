@@ -320,7 +320,7 @@
                                 <DataGridTextColumn x:Name="standardAirFluentCol" Header="流量L/m" Width="80" Binding="{Binding AirFluent,Mode=TwoWay}" Visibility="Hidden" IsReadOnly="False"></DataGridTextColumn>
                                 <DataGridTextColumn x:Name="airtemperature" Header="温度℃" Width="80" Binding="{Binding Temperature,Mode=TwoWay}" IsReadOnly="False"></DataGridTextColumn>
                                 <DataGridTextColumn x:Name="airbulk" Header="标样体积mL" Width="100" Binding="{Binding AirML,Mode=TwoWay}" IsReadOnly="False"></DataGridTextColumn>
-                                <DataGridTextColumn x:Name="airhan" Header="汞量ng" Width="80" Binding="{Binding AirG,Mode=TwoWay}" IsReadOnly="True"></DataGridTextColumn>
+                                <DataGridTextColumn x:Name="airhan" Header="汞量ng" Width="80" Binding="{Binding AirG,Mode=TwoWay}" IsReadOnly="False"></DataGridTextColumn>
                                 <DataGridTextColumn x:Name="standardzl" Header="样品质量g" Width="100" Binding="{Binding Path=Weight,Mode=TwoWay}"></DataGridTextColumn>
                                 <DataGridTextColumn x:Name="standardProviderCol" Header="样品供应商" Width="80" Binding="{Binding Path=ProviderCompany,Mode=TwoWay}" Visibility="Hidden"></DataGridTextColumn>
                                 <DataGridTextColumn x:Name="standardPlaceCol"  Header="产地" Width="80" Binding="{Binding Path=Place,Mode=TwoWay}" Visibility="Hidden"></DataGridTextColumn>
@@ -334,7 +334,7 @@
                     </StackPanel>
                 </TabItem>
             </TabControl>
-            <StackPanel x:Name="waveContainer" Margin="0,20" DockPanel.Dock="Top" Orientation="Horizontal">
+            <StackPanel x:Name="waveContainer" Margin="0,20,0,0" DockPanel.Dock="Top" Orientation="Horizontal">
                 <qingan:BasicWaveChartUC x:Name="realCpt" Panel.ZIndex="9" Width="500" Height="200" 
                                          RatioS="1:2" 
                                          MoveMode ="HORIZONTAL"
@@ -369,6 +369,7 @@
                             ClipToBounds="True"/>
                 </GroupBox>
             </StackPanel>
+            <TextBlock x:Name="waveinfo_txt" Width="150" Height="20" DockPanel.Dock="Top" HorizontalAlignment="Left" Padding="10,0,0,0"></TextBlock>
             <Separator Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}" Height="3" DockPanel.Dock="Top"></Separator>
             <DockPanel DockPanel.Dock="Top" Height="50">
                 <Button x:Name="modifyBtn" HorizontalAlignment="Left" DockPanel.Dock="Left" Height="30" Content="保存" Margin="20,1,0,0" Click="modifyBtn_Click"  Visibility="Collapsed"/>

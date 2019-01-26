@@ -108,7 +108,7 @@ namespace SilverTest
         //正在测试中的条目id号
         string testingitemgid_new = "-1";
         string testingitemgid_std = "-1";
-        string testing_gid = "";   //真正测试条目的global id
+        string testing_gid = "-1";   //真正测试条目的global id
         //点击开始测试后，被选中的表格条目的相对索引号
         NewTestTarget testing_selected_new = null;
         StandardSample testing_selected_standard = null;
@@ -135,7 +135,8 @@ namespace SilverTest
         public enum TestingTabType
         {
             NEW,
-            STANDARD
+            STANDARD,
+            UNKNOWN
         }
 
         //测试状态
@@ -693,11 +694,12 @@ namespace SilverTest
                                 newTestClt[newcltindex].AirSampleTime = "";
                                 newTestClt[newcltindex].AirTotolBulk = "";
                                 newTestClt[newcltindex].AirG = "";
-
-                                teststatus = TestingStatus.TESTING;
-                                testing_gid = newTestClt[newcltindex].GlobalID;
-                                testtabtype = TestingTabType.NEW;
                             }
+
+                            teststatus = TestingStatus.TESTING;
+                            testing_gid = newTestClt[newcltindex].GlobalID;
+                            testtabtype = TestingTabType.NEW;
+                            waveinfo_txt.Text = "样本 " + testing_gid.ToString();
 
                             if (SerialDriver.GetDriver().isOpen() == false)
                             {
@@ -782,11 +784,12 @@ namespace SilverTest
                                     return;
                                 standardSampleClt[getStandardCltIndex(standardSampleDgd.SelectedIndex)].ResponseValue1 = "";
 
-                                teststatus = TestingStatus.TESTING;
-                                testing_gid = standardSampleClt[getStandardCltIndex(standardSampleDgd.SelectedIndex)].GlobalID;
-                                testtabtype = TestingTabType.STANDARD;
                             }
 
+                            teststatus = TestingStatus.TESTING;
+                            testing_gid = standardSampleClt[getStandardCltIndex(standardSampleDgd.SelectedIndex)].GlobalID;
+                            testtabtype = TestingTabType.STANDARD;
+                            waveinfo_txt.Text = "标样 " + testing_gid.ToString();
                             if (SerialDriver.GetDriver().isOpen() == false)
                             {
                                 SerialDriver.GetDriver().Open(
@@ -1474,130 +1477,186 @@ namespace SilverTest
             return 0;
         }
 
+        private void standardSampleDgd_SelectionChanged_computeR()
+        {
+            {
+
+                //计算相关系数及截率
+                double[] x;
+                double[] y;
+                int len = 0;
+                int index = 0;
+                int cltindex = 0;
+                double a, b, R;
+
+                double blankindex = -1;
+                double blankvalue = 0;
+
+                Collection<string> samplenames = new Collection<string>();
+
+                if (standardSampleDgd.SelectedIndex < 0) return;
+
+                cltindex = getStandardCltIndex(standardSampleDgd.SelectedIndex);
+                if (cltindex == -1) return;
+
+                //切换时候载入波形
+
+
+                //数据未测试完成，则不计算相关系数.
+                //同时统计组中项目个数，寻找空白标样
+                string groupname = standardSampleClt[cltindex].GroupName;
+                foreach (StandardSample item in standardSampleClt)
+                {
+                    if (item.GroupName == groupname)
+                    {
+                        if (item.SampleName == "标样空白")
+                        {
+                            try
+                            {
+                                blankvalue = double.Parse(item.ResponseValue1);
+                            }
+                            catch {; }
+                            continue;
+                        }
+
+                        switch (moudleid)
+                        {
+                            case ModuleID.STANDARD:
+                            case ModuleID.ALARM:
+                                if (item.ResponseValue1 == "" || item.ResponseValue1 is null ||
+                                    item.AirG == "" || item.AirG is null
+                                    )
+                                {
+                                    //MessageBox.Show("测试未完成，无法计算R");
+                                    return;
+                                }
+                                else
+                                {
+                                    len++;
+
+                                }
+                                break;
+                            case ModuleID.LIQUID:
+                                if (item.ResponseValue1 == "" || item.ResponseValue1 is null ||
+                                    item.Density == "" || item.Density is null
+                                    )
+                                {
+                                    //MessageBox.Show("测试未完成，无法计算R");
+                                    return;
+                                }
+                                else
+                                {
+                                    len++;
+
+                                }
+                                break;
+                        }
+
+                    }
+                }
+
+                //收集新x,y数组
+                x = new double[len];
+                y = new double[len];
+                foreach (StandardSample v in standardSampleClt)
+                {
+                    if (v.GroupName == groupname && v.SampleName != "标样空白")
+                    {
+                        switch (moudleid)
+                        {
+                            case ModuleID.STANDARD:
+                            case ModuleID.ALARM:
+                                x[index] = double.Parse(v.AirG);
+                                break;
+                            case ModuleID.LIQUID:
+                                x[index] = double.Parse(v.Density);
+                                break;
+                        }
+                        y[index] = double.Parse(v.ResponseValue1) - blankvalue;
+                        samplenames.Add(v.SampleName);
+                        index++;
+                    }
+                }
+
+                Utility.ComputeAB(out a, out b, x, y);
+
+                R = Utility.ComputeR(x, y);
+                if (x.Length == 1)
+                {
+                    R = 1;
+                    a = 1;
+                }
+
+                foreach (StandardSample v in standardSampleClt)
+                {
+                    if (v.GroupName == groupname)
+                    {
+                        v.A = Math.Round(a, 2).ToString();
+                        v.B = Math.Round(b, 2).ToString();
+                        v.R = Math.Round(R, 4).ToString();
+                    }
+
+                }
+                //}
+                //绘制R 线性回归图
+                //
+                if (a.ToString() == "NaN" || b.ToString() == "NaN") return;
+                drawR(x, y, Math.Round(a, 2), Math.Round(b, 2), Math.Round(R, 4), groupname, samplenames);
+            }
+        }
+        private TestingTabType getTypeOfTestingItem(string gid)
+        {
+            if (gid[0] == 'S')
+                return TestingTabType.STANDARD;
+            else if (gid[0] == 'N')
+                return TestingTabType.NEW;
+            else
+                return TestingTabType.UNKNOWN;
+        }
         private void standardSampleDgd_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
-            //计算相关系数及截率
-            double[] x;
-            double[] y;
-            int len = 0;
-            int index = 0;
-            int cltindex = 0;
-            double a, b, R;
-
-            double blankindex = -1;
-            double blankvalue = 0;
-
-            Collection<string> samplenames = new Collection<string>() ;
-
-            if (standardSampleDgd.SelectedIndex < 0) return;
-
-            cltindex = getStandardCltIndex(standardSampleDgd.SelectedIndex);
-            if (cltindex == -1) return;
-
-            //切换时候载入波形
-
-      
-            //数据未测试完成，则不计算相关系数.
-            //同时统计组中项目个数，寻找空白标样
-            string groupname = standardSampleClt[cltindex].GroupName;
-            foreach (StandardSample item in standardSampleClt)
+            standardSampleDgd_SelectionChanged_computeR();
+            //缓存及切换波形
+            //正在测试，不能切换波形
+            if (this.teststatus == TestingStatus.TESTING)
+                return;
+            //测试停止，离开测试条目之前，cache波形数据
+            if (this.teststatus == TestingStatus.STOPPED)
             {
-                if (item.GroupName == groupname)
+                //从测试条目离开，保存测试波形
+                StandardSample aold;
+                if (e.RemovedItems.Count == 0)
+                    aold = null;
+                else
+                    aold = e.RemovedItems[0] as StandardSample;
+                Collection<ADot> dots = DotManager.GetDotManger().GetDots();
+                if (aold != null && dots.Count != 0 && aold.GlobalID == testing_gid)
                 {
-                    if(item.SampleName == "标样空白")
+                    TableCache.GetTableCache().CacheWave(getTypeOfTestingItem(testing_gid), testing_gid, DotManager.GetDotManger().GetDots());
+                }
+                else
+                {
+                    //失去焦点情况下，默认上次是选中的是真正测试的条目
+                    if (aold == null && dots.Count != 0)
                     {
-                        try
-                        {
-                            blankvalue = double.Parse(item.ResponseValue1);
-                        }
-                        catch {; }
-                        continue;
+                        TableCache.GetTableCache().CacheWave(getTypeOfTestingItem(testing_gid), testing_gid, DotManager.GetDotManger().GetDots());
                     }
-
-                    switch (moudleid)
-                    {
-                        case ModuleID.STANDARD:
-                        case ModuleID.ALARM:
-                            if (item.ResponseValue1 == "" || item.ResponseValue1 is null ||
-                                item.AirG == "" || item.AirG is null
-                                )
-                            {
-                                //MessageBox.Show("测试未完成，无法计算R");
-                                return;
-                            }
-                            else
-                            {
-                                len++;
-
-                            }
-                            break;
-                        case ModuleID.LIQUID:
-                            if (item.ResponseValue1 == "" || item.ResponseValue1 is null ||
-                                item.Density == "" || item.Density is null
-                                )
-                            {
-                                //MessageBox.Show("测试未完成，无法计算R");
-                                return;
-                            }
-                            else
-                            {
-                                len++;
-
-                            }
-                            break;
-                    }
-
+                }
+                //加载波形
+                if (e.AddedItems.Count == 0)
+                    return;
+                string temp_gid = (e.AddedItems[0] as StandardSample).GlobalID;
+                Collection<ADot> wave = TableCache.GetTableCache().FindWave(getTypeOfTestingItem(temp_gid), temp_gid);
+                if (wave == null) return;
+                waveinfo_txt.Text = "样本 ." + temp_gid;
+                realCpt.SetScale(100, 2000, 0, 50);
+                realCpt.SetNumberOfDValueP(10000);
+                realCpt.ClearData();
+                for (int i = 0; i < wave.Count; i++)
+                {
+                    realCpt.AddPoint(new Point(i, wave[i].Rvalue), null);
                 }
             }
-
-            //收集新x,y数组
-            x = new double[len];
-            y = new double[len];
-            foreach (StandardSample v in standardSampleClt)
-            {
-                if (v.GroupName == groupname && v.SampleName!="标样空白")
-                {
-                    switch (moudleid)
-                    {
-                        case ModuleID.STANDARD:
-                        case ModuleID.ALARM:
-                            x[index] = double.Parse(v.AirG);
-                            break;
-                        case ModuleID.LIQUID:
-                            x[index] = double.Parse(v.Density);
-                            break;
-                    }
-                    y[index] = double.Parse(v.ResponseValue1) - blankvalue;
-                    samplenames.Add(v.SampleName);
-                    index++;
-                }
-            }
-
-            Utility.ComputeAB(out a, out b, x, y);
-
-            R = Utility.ComputeR(x, y);
-            if (x.Length == 1)
-            {
-                R = 1;
-                a = 1;
-            }
-                
-            foreach (StandardSample v in standardSampleClt)
-            {
-                if (v.GroupName == groupname)
-                {
-                    v.A = Math.Round(a,2).ToString();
-                    v.B = Math.Round(b,2).ToString();
-                    v.R = Math.Round(R,4).ToString();
-                }
-
-            }
-            //}
-            //绘制R 线性回归图
-            //
-            if (a.ToString() == "NaN" || b.ToString() == "NaN") return;
-            drawR(x, y, Math.Round(a, 2), Math.Round(b, 2), Math.Round(R, 4), groupname,samplenames);
         }
 
         private void testliquidMenu_Click(object sender, RoutedEventArgs e)
@@ -2530,6 +2589,8 @@ namespace SilverTest
             NewTestTarget newitem = null;
             XmlSerializer standardserializer;
             StandardSample standarditem = null;
+            TestingTabType tabtype = TestingTabType.UNKNOWN;
+            string gid = "";
             try
             {
                 newserializer = new XmlSerializer(typeof(NewTestTarget));
@@ -2556,7 +2617,8 @@ namespace SilverTest
                     newTestClt.Remove(newTestClt[newindex]);
                     newTestClt.Add(newitem);
                 }
-
+                tabtype = TestingTabType.NEW;
+                gid = newitem.GlobalID;
             }
             catch (Exception ex)
             {
@@ -2588,10 +2650,12 @@ namespace SilverTest
                         standardSampleClt.RemoveAt(standardindex);
                         standardSampleClt.Add(standarditem);
                     }
+                    tabtype = TestingTabType.STANDARD;
+                    gid = standarditem.GlobalID;
                 }
                 catch (Exception ee)
                 {
-                    ;
+                    return;
                 }
             }
            
@@ -2610,16 +2674,19 @@ namespace SilverTest
             {
                 return;
             }
+            //同时缓存波形
+            Collection<ADot> dotscache = new Collection<ADot>();
             StreamReader sr = new StreamReader(aFile);
             while (!sr.EndOfStream)
             {
                 yscale = int.Parse( sr.ReadLine() );
                 realCpt.AddPoint(new Point(xscale,yscale),null);
+                dotscache.Add(new ADot(xscale, yscale, DotStaus.OK));
                 xscale++;
             }
-
             sr.Close();
             aFile.Close();
+            TableCache.GetTableCache().CacheWave(tabtype, gid, dotscache);
         }
 
         private void window_Closed(object sender, EventArgs e)
@@ -2807,17 +2874,31 @@ namespace SilverTest
             if(this.teststatus == TestingStatus.STOPPED )
             {
                 //从测试条目离开，保存测试波形
-                NewTestTarget aold = e.RemovedItems[0] as NewTestTarget;
-                if( aold != null && DotManager.GetDotManger().GetDots()!=null && aold.GlobalID == testing_gid)
+                NewTestTarget aold;
+                if (e.RemovedItems.Count == 0)
+                    aold = null;
+                else
+                    aold = e.RemovedItems[0] as NewTestTarget;
+                Collection<ADot> dots = DotManager.GetDotManger().GetDots();
+                if ( aold != null && dots.Count != 0 && aold.GlobalID == testing_gid)
                 {
-                    if (!TableCache.GetTableCache().isExist(TestingTabType.NEW, testing_gid))
+                    TableCache.GetTableCache().CacheWave(getTypeOfTestingItem(testing_gid), testing_gid, DotManager.GetDotManger().GetDots());
+                }
+                else
+                {
+                    //失去焦点情况下，默认上次是选中的是真正测试的条目
+                    if(aold == null && dots.Count != 0)
                     {
-                        TableCache.GetTableCache().CacheWave(TestingTabType.NEW, testing_gid, DotManager.GetDotManger().GetDots());
+                        TableCache.GetTableCache().CacheWave(getTypeOfTestingItem(testing_gid), testing_gid, DotManager.GetDotManger().GetDots());
                     }
                 }
                 //加载波形
-                Collection<ADot> wave = TableCache.GetTableCache().FindWave(TestingTabType.NEW, (e.AddedItems[0] as NewTestTarget).GlobalID);
+                if (e.AddedItems.Count == 0)
+                    return;
+                string temp_gid = (e.AddedItems[0] as NewTestTarget).GlobalID;
+                Collection<ADot> wave = TableCache.GetTableCache().FindWave(getTypeOfTestingItem(temp_gid), temp_gid);
                 if (wave == null) return;
+                waveinfo_txt.Text = "样本 " + temp_gid;
                 realCpt.SetScale(100, 2000, 0, 50);
                 realCpt.SetNumberOfDValueP(10000);
                 realCpt.ClearData();
