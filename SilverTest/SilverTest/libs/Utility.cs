@@ -18,6 +18,7 @@ using System.Windows.Threading;
 using System.Xml;
 using System.Xml.Serialization;
 using static SilverTest.libs.DataFormater;
+using static SilverTest.MainWindow;
 
 namespace SilverTest.libs
 {
@@ -682,5 +683,132 @@ namespace SilverTest.libs
         }
 
     }
-   
+
+    //缓存测试dvalue，供在切换波形使用
+    public class TableCache
+    {
+        private CacheItem[] datas;
+        static private TableCache onlyone;
+        private int maxcount;
+        private int currentlength;
+        private TableCache()
+        {
+            maxcount = 100;
+            currentlength = 0;
+            datas = new CacheItem[maxcount];
+        }
+
+        public int GetMaxCount()
+        {
+            return maxcount;
+        }
+
+        public static TableCache GetTableCache()
+        {
+            if (TableCache.onlyone == null)
+            {
+                onlyone = new TableCache();
+            }
+            return onlyone;
+        }
+
+        public bool isExist(TestingTabType type, string testing_gid)
+        {
+            for (int i = 0; i < currentlength; i++)
+            {
+                if (datas[i].type == type && datas[i].gid == testing_gid)
+                    return true;
+            }
+            return false;
+        }
+
+        public void CacheWave(TestingTabType type, string testing_gid, Collection<ADot> main_tune_dvalues)
+        {
+            if (main_tune_dvalues == null)
+                return;
+            int index = -1;
+            //已经存在
+            for (int i = 0; i < currentlength; i++)
+            {
+                if (datas[i].type == type && datas[i].gid == testing_gid)
+                {
+                    index = i;
+                    break;
+                }
+            }
+            if (index != -1)
+            {
+                datas[index].wave = null;
+                datas[index].wave = new Collection<ADot>();
+                for (int i = 0; i < main_tune_dvalues.Count; i++)
+                {
+                    datas[index].wave.Add(new ADot(main_tune_dvalues[i].No, main_tune_dvalues[i].Rvalue, main_tune_dvalues[i].Status));
+                }
+                datas[index].refcount++;
+                return;
+            }
+            //还有空槽
+            if (currentlength < maxcount)
+            {
+                CacheItem newitm = new CacheItem();
+                newitm.gid = testing_gid;
+                newitm.type = type;
+                //datas[index].wave = null;
+                newitm.wave = new Collection<ADot>();
+                for (int i = 0; i < main_tune_dvalues.Count; i++)
+                {
+                    newitm.wave.Add(new ADot(main_tune_dvalues[i].No, main_tune_dvalues[i].Rvalue, main_tune_dvalues[i].Status));
+                }
+                //newitm.wave = main_tune_dvalues;
+                newitm.refcount = 1;
+                datas[currentlength] = newitm;
+                currentlength++;
+                return;
+            }
+            //已满，寻找不常用项，替换它
+            int oldmanindex = 0;
+            int maxref = 0;
+            for (int i = 0; i < currentlength; i++)
+            {
+                if (datas[i].refcount > maxref)
+                {
+                    maxref = datas[i].refcount;
+                    oldmanindex = i;
+                }
+            }
+            datas[oldmanindex].refcount = 1;
+            datas[oldmanindex].wave = null;
+            datas[oldmanindex].wave = new Collection<ADot>();
+            for (int i = 0; i < main_tune_dvalues.Count; i++)
+            {
+                datas[oldmanindex].wave.Add(new ADot(main_tune_dvalues[i].No, main_tune_dvalues[i].Rvalue, main_tune_dvalues[i].Status));
+            }
+            //datas[oldmanindex].wave = main_tune_dvalues;
+            datas[oldmanindex].gid = testing_gid;
+            datas[oldmanindex].type = type;
+        }
+
+        public Collection<ADot> FindWave(TestingTabType type, string gid)
+        {
+            for (int i = 0; i < currentlength; i++)
+            {
+                if (datas[i].gid == gid && datas[i].type == type)
+                {
+                    datas[i].refcount++;
+                    return datas[i].wave;
+                }
+            }
+            return null;
+        }
+    }
+
+    public class CacheItem
+    {
+        public int refcount { get; set; }
+        public TestingTabType type { get; set; }
+        public Collection<ADot> wave { get; set; }
+        public Collection<ADot> vicetune_wave { get; set; }
+        public string gid { get; set; }
+    }
+
 }
