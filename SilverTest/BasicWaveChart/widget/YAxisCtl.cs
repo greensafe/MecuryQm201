@@ -245,5 +245,13 @@ namespace BasicWaveChart.widget
             //Canvas.SetBottom((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock), xaxis.Height + yaxis.YScaleMaxValue * yaxis.GetGranulity()-20);
             Canvas.SetBottom((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock), xaxis.Height + yaxis.YScaleMaxValue * yaxis.GetGranulity());
         }
+
+        //使用简单方法绘制出放大模式下Y轴，min为起始，max为终止，中间分为5个刻度
+        //@ min - 起始值
+        //@ max - 结束值
+        public void enlargeRedraw(int min, int max)
+        {
+
+        }
     }
 }

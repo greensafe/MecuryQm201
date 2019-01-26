@@ -378,6 +378,11 @@ namespace BasicWaveChart
         {
             optimizeCanvas.AddPoint(dvalue,vice_dvalue);
         }
+
+        public void EnlargeRedraw(int min, int max)
+        {
+            yaxis.enlargeRedraw(min, max);
+        }
         #endregion
 
         #region event define
@@ -438,5 +443,23 @@ namespace BasicWaveChart
             ;
         }
 
+        private void enlargemenu_Click(object sender, RoutedEventArgs e)
+        {
+            MenuItem itm = sender as MenuItem;
+            if(itm.Header.ToString() == "放大")
+            {
+                //发大图形
+
+                //切换菜单显示
+                itm.Header = "关闭放大";
+            }
+            else
+            {
+                //关闭放大功能
+
+                //切换菜单显示
+                itm.Header = "放大";
+            }
+        }
     }
 }
