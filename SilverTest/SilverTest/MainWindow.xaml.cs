@@ -66,6 +66,13 @@ namespace SilverTest
         SOLID
     }
 
+    public enum TestingStatus
+    {
+        TESTING,
+        STOPPED,
+        IDLE
+    }
+
     public partial class MainWindow : Window
     {
 
@@ -106,6 +113,11 @@ namespace SilverTest
         StandardSample testing_selected_standard = null;
 
         ICollectionView StandardCvw;
+
+        //测试状态
+        TestingStatus teststatus = TestingStatus.IDLE;
+        TestingTabType testtabtype = TestingTabType.NEW;
+
 
         //指向命令面板窗口
         CommandPanelWnd cmdpanelWnd;
@@ -556,6 +568,11 @@ namespace SilverTest
                                 newTestClt[newcltindex].AirG = "";
                             }
 
+                            teststatus = TestingStatus.TESTING;
+                            testing_gid = newTestClt[newcltindex].GlobalID;
+                            testtabtype = TestingTabType.NEW;
+                            waveinfo_txt.Text = "样本 " + testing_gid.ToString();
+
                             if (SerialDriver.GetDriver().isOpen() == false)
                             {
                                 SerialDriver.GetDriver().Open(
@@ -600,6 +617,7 @@ namespace SilverTest
                             AnimatedColorButton.Visibility = Visibility.Hidden;
                             this.testingitemgid_new = "-1";
 
+                            teststatus = TestingStatus.STOPPED;
 
                             startTestBtn.Content = "开始测试";
                             if (SerialDriver.GetDriver().isOpen() == true)
@@ -639,6 +657,11 @@ namespace SilverTest
                                     return;
                                 standardSampleClt[getStandardCltIndex(standardSampleDgd.SelectedIndex)].ResponseValue1 = "";
                             }
+
+                            teststatus = TestingStatus.TESTING;
+                            testing_gid = standardSampleClt[getStandardCltIndex(standardSampleDgd.SelectedIndex)].GlobalID;
+                            testtabtype = TestingTabType.STANDARD;
+                            waveinfo_txt.Text = "标样 " + testing_gid.ToString();
 
                             if (SerialDriver.GetDriver().isOpen() == false)
                             {
@@ -683,6 +706,8 @@ namespace SilverTest
                             AnimatedColorButton.Visibility = Visibility.Hidden;
                             startTestBtn.Content = "开始测试";
                             testingitemgid_std = "-1";
+
+                            teststatus = TestingStatus.STOPPED;
 
                             if (SerialDriver.GetDriver().isOpen() == true)
                             {
@@ -1189,7 +1214,17 @@ namespace SilverTest
             return 0;
         }
 
-        private void standardSampleDgd_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private TestingTabType getTypeOfTestingItem(string gid)
+        {
+            if (gid[0] == 'S')
+                return TestingTabType.STANDARD;
+            else if (gid[0] == 'N')
+                return TestingTabType.NEW;
+            else
+                return TestingTabType.UNKNOWN;
+        }
+
+        private void standardSampleDgd_SelectionChanged_computeR()
         {
 
             //计算相关系数及截率
@@ -1241,7 +1276,7 @@ namespace SilverTest
             Utility.ComputeAB(out a, out b, x, y);
 
             R = Utility.ComputeR(x, y);
-            if(x.Length == 1)
+            if (x.Length == 1)
             {
                 R = 1;
                 a = 1;
@@ -1250,9 +1285,9 @@ namespace SilverTest
             {
                 if (v.GroupName == groupname)
                 {
-                    v.A = Math.Round(a,2).ToString();
-                    v.B = Math.Round(b,2).ToString();
-                    v.R = Math.Round(R,4).ToString();
+                    v.A = Math.Round(a, 2).ToString();
+                    v.B = Math.Round(b, 2).ToString();
+                    v.R = Math.Round(R, 4).ToString();
                 }
 
             }
@@ -1261,6 +1296,51 @@ namespace SilverTest
             //
             if (a.ToString() == "NaN" || b.ToString() == "NaN") return;
             drawR(x, y, Math.Round(a, 2), Math.Round(b, 2), Math.Round(R, 4), groupname);
+        }
+        private void standardSampleDgd_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            standardSampleDgd_SelectionChanged_computeR();
+            //缓存及切换波形
+            //正在测试，不能切换波形
+            if (this.teststatus == TestingStatus.TESTING)
+                return;
+            //测试停止，离开测试条目之前，cache波形数据
+            if (this.teststatus == TestingStatus.STOPPED)
+            {
+                //从测试条目离开，保存测试波形
+                StandardSample aold;
+                if (e.RemovedItems.Count == 0)
+                    aold = null;
+                else
+                    aold = e.RemovedItems[0] as StandardSample;
+                Collection<ADot> dots = DotManager.GetDotManger().GetDots();
+                if (aold != null && dots.Count != 0 && aold.GlobalID == testing_gid)
+                {
+                    TableCache.GetTableCache().CacheWave(getTypeOfTestingItem(testing_gid), testing_gid, DotManager.GetDotManger().GetDots());
+                }
+                else
+                {
+                    //失去焦点情况下，默认上次是选中的是真正测试的条目
+                    if (aold == null && dots.Count != 0)
+                    {
+                        TableCache.GetTableCache().CacheWave(getTypeOfTestingItem(testing_gid), testing_gid, DotManager.GetDotManger().GetDots());
+                    }
+                }
+                //加载波形
+                if (e.AddedItems.Count == 0)
+                    return;
+                string temp_gid = (e.AddedItems[0] as StandardSample).GlobalID;
+                Collection<ADot> wave = TableCache.GetTableCache().FindWave(getTypeOfTestingItem(temp_gid), temp_gid);
+                if (wave == null) return;
+                waveinfo_txt.Text = "样本 ." + temp_gid;
+                realCpt.SetScale(100, 2000, 0, 50);
+                realCpt.SetNumberOfDValueP(10000);
+                realCpt.ClearData();
+                for (int i = 0; i < wave.Count; i++)
+                {
+                    realCpt.AddPoint(new Point(i, wave[i].Rvalue));
+                }
+            }
         }
 
         private void testliquidMenu_Click(object sender, RoutedEventArgs e)
@@ -2183,6 +2263,8 @@ namespace SilverTest
             NewTestTarget newitem = null;
             XmlSerializer standardserializer;
             StandardSample standarditem = null;
+            TestingTabType tabtype = TestingTabType.UNKNOWN;
+            string gid = "";
             try
             {
                 newserializer = new XmlSerializer(typeof(NewTestTarget));
@@ -2209,6 +2291,8 @@ namespace SilverTest
                     newTestClt.Remove(newTestClt[newindex]);
                     newTestClt.Add(newitem);
                 }
+                tabtype = TestingTabType.NEW;
+                gid = newitem.GlobalID;
 
             }
             catch (Exception ex)
@@ -2241,10 +2325,12 @@ namespace SilverTest
                         standardSampleClt.RemoveAt(standardindex);
                         standardSampleClt.Add(standarditem);
                     }
+                    tabtype = TestingTabType.STANDARD;
+                    gid = standarditem.GlobalID;
                 }
                 catch (Exception ee)
                 {
-                    ;
+                    return;
                 }
             }
            
@@ -2263,16 +2349,20 @@ namespace SilverTest
             {
                 return;
             }
+            //同时缓存波形
+            Collection<ADot> dotscache = new Collection<ADot>();
             StreamReader sr = new StreamReader(aFile);
             while (!sr.EndOfStream)
             {
                 yscale = int.Parse( sr.ReadLine() );
                 realCpt.AddPoint(new Point(xscale,yscale));
+                dotscache.Add(new ADot(xscale, yscale, DotStaus.OK));
                 xscale++;
             }
 
             sr.Close();
             aFile.Close();
+            TableCache.GetTableCache().CacheWave(tabtype, gid, dotscache);
         }
 
         private void window_Closed(object sender, EventArgs e)
@@ -2372,6 +2462,50 @@ namespace SilverTest
             //y-b/a
             newTestClt[cltindex].AirG = 
                 Math.Round(0.001 * (double.Parse(newTestClt[cltindex].ResponseValue1) - b) / a, 5).ToString();
+        }
+
+        private void NewTargetDgd_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            //正在测试，不能切换波形
+            if (this.teststatus == TestingStatus.TESTING)
+                return;
+            //测试停止，离开测试条目之前，cache波形数据
+            if (this.teststatus == TestingStatus.STOPPED)
+            {
+                //从测试条目离开，保存测试波形
+                NewTestTarget aold;
+                if (e.RemovedItems.Count == 0)
+                    aold = null;
+                else
+                    aold = e.RemovedItems[0] as NewTestTarget;
+                Collection<ADot> dots = DotManager.GetDotManger().GetDots();
+                if (aold != null && dots.Count != 0 && aold.GlobalID == testing_gid)
+                {
+                    TableCache.GetTableCache().CacheWave(getTypeOfTestingItem(testing_gid), testing_gid, DotManager.GetDotManger().GetDots());
+                }
+                else
+                {
+                    //失去焦点情况下，默认上次是选中的是真正测试的条目
+                    if (aold == null && dots.Count != 0)
+                    {
+                        TableCache.GetTableCache().CacheWave(getTypeOfTestingItem(testing_gid), testing_gid, DotManager.GetDotManger().GetDots());
+                    }
+                }
+                //加载波形
+                if (e.AddedItems.Count == 0)
+                    return;
+                string temp_gid = (e.AddedItems[0] as NewTestTarget).GlobalID;
+                Collection<ADot> wave = TableCache.GetTableCache().FindWave(getTypeOfTestingItem(temp_gid), temp_gid);
+                if (wave == null) return;
+                waveinfo_txt.Text = "样本 " + temp_gid;
+                realCpt.SetScale(100, 2000, 0, 50);
+                realCpt.SetNumberOfDValueP(10000);
+                realCpt.ClearData();
+                for (int i = 0; i < wave.Count; i++)
+                {
+                    realCpt.AddPoint(new Point(i, wave[i].Rvalue));
+                }
+            }
         }
     }
 }
