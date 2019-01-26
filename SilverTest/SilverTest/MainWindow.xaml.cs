@@ -100,6 +100,7 @@ namespace SilverTest
         //正在测试中的条目id号
         string testingitemgid_new = "-1";
         string testingitemgid_std = "-1";
+        string testing_gid = "-1";   //真正测试条目的global id
         //点击开始测试后，被选中的表格条目的相对索引号
         NewTestTarget testing_selected_new = null;
         StandardSample testing_selected_standard = null;
@@ -108,6 +109,13 @@ namespace SilverTest
 
         //指向命令面板窗口
         CommandPanelWnd cmdpanelWnd;
+
+        public enum TestingTabType
+        {
+            NEW,
+            STANDARD,
+            UNKNOWN
+        }
 
         public MainWindow()
         {
