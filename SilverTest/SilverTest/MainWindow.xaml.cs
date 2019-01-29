@@ -588,7 +588,7 @@ namespace SilverTest
                             //清空图形记录及DotManager中数据
                             DotManager.GetDotManger().ReleaseData();
                             //清理绘波现场
-                            realCpt.SetScale(100, 2000, 0, 50);
+                            realCpt.SetScale(100, 2000, 0,0, 50);
                             //realCpt.NumberOfDValue = 200000;
                             realCpt.SetNumberOfDValueP(200000);
                             WaveDrawSite.to_pos_index_rel = 0;
@@ -677,7 +677,7 @@ namespace SilverTest
                             //清空图形记录及DotManager中数据
                             DotManager.GetDotManger().ReleaseData();
                             //清理绘波现场
-                            realCpt.SetScale(100, 2000, 0, 50);
+                            realCpt.SetScale(100, 2000, 0, 0,50);
                             //realCpt.NumberOfDValue = 200000;
                             realCpt.SetNumberOfDValueP(200000);
                             WaveDrawSite.to_pos_index_rel = 0;
@@ -1333,7 +1333,7 @@ namespace SilverTest
                 Collection<ADot> wave = TableCache.GetTableCache().FindWave(getTypeOfTestingItem(temp_gid), temp_gid);
                 if (wave == null) return;
                 waveinfo_txt.Text = "样本 ." + temp_gid;
-                realCpt.SetScale(100, 2000, 0, 50);
+                realCpt.SetScale(100, 2000, 0, 0,50);
                 realCpt.SetNumberOfDValueP(10000);
                 realCpt.ClearData();
                 for (int i = 0; i < wave.Count; i++)
@@ -2335,7 +2335,7 @@ namespace SilverTest
             }
            
             //载入波形
-            realCpt.SetScale(100, 2000, 0, 50);
+            realCpt.SetScale(100, 2000, 0, 0,50);
             //realCpt.NumberOfDValue = 200000;
             realCpt.SetNumberOfDValueP(200000);
             realCpt.ClearData();
@@ -2498,7 +2498,7 @@ namespace SilverTest
                 Collection<ADot> wave = TableCache.GetTableCache().FindWave(getTypeOfTestingItem(temp_gid), temp_gid);
                 if (wave == null) return;
                 waveinfo_txt.Text = "样本 " + temp_gid;
-                realCpt.SetScale(100, 2000, 0, 50);
+                realCpt.SetScale(100, 2000, 0, 0,50);
                 realCpt.SetNumberOfDValueP(10000);
                 realCpt.ClearData();
                 for (int i = 0; i < wave.Count; i++)

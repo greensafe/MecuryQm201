@@ -12,3 +12,5 @@ D:\workshop\greensafe\201H\origin\SilverTest\BasicWaveChart\obj\Debug\BasicWaveC
 D:\workshop\greensafe\201H\origin\SilverTest\BasicWaveChart\obj\Debug\BasicWaveChart.csproj.CoreCompileInputs.cache
 D:\workshop\greensafe\201H\origin\SilverTest\BasicWaveChart\obj\Debug\BasicWaveChart.dll
 D:\workshop\greensafe\201H\origin\SilverTest\BasicWaveChart\obj\Debug\BasicWaveChart.pdb
+D:\workshop\greensafe\201H\origin\SilverTest\BasicWaveChart\obj\Debug\EnlargeInfo_uwnd.g.cs
+D:\workshop\greensafe\201H\origin\SilverTest\BasicWaveChart\obj\Debug\EnlargeInfo_uwnd.baml

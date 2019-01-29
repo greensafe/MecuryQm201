@@ -70,6 +70,7 @@
         <ContextMenu x:Key="wavemenu">
             <MenuItem x:Name="fullshowmenu" Header="全景" Click="fullshowmenu_Click"></MenuItem>
             <MenuItem x:Name="movemenu" Header="移动" Click="movemenu_Click"></MenuItem>
+            <MenuItem x:Name="enlargemenu" Header="放大" Click="enlargemenu_Click"></MenuItem>
             <MenuItem x:Name="integralmenu" Header="积分" Click="integralmenu_Click"  Visibility="Hidden"></MenuItem>
         </ContextMenu>
     </UserControl.Resources>
@@ -97,7 +98,8 @@
             <widget:YAxisCtl x:Name="yaxis" Stroke="Black" StrokeThickness="1" Width="50" 
                              ClipToBounds="False"
                              YScaleMaxValue="50"
-                             YScaleLineNumber="1000"
+                             YSCaleOStart="0"
+                             YScaleLineNumber="50"
                              YCommentNumber="5"
                              YArrowStyle="NONE"
                              YArrowheight="10"
