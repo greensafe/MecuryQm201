@@ -21,6 +21,15 @@ namespace BasicWaveChart
     /// </summary>
     public partial class BasicWaveChartUC : UserControl
     {
+        //特性状态
+        public FeatureStatus featurestatus { get; set; }
+
+        public enum FeatureStatus
+        {
+            NORMAL,   //放大模式
+            ENALARGE
+        }
+
         #region DependencyProperty
         public int NumberOfDValue
         {
@@ -138,6 +147,7 @@ namespace BasicWaveChart
         public BasicWaveChartUC()
         {
             InitializeComponent();
+            featurestatus = FeatureStatus.NORMAL;
         }
 
         #region event handler
@@ -172,19 +182,20 @@ namespace BasicWaveChart
 
         }
 
-  
+
         private void yaxis_text_canvas_Loaded(object sender, RoutedEventArgs e)
         {
-          
+
             //add the scale text
             yaxis_text_canvas.Children.Clear();
             //0
             yaxis_text_canvas.Children.Add(new TextBlock());
+            (yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock).Text = yaxis.YSCaleOStart.ToString(); ;
             (yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock).Text = "0";
             (yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock).FontSize = 8;
-            Canvas.SetLeft((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock),0);
+            Canvas.SetLeft((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock), 0);
             Canvas.SetBottom((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock), xaxis.Height);
-            int loop = (int)(yaxis.YScaleMaxValue / yaxis.YScaleLineNumber / yaxis.YCommentNumber);
+            int loop = (int)(((yaxis.YScaleMaxValue - yaxis.YSCaleOStart)) / yaxis.YScaleLineNumber / yaxis.YCommentNumber);
 
             for (int i = 1; i < loop; i++)
             {
@@ -193,16 +204,19 @@ namespace BasicWaveChart
                     (i * yaxis.YScaleLineNumber * yaxis.YCommentNumber).ToString();
                 (yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock).FontSize = 8;
                 Canvas.SetLeft((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock), 0);
-                Canvas.SetBottom((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock), xaxis.Height + i*yaxis.YScaleLineNumber*yaxis.YCommentNumber*yaxis.GetGranulity());
+                Canvas.SetBottom((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock), xaxis.Height + i * yaxis.YScaleLineNumber * yaxis.YCommentNumber * yaxis.GetGranulity());
             }
 
             //the text of last big scale
-            yaxis_text_canvas.Children.Add(new TextBlock());
-            (yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock).Text =
-                (loop * yaxis.YScaleLineNumber * yaxis.YCommentNumber).ToString();
-            (yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock).FontSize = 8;
-            Canvas.SetLeft((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock), 0);
-            Canvas.SetBottom((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock), xaxis.Height + loop * yaxis.YScaleLineNumber * yaxis.YCommentNumber * yaxis.GetGranulity());
+            if (loop != 0)
+            {
+                yaxis_text_canvas.Children.Add(new TextBlock());
+                (yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock).Text =
+                    (loop * yaxis.YScaleLineNumber * yaxis.YCommentNumber).ToString();
+                (yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock).FontSize = 8;
+                Canvas.SetLeft((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock), 0);
+                Canvas.SetBottom((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock), xaxis.Height + loop * yaxis.YScaleLineNumber * yaxis.YCommentNumber * yaxis.GetGranulity());
+            }
 
             //the max of value
             yaxis_text_canvas.Children.Add(new TextBlock());
@@ -210,7 +224,7 @@ namespace BasicWaveChart
                 yaxis.YScaleMaxValue.ToString();
             (yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock).FontSize = 8;
             Canvas.SetLeft((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock), 0);
-            Canvas.SetBottom((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock), xaxis.Height + yaxis.YScaleMaxValue*yaxis.GetGranulity());
+            Canvas.SetBottom((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock), xaxis.Height + (yaxis.YScaleMaxValue - yaxis.YSCaleOStart) * yaxis.GetGranulity());
         }
 
         private void optimizeCanvas_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
@@ -318,7 +332,7 @@ namespace BasicWaveChart
         }
 
         //set the value of x, y axis
-        public void SetScale(int xscaleLineNumber, int xscaleMaxValue, int yscaleLineNumber, int yscaleMaxValue)
+        public void SetScale(int xscaleLineNumber, int xscaleMaxValue, int yscaleLineNumber, int yscaleOStart, int yscaleMaxValue)
         {
             if (xscaleLineNumber == 0)
                 xscaleLineNumber = xaxis.XScaleLineNumber;
@@ -328,18 +342,24 @@ namespace BasicWaveChart
                 yscaleLineNumber = yaxis.YScaleLineNumber;
             if (yscaleMaxValue == 0)
                 yscaleMaxValue = yaxis.YScaleMaxValue;
+            if (yscaleOStart == 0)
+                yscaleOStart = yaxis.YSCaleOStart;
 
             double oldXScaleLineNumber = xaxis.XScaleLineNumber;
             double oldXScaleMaxValue = xaxis.XScaleMaxValue;
             double oldYScaleLineNumber = yaxis.YScaleLineNumber;
             double oldYScaleMaxValue = yaxis.YScaleMaxValue;
+            double oldYScaleOStart = yaxis.YSCaleOStart;
 
             xaxis.XScaleLineNumber = xscaleLineNumber;
             xaxis.XScaleMaxValue = xscaleMaxValue;
             yaxis.YScaleLineNumber = yscaleLineNumber;
             yaxis.YScaleMaxValue = yscaleMaxValue;
+            yaxis.YSCaleOStart = yscaleOStart;
 
-            if (oldXScaleMaxValue != xaxis.XScaleMaxValue || oldYScaleMaxValue != yaxis.YScaleMaxValue)
+
+            if (oldXScaleMaxValue != xaxis.XScaleMaxValue || oldYScaleMaxValue != yaxis.YScaleMaxValue
+                || oldYScaleOStart != yaxis.YSCaleOStart)
             {
                 //notify the optimizecanvas to redraw
                 
@@ -347,14 +367,16 @@ namespace BasicWaveChart
                     ScaleChanged_Ev();
             }
 
-            if(xaxis.XScaleLineNumber != oldXScaleLineNumber || xaxis.XScaleMaxValue != oldXScaleMaxValue)
+            if (oldXScaleMaxValue != xaxis.XScaleMaxValue || oldYScaleMaxValue != yaxis.YScaleMaxValue
+                || oldYScaleOStart != yaxis.YSCaleOStart)
             {
                 //basecanvas.Children.Remove(xaxis);
                 //basecanvas.Children.Add(xaxis);
                 xaxis.ReDrawTextCommentCmd();
             }
 
-            if(yaxis.YScaleLineNumber != oldYScaleLineNumber || yaxis.YScaleMaxValue != oldYScaleMaxValue)
+            if (yaxis.YScaleLineNumber != oldYScaleLineNumber || yaxis.YScaleMaxValue != oldYScaleMaxValue
+                || yaxis.YSCaleOStart != oldYScaleOStart)
             {
                 basecanvas.Children.Remove(yaxis);
                 basecanvas.Children.Add(yaxis);
@@ -426,6 +448,102 @@ namespace BasicWaveChart
         private void xaxis_Loaded(object sender, RoutedEventArgs e)
         {
             ;
+        }
+
+        public void DrawEnlargeHoritalLineUp(int up_dvalue)
+        {
+            double y = yaxis.GetYY(up_dvalue);
+            optimizeCanvas.DrawEnlargeHoritalUpLine(y);
+
+
+        }
+
+        public void ShowEnlargeHoritalLine()
+        {
+            optimizeCanvas.ShowEnlargeHoritalLine();
+        }
+
+        public void HideEnlargeHoritalLine()
+        {
+            optimizeCanvas.HideEnlargeHoritalLine();
+        }
+
+        public void DrawEnlargeHoritalLineDown(int down_dvalue)
+        {
+
+            double y = yaxis.GetYY(down_dvalue);
+            optimizeCanvas.DrawEnlargeHoritalDownLine(y);
+        }
+
+        public void EnlargeWave(int min, int max)
+
+        {
+            int maxy_step = 100;
+
+            int temp = (int)((max - min) / maxy_step + 1) * maxy_step;
+            int scale = (int)(temp / 5 / 5);  //期望能显示5个大刻度，一个大刻包含5个小刻
+
+            this.featurestatus = FeatureStatus.ENALARGE;
+            if (scale > 50)
+            {
+                scale = ((int)(scale / 50)) * 50;//去掉脆数，便于观察
+            }
+            //parent.SetScale(0, 0, scale, 0, temp); // the scalechanged_ev will trigger draw action
+            this.SetScale(0, 0, scale, min, max);
+            this.featurestatus = FeatureStatus.NORMAL;
+        }
+
+        private void enlargemenu_Click(object sender, RoutedEventArgs e)
+        {
+            MenuItem itm = sender as MenuItem;
+            if (itm.Header.ToString() == "放大")
+            {
+                //切换菜单显示
+                ContextMenu resky = this.TryFindResource("wavemenu") as ContextMenu;
+
+                /*
+                foreach(object v in resky.Items)
+                {
+                    if((v as MenuItem).Header.ToString() == "积分" || (v as MenuItem).Header.ToString() == "全景")
+                    {
+                        (v as MenuItem).Visibility = Visibility.Collapsed;
+                    }
+                }
+                
+                itm.Header = "关闭放大";
+                */
+
+                //放大图形
+
+                EnlargeInfo_uwnd enlargewnd = new EnlargeInfo_uwnd();
+                enlargewnd.minvalue = 0;
+                enlargewnd.maxvalue = 0;
+                enlargewnd.myproxy = this;
+                bool? r = enlargewnd.ShowDialog();
+                if (r == true)
+                {
+
+                }
+
+                enlargewnd.Close();
+                //yaxis.enlargeRedraw(-1, -1);
+
+            }
+            else
+            {
+                /*
+                //关闭放大功能
+                ContextMenu resky = this.TryFindResource("wavemenu") as ContextMenu;
+
+                foreach (object v in resky.Items)
+                {
+                    (v as MenuItem).Visibility = Visibility.Visible;
+                }
+
+                //切换菜单显示
+                itm.Header = "放大";
+                */
+            }
         }
 
     }

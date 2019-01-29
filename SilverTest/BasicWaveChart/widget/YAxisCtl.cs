@@ -64,7 +64,34 @@ namespace BasicWaveChart.widget
             BasicWaveChartUC wavechartuc = self.FindName("ControlContainer") as BasicWaveChartUC;
             if (xaxisctl == null || wavechartuc == null) return;
 
-            self.granulity_width = (self.Height - xaxisctl.Height - self.arrowheight - wavechartuc.TopBlankZone) / self.YScaleMaxValue;
+            self.granulity_width = (self.Height - xaxisctl.Height - self.arrowheight - wavechartuc.TopBlankZone) /
+                (self.YScaleMaxValue - self.YSCaleOStart);
+        }
+
+        //Y轴起点不再是零，
+        public int YSCaleOStart
+        {
+            get
+            {
+                return (int)(GetValue(YSCaleOStartProperty));
+            }
+            set
+            {
+                SetValue(YSCaleOStartProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty YSCaleOStartProperty = DependencyProperty.Register("YSCaleOStart",
+            typeof(int), typeof(YAxisCtl), new UIPropertyMetadata(0, new PropertyChangedCallback(YSCaleOStart_Changed)));
+        private static void YSCaleOStart_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            YAxisCtl self = d as YAxisCtl;
+            XAxisCtl xaxisctl = self.FindName("xaxis") as XAxisCtl;
+            BasicWaveChartUC wavechartuc = self.FindName("ControlContainer") as BasicWaveChartUC;
+            if (xaxisctl == null || wavechartuc == null) return;
+
+            self.granulity_width = (self.Height - xaxisctl.Height - self.arrowheight - wavechartuc.TopBlankZone) /
+                (self.YScaleMaxValue - self.YSCaleOStart);
         }
 
         //how many dvalue that a scale include
@@ -122,12 +149,13 @@ namespace BasicWaveChart.widget
                 BasicWaveChartUC wavechartuc = this.FindName("ControlContainer") as BasicWaveChartUC;
 
 
-                if (xaxisctl is null || wavechartuc is null)
+                if (xaxisctl is null || wavechartuc is null || this.Height == 0)
                 {
                     this.granulity_width = 1;
                     return new PathGeometry();
                 }
-                this.granulity_width = (this.Height - xaxisctl.Height - this.arrowheight  - wavechartuc.TopBlankZone) / (int)GetValue(YScaleMaxValueProperty);
+                this.granulity_width = (this.Height - xaxisctl.Height - this.arrowheight - wavechartuc.TopBlankZone) /
+                    ((int)GetValue(YScaleMaxValueProperty) - (int)GetValue(YSCaleOStartProperty));
 
                 PathGeometry pg = new PathGeometry();
 
@@ -138,7 +166,7 @@ namespace BasicWaveChart.widget
 
                 PolyLineSegment ScaleSeg = new PolyLineSegment();
                 if (this.YScaleLineNumber == 0) this.YScaleLineNumber = 100;
-                int scalenumber = (int)(this.YScaleMaxValue / this.YScaleLineNumber);
+                int scalenumber = (int)((this.YScaleMaxValue - this.YSCaleOStart) / this.YScaleLineNumber);
                 pf.StartPoint = new Point(vlinevalue, xaxisctl.Height);
                 for (int i = 0; i <= scalenumber; i++)
                 {
@@ -154,10 +182,10 @@ namespace BasicWaveChart.widget
                     ScaleSeg.Points.Add(new Point(vlinevalue, i * YScaleLineNumber * granulity_width + xaxisctl.Height));
                 }
 
-                ScaleSeg.Points.Add(new Point( vlinevalue, YScaleMaxValue * granulity_width + xaxisctl.Height));
+                ScaleSeg.Points.Add(new Point(vlinevalue, (YScaleMaxValue - YSCaleOStart) * granulity_width + xaxisctl.Height));
                 //ScaleSeg.Points.Add(new Point(vlinevalue + 20, YScaleMaxValue * granulity_width + xaxisctl.Height));
-                ScaleSeg.Points.Add(new Point(vlinevalue - 20, YScaleMaxValue * granulity_width + xaxisctl.Height));
-                ScaleSeg.Points.Add(new Point(vlinevalue, YScaleMaxValue * granulity_width + xaxisctl.Height));
+                ScaleSeg.Points.Add(new Point(vlinevalue - 20, (YScaleMaxValue - YSCaleOStart) * granulity_width + xaxisctl.Height));
+                ScaleSeg.Points.Add(new Point(vlinevalue, (YScaleMaxValue - YSCaleOStart) * granulity_width + xaxisctl.Height));
 
                 pf.Segments.Add(ScaleSeg);
                 PolyLineSegment arrowseg = new PolyLineSegment();
@@ -198,7 +226,7 @@ namespace BasicWaveChart.widget
         // get the drawing value in y axis according to dvalue
         public double GetYY(int dvalue)
         {
-            return dvalue * granulity_width;
+            return (dvalue - YSCaleOStart) * granulity_width;
         }
 
         //redraw command
@@ -212,29 +240,32 @@ namespace BasicWaveChart.widget
             yaxis_text_canvas.Children.Clear();
             //0
             yaxis_text_canvas.Children.Add(new TextBlock());
-            (yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock).Text = "0";
+            (yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock).Text = yaxis.YSCaleOStart.ToString();
             (yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock).FontSize = 8;
             Canvas.SetLeft((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock), 0);
             Canvas.SetBottom((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock), xaxis.Height);
-            int loop = (int)(yaxis.YScaleMaxValue / yaxis.YScaleLineNumber / yaxis.YCommentNumber);
+            int loop = (int)((yaxis.YScaleMaxValue - yaxis.YSCaleOStart) / yaxis.YScaleLineNumber / yaxis.YCommentNumber);
 
             for (int i = 1; i < loop; i++)
             {
                 yaxis_text_canvas.Children.Add(new TextBlock());
                 (yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock).Text =
-                    (i * yaxis.YScaleLineNumber * yaxis.YCommentNumber).ToString();
+                    (i * yaxis.YScaleLineNumber * yaxis.YCommentNumber + YSCaleOStart).ToString();
                 (yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock).FontSize = 8;
                 Canvas.SetLeft((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock), 0);
                 Canvas.SetBottom((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock), xaxis.Height + i * yaxis.YScaleLineNumber * yaxis.YCommentNumber * yaxis.GetGranulity());
             }
 
             //the text of last big scale
-            yaxis_text_canvas.Children.Add(new TextBlock());
-            (yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock).Text =
-                (loop * yaxis.YScaleLineNumber * yaxis.YCommentNumber).ToString();
-            (yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock).FontSize = 8;
-            Canvas.SetLeft((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock), 0);
-            Canvas.SetBottom((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock), xaxis.Height + loop * yaxis.YScaleLineNumber * yaxis.YCommentNumber * yaxis.GetGranulity());
+            if (loop != 0) {
+                yaxis_text_canvas.Children.Add(new TextBlock());
+                (yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock).Text =
+                    (loop * yaxis.YScaleLineNumber * yaxis.YCommentNumber).ToString();
+                (yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock).FontSize = 8;
+                Canvas.SetLeft((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock), 0);
+                Canvas.SetBottom((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock), xaxis.Height + loop * yaxis.YScaleLineNumber * yaxis.YCommentNumber * yaxis.GetGranulity());
+
+            }
 
             //set the max value
             yaxis_text_canvas.Children.Add(new TextBlock());
@@ -243,7 +274,8 @@ namespace BasicWaveChart.widget
             (yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock).FontSize = 8;
             Canvas.SetLeft((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock), 0);
             //Canvas.SetBottom((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock), xaxis.Height + yaxis.YScaleMaxValue * yaxis.GetGranulity()-20);
-            Canvas.SetBottom((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock), xaxis.Height + yaxis.YScaleMaxValue * yaxis.GetGranulity());
+            Canvas.SetBottom((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock),
+                xaxis.Height + (yaxis.YScaleMaxValue - yaxis.YSCaleOStart) * yaxis.GetGranulity());
         }
     }
 }
