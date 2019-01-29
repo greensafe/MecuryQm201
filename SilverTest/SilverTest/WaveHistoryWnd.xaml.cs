@@ -98,7 +98,7 @@ namespace SilverTest
         private void filelsb_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             historywaveuc.ClearData();
-            historywaveuc.SetScale(0, 0, 0, 50);
+            historywaveuc.SetScale(0, 0, 0, 0,50);
             //在波形控件中载入波形
             string filepath = (e.AddedItems[0] as HistoryItem).Fullpath;
             FileStream aFile = new FileStream(filepath, FileMode.Open);
