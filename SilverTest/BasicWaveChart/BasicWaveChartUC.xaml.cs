@@ -234,7 +234,19 @@ namespace BasicWaveChart
 
         private void fullshowmenu_Click(object sender, RoutedEventArgs e)
         {
-            optimizeCanvas.ShowFullView();
+            MenuItem m = sender as MenuItem;
+            if (m.Header.ToString() == "全景")
+            {
+                if (GetDValues().Count == 0) return;
+                optimizeCanvas.ShowFullView();
+                m.Header = "关闭全景";
+            }
+            else
+            {
+                SetNumberOfDValueP(20000);
+                SetScale(100, 2000, 0, 0, 0);
+                m.Header = "全景";
+            }
         }
 
         private void moveslider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
