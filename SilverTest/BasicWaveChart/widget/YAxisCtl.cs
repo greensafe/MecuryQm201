@@ -260,7 +260,7 @@ namespace BasicWaveChart.widget
             if (loop != 0) {
                 yaxis_text_canvas.Children.Add(new TextBlock());
                 (yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock).Text =
-                    (loop * yaxis.YScaleLineNumber * yaxis.YCommentNumber).ToString();
+                    (loop * yaxis.YScaleLineNumber * yaxis.YCommentNumber + yaxis.YSCaleOStart).ToString();
                 (yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock).FontSize = 8;
                 Canvas.SetLeft((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock), 0);
                 Canvas.SetBottom((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock), xaxis.Height + loop * yaxis.YScaleLineNumber * yaxis.YCommentNumber * yaxis.GetGranulity());
