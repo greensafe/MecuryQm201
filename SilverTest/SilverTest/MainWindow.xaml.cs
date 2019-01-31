@@ -924,7 +924,8 @@ namespace SilverTest
                     {
                         newcltindex = getNewCltIndexFromSelected(testing_selected_new);
                         if (newcltindex == -1) return;
-                        newTestClt[newcltindex].AirFluent = sequence.ToString();
+                        newTestClt[newcltindex].AirFluent = Utility.MapSampleFluent(sequence).ToString(); ;
+                        
                     }));
                     break;
                 case PacketType.AIR_SAMPLE_TIME:
@@ -933,7 +934,8 @@ namespace SilverTest
                     {
                         newcltindex = getNewCltIndexFromSelected(testing_selected_new);
                         if (newcltindex == -1) return;
-                        newTestClt[newcltindex].AirSampleTime = sequence.ToString();
+                        newTestClt[newcltindex].AirSampleTime = Utility.MapSampleTime(sequence).ToString();
+                        
                     }));
                     break;
                 case PacketType.GETSTATUS_RESPONSE:

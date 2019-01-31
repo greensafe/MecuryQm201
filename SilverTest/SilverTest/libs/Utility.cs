@@ -657,61 +657,61 @@ namespace SilverTest.libs
         }
 
 
-        //下拉列表采样时间映射值
-        public static string MapSampleTime(int id)
+        //下拉列表采样时间映射值 m
+        public static double MapSampleTime(int id)
         {
             switch (id)
             {
                 case 0:
-                    return "0.25m";
+                    return 0.25;
                 case 1:
-                    return "0.5m";
+                    return 0.5;
                 case 2:
-                    return "1.0m";
+                    return 1.0;
                 case 3:
-                    return "2.0m";
+                    return 2.0;
                 case 4:
-                    return "3.0m";
+                    return 3.0;
                 case 5:
-                    return "5.0m";
+                    return 5.0;
                 case 6:
-                    return "8.0m";
+                    return 8.0;
                 case 7:
-                    return "10.0m";
+                    return 10.0;
                 case 8:
-                    return "13.0m";
+                    return 13.0;
                 case 9:
-                    return "15.0m";
+                    return 15.0;
                 case 10:
-                    return "17.0m";
+                    return 17.0;
                 case 11:
-                    return "20.0m";
+                    return 20.0;
                 default:
-                    return "0m";
+                    return 0;
             }
         }
 
-        //下啦列表取样流量映射表
-        public static string MapSampleFluent(int id)
+        //下啦列表取样流量映射表 L/m
+        public static double MapSampleFluent(int id)
         {
             switch (id)
             {
                 case 0:
-                    return "0.2L/m";
+                    return 0.2;
                 case 1:
-                    return "0.3L/m";
+                    return 0.3;
                 case 2:
-                    return "0.4L/m";
+                    return 0.4;
                 case 3:
-                    return "0.5L/m";
+                    return 0.5;
                 case 4:
-                    return "0.6L/m";
+                    return 0.6;
                 case 5:
-                    return "0.8L/m";
+                    return 0.8;
                 case 6:
-                    return "1.0L/m";
+                    return 1.0;
                 default:
-                    return "0L/m";
+                    return 0;
             }
         }
 
