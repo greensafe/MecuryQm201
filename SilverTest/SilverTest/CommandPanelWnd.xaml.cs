@@ -788,13 +788,13 @@ namespace SilverTest
                         statustxt.Text = "获取状态成功";
                         statustxt_2.Content = "获取状态成功";
                         //取样流量
-                        fluentblk.Text = Utility.MapSampleFluent( res_datas[2]-0x30);
+                        fluentblk.Text = Utility.MapSampleFluent( res_datas[2]-0x30).ToString()+"L/m";
                         //高压值
                         pressureblk.Text = ((res_datas[4] - 0x30) * 100 + (res_datas[5] - 0x30) * 10 + (res_datas[6]-0x30)).ToString();
                         //主道放大倍数
                         enlargeblk.Text = (res_datas[7]-0x30).ToString();
                         //取样时间
-                        sampletimeblk.Text = Utility.MapSampleTime((res_datas[0]-0x30)*10+(res_datas[1]-0x30));
+                        sampletimeblk.Text = Utility.MapSampleTime((res_datas[0]-0x30)*10+(res_datas[1]-0x30)).ToString()+"m";
                         //清洗时间
                         washtimeblk.Text = Utility.MapWashTime(res_datas[3]-0x30);
                         break;
