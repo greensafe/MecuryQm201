@@ -41,7 +41,10 @@ namespace SilverTest
 
         private void applybtn_Click(object sender, RoutedEventArgs e)
         {
-            SerialDriver.GetDriver().portname = comportCombo.SelectedValue as string;
+            if (comportCombo.SelectedValue == null)
+                SerialDriver.GetDriver().portname = "COM1";
+            else
+                SerialDriver.GetDriver().portname = comportCombo.SelectedValue as string;
             SerialDriver.GetDriver().databits = int.Parse(datacombo.SelectedValue as string);
             SerialDriver.GetDriver().parity = 0;        //paritycombo.SelectedValue as string;
             SerialDriver.GetDriver().rate = int.Parse(speedcombo.SelectedValue as string);

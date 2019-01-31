@@ -3,22 +3,42 @@
   <NewTestTarget>
     <NewName>样品空白</NewName>
     <Code>1</Code>
+    <Weight>1</Weight>
+    <ResponseValue1>1</ResponseValue1>
+    <AirTotolBulk>1</AirTotolBulk>
+    <AirSampleTime>1</AirSampleTime>
+    <AirFluent>1</AirFluent>
     <AirG>0</AirG>
     <GlobalID>N0001</GlobalID>
   </NewTestTarget>
   <NewTestTarget>
     <NewName>样品1</NewName>
     <Code>2</Code>
+    <Weight>1</Weight>
+    <ResponseValue1>1000</ResponseValue1>
+    <AirTotolBulk>1</AirTotolBulk>
+    <AirSampleTime>1</AirSampleTime>
+    <AirFluent>1</AirFluent>
     <GlobalID>N0002</GlobalID>
   </NewTestTarget>
   <NewTestTarget>
     <NewName>样品2</NewName>
     <Code>3</Code>
+    <Weight>2</Weight>
+    <ResponseValue1>2000</ResponseValue1>
+    <AirTotolBulk>2</AirTotolBulk>
+    <AirSampleTime>2</AirSampleTime>
+    <AirFluent>2</AirFluent>
     <GlobalID>N0003</GlobalID>
   </NewTestTarget>
   <NewTestTarget>
     <NewName>样品3</NewName>
     <Code>4</Code>
+    <Weight>3</Weight>
+    <ResponseValue1>3000</ResponseValue1>
+    <AirTotolBulk>3</AirTotolBulk>
+    <AirSampleTime>3</AirSampleTime>
+    <AirFluent>3</AirFluent>
     <GlobalID>N0004</GlobalID>
   </NewTestTarget>
 </ArrayOfNewTestTarget>

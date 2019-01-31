@@ -4,25 +4,56 @@
     <SampleName>标样空白</SampleName>
     <GroupName>组1</GroupName>
     <Code>1</Code>
-    <AirG>0</AirG>
+    <ResponseValue1>1</ResponseValue1>
+    <Weight>1</Weight>
+    <Temperature>1</Temperature>
+    <AirML>1</AirML>
+    <AirG>2.4</AirG>
+    <A>404.5</A>
+    <B>-398.89</B>
+    <R>0.939</R>
     <GlobalID>S0001</GlobalID>
   </StandardSample>
   <StandardSample>
     <SampleName>标样1</SampleName>
     <GroupName>组1</GroupName>
     <Code>2</Code>
+    <ResponseValue1>1000</ResponseValue1>
+    <Weight>1</Weight>
+    <Temperature>1</Temperature>
+    <AirML>1</AirML>
+    <AirG>2.4</AirG>
+    <A>404.5</A>
+    <B>-398.89</B>
+    <R>0.939</R>
     <GlobalID>S0002</GlobalID>
   </StandardSample>
   <StandardSample>
     <SampleName>标样2</SampleName>
     <GroupName>组1</GroupName>
     <Code>3</Code>
+    <ResponseValue1>2000</ResponseValue1>
+    <Weight>2</Weight>
+    <Temperature>2</Temperature>
+    <AirML>2</AirML>
+    <AirG>5.28</AirG>
+    <A>404.5</A>
+    <B>-398.89</B>
+    <R>0.939</R>
     <GlobalID>S0003</GlobalID>
   </StandardSample>
   <StandardSample>
     <SampleName>标样3</SampleName>
     <GroupName>组1</GroupName>
     <Code>4</Code>
+    <ResponseValue1>3000</ResponseValue1>
+    <Weight>3</Weight>
+    <Temperature>3</Temperature>
+    <AirML>3</AirML>
+    <AirG>8.7</AirG>
+    <A>404.5</A>
+    <B>-398.89</B>
+    <R>0.939</R>
     <GlobalID>S0004</GlobalID>
   </StandardSample>
 </ArrayOfStandardSample>
