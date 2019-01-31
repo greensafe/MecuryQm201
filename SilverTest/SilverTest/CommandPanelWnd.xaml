@@ -85,33 +85,30 @@
                 <StackPanel x:Name="buttoncontainerstp" Width="104" 
                         Background="Transparent"
                         MouseLeftButtonDown="buttoncontainerstp_MouseLeftButtonDown" Canvas.Left="66" Canvas.Top="60" Margin="0,0,0,-3">
-                    <Button x:Name="pm1" FontSize="12" Content="测量 >" Height="30" Width="70" HorizontalAlignment="Left" MouseEnter="pm1_MouseEnter" Click="pm1_Click" >
+                    <Button x:Name="pm1" FontSize="12" Content="测量 >" Height="30" Width="90" Margin="7,0,0,0" HorizontalAlignment="Left" MouseEnter="pm1_MouseEnter" Click="pm1_Click" >
                     </Button>
                     <Button x:Name="m11" FontSize="12" Content="取样" Height="30" Width="60" HorizontalAlignment="Left" Background="LightPink" Margin="20,2,0,0"  Visibility="Collapsed" Click="m11_Click"></Button>
                     <Button x:Name="m12" FontSize="12" Content="清洗" Height="30" Width="60" HorizontalAlignment="Left" Background="LightPink" Margin="20,2,0,0" Visibility="Collapsed" Click="m12_Click"></Button>
                     <Button x:Name="m13" FontSize="12" Content="测量" Height="30" Width="60" HorizontalAlignment="Left" Background="LightPink" Margin="20,2,0,0" Visibility="Collapsed" Click="m13_Click"></Button>
                     <Button x:Name="m14" FontSize="12" Content="返回上一级" Height="30" Width="75" HorizontalAlignment="Left" Background="LightPink" Margin="20,2,0,0" Visibility="Collapsed" Click="m14_Click"></Button>
-                    <Button x:Name="pm2" FontSize="12" Content="连续测量>" Height="30" Width="70" HorizontalAlignment="Left" Click="pm2_Click"></Button>
+                    <Button x:Name="pm2" FontSize="12" Content="连续测量>" Height="30" Width="90" Margin="7,0,0,0" HorizontalAlignment="Left" Click="pm2_Click"></Button>
                     <Button x:Name="m21" FontSize="12" Content="开始" Height="30" Width="60" HorizontalAlignment="Left" Background="LightPink" Margin="20,2,0,0"  Visibility="Collapsed" Click="m21_Click"></Button>
                     <Button x:Name="m22" FontSize="12" Content="停止" Height="30" Width="60" HorizontalAlignment="Left" Background="LightPink" Margin="20,2,0,0"  Visibility="Collapsed" Click="m22_Click"></Button>
-                    <Button x:Name="pm3" FontSize="12" Content="校准"  Height="30" Width="70" HorizontalAlignment="Left" Click="pm3_Click"></Button>
-                    <Button x:Name="pm4" FontSize="12" Content="通信"  Height="30" Width="70" HorizontalAlignment="Left" Click="pm4_Click"></Button>
-                    <Button x:Name="pm5" FontSize="12" Content="液体测量>"  Height="30" Width="70" HorizontalAlignment="Left" MouseEnter="pm5_MouseEnter" Click="pm5_Click"/>
+                    <Button x:Name="pm3" FontSize="12" Content="校准"  Height="30" Width="90" Margin="7,0,0,0" HorizontalAlignment="Left" Click="pm3_Click"></Button>
+                    <Button x:Name="pm4" FontSize="12" Content="通信"  Height="30" Width="90" Margin="7,0,0,0" HorizontalAlignment="Left" Click="pm4_Click"></Button>
+                    <Button x:Name="pm5" FontSize="12" Content="液体测量>"  Height="30" Width="90" Margin="7,0,0,0" HorizontalAlignment="Left" MouseEnter="pm5_MouseEnter" Click="pm5_Click"/>
                     <Button x:Name="m51" FontSize="12" Content="清洗" Height="30" Width="60" HorizontalAlignment="Left" Background="LightPink" Margin="21,2,0,0" Visibility="Collapsed" Click="m51_Click"></Button>
                     <Button x:Name="m52" FontSize="12" Content="测量" Height="30" Width="60" HorizontalAlignment="Left" Background="LightPink" Margin="20,2,0,0" Visibility="Collapsed" Click="m52_Click" ></Button>
                     <Button x:Name="m54" FontSize="12" Content="保存" Height="30" Width="60" HorizontalAlignment="Left" Background="LightPink" Margin="20,2,0,0" Visibility="Collapsed" Click="m54_Click" ></Button>
                     <Button x:Name="m53" FontSize="12" Content="返回上一级" Height="30" Width="75" HorizontalAlignment="Left" Background="LightPink" Margin="20,2,0,0" Visibility="Collapsed" Click="m53_Click"></Button>
-                    <Button x:Name="pm6" FontSize="12" Content="参数设置"  Height="30" Width="70" HorizontalAlignment="Left" Click="pm6_Click"></Button>
-                    <Button x:Name="pm7" FontSize="12" Content="状态获取"  Height="30" Width="70" HorizontalAlignment="Left" Click="pm7_Click"></Button>
+                    <Button x:Name="pm6" FontSize="12" Content="参数设置"  Height="30" Width="90" Margin="7,0,0,0" HorizontalAlignment="Left" Click="pm6_Click"></Button>
+                    <Button x:Name="pm7" FontSize="12" Content="状态获取"  Height="30" Width="90" Margin="7,0,0,0" HorizontalAlignment="Left" Click="pm7_Click"></Button>
                 </StackPanel>
             </GroupBox>
-            <Canvas Height="323" Canvas.Left="143" Canvas.Top="15" Width="247"
+            <Canvas Height="323" Canvas.Left="143" Canvas.Top="15" Width="247" 
                        Background="White"
                    >
-                <Canvas.Effect>
-                    <DropShadowEffect ShadowDepth="5" BlurRadius="5"/>
-                </Canvas.Effect>
-                <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Vertical" Margin="10,0,0,0">
                     <StackPanel Height="150" Orientation="Horizontal" Margin="0,20">
                         <Canvas Width="100">
                             <Label Width="100" Height="30" HorizontalAlignment="Right" HorizontalContentAlignment="Right">
@@ -131,7 +128,7 @@
                                 清洗时长:
                             </Label>
                         </Canvas>
-                        <StackPanel Width="127" Margin="0,5,0,0">
+                        <StackPanel Width="127" Margin="10,5,0,0">
                             <TextBox x:Name="maintunvalue_txt" Width="90" Height="20" IsEnabled="False" HorizontalAlignment="Left" >0</TextBox>
                             <TextBox x:Name="viceunvalue_txt" Width="90" Height="20" IsEnabled="False" HorizontalAlignment="Left" >0</TextBox>
                             <TextBox x:Name="sampletime_txt" Width="90" Height="25"  IsEnabled="False" HorizontalAlignment="Left" Visibility="Visible">0</TextBox>
