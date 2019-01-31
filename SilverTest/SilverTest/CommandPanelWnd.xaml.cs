@@ -772,9 +772,10 @@ namespace SilverTest
                         //副道值
                         viceunvalue_txt.Text = (res_datas[5] - 0x30).ToString();
                         //取样时间
-                        sampletime_txt.Text = Utility.MapSampleTime((res_datas[0] - 0x30) * 10 + (res_datas[1] - 0x30));
+                        sampletime_txt.Text = Utility.MapSampleTime((res_datas[0] - 0x30) * 10 + (res_datas[1] - 0x30)).ToString()+"m";
                         //取样流量
-                        samplefluent_txt.Text = Utility.MapSampleFluent(res_datas[2] - 0x30);
+                        samplefluent_txt.Text = Utility.MapSampleFluent(res_datas[2] - 0x30).ToString()+"L/m";
+
                         //清洗时长
                         washtime_txt.Text = Utility.MapWashTime(res_datas[3] - 0x30);
                         break;
