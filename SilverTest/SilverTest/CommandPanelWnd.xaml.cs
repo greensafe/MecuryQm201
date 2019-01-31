@@ -250,7 +250,11 @@ namespace SilverTest
                 if (presureParamTxt.Text != null && presureParamTxt.Text != "")
                 {
                     data[3] = 0x04; //子菜单
-                    int pres = int.Parse(presureParamTxt.Text);
+                    int pres = 0;
+                    if (int.TryParse(presureParamTxt.Text,out pres))
+                    {
+
+                    };
                     pres *= -1;
                     data[4] = (byte)(pres >> 8);
                     data[5] = (byte)pres;
@@ -339,7 +343,6 @@ namespace SilverTest
                 {
                     statustxt.Text = "副通道设置命令已发出";
                     statustxt_2.Content = "副通道设置命令已发出";
-
                 }
             }
         }

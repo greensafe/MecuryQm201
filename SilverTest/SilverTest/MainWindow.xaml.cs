@@ -1802,7 +1802,11 @@ namespace SilverTest
                     standardSampleClt[index].AirML = v;
                     break;
                 case "汞量ng":
-                    standardSampleClt[index].AirG = Math.Round(double.Parse(v),2).ToString();
+                    double t;
+                    if(double.TryParse(v,out t))
+                    {
+                        standardSampleClt[index].AirG = Math.Round(t).ToString();
+                    }
                     break;
                 case "样品质量":
                     standardSampleClt[index].Weight = v;
