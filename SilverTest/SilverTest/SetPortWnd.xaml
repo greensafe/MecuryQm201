@@ -148,7 +148,7 @@
         </x:Array>
     </Window.Resources>
     <Grid>
-        <TabControl TabStripPlacement="Left" BorderBrush="#FF28C9D1" >
+        <TabControl TabStripPlacement="Left" BorderBrush="#FF28C9D1" Margin="0,0,-8,-5" >
             <TabItem Header="串口" controls:ControlsHelper.HeaderFontSize="14">
                 <TabControl x:Name="sampletab" DockPanel.Dock="Top" >
                     <TabItem x:Name="testdatatabitem" Selector.Selected="OnTestDataSelected" 
