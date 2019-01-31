@@ -1,0 +1,19 @@
+﻿<Window x:Class="BasicWaveChart.EnlargeInfo_uwnd"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BasicWaveChart"
+        WindowStyle="None"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="EnlargeInfo_uwnd" Height="223.069" Width="358.691" Loaded="Window_Loaded">
+    <Canvas MouseLeftButtonDown="Canvas_MouseLeftButtonDown" Background="White">
+        <Label Canvas.Left="99" Canvas.Top="90">最小值:</Label>
+        <TextBox x:Name="maxvalue_txt" Width="100" Height="25" Canvas.Left="153" Canvas.Top="42" TextChanged="Maxvalue_txt_TextChanged"></TextBox>
+        <Label Canvas.Left="99" Canvas.Top="42">最大值:</Label>
+        <TextBox x:Name="minvalue_txt" Width="100" Height="25" Canvas.Left="153" Canvas.Top="90" TextChanged="Minvalue_txt_TextChanged"/>
+        <Button x:Name="ok_btn" Width="80" Height="25" Canvas.Left="68" Canvas.Top="162" Click="Ok_btn_Click" Loaded="Ok_btn_Loaded">应用</Button>
+        <Button x:Name="no_btn" Width="80" Height="25" RenderTransformOrigin="1.519,5.055" Canvas.Left="215" Canvas.Top="162" Click="No_btn_Click">取消</Button>
+    </Canvas>
+</Window>
