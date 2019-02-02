@@ -1391,8 +1391,15 @@ namespace SilverTest
                             break;
                     }
 
+                    try
+                    {
+                        y[index] = double.Parse(v.ResponseValue1);
+                    }
+                    catch
+                    {
+                        MessageBox.Show("格式错误");
+                    }
 
-                    y[index] = double.Parse(v.ResponseValue1);
                     index++;
                 }
             }
@@ -2898,12 +2905,21 @@ namespace SilverTest
             }
 
             //如果有平均值则计算汞浓度
-            newTestClt[cltindex].AirTotolBulk =
-                (Math.Round(double.Parse(newTestClt[cltindex].AirFluent) * double.Parse(newTestClt[cltindex].AirSampleTime),
-                    2)).ToString();
-            //y-b/a
-            newTestClt[cltindex].AirG =
-                Math.Round(0.001 * (double.Parse(newTestClt[cltindex].ResponseValue1) - b) / a, 5).ToString();
+            try
+            {
+                newTestClt[cltindex].AirTotolBulk =
+                    (Math.Round(double.Parse(newTestClt[cltindex].AirFluent) * double.Parse(newTestClt[cltindex].AirSampleTime),
+                        2)).ToString();
+                //y-b/a
+                newTestClt[cltindex].AirG =
+                    Math.Round(0.001 * (double.Parse(newTestClt[cltindex].ResponseValue1) - b) / a, 5).ToString();
+            }
+            catch
+            {
+                MessageBox.Show("格式错误");
+                return;
+            }
+
         }
 
         private void NewTargetDgd_SelectionChanged(object sender, SelectionChangedEventArgs e)
