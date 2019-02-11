@@ -8,7 +8,7 @@
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         x:Name="CmdPanelWindow"
-        Title="命令面板" Height="358" Width="431.999" Loaded="Window_Loaded">
+        Title="命令面板" Height="358" Width="431.999" Loaded="Window_Loaded" Activated="CmdPanelWindow_Activated" IsVisibleChanged="CmdPanelWindow_IsVisibleChanged">
     <Grid x:Name="grid" Height="323" VerticalAlignment="Top" Background="White">
         <Canvas MouseLeftButtonDown="Canvas_MouseLeftButtonDown" Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}" ClipToBounds="False"
                 Background="White" Margin="0,0,0,-35" >

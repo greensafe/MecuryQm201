@@ -126,7 +126,7 @@ namespace SilverTest
         PackIconMaterial checkicon = new PackIconMaterial();
 
         //测试模块id
-        TestModule testmoduleid = TestModule.AIR_GOLD_ATOM_IN_BACK;
+        public TestModule testmoduleid = TestModule.AIR_GOLD_ATOM_IN_BACK;
 
         //液体标量程测量标量常量
         const int inquaility = 25; //mL

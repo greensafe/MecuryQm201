@@ -16,6 +16,7 @@ namespace SilverTest
         Regex numberreg = new Regex(@"\d*");
         Regex minusnumber = new Regex(@"^-\d*"); //负数
         CommandPanlStatus comstatus = CommandPanlStatus.Idle;
+        MainWindow parentwindow;
 
         public CommandPanelWnd()
         {
@@ -31,10 +32,18 @@ namespace SilverTest
                 SerialDriver.GetDriver().databits,
                 SerialDriver.GetDriver().stopbits);
 
-            MainWindow parentwindow = (MainWindow)this.Owner;
+            parentwindow = (MainWindow)this.Owner;
             this.Owner = null;
             parentwindow.showconnectedIcon();
-
+            switch (parentwindow.testmoduleid)
+            {
+                case TestModule.AIR_ADJUST_ZERO_ATOM_IN_AHEAD:
+                    pm2.Content = "气体自校零原子吸收法前进样";
+                    break;
+                case TestModule.AIR_ATOM_IN_AHEAD:
+                    pm2.Content = "气体测量原子吸收法前进样";
+                    break;
+            }
             if (SerialDriver.GetDriver().isOpen())
             {
                 //获取状态命令
@@ -1320,6 +1329,31 @@ namespace SilverTest
             {
                 MessageBox.Show("端口未打开");
             };
+        }
+
+        private void CmdPanelWindow_Activated(object sender, EventArgs e)
+        {
+            ;
+        }
+
+        private void CmdPanelWindow_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (parentwindow == null)
+                return;
+            switch (parentwindow.testmoduleid)
+            {
+                case TestModule.AIR_ADJUST_ZERO_ATOM_IN_AHEAD:
+                    pm2.Visibility = Visibility.Visible;
+                    pm2.Content = "气体自校零原子吸收法前进样";
+                    break;
+                case TestModule.AIR_ATOM_IN_AHEAD:
+                    pm2.Visibility = Visibility.Visible;
+                    pm2.Content = "气体测量原子吸收法前进样";
+                    break;
+                default:
+                    pm2.Visibility = Visibility.Collapsed;
+                    break;
+            }
         }
     }
 
