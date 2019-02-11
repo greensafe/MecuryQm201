@@ -1432,10 +1432,18 @@ namespace SilverTest
             RparamSpTxbl.Text += "斜率:  " + a.ToString() + "\r\n";
             RparamSpTxbl.Text += "截距:  " + b.ToString() + "\r\n";
             RparamSpTxbl.Text += "相关系数:  " + r.ToString();
-            Canvas.SetTop(RparamSpTxbl, 20);
-            Canvas.SetLeft(RparamSpTxbl, rCanvas.Width - rightmargin + 30);
-            
-            rCanvas.Children.Add(RparamSpTxbl);
+            //Canvas.SetTop(RparamSpTxbl, 20);
+            //Canvas.SetLeft(RparamSpTxbl, rCanvas.Width - rightmargin + 30);
+
+            ScrollViewer slc = new ScrollViewer();
+            slc.Height = 140;
+            //slc.Background = new SolidColorBrush(Colors.Yellow);
+            Canvas.SetTop(slc, 20);
+            Canvas.SetLeft(slc, rCanvas.Width - rightmargin + 30);
+            slc.Content = RparamSpTxbl;
+
+            //rCanvas.Children.Add(RparamSpTxbl);
+            rCanvas.Children.Add(slc);
         }
 
         //去掉末尾的/n符号
