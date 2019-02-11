@@ -271,6 +271,7 @@
                                 <DataGridTextColumn Header="响应值3" Width="80" Binding="{Binding ResponseValue3,Mode=TwoWay}" Visibility="Hidden" IsReadOnly="True"></DataGridTextColumn>
                                 <DataGridTextColumn Header="平均值" Width="80" Binding="{Binding AverageValue,Mode=TwoWay}" Visibility="Hidden" IsReadOnly="True"></DataGridTextColumn>
                                 <DataGridTextColumn x:Name="newAirSampTimeCol" Header="取样时间m" Width="90" Binding="{Binding AirSampleTime,Mode=TwoWay}" IsReadOnly="True"></DataGridTextColumn>
+                                <DataGridTextColumn x:Name="newTestEndTimeCol" Header="测试时间" Width="120" IsReadOnly="True" Visibility="Hidden"></DataGridTextColumn>
                                 <DataGridTextColumn x:Name="newAirFluentCol" Header="流量L/m" Width="80" Binding="{Binding AirFluent,Mode=TwoWay}" IsReadOnly="False"></DataGridTextColumn>
                                 <DataGridTextColumn x:Name="newqualityCol" Header="样品质量" Width="80" Binding="{Binding Weight,Mode=TwoWay}"></DataGridTextColumn>
                                 <!--<DataGridTextColumn x:Name="newLiquidBulkCol"  Header="样品消化液总体积ml" Width="80" Visibility="Hidden"></DataGridTextColumn> -->
@@ -332,6 +333,7 @@
                                 <DataGridTextColumn Header="响应值" Width="80" Binding="{Binding Path=ResponseValue1,Mode=TwoWay}" IsReadOnly="True"></DataGridTextColumn>
                                 <!--<DataGridTextColumn x:Name="standardAirSampleTimeCol" Header="取样时间m" Width="90" Binding="{Binding AirSampleTime,Mode=TwoWay}" Visibility="Hidden" IsReadOnly="False"></DataGridTextColumn> -->
                                 <!--<DataGridTextColumn x:Name="standardAirFluentCol" Header="流量L/m" Width="80" Binding="{Binding AirFluent,Mode=TwoWay}" Visibility="Hidden" IsReadOnly="False"></DataGridTextColumn> -->
+                                <DataGridTextColumn x:Name="standartTestEndTimeCol" Header="测试时间" Width="120" IsReadOnly="True" Visibility="Hidden"></DataGridTextColumn>
                                 <DataGridTextColumn x:Name="airtemperature" Header="温度℃" Width="80" Binding="{Binding Temperature,Mode=TwoWay}" IsReadOnly="False"></DataGridTextColumn>
                                 <DataGridTextColumn x:Name="airbulk" Header="标样体积mL" Width="100" Binding="{Binding AirML,Mode=TwoWay}" IsReadOnly="False"></DataGridTextColumn>
                                 <DataGridTextColumn x:Name="airhan" Header="汞量ng" Width="80" Binding="{Binding AirG,Mode=TwoWay}" IsReadOnly="False"></DataGridTextColumn>

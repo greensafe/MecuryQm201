@@ -2520,6 +2520,11 @@ namespace SilverTest
             //取样时间
             newAirSampTimeCol.Visibility = Visibility.Collapsed;
             newAirSampTimeCol.Header = newAirSampTimeCol.Header;
+            //测试时间
+            newTestEndTimeCol.Visibility = Visibility.Collapsed;
+            //测试时间
+            standartTestEndTimeCol.Visibility = Visibility.Collapsed;
+
             //流量l/m
             newAirFluentCol.Visibility = Visibility.Collapsed;
             newAirFluentCol.Header = newAirFluentCol.Header;
@@ -2584,6 +2589,8 @@ namespace SilverTest
             /* -- 新样 --- */
             //取样时间
             newAirSampTimeCol.Visibility = Visibility.Collapsed;
+            //测试时间
+            newTestEndTimeCol.Visibility = Visibility.Visible;
             //流量l/m
             newAirFluentCol.Visibility = Visibility.Visible;
             newAirFluentCol.Header = "流量L/min";
@@ -2621,6 +2628,8 @@ namespace SilverTest
             //汞流量mg/L
             standardllCol.Visibility = Visibility.Visible;
             standardllCol.Header = "汞流量mg/L";
+            //测试时间
+            standartTestEndTimeCol.Visibility = Visibility.Visible;
 
             NewTargetDgd.CommitEdit();
             standardSampleDgd.CommitEdit();
@@ -2667,6 +2676,11 @@ namespace SilverTest
             newjylCol.Visibility = Visibility.Collapsed;
             //newjylCol.Header = newjylCol.Header;
 
+            //测试时间
+            newTestEndTimeCol.Visibility = Visibility.Collapsed;
+            //测试时间
+            standartTestEndTimeCol.Visibility = Visibility.Collapsed;
+
             /*--- 标样 ---*/
             //温度
             airtemperature.Visibility = Visibility.Visible;
@@ -2706,6 +2720,8 @@ namespace SilverTest
             /* -- 新样 --- */
             //取样时间
             newAirSampTimeCol.Visibility = Visibility.Collapsed;
+            //测试时间
+            newTestEndTimeCol.Visibility = Visibility.Visible;
             //流量l/m
             newAirFluentCol.Visibility = Visibility.Visible;
             newAirFluentCol.Header = "流量L/min";
@@ -2732,6 +2748,8 @@ namespace SilverTest
             airtemperature.Visibility = Visibility.Collapsed;
             //标样体积ml
             airbulk.Visibility = Visibility.Collapsed;
+            //测试时间
+            standartTestEndTimeCol.Visibility = Visibility.Visible;
             //汞量ng
             airhan.Visibility = Visibility.Visible;
             airhan.Header = "汞量ng";
@@ -2784,6 +2802,11 @@ namespace SilverTest
             //进样量ml
             newjylCol.Visibility = Visibility.Visible;
             newjylCol.Header = "进样量mL";
+
+            //测试时间
+            newTestEndTimeCol.Visibility = Visibility.Collapsed;
+            //测试时间
+            standartTestEndTimeCol.Visibility = Visibility.Collapsed;
 
             /*--- 标样 ---*/
             //温度
@@ -2841,6 +2864,10 @@ namespace SilverTest
             //进样量ml
             newjylCol.Visibility = Visibility.Collapsed;
 
+            //测试时间
+            newTestEndTimeCol.Visibility = Visibility.Collapsed;
+            //测试时间
+            standartTestEndTimeCol.Visibility = Visibility.Collapsed;
 
             /*--- 标样 ---*/
             //温度
