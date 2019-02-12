@@ -18,6 +18,7 @@ namespace SilverTest
         Regex realnumber = new Regex(@"^(\d{1}[.][0-9]*)$"); //小数
         CommandPanlStatus comstatus = CommandPanlStatus.Idle;
         public bool is_watching;
+        MainWindow parentwindow;
 
         //正在返回上级菜单
         //参数设置界面点击"返回时候置为真"
@@ -38,7 +39,7 @@ namespace SilverTest
                 SerialDriver.GetDriver().databits,
                 SerialDriver.GetDriver().stopbits);
 
-            MainWindow parentwindow = (MainWindow)this.Owner;
+            parentwindow = (MainWindow)this.Owner;
             //this.Owner = null;
             parentwindow.showconnectedIcon();
 
