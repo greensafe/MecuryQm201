@@ -604,6 +604,7 @@ namespace SilverTest
                             m53.IsEnabled = false;  //液体-返回上一级
                             pm6.IsEnabled = false;  //参数设置
                             pm7.IsEnabled = false;  //状态获取
+
                         }
                         else if(result == 2)
                         {
@@ -1163,6 +1164,8 @@ namespace SilverTest
                 statustxt.Text = "测试命令已发出";
                 statustxt_2.Content = "测试命令已发出";
                 comstatus = CommandPanlStatus.Air_Test_Waiting;
+
+                parentwindow.StartTest();
             }
             else
             {
