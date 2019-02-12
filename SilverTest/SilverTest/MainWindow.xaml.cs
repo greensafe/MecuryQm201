@@ -1166,7 +1166,7 @@ namespace SilverTest
             RparamSpTxbl.Text += "斜率:  " + a.ToString() + "\r\n";
             RparamSpTxbl.Text += "截距:  " + b.ToString() + "\r\n";
             RparamSpTxbl.Text += "相关系数:  " + r.ToString();
-            //Canvas.SetTop(RparamSpTxbl, 20);
+            //Canvas.SetTop(RparamSpTxbl, 20); 
             //Canvas.SetLeft(RparamSpTxbl, rCanvas.Width - rightmargin + 30);
 
             ScrollViewer slc = new ScrollViewer();

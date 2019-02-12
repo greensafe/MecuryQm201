@@ -16,6 +16,7 @@ namespace SilverTest
         Regex numberreg = new Regex(@"\d*");
         Regex minusnumber = new Regex(@"^-\d*"); //负数
         CommandPanlStatus comstatus = CommandPanlStatus.Idle;
+        MainWindow parentwindow;
 
         public CommandPanelWnd()
         {
@@ -31,7 +32,7 @@ namespace SilverTest
                 SerialDriver.GetDriver().databits,
                 SerialDriver.GetDriver().stopbits);
 
-            MainWindow parentwindow = (MainWindow)this.Owner;
+            parentwindow = (MainWindow)this.Owner;
             this.Owner = null;
             parentwindow.showconnectedIcon();
 
