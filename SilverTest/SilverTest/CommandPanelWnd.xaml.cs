@@ -870,7 +870,8 @@ namespace SilverTest
         private void m13_Click(object sender, RoutedEventArgs e)
         {
             //测量-测量
-            if (comstatus == CommandPanlStatus.Air_Test_Doing || comstatus == CommandPanlStatus.Air_Test_Waiting)
+            if (comstatus == CommandPanlStatus.Air_Test_Doing || comstatus == CommandPanlStatus.Air_Test_Waiting ||
+                !parentwindow.IsSelected())
                 return;   //donn't repeat send command
             byte[] data = new byte[8] { 0x01, 0x01, 0x02, 0x03, 0x00, 0x00, 0, 0 };
 
@@ -882,6 +883,7 @@ namespace SilverTest
                 statustxt.Text = "测试命令已发出";
                 statustxt_2.Content = "测试命令已发出";
                 comstatus = CommandPanlStatus.Air_Test_Waiting;
+                parentwindow.StartTest();
             }
             else
             {

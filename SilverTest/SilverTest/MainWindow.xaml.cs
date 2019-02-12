@@ -614,7 +614,48 @@ namespace SilverTest
             ;
         }
 
-        private void startTestBtn_Click(object sender, RoutedEventArgs e)
+        public bool IsSelected()
+        {
+            int newcltindex = 0;
+            switch (sampletab.SelectedIndex)
+            {
+
+                case 0:     //新样
+                    switch (startTestBtn.Content as string)
+                    {
+                        case "开始测试":
+                            if (NewTargetDgd.SelectedIndex == -1)
+                            {
+                                MessageBox.Show("请选择一条样本");
+                                return false;
+                            }
+                            else
+                            {
+                                return true;
+                            }
+                        default:
+                            return false;
+                    }
+                case 1:     //标样
+                    switch (startTestBtn.Content as string)
+                    {
+                        case "开始测试":
+                            if (standardSampleDgd.SelectedIndex == -1)
+                            {
+                                MessageBox.Show("请选择一条样本");
+                                return false;
+                            }
+                            else
+                            {
+                                return true;
+                            }
+                        default:
+                            return false;
+                    }
+            }
+            return false;
+        }
+        public void StartTest()
         {
             int newcltindex = 0;
             //realCpt.SetScale(100, 2000, 0, 50);
@@ -633,10 +674,10 @@ namespace SilverTest
                             }
                             newcltindex = getNewCltIndex(NewTargetDgd.SelectedIndex);
                             if (newcltindex == -1) return;
-                            if (newTestClt[newcltindex].ResponseValue1 != "" && 
+                            if (newTestClt[newcltindex].ResponseValue1 != "" &&
                                 newTestClt[newcltindex].ResponseValue1 != null)
                             {
-                                if (MessageBox.Show("将清除上次的测试结果，是否继续?", "", MessageBoxButton.YesNo) == MessageBoxResult.No) return ;
+                                if (MessageBox.Show("将清除上次的测试结果，是否继续?", "", MessageBoxButton.YesNo) == MessageBoxResult.No) return;
                                 newTestClt[newcltindex].ResponseValue1 = "";
                                 newTestClt[newcltindex].AirFluent = "";
                                 newTestClt[newcltindex].AirSampleTime = "";
@@ -665,7 +706,7 @@ namespace SilverTest
                             //清空图形记录及DotManager中数据
                             DotManager.GetDotManger().ReleaseData();
                             //清理绘波现场
-                            realCpt.SetScale(100, 2000, 0, 0,50);
+                            realCpt.SetScale(100, 2000, 0, 0, 50);
                             //realCpt.NumberOfDValue = 200000;
                             realCpt.SetNumberOfDValueP(200000);
                             WaveDrawSite.to_pos_index_rel = 0;
@@ -701,7 +742,7 @@ namespace SilverTest
                             {
                                 try
                                 {
-                                    System.Threading.Thread CloseDown = 
+                                    System.Threading.Thread CloseDown =
                                         new System.Threading.Thread(new System.Threading.ThreadStart(closeSerialAsc));
                                     CloseDown.Start();
                                 }
@@ -727,8 +768,8 @@ namespace SilverTest
                                 return;
                             }
                             if (getStandardCltIndex(standardSampleDgd.SelectedIndex) == -1) return;
-                            if (standardSampleClt[getStandardCltIndex( standardSampleDgd.SelectedIndex )].ResponseValue1 != "" && 
-                                standardSampleClt[getStandardCltIndex( standardSampleDgd.SelectedIndex )].ResponseValue1 != null)
+                            if (standardSampleClt[getStandardCltIndex(standardSampleDgd.SelectedIndex)].ResponseValue1 != "" &&
+                                standardSampleClt[getStandardCltIndex(standardSampleDgd.SelectedIndex)].ResponseValue1 != null)
                             {
                                 if (MessageBox.Show("将清除上次的测试结果，是否继续?", "", MessageBoxButton.YesNo) == MessageBoxResult.No)
                                     return;
@@ -754,14 +795,14 @@ namespace SilverTest
                             //清空图形记录及DotManager中数据
                             DotManager.GetDotManger().ReleaseData();
                             //清理绘波现场
-                            realCpt.SetScale(100, 2000, 0,0, 50);
+                            realCpt.SetScale(100, 2000, 0, 0, 50);
                             //realCpt.NumberOfDValue = 200000;
                             realCpt.SetNumberOfDValueP(200000);
                             WaveDrawSite.to_pos_index_rel = 0;
                             realCpt.ClearData();
 
                             startTestBtn.Content = "停止测试";
-                            
+
                             showconnectedIcon();
                             if (SerialDriver.GetDriver().isOpen() == true)
                             {
@@ -807,6 +848,10 @@ namespace SilverTest
                     }
                     break;
             }
+        }
+        private void startTestBtn_Click(object sender, RoutedEventArgs e)
+        {
+
         }
 
         public void showconnectedIcon()
