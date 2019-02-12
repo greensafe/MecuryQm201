@@ -666,6 +666,48 @@ namespace SilverTest
             ;
         }
 
+
+        public bool IsSelected()
+        {
+            int newcltindex = 0;
+            switch (sampletab.SelectedIndex)
+            {
+
+                case 0:     //新样
+                    switch (startTestBtn.Content as string)
+                    {
+                        case "开始测试":
+                            if (NewTargetDgd.SelectedIndex == -1)
+                            {
+                                MessageBox.Show("请选择一条样本");
+                                return false;
+                            }
+                            else
+                            {
+                                return true;
+                            }
+                        default:
+                            return false;
+                    }
+                case 1:     //标样
+                    switch (startTestBtn.Content as string)
+                    {
+                        case "开始测试":
+                            if (standardSampleDgd.SelectedIndex == -1)
+                            {
+                                MessageBox.Show("请选择一条样本");
+                                return false;
+                            }
+                            else
+                            {
+                                return true;
+                            }
+                        default:
+                            return false;
+                    }
+            }
+            return false;
+        }
         public void StartTest()
         {
             int newcltindex = 0;
