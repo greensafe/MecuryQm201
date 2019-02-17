@@ -27,7 +27,7 @@ namespace BasicWaveChart.Feature.integral
             
 
             ImageBrush brush = new ImageBrush();
-            brush.ImageSource = new BitmapImage(new Uri(@"Feature\integral\images\pillar.png", UriKind.Relative));
+            brush.ImageSource = new BitmapImage(new Uri(@"feature\integral\images\pillar.png", UriKind.Relative));
             this.Background = brush;
 
             Canvas.SetLeft((this), 100);

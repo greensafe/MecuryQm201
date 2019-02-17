@@ -1,7 +1,3 @@
-D:\workshop\greensafe\201G\SilverTest\SerialPortLab\obj\Debug\MainWindow.g.cs
-D:\workshop\greensafe\201G\SilverTest\SerialPortLab\obj\Debug\App.g.cs
-D:\workshop\greensafe\201G\SilverTest\SerialPortLab\obj\Debug\SerialPortLab_MarkupCompile.cache
-D:\workshop\greensafe\201G\SilverTest\SerialPortLab\obj\Debug\SerialPortLab_MarkupCompile.lref
 D:\workshop\greensafe\201G\SilverTest\SerialPortLab\bin\Debug\SerialPortLab.exe.config
 D:\workshop\greensafe\201G\SilverTest\SerialPortLab\bin\Debug\SerialPortLab.exe
 D:\workshop\greensafe\201G\SilverTest\SerialPortLab\bin\Debug\SerialPortLab.pdb
@@ -20,6 +16,10 @@ D:\workshop\greensafe\201G\SilverTest\SerialPortLab\bin\Debug\MahApps.Metro.Icon
 D:\workshop\greensafe\201G\SilverTest\SerialPortLab\bin\Debug\ControlzEx.pdb
 D:\workshop\greensafe\201G\SilverTest\SerialPortLab\bin\Debug\MathNet.Numerics.xml
 D:\workshop\greensafe\201G\SilverTest\SerialPortLab\obj\Debug\SerialPortLab.csprojAssemblyReference.cache
+D:\workshop\greensafe\201G\SilverTest\SerialPortLab\obj\Debug\MainWindow.g.cs
+D:\workshop\greensafe\201G\SilverTest\SerialPortLab\obj\Debug\App.g.cs
+D:\workshop\greensafe\201G\SilverTest\SerialPortLab\obj\Debug\SerialPortLab_MarkupCompile.cache
+D:\workshop\greensafe\201G\SilverTest\SerialPortLab\obj\Debug\SerialPortLab_MarkupCompile.lref
 D:\workshop\greensafe\201G\SilverTest\SerialPortLab\obj\Debug\MainWindow.baml
 D:\workshop\greensafe\201G\SilverTest\SerialPortLab\obj\Debug\SerialPortLab.g.resources
 D:\workshop\greensafe\201G\SilverTest\SerialPortLab\obj\Debug\SerialPortLab.Properties.Resources.resources

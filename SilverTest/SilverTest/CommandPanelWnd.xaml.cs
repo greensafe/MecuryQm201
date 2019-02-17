@@ -1167,6 +1167,7 @@ namespace SilverTest
                 comstatus = CommandPanlStatus.Air_Test_Waiting;
 
                 parentwindow.StartTest();
+                parentwindow.testingtype = MainWindow.TestingType.SINGLE;
             }
             else
             {
@@ -1551,6 +1552,8 @@ namespace SilverTest
                 statustxt.Text = "开始连续测量命令已发出";
                 statustxt_2.Content = "开始连续测量命令已发出";
                 comstatus = CommandPanlStatus.LiquidTestReturn_Finished;
+                parentwindow.StartTest();
+                parentwindow.testingtype = MainWindow.TestingType.CONTINUE;
             }
             else
             {

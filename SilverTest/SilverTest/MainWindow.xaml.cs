@@ -143,6 +143,15 @@ namespace SilverTest
         TestingStatus teststatus = TestingStatus.IDLE;
         TestingTabType testtabtype = TestingTabType.NEW;
 
+        //测试类型 
+        public TestingType testingtype = TestingType.SINGLE;
+
+        public enum TestingType
+        {
+            SINGLE,
+            CONTINUE,
+        }
+
         public MainWindow()
         {
             InitializeComponent();
@@ -905,6 +914,7 @@ namespace SilverTest
         private void startTestBtn_Click(object sender, RoutedEventArgs e)
         {
             StartTest();
+            testingtype = TestingType.SINGLE;
         }
 
         public void showconnectedIcon()
@@ -1012,36 +1022,46 @@ namespace SilverTest
                     }
                     break;
                 case PacketType.RES_COMPUTE_VALUE:
-                    Console.WriteLine("计算响应值:" + sequence.ToString());
-                    double sequence_double = (double)sequence;
-                    sequence_double = sequence_double / 100;  //将值左移动2位
-                    //如果是监控状态，则查看是否要报警
-                    if(cmdpanelWnd != null && cmdpanelWnd.is_watching == true)
+                    switch (testingtype)
                     {
-                        if(sequence_double > AlarmValue)
-                        {
-                            AlarmRedObject.GetAlarmObject().NeedAlarm();
-                            //AnimatedWarningButton.Visibility = Visibility.Visible;
-                        }
+                        case TestingType.CONTINUE:
+
+                            break;
+                        case TestingType.SINGLE:
+                        default:
+                            Console.WriteLine("计算响应值:" + sequence.ToString());
+                            double sequence_double = (double)sequence;
+                            sequence_double = sequence_double / 100;  //将值左移动2位
+                                                                      //如果是监控状态，则查看是否要报警
+                            if (cmdpanelWnd != null && cmdpanelWnd.is_watching == true)
+                            {
+                                if (sequence_double > AlarmValue)
+                                {
+                                    AlarmRedObject.GetAlarmObject().NeedAlarm();
+                                    //AnimatedWarningButton.Visibility = Visibility.Visible;
+                                }
+                            }
+                            //将结果显示到表格之中
+                            Dispatcher.BeginInvoke(new Action(() =>
+                            {
+                                switch (sampletab.SelectedIndex)
+                                {
+                                    case 0:         //新样测试
+                                        newcltindex = getNewCltIndexFromSelected(testing_selected_new);
+                                        if (newcltindex == -1) return;
+                                        newTestClt[newcltindex].ResponseValue1 =
+                                            sequence_double.ToString();
+                                        break;
+                                    case 1:         //标样测试
+                                        if (getStandardCltIndexFromSelected(testing_selected_standard) == -1) return;
+                                        standardSampleClt[getStandardCltIndexFromSelected(testing_selected_standard)].ResponseValue1 =
+                                            sequence_double.ToString();
+                                        break;
+                                }
+                            }));
+                            break;
                     }
-                    //将结果显示到表格之中
-                    Dispatcher.BeginInvoke(new Action(() =>
-                    {
-                        switch (sampletab.SelectedIndex)
-                        {
-                            case 0:         //新样测试
-                                newcltindex = getNewCltIndexFromSelected(testing_selected_new);
-                                if (newcltindex == -1) return;
-                                newTestClt[newcltindex].ResponseValue1 =
-                                    sequence_double.ToString();
-                                break;
-                            case 1:         //标样测试
-                                if (getStandardCltIndexFromSelected(testing_selected_standard) == -1) return;
-                                standardSampleClt[getStandardCltIndexFromSelected(testing_selected_standard)].ResponseValue1 =
-                                    sequence_double.ToString();
-                                break;
-                        }
-                    }));
+
                     break;
                 case PacketType.VICE_DATA_VALUE:
                     double vicey = (dot as ADot).Rvalue;

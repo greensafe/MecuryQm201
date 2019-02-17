@@ -1,5 +1,3 @@
-D:\workshop\greensafe\201G\SilverTest\test\obj\Debug\App.g.cs
-D:\workshop\greensafe\201G\SilverTest\test\obj\Debug\test_MarkupCompile.cache
 D:\workshop\greensafe\201G\SilverTest\test\bin\Debug\test.exe.config
 D:\workshop\greensafe\201G\SilverTest\test\bin\Debug\test.exe
 D:\workshop\greensafe\201G\SilverTest\test\bin\Debug\test.pdb
@@ -7,6 +5,8 @@ D:\workshop\greensafe\201G\SilverTest\test\bin\Debug\BasicWaveChart.dll
 D:\workshop\greensafe\201G\SilverTest\test\bin\Debug\BasicWaveChart.pdb
 D:\workshop\greensafe\201G\SilverTest\test\obj\Debug\test.csprojAssemblyReference.cache
 D:\workshop\greensafe\201G\SilverTest\test\obj\Debug\MainWindow.g.cs
+D:\workshop\greensafe\201G\SilverTest\test\obj\Debug\App.g.cs
+D:\workshop\greensafe\201G\SilverTest\test\obj\Debug\test_MarkupCompile.cache
 D:\workshop\greensafe\201G\SilverTest\test\obj\Debug\test_MarkupCompile.lref
 D:\workshop\greensafe\201G\SilverTest\test\obj\Debug\MainWindow.baml
 D:\workshop\greensafe\201G\SilverTest\test\obj\Debug\test.g.resources
