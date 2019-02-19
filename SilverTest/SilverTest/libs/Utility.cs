@@ -809,6 +809,88 @@ namespace SilverTest.libs
         public Collection<ADot> wave { get; set; }
         public Collection<ADot> vicetune_wave { get; set; }
         public string gid { get; set; }
+
+    }
+
+    //连续测试对象，经能有一个
+    public struct ContinueTestDataItem
+    {
+        public int seqno;
+        public double responesevalue;
+        public Collection<ADot> wave;
+        public string gid;                 //global id，对应于datagrid中的条目
+    }
+    public class ContinueTestObject
+    {
+        private static ContinueTestObject onlyone = null;
+        ADot[] ZeroData = new ADot[2000];   //0标样数据，仅有一个
+        int ZeroData_index = 0;             //插入数据的位置
+        bool isExitZero = false;       //0标样数据是否已经存在
+        Collection<ContinueTestDataItem> historydatas = new Collection<ContinueTestDataItem>(); // 记录所有连续测量的数据
+        int historydatas_index = 0;    //
+        int count = 0;     //测试的总次数，不断叠加，不用清零
+        const int historydatas_maxcount = 100;   //historydatas最多存放的条目
+
+        private ContinueTestObject()
+        {
+            init();
+        }
+        private void init()
+        {
+
+            ZeroData_index = 0;
+            historydatas_index = 0;
+            count = 0;
+            for(int i=0;i< ZeroData.Length; i++)
+            {
+                ZeroData[i] = null;
+            }
+        }
+        static public ContinueTestObject GetInstance()
+        {
+            if (onlyone == null)
+                onlyone = new ContinueTestObject();
+            return onlyone;
+        }
+        public void StartZero()
+        {
+            isExitZero = false;
+            ZeroData_index = 0;
+            for (int i = 0; i < ZeroData.Length; i++)
+                ZeroData[i] = null;
+        }
+        public void StopZero()
+        {
+            isExitZero = true;
+        }
+        public bool isExitzero()
+        {
+            return isExitZero;
+        }
+        //return
+        // true - success
+        // false - fail , because of full
+        public bool InsertZeroItem(ADot adot)
+        {
+            if (ZeroData_index > (ZeroData.Length - 1))
+                return false; //已满，不能再插
+            ZeroData_index++;
+            ZeroData[ZeroData_index] = adot;
+            return true;
+        }
+        //收到计算响应值后调用，表示一次测量完成
+        public void ClipTestFinished()
+        {
+            historydatas_index++;
+        }
+        //在一次测试中，插入波形的一个点
+        public bool InsertDot(ADot adot)
+        {
+            if (historydatas_index > (historydatas_maxcount - 1))
+                return false;  //已满
+            historydatas[historydatas_index].wave.Add(adot);
+            return true;
+        }
     }
 
 }

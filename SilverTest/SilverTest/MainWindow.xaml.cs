@@ -78,8 +78,21 @@ namespace SilverTest
         LIQUID_STANDARD_BULK//标准液体量程测量
     }
 
+    //连续测量模式还是单个测量
+    public enum TestSorC
+    {
+        SINGLE,         //单个测量
+        CONTINUE
+    }
+
+    public delegate void ZeroTestStoped_delegate();
+    public delegate void ZeroTestStarted_delegate();
+
+
     public partial class MainWindow : Window
     {
+        public ZeroTestStoped_delegate ZERO_TEST_STOPPED_EV;
+        public ZeroTestStarted_delegate ZERO_TEST_STARTED_EV;
 
         bool mode = true;
         Random rd = new Random();
@@ -128,6 +141,9 @@ namespace SilverTest
         //测试模块id
         public TestModule testmoduleid = TestModule.AIR_GOLD_ATOM_IN_BACK;
 
+        //single or continue
+        public TestSorC test_single_or_continue = TestSorC.SINGLE;
+
         //液体标量程测量标量常量
         const int inquaility = 25; //mL
 
@@ -144,9 +160,9 @@ namespace SilverTest
 
         public enum TestingStatus
         {
-            TESTING,
-            STOPPED,
-            IDLE
+            TESTING,    //正在测试
+            STOPPED,    //已停止
+            IDLE        //空闲
         }
 
         public MainWindow()
@@ -230,6 +246,9 @@ namespace SilverTest
                 this.Top = (SystemParameters.WorkArea.Size.Height - this.Height) / 2;
                 this.Left = (SystemParameters.WorkArea.Size.Width - this.Width) / 2;
             }
+
+            ZERO_TEST_STOPPED_EV += ZeroTestStoped_Hdlr;
+            ZERO_TEST_STARTED_EV += ZeroTestStarted_Hdlr;
         }
 
         private void statustimer_tickHdr(object sender, EventArgs e)
@@ -851,7 +870,8 @@ namespace SilverTest
         }
         private void startTestBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            test_single_or_continue = TestSorC.SINGLE;
+            StartTest();
         }
 
         public void showconnectedIcon()
@@ -3045,5 +3065,29 @@ namespace SilverTest
                 }
             }
         }
+
+        #region 连续测量
+        //0标样测试停止，将其数据更新保存
+        private void ZeroTestStoped_Hdlr()
+        {
+
+        }
+        //0标样测试开始，准备存储数据
+        private void ZeroTestStarted_Hdlr()
+        {
+            ContinueTestObject.GetInstance().StartZero();
+        }
+        //收到计算响应包，准备计算积分
+        private double ComputeX()
+        {
+            return 0.00;
+        }
+        //收到响应值，向表格中插入一个连续测试条目
+        private void InsertItemOfC(ContinueTestObject c)
+        {
+
+        }
+
+        #endregion
     }
 }

@@ -754,6 +754,18 @@ namespace SilverTest
                             ;
                         }
                         break;
+                    case 0x99:  //连续测量0标样
+                        switch (result)
+                        {
+                            case 0:  //开始
+                                parentwindow.ZERO_TEST_STARTED_EV();
+                                break;
+                            case 1:  //结束
+                                parentwindow.ZERO_TEST_STOPPED_EV();
+                                break;
+                        }
+
+                        break;
                     default:
                         break;
                 }
@@ -1283,6 +1295,7 @@ namespace SilverTest
                 statustxt.Text = "开始连续测量命令已发出";
                 statustxt_2.Content = "开始连续测量命令已发出";
                 comstatus = CommandPanlStatus.LiquidTestReturn_Finished;
+                parentwindow.test_single_or_continue = TestSorC.CONTINUE;
             }
             else
             {
