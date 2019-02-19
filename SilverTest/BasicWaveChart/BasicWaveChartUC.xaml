@@ -73,6 +73,7 @@
             <MenuItem x:Name="enlargemenu" Header="放大" Click="enlargemenu_Click"></MenuItem>
             <MenuItem x:Name="integralmenu" Header="积分" Click="integralmenu_Click"  Visibility="Hidden"></MenuItem>
         </ContextMenu>
+        <ImageBrush x:Key="mybr" ImageSource="Feature/integral/images/pillar.png"  ></ImageBrush>
     </UserControl.Resources>
     <widget:ZoomPanel x:Name="zoompanel"  Ratio="{Binding RatioS, ElementName=ControlContainer}">
         <Canvas x:Name="basecanvas" Background="{StaticResource gridbrush}" ClipToBounds="False">
