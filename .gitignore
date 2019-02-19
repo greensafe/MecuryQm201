@@ -3,14 +3,9 @@
 *.tmp
 Thumbs.db
 #ignore all files in release directory
-
-
-
 SilverTest/SerialPortLab/bin/Debug/clip.txt
 SilverTest/SerialPortLab/bin/Debug/实际数据.txt
 SilverTest/test/bin
-
-
-obj
-obj
-obj
+obj/
+debug/
+bin/
