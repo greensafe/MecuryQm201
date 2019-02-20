@@ -177,6 +177,7 @@
                         Background="Transparent" BorderThickness="0" ToolTip="串口未打开" Visibility="Visible" Click="rs232disconnectedbtn_Click">
                         <iconPacks:PackIconMaterial Kind="Usb" Foreground="Black" Height="25" Width="25" Margin="3"/>
                     </Button>
+                    <TextBlock x:Name="moudle_name_txb" HorizontalAlignment="Right" Text="气体测量金属膜原子吸收法后进样" TextAlignment="Right" VerticalAlignment="Bottom" Canvas.Left="-216" Width="211" Height="17" TextWrapping="Wrap" Canvas.Top="11"></TextBlock>
                     <Button x:Name="rs232disconnectedbtn_1" Width="28" Height="28" DockPanel.Dock="Right" Panel.ZIndex="2" Padding="0"
                         Background="Transparent" BorderThickness="0" ToolTip="串口未打开" Visibility="Visible" Click="rs232disconnectedbtn_Click">
                         <iconPacks:PackIconMaterial Kind="CloseOctagonOutline" Foreground="Red" Height="30" Width="30" Margin="-2"/>
@@ -277,12 +278,12 @@
                                 <!--<DataGridTextColumn x:Name="newLiquidBulkCol"  Header="样品消化液总体积ml" Width="80" Visibility="Hidden"></DataGridTextColumn> -->
                                 <DataGridTextColumn x:Name="newtotalbulkCol" Header="样品总体积L" Binding="{Binding AirTotolBulk,Mode=TwoWay}" Width="120"></DataGridTextColumn>
                                 <DataGridTextColumn x:Name="newghltotalCol" Header="样品中汞含量mg/m3" Binding="{Binding AirG,Mode=TwoWay}" Width="150" IsReadOnly="True"></DataGridTextColumn>
-                                
+
                                 <DataGridTextColumn x:Name="newgndCol" Header="汞浓度ng/mL" Width="100" Binding="{Binding Density,Mode=TwoWay}" Visibility="Collapsed" IsReadOnly="True"></DataGridTextColumn>
                                 <DataGridTextColumn x:Name="newypqtzllCol" Header="样品气体总流量L/min" Width="120" Binding="{Binding AirTotalFluent,Mode=TwoWay}"  Visibility="Collapsed" ></DataGridTextColumn>
                                 <DataGridTextColumn x:Name="newghlCol" Header="汞含量mg" Width="100" Binding="{Binding ThingInSamle,Mode=TwoWay}" Visibility="Collapsed" ></DataGridTextColumn>
                                 <DataGridTextColumn x:Name="newjylCol" Header="进样量ml" Width="80"  Binding="{Binding InSampleQuality,Mode=TwoWay}" Visibility="Collapsed" ></DataGridTextColumn>
-                                
+
                                 <DataGridTemplateColumn Header="选择标样" Width="*">
                                     <DataGridTemplateColumn.CellTemplate >
                                         <DataTemplate>
@@ -346,7 +347,7 @@
                                 <DataGridTextColumn Header="斜率" Width="70" Binding="{Binding Path=A,Mode=TwoWay}" IsReadOnly="True"></DataGridTextColumn>
                                 <DataGridTextColumn Header="截距" Width="70" Binding="{Binding Path=B,Mode=TwoWay}" IsReadOnly="True"></DataGridTextColumn>
                                 <DataGridTextColumn Header="相关系数" Width="*" Binding="{Binding Path=R,Mode=TwoWay}" IsReadOnly="True"></DataGridTextColumn>
-                                <DataGridTextColumn Header="组名" Width="80" Binding="{Binding Path=GroupName,Mode=TwoWay}"></DataGridTextColumn>                                
+                                <DataGridTextColumn Header="组名" Width="80" Binding="{Binding Path=GroupName,Mode=TwoWay}"></DataGridTextColumn>
                             </DataGrid.Columns>
                         </DataGrid>
                     </StackPanel>
@@ -387,7 +388,7 @@
                             ClipToBounds="True"/>
                 </GroupBox>
             </StackPanel>
-            <TextBlock x:Name="waveinfo_txt" Width="150" Height="20" DockPanel.Dock="Top" HorizontalAlignment="Left" Padding="10,0,0,0"></TextBlock>            
+            <TextBlock x:Name="waveinfo_txt" Width="150" Height="20" DockPanel.Dock="Top" HorizontalAlignment="Left" Padding="10,0,0,0"></TextBlock>
             <Separator Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}" Height="3" DockPanel.Dock="Top"></Separator>
             <DockPanel DockPanel.Dock="Top" Height="50">
                 <Button x:Name="modifyBtn" HorizontalAlignment="Left" DockPanel.Dock="Left" Height="30" Content="保存" Margin="20,1,0,0" Click="modifyBtn_Click"  Visibility="Collapsed"/>

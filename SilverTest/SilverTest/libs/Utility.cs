@@ -812,24 +812,27 @@ namespace SilverTest.libs
 
     }
 
-    //连续测试对象，经能有一个
-    public struct ContinueTestDataItem
+    
+    public class ContinueTestDataItem
     {
-        public int seqno;
-        public double responesevalue;
-        public Collection<ADot> wave;
-        public string gid;                 //global id，对应于datagrid中的条目
+        public int clipno { get; set; }                //连续测量中的分段号码
+        public double responesevalue{ get; set; }
+        public Collection<ADot> mainwave { get; set; }  //主通道波
+        public Collection<ADot> vicewave { get; set; }  //副通道波
     }
+    //连续测试对象，仅能有一个。一个对应仅仅一个0标样。对应最多historydatas_maxcount个片段
     public class ContinueTestObject
     {
         private static ContinueTestObject onlyone = null;
-        ADot[] ZeroData = new ADot[2000];   //0标样数据，仅有一个
+        int[] ZeroData = new int[2000];   //0标样数据，仅有一个
         int ZeroData_index = 0;             //插入数据的位置
-        bool isExitZero = false;       //0标样数据是否已经存在
+        bool ZeroData_isExitZero = false;       //0标样数据是否已经存在
         Collection<ContinueTestDataItem> historydatas = new Collection<ContinueTestDataItem>(); // 记录所有连续测量的数据
         int historydatas_index = 0;    //
-        int count = 0;     //测试的总次数，不断叠加，不用清零
+        int historydatas_count = 0;     //测试的总次数，不断叠加，不用清零
         const int historydatas_maxcount = 100;   //historydatas最多存放的条目
+        const int wave_maxcount = 7500;     //波形最大点数
+        string gid = "-1";                 //global id，对应于datagrid中的条目
 
         private ContinueTestObject()
         {
@@ -837,13 +840,18 @@ namespace SilverTest.libs
         }
         private void init()
         {
-
             ZeroData_index = 0;
             historydatas_index = 0;
-            count = 0;
+            historydatas_count = 0;
             for(int i=0;i< ZeroData.Length; i++)
             {
-                ZeroData[i] = null;
+                ZeroData[i] = 0;
+            }
+            for(int i=0;i< historydatas_maxcount; i++)
+            {
+                historydatas.Add(new ContinueTestDataItem());
+                historydatas[i].mainwave = new Collection<ADot>(); //
+                historydatas[i].vicewave = new Collection<ADot>(); //
             }
         }
         static public ContinueTestObject GetInstance()
@@ -854,41 +862,135 @@ namespace SilverTest.libs
         }
         public void StartZero()
         {
-            isExitZero = false;
+            ZeroData_isExitZero = false;
             ZeroData_index = 0;
             for (int i = 0; i < ZeroData.Length; i++)
-                ZeroData[i] = null;
+                ZeroData[i] = 0;
         }
         public void StopZero()
         {
-            isExitZero = true;
+            ZeroData_isExitZero = true;
         }
         public bool isExitzero()
         {
-            return isExitZero;
+            return ZeroData_isExitZero;
         }
         //return
         // true - success
         // false - fail , because of full
-        public bool InsertZeroItem(ADot adot)
+        public bool InsertZeroItem(int v)
         {
-            if (ZeroData_index > (ZeroData.Length - 1))
+            if (ZeroData_index >= (ZeroData.Length - 1))
                 return false; //已满，不能再插
+            ZeroData[ZeroData_index] = v;
             ZeroData_index++;
-            ZeroData[ZeroData_index] = adot;
             return true;
         }
-        //收到计算响应值后调用，表示一次测量完成
-        public void ClipTestFinished()
+
+
+        //点击按钮，开始一次新的连续测量
+        public void NewContinueTest(string id)
         {
-            historydatas_index++;
+            this.gid = id;
+            this.ZeroData_index = 0;
+            this.ZeroData_isExitZero = false;
+            this.historydatas_count = 0;
+            this.historydatas_index = 0;
+            foreach(ContinueTestDataItem v in historydatas)
+            {
+                v.clipno = 0;
+                v.mainwave.Clear();
+                v.vicewave.Clear();
+                v.responesevalue = 0;
+            }
         }
+
+
+        //收到计算响应值包后调用，表示一次测量完成
+        //@res - 响应值
+        //返回值 - 计算出后的响应值
+        public double RPacketRecived_Hdr(double res)
+        {
+            double r;
+            if (!isExitzero())
+                return 0;
+            //计算响应值
+            if (historydatas_index <= (historydatas_maxcount - 1))  //避免越界异常
+            {
+                //historydatas[historydatas_index].responesevalue = computeres(historydatas_index);
+                historydatas[historydatas_index].responesevalue = ClipTestFinished_Computeres(historydatas_index);
+                r = historydatas[historydatas_index].responesevalue;
+                historydatas[historydatas_index].clipno = historydatas_count;
+            }
+            else
+            {
+                r = 0;
+            }
+
+            //拨动指针
+            if (historydatas_count < (historydatas_maxcount-1))
+            {
+                //初始化一个新的item
+                historydatas_index++;
+                historydatas_count++;
+            }else
+            {
+                //超出最大值，覆盖以前的记录，清空
+                historydatas_count++;
+                historydatas_index = historydatas_count % historydatas_maxcount;
+                historydatas[historydatas_index].responesevalue = 0;
+                historydatas[historydatas_index].clipno = -1;
+                historydatas[historydatas_index].mainwave.Clear();
+                historydatas[historydatas_index].vicewave.Clear();
+            }
+            return r;
+        }
+        private double ClipTestFinished_Computeres(int historydatas_index)
+        {
+            double r = 0;
+            int c = 0;
+            //避免wave过长
+            if (historydatas[historydatas_index].mainwave.Count >= wave_maxcount)
+                return 0;
+            for(int i= 0; i < ZeroData.Length; i++)
+            {
+                //检查空值，零值，避免程序崩溃
+                try
+                {
+                    if(historydatas[historydatas_index].vicewave[i].Rvalue == 0)
+                    {
+                        r += historydatas[historydatas_index].mainwave[i].Rvalue - ZeroData[i];
+                    }
+                    else
+                    {
+                        r +=( (historydatas[historydatas_index].mainwave[i].Rvalue - ZeroData[i]) / 
+                            (historydatas[historydatas_index].vicewave[i].Rvalue - ZeroData[i]) );
+                    }
+                    c++;
+                }
+                catch (Exception e)
+                {
+                    //do noting
+                    Console.WriteLine("error: ");
+                    break;
+                    ;
+                }
+            }
+            return r/c;
+        }
+
         //在一次测试中，插入波形的一个点
-        public bool InsertDot(ADot adot)
+        //@madot - 主通道点
+        //@vadot - 副通道点
+        public bool InsertDot(ADot madot, ADot vadot)
         {
             if (historydatas_index > (historydatas_maxcount - 1))
                 return false;  //已满
-            historydatas[historydatas_index].wave.Add(adot);
+            if(madot != null)
+                historydatas[historydatas_index].mainwave.Add(madot);
+            if(vadot != null)
+                historydatas[historydatas_index].vicewave.Add(vadot);
+            
             return true;
         }
     }

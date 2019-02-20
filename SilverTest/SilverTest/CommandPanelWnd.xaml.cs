@@ -38,10 +38,15 @@ namespace SilverTest
             switch (parentwindow.testmoduleid)
             {
                 case TestModule.AIR_ADJUST_ZERO_ATOM_IN_AHEAD:
+                    pm2.Visibility = Visibility.Visible;
                     pm2.Content = "气体自校零原子吸收法前进样";
                     break;
                 case TestModule.AIR_ATOM_IN_AHEAD:
+                    pm2.Visibility = Visibility.Visible;
                     pm2.Content = "气体测量原子吸收法前进样";
+                    break;
+                default:
+                    pm2.Visibility = Visibility.Collapsed;
                     break;
             }
             if (SerialDriver.GetDriver().isOpen())
@@ -1296,6 +1301,7 @@ namespace SilverTest
                 statustxt_2.Content = "开始连续测量命令已发出";
                 comstatus = CommandPanlStatus.LiquidTestReturn_Finished;
                 parentwindow.test_single_or_continue = TestSorC.CONTINUE;
+                ContinueTestObject.GetInstance().NewContinueTest("");
             }
             else
             {

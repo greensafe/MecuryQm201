@@ -2573,7 +2573,8 @@ namespace SilverTest
         private void hotairbox_itm_Click(object sender, RoutedEventArgs e)
         {
             testmoduleid = TestModule.HOT_AIR_BOX;
-
+            moudle_name_txb.Text = "热释气体炉测量";
+            startTestBtn.Visibility = Visibility.Visible;
             hotairbox_itm.Icon = checkicon;
             airautomahead_itm.Icon = null;
             airautomback_itm.Icon = null;
@@ -2643,7 +2644,8 @@ namespace SilverTest
         private void airautomahead_itm_Click(object sender, RoutedEventArgs e)
         {
             testmoduleid = TestModule.AIR_ATOM_IN_AHEAD;
-
+            moudle_name_txb.Text = "气体测量原子吸收法前进样";
+            startTestBtn.Visibility = Visibility.Collapsed;
             hotairbox_itm.Icon = null;
             airautomahead_itm.Icon = checkicon;
             airautomback_itm.Icon = null;
@@ -2704,7 +2706,8 @@ namespace SilverTest
         private void airautomback_itm_Click(object sender, RoutedEventArgs e)
         {
             testmoduleid = TestModule.AIR_GOLD_ATOM_IN_BACK;
-
+            moudle_name_txb.Text = "气体测量金属膜原子吸收法后进样";
+            startTestBtn.Visibility = Visibility.Visible;
             hotairbox_itm.Icon = null;
             airautomahead_itm.Icon = null;
             airautomback_itm.Icon = checkicon;
@@ -2774,7 +2777,8 @@ namespace SilverTest
         private void airadjustzeroahead_itm_Click(object sender, RoutedEventArgs e)
         {
             testmoduleid = TestModule.AIR_ADJUST_ZERO_ATOM_IN_AHEAD;
-
+            moudle_name_txb.Text = "气体自校零原子吸收法前进样";
+            startTestBtn.Visibility = Visibility.Collapsed;
             hotairbox_itm.Icon = null;
             airautomahead_itm.Icon = null;
             airautomback_itm.Icon = null;
@@ -2835,7 +2839,8 @@ namespace SilverTest
         private void liquidmultibox_itm_Click(object sender, RoutedEventArgs e)
         {
             testmoduleid = TestModule.LIQUID_MULTI_BULK;
-
+            moudle_name_txb.Text= "液体多量程测量";
+            startTestBtn.Visibility = Visibility.Visible;
             hotairbox_itm.Icon = null;
             airautomahead_itm.Icon = null;
             airautomback_itm.Icon = null;
@@ -2897,7 +2902,8 @@ namespace SilverTest
         private void liquidstandardbox_itm_Click(object sender, RoutedEventArgs e)
         {
             testmoduleid = TestModule.LIQUID_STANDARD_BULK;
-
+            moudle_name_txb.Text = "液体标量程测量";
+            startTestBtn.Visibility = Visibility.Visible;
             hotairbox_itm.Icon = null;
             airautomahead_itm.Icon = null;
             airautomback_itm.Icon = null;
