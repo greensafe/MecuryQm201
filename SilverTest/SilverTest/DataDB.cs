@@ -443,6 +443,21 @@ namespace SilverTest
             }
         }
 
+        //片段测试结束时间，用于连续测量
+        private string clipFinishedTime;
+        public string CipFinishedTime
+        {
+            get
+            {
+                return clipFinishedTime;
+            }
+            set
+            {
+                clipFinishedTime = value;
+                NotifyPropertyChanged("CipFinishedTime");
+            }
+        }
+
 
         //全局唯一id
         private string globalID;

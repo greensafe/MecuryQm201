@@ -23,8 +23,11 @@ using static SilverTest.MainWindow;
 namespace SilverTest.libs
 {
 
+
+    public delegate void AAction();
     public class Utility
     {
+
         //从资源中读取数据新样xml数据，转换为ObservableCollection
         //param: provider - 数据源
         static public ObservableCollection<NewTestTarget> getNewTestTargetDataFromXDP(DataSourceProvider provider)
@@ -681,7 +684,6 @@ namespace SilverTest.libs
 
             }
         }
-
     }
 
     //缓存测试dvalue，供在切换波形使用
@@ -825,10 +827,10 @@ namespace SilverTest.libs
     {
         private static ContinueTestObject onlyone = null;
         int[] ZeroData = new int[2000];   //0标样数据，仅有一个
-        int ZeroData_index = 0;             //插入数据的位置
-        bool ZeroData_isExitZero = false;       //0标样数据是否已经存在
+        int ZeroData_index = -1;             //指向数据的当前位置，而非下一个空白条目
+        bool ZeroData_isFullZero = false;       //0标样数据是否已经存在
         Collection<ContinueTestDataItem> historydatas = new Collection<ContinueTestDataItem>(); // 记录所有连续测量的数据
-        int historydatas_index = 0;    //
+        int historydatas_index = -1;    // 指向当前条目，而非当前条目的下一个空白条目
         int historydatas_count = 0;     //测试的总次数，不断叠加，不用清零
         const int historydatas_maxcount = 100;   //historydatas最多存放的条目
         const int wave_maxcount = 7500;     //波形最大点数
@@ -840,8 +842,8 @@ namespace SilverTest.libs
         }
         private void init()
         {
-            ZeroData_index = 0;
-            historydatas_index = 0;
+            ZeroData_index = -1;
+            historydatas_index = -1;
             historydatas_count = 0;
             for(int i=0;i< ZeroData.Length; i++)
             {
@@ -862,18 +864,22 @@ namespace SilverTest.libs
         }
         public void StartZero()
         {
-            ZeroData_isExitZero = false;
-            ZeroData_index = 0;
+            ZeroData_isFullZero = false;
+            ZeroData_index = -1;
             for (int i = 0; i < ZeroData.Length; i++)
                 ZeroData[i] = 0;
         }
         public void StopZero()
         {
-            ZeroData_isExitZero = true;
+            ZeroData_isFullZero = true;
+            historydatas_index = -1;
         }
-        public bool isExitzero()
+        public bool isZeroDataFull()
         {
-            return ZeroData_isExitZero;
+            if (ZeroData_isFullZero == true || ZeroData_index >= (ZeroData.Length - 1))
+                return true;
+            else
+                return false;
         }
         //return
         // true - success
@@ -882,8 +888,8 @@ namespace SilverTest.libs
         {
             if (ZeroData_index >= (ZeroData.Length - 1))
                 return false; //已满，不能再插
-            ZeroData[ZeroData_index] = v;
             ZeroData_index++;
+            ZeroData[ZeroData_index] = v;
             return true;
         }
 
@@ -892,10 +898,10 @@ namespace SilverTest.libs
         public void NewContinueTest(string id)
         {
             this.gid = id;
-            this.ZeroData_index = 0;
-            this.ZeroData_isExitZero = false;
+            this.ZeroData_index = -1;
+            this.ZeroData_isFullZero = false;
             this.historydatas_count = 0;
-            this.historydatas_index = 0;
+            this.historydatas_index = -1;
             foreach(ContinueTestDataItem v in historydatas)
             {
                 v.clipno = 0;
@@ -907,44 +913,51 @@ namespace SilverTest.libs
 
 
         //收到计算响应值包后调用，表示一次测量完成
-        //@res - 响应值
-        //返回值 - 计算出后的响应值
-        public double RPacketRecived_Hdr(double res)
+        public void RPacketRecived_Hdr()
         {
             double r;
-            if (!isExitzero())
-                return 0;
-            //计算响应值
-            if (historydatas_index <= (historydatas_maxcount - 1))  //避免越界异常
+            //避免越界
+            if (historydatas_index > (historydatas_maxcount - 1))
+                return;
+
+            //0标样未收集完，不予计算
+            if (!isZeroDataFull())
             {
-                //historydatas[historydatas_index].responesevalue = computeres(historydatas_index);
-                historydatas[historydatas_index].responesevalue = ClipTestFinished_Computeres(historydatas_index);
-                r = historydatas[historydatas_index].responesevalue;
-                historydatas[historydatas_index].clipno = historydatas_count;
-            }
-            else
-            {
-                r = 0;
+                historydatas[historydatas_index].responesevalue = -1;
+                return;
             }
 
+            //计算响应值
+            historydatas[historydatas_index].responesevalue = ClipTestFinished_Computeres(historydatas_index);
+            historydatas[historydatas_index].clipno = historydatas_count;
+
+            historydatas_count++;
+            historydatas_index++;
+
             //拨动指针
-            if (historydatas_count < (historydatas_maxcount-1))
+            if (historydatas_count <= (historydatas_maxcount-1))
             {
-                //初始化一个新的item
-                historydatas_index++;
-                historydatas_count++;
+                ;
             }else
             {
                 //超出最大值，覆盖以前的记录，清空
-                historydatas_count++;
                 historydatas_index = historydatas_count % historydatas_maxcount;
-                historydatas[historydatas_index].responesevalue = 0;
+                historydatas[historydatas_index].responesevalue = -1;
                 historydatas[historydatas_index].clipno = -1;
                 historydatas[historydatas_index].mainwave.Clear();
                 historydatas[historydatas_index].vicewave.Clear();
             }
-            return r;
         }
+
+        //获取最近一次片段的响应值,仅再响应值后调用
+        public double GetCurrentRes()
+        {
+            if (historydatas_count <= (historydatas_maxcount - 1))
+                return historydatas[historydatas_index].responesevalue;
+            else
+                return historydatas[historydatas_count % historydatas_maxcount].responesevalue;
+        }
+
         private double ClipTestFinished_Computeres(int historydatas_index)
         {
             double r = 0;
@@ -957,7 +970,7 @@ namespace SilverTest.libs
                 //检查空值，零值，避免程序崩溃
                 try
                 {
-                    if(historydatas[historydatas_index].vicewave[i].Rvalue == 0)
+                    if(historydatas[historydatas_index].vicewave.Count == 0 || historydatas[historydatas_index].vicewave[i].Rvalue == 0)
                     {
                         r += historydatas[historydatas_index].mainwave[i].Rvalue - ZeroData[i];
                     }
@@ -993,6 +1006,17 @@ namespace SilverTest.libs
             
             return true;
         }
+
+        internal bool isEmpty()
+        {
+            if (ZeroData_index != -1)
+                return true;
+            else
+                return false;
+        }
+
+
     }
+
 
 }

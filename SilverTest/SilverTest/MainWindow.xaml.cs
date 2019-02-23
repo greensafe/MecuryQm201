@@ -85,15 +85,11 @@ namespace SilverTest
         CONTINUE
     }
 
-    public delegate void ZeroTestStoped_delegate();
-    public delegate void ZeroTestStarted_delegate();
+    public delegate void ContinueClipTestFinished_delegate();
 
 
     public partial class MainWindow : Window
     {
-        public ZeroTestStoped_delegate ZERO_TEST_STOPPED_EV;
-        public ZeroTestStarted_delegate ZERO_TEST_STARTED_EV;
-
         bool mode = true;
         Random rd = new Random();
         private int currentSecond = 0;
@@ -125,7 +121,7 @@ namespace SilverTest
         //正在测试中的条目id号
         string testingitemgid_new = "-1";
         string testingitemgid_std = "-1";
-        string testing_gid = "-1";   //真正测试条目的global id
+        public string testing_gid = "-1";   //真正测试条目的global id
         //点击开始测试后，被选中的表格条目的相对索引号
         NewTestTarget testing_selected_new = null;
         StandardSample testing_selected_standard = null;
@@ -246,9 +242,6 @@ namespace SilverTest
                 this.Top = (SystemParameters.WorkArea.Size.Height - this.Height) / 2;
                 this.Left = (SystemParameters.WorkArea.Size.Width - this.Width) / 2;
             }
-
-            ZERO_TEST_STOPPED_EV += ZeroTestStoped_Hdlr;
-            ZERO_TEST_STARTED_EV += ZeroTestStarted_Hdlr;
         }
 
         private void statustimer_tickHdr(object sender, EventArgs e)
@@ -969,25 +962,44 @@ namespace SilverTest
                     }
                     break;
                 case PacketType.RES_COMPUTE_VALUE:
-                    Console.WriteLine("计算响应值:" + sequence.ToString());
-                    //将结果显示到表格之中
-                    Dispatcher.BeginInvoke(new Action(() =>
+                    switch (this.testmoduleid)
                     {
-                        switch (sampletab.SelectedIndex)
-                        {
-                            case 0:         //新样测试
-                                newcltindex = getNewCltIndexFromSelected(testing_selected_new);
-                                if (newcltindex == -1) return;
-                                newTestClt[newcltindex].ResponseValue1 =
-                                    sequence.ToString();
-                                break;
-                            case 1:         //标样测试
-                                if (getStandardCltIndexFromSelected(testing_selected_standard) == -1) return;
-                                standardSampleClt[getStandardCltIndexFromSelected(testing_selected_standard)].ResponseValue1 =
-                                    sequence.ToString();
-                                break;
-                        }
-                    }));
+                        case TestModule.AIR_ADJUST_ZERO_ATOM_IN_AHEAD:
+                        case TestModule.AIR_ATOM_IN_AHEAD:
+                            if (test_single_or_continue == TestSorC.CONTINUE)
+                            {
+                                //连续测量。(仅仅新样才有，标样没有连续测量)
+                                ContinueTestObject.GetInstance().RPacketRecived_Hdr();
+                                //从连续测量对象中取出响应值，向表格中添加item
+                                PacketReceived_InsertCItem(testing_gid, sequence,
+                                    ContinueTestObject.GetInstance().GetCurrentRes(), null);
+                            }
+                            break;
+                        case TestModule.AIR_GOLD_ATOM_IN_BACK:
+                        case TestModule.HOT_AIR_BOX:
+                        case TestModule.LIQUID_MULTI_BULK:
+                        case TestModule.LIQUID_STANDARD_BULK:
+                            Console.WriteLine("计算响应值:" + sequence.ToString());
+                            //将结果显示到表格之中
+                            Dispatcher.BeginInvoke(new Action(() =>
+                            {
+                                switch (sampletab.SelectedIndex)
+                                {
+                                    case 0:         //新样测试
+                                        newcltindex = getNewCltIndexFromSelected(testing_selected_new);
+                                        if (newcltindex == -1) return;
+                                        newTestClt[newcltindex].ResponseValue1 =
+                                            sequence.ToString();
+                                        break;
+                                    case 1:         //标样测试
+                                        if (getStandardCltIndexFromSelected(testing_selected_standard) == -1) return;
+                                        standardSampleClt[getStandardCltIndexFromSelected(testing_selected_standard)].ResponseValue1 =
+                                            sequence.ToString();
+                                        break;
+                                }
+                            }));
+                            break;
+                    }
                     break;
                 case PacketType.DATA_VALUE:
 
@@ -1002,8 +1014,25 @@ namespace SilverTest
                     currentSecond++;
                     Console.WriteLine("--- dot " + sequence.ToString() + ": " + (dot as ADot).Rvalue + "\r\n");
 
+                    //如果是连续测量，则将dot插入到连续测量对象中一个条目的波形之中。
+                    //如果波形图中的点值过多，则直接清空
+
+                    if(test_single_or_continue == TestSorC.CONTINUE)//如果是连续测量
+                    {
+                        switch(ContinueTestObject.GetInstance().isZeroDataFull())
+                        {
+                            case true:   //正在收集0样数据
+                                ContinueTestObject.GetInstance().InsertZeroItem((dot as ADot).Rvalue);
+                                break;
+                            case false:  //0样收集完成，正在收集片段clip数据
+                                ContinueTestObject.GetInstance().InsertDot((dot as ADot),null);
+                                break;
+                        }
+                        return;
+                    }
+
                     //采样到达一定点数后，自动结束测试，计算并且显示测试结果。
-                    if(sequence% stop_test_position >= (stop_test_position-1))
+                    if (sequence% stop_test_position >= (stop_test_position-1))
                     {
                         Dispatcher.BeginInvoke(new Action(() =>
                         { 
@@ -1030,6 +1059,29 @@ namespace SilverTest
                     break;
             }
 
+        }
+        //向新样表格中插入一个连续测量的测量片段
+        //@ gid - global id
+        //  temp_r - response value
+        //   elapsed_time - 片段测试用时间
+        private void PacketReceived_InsertCItem(string gid, int cilptesttime, double temp_r, object elapsedtime)
+        {
+            //获得测试条目信息
+            int index = 0;
+            for(int i =0; i < newTestClt.Count; i++)
+            {
+                if(newTestClt[i].GlobalID == gid)
+                {
+                    index = i;
+                    break;
+                }
+            }
+            //throw new NotImplementedException();
+            newTestClt.Add(new NewTestTarget(
+                newTestClt[index].NewName,"",newTestClt[index].Weight,newTestClt[index].Place,temp_r.ToString(),"","",
+                newTestClt[index].Density, newTestClt[index].LiquidSize, newTestClt[index].AirTotolBulk,
+                newTestClt[index].AirSampleTime, newTestClt[index].AirFluent, newTestClt[index].AirG,gid
+                ));
         }
 
         private void CorrectedPacketReceived(DataFormater.ADot dot, int sequence)
@@ -2582,6 +2634,8 @@ namespace SilverTest
             liquidmultibox_itm.Icon = null;
             liquidstandardbox_itm.Icon = null;
 
+            newAirClipTimeCol.Visibility = Visibility.Collapsed;
+
             /* -- 新样 --- */
             //取样时间
             newAirSampTimeCol.Visibility = Visibility.Collapsed;
@@ -2654,6 +2708,7 @@ namespace SilverTest
             liquidstandardbox_itm.Icon = null;
 
             /* -- 新样 --- */
+            newAirClipTimeCol.Visibility = Visibility.Visible;
             //取样时间
             newAirSampTimeCol.Visibility = Visibility.Collapsed;
             //测试时间
@@ -2715,7 +2770,9 @@ namespace SilverTest
             liquidmultibox_itm.Icon = null;
             liquidstandardbox_itm.Icon = null;
 
+
             /* -- 新样 --- */
+            newAirClipTimeCol.Visibility = Visibility.Collapsed;
             //取样时间
             newAirSampTimeCol.Visibility = Visibility.Visible;
             newAirSampTimeCol.Header = "取样时间M";
@@ -2787,6 +2844,7 @@ namespace SilverTest
             liquidstandardbox_itm.Icon = null;
 
             /* -- 新样 --- */
+            newAirClipTimeCol.Visibility = Visibility.Visible;
             //取样时间
             newAirSampTimeCol.Visibility = Visibility.Collapsed;
             //测试时间
@@ -2849,6 +2907,7 @@ namespace SilverTest
             liquidstandardbox_itm.Icon = null;
 
             /* -- 新样 --- */
+            newAirClipTimeCol.Visibility = Visibility.Collapsed;
             //取样时间
             newAirSampTimeCol.Visibility = Visibility.Collapsed;
             //流量l/m
@@ -2912,6 +2971,7 @@ namespace SilverTest
             liquidstandardbox_itm.Icon = checkicon;
 
             /* -- 新样 --- */
+            newAirClipTimeCol.Visibility = Visibility.Collapsed;
             //取样时间
             newAirSampTimeCol.Visibility = Visibility.Collapsed;
             //流量l/m
@@ -3081,7 +3141,7 @@ namespace SilverTest
         //0标样测试开始，准备存储数据
         private void ZeroTestStarted_Hdlr()
         {
-            ContinueTestObject.GetInstance().StartZero();
+            
         }
         //收到计算响应包，准备计算积分
         private double ComputeX()

@@ -760,16 +760,20 @@ namespace SilverTest
                         }
                         break;
                     case 0x99:  //连续测量0标样
-                        switch (result)
+                        if ((parentwindow.testmoduleid == TestModule.AIR_ADJUST_ZERO_ATOM_IN_AHEAD ||
+                            parentwindow.testmoduleid == TestModule.AIR_ATOM_IN_AHEAD) &&
+                            parentwindow.test_single_or_continue == TestSorC.CONTINUE)
                         {
-                            case 0:  //开始
-                                parentwindow.ZERO_TEST_STARTED_EV();
-                                break;
-                            case 1:  //结束
-                                parentwindow.ZERO_TEST_STOPPED_EV();
-                                break;
+                            switch (result)
+                            {
+                                case 0:  //开始
+                                    ContinueTestObject.GetInstance().StartZero();
+                                    break;
+                                case 1:  //结束
+                                    ContinueTestObject.GetInstance().StopZero();
+                                    break;
+                            }
                         }
-
                         break;
                     default:
                         break;
@@ -1288,20 +1292,43 @@ namespace SilverTest
 
         private void m21_Click(object sender, RoutedEventArgs e)
         {
+            //连续测量仅仅针对新样
+            if (parentwindow.sampletab.SelectedIndex != 0)
+                return;
+            //提示用户选择样品
+            if (parentwindow.NewTargetDgd.SelectedIndex == -1)
+            {
+                MessageBox.Show("请选择一条样本");
+                return;
+            }
+
             //连续测量-开始
             byte[] data = new byte[8] { 0x01, 0x01, 0x03, 0x01, 0x00, 0x00, 0, 0 };
+            MessageBoxResult r = MessageBoxResult.No;
 
             ushort crc = Utility.CRC16(data, 6);
 
             data[6] = (byte)(crc >> 8);
             data[7] = (byte)crc;
+
+
+            if (!ContinueTestObject.GetInstance().isEmpty())
+            {
+                r = MessageBox.Show("将清除连续数据，是否继续");
+            }
+            if (( r != MessageBoxResult.OK) && (r != MessageBoxResult.Yes))
+                return;
+
             if (SerialDriver.GetDriver().Send(data))
             {
                 statustxt.Text = "开始连续测量命令已发出";
                 statustxt_2.Content = "开始连续测量命令已发出";
                 comstatus = CommandPanlStatus.LiquidTestReturn_Finished;
                 parentwindow.test_single_or_continue = TestSorC.CONTINUE;
-                ContinueTestObject.GetInstance().NewContinueTest("");
+                parentwindow.StartTest();
+
+                ContinueTestObject.GetInstance().NewContinueTest(
+                    parentwindow.testing_gid);
             }
             else
             {
@@ -1311,7 +1338,7 @@ namespace SilverTest
 
         private void m22_Click(object sender, RoutedEventArgs e)
         {
-            //液体测量-返回上一级菜单
+            //连续测量-停止
             byte[] data = new byte[8] { 0x01, 0x01, 0x03, 0x02, 0x00, 0x00, 0, 0 };
 
             ushort crc = Utility.CRC16(data, 6);
@@ -1323,6 +1350,10 @@ namespace SilverTest
                 statustxt.Text = "停止连续测量命令已发出";
                 statustxt_2.Content = "停止连续测量命令已发出";
                 comstatus = CommandPanlStatus.LiquidTestReturn_Finished;
+                parentwindow.test_single_or_continue = TestSorC.SINGLE;
+                SerialDriver.GetDriver().Close();
+                //显示断开usb连接图标，停止接受数据
+                parentwindow.showconnectedIcon();
             }
             else
             {
