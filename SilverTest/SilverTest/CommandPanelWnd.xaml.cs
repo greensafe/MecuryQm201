@@ -1304,7 +1304,7 @@ namespace SilverTest
 
             //连续测量-开始
             byte[] data = new byte[8] { 0x01, 0x01, 0x03, 0x01, 0x00, 0x00, 0, 0 };
-            MessageBoxResult r = MessageBoxResult.No;
+            MessageBoxResult r = MessageBoxResult.Yes;
 
             ushort crc = Utility.CRC16(data, 6);
 
@@ -1314,10 +1314,12 @@ namespace SilverTest
 
             if (!ContinueTestObject.GetInstance().isEmpty())
             {
-                r = MessageBox.Show("将清除连续数据，是否继续");
+                r = MessageBox.Show("将清除上次的测试结果，是否继续?", "", MessageBoxButton.YesNo);
             }
             if (( r != MessageBoxResult.OK) && (r != MessageBoxResult.Yes))
                 return;
+
+            parentwindow.StartCTest();
 
             if (SerialDriver.GetDriver().Send(data))
             {
@@ -1325,7 +1327,6 @@ namespace SilverTest
                 statustxt_2.Content = "开始连续测量命令已发出";
                 comstatus = CommandPanlStatus.LiquidTestReturn_Finished;
                 parentwindow.test_single_or_continue = TestSorC.CONTINUE;
-                parentwindow.StartTest();
 
                 ContinueTestObject.GetInstance().NewContinueTest(
                     parentwindow.testing_gid);
@@ -1357,8 +1358,10 @@ namespace SilverTest
             }
             else
             {
-                MessageBox.Show("端口未打开");
+                //MessageBox.Show("端口未打开");
+                Console.WriteLine("端口未打开");
             };
+            parentwindow.StopCTest();
         }
 
         private void m54_Click(object sender, RoutedEventArgs e)

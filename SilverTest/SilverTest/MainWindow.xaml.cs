@@ -626,6 +626,106 @@ namespace SilverTest
             ;
         }
 
+        //开始连续测量
+        public void StartCTest()
+        {
+            int newcltindex = 0;
+
+            switch (sampletab.SelectedIndex)
+            {
+
+                case 0:     //新样
+                    if (NewTargetDgd.SelectedIndex == -1)
+                    {
+                        MessageBox.Show("请选择一条样本");
+                        return;
+                    }
+
+                    newcltindex = getNewCltIndex(NewTargetDgd.SelectedIndex);
+                    if (newcltindex == -1) return;
+                    if (newTestClt[newcltindex].ResponseValue1 != "" &&
+                        newTestClt[newcltindex].ResponseValue1 != null)
+                    {
+                        if (MessageBox.Show("将清除上次的测试结果，是否继续?", "", MessageBoxButton.YesNo) == MessageBoxResult.No) return;
+                        newTestClt[newcltindex].ResponseValue1 = "";
+                        newTestClt[newcltindex].AirFluent = "";
+                        newTestClt[newcltindex].AirSampleTime = "";
+                        newTestClt[newcltindex].AirTotolBulk = "";
+                        newTestClt[newcltindex].AirG = "";
+                    }
+
+                    teststatus = TestingStatus.TESTING;
+                    testing_gid = newTestClt[newcltindex].GlobalID;
+                    testtabtype = TestingTabType.NEW;
+                    waveinfo_txt.Text = "样本 " + testing_gid.ToString();
+
+                    if (SerialDriver.GetDriver().isOpen() == false)
+                    {
+                        SerialDriver.GetDriver().Open(
+                            SerialDriver.GetDriver().portname,
+                            SerialDriver.GetDriver().rate,
+                            SerialDriver.GetDriver().parity,
+                            SerialDriver.GetDriver().databits,
+                            SerialDriver.GetDriver().stopbits);
+                        //
+                    }
+                    if (SerialDriver.GetDriver().isOpen() == false) return;
+
+                    //清空图形记录及DotManager中数据
+                    DotManager.GetDotManger().ReleaseData();
+                    //清理绘波现场
+                    realCpt.SetScale(100, 2000, 0, 0, 50);
+                    //realCpt.NumberOfDValue = 200000;
+                    realCpt.SetNumberOfDValueP(200000);
+                    WaveDrawSite.to_pos_index_rel = 0;
+                    realCpt.ClearData();
+
+                    showconnectedIcon();
+                    if (SerialDriver.GetDriver().isOpen() == true)
+                    {
+                        AnimatedColorButton.Visibility = Visibility.Visible;
+                        AnimatedColorButton.Visibility = Visibility.Visible;
+                    }
+
+                    testing_selected_new = NewTargetDgd.SelectedItem as NewTestTarget;
+                    this.testingitemgid_new = newTestClt[getNewCltIndex(NewTargetDgd.SelectedIndex)].GlobalID;
+                    this.testingitemgid_std = "-1";
+
+                    NewTargetDgd.DataContext = null;
+                    NewTargetDgd.DataContext = newTestClt;
+
+                    break;
+
+                default:
+
+                    break;
+            }
+        }
+        //停止连续测量
+        public void StopCTest()
+        {
+            AnimatedColorButton.Visibility = Visibility.Hidden;
+            AnimatedColorButton.Visibility = Visibility.Hidden;
+            this.testingitemgid_new = "-1";
+
+            teststatus = TestingStatus.STOPPED;
+
+            if (SerialDriver.GetDriver().isOpen() == true)
+            {
+                try
+                {
+                    System.Threading.Thread CloseDown =
+                        new System.Threading.Thread(new System.Threading.ThreadStart(closeSerialAsc));
+                    CloseDown.Start();
+                }
+                catch (Exception ex)
+                {
+                    ;
+                }
+            }
+            showconnectedIcon();
+        }
+
         public bool IsSelected()
         {
             int newcltindex = 0;

@@ -177,7 +177,6 @@
                         Background="Transparent" BorderThickness="0" ToolTip="串口未打开" Visibility="Visible" Click="rs232disconnectedbtn_Click">
                         <iconPacks:PackIconMaterial Kind="Usb" Foreground="Black" Height="25" Width="25" Margin="3"/>
                     </Button>
-                    <TextBlock x:Name="moudle_name_txb" HorizontalAlignment="Right" Text="气体测量金属膜原子吸收法后进样" TextAlignment="Right" VerticalAlignment="Bottom" Canvas.Left="-216" Width="211" Height="17" TextWrapping="Wrap" Canvas.Top="11"></TextBlock>
                     <Button x:Name="rs232disconnectedbtn_1" Width="28" Height="28" DockPanel.Dock="Right" Panel.ZIndex="2" Padding="0"
                         Background="Transparent" BorderThickness="0" ToolTip="串口未打开" Visibility="Visible" Click="rs232disconnectedbtn_Click">
                         <iconPacks:PackIconMaterial Kind="CloseOctagonOutline" Foreground="Red" Height="30" Width="30" Margin="-2"/>
@@ -192,7 +191,9 @@
                     </Button>
 
                 </Canvas>
-                <TextBlock x:Name="comnameblk" DockPanel.Dock="Right" VerticalAlignment="Center" Width="50" TextAlignment="Right" HorizontalAlignment="Right"></TextBlock>
+                <TextBlock x:Name="comnameblk" DockPanel.Dock="Right" Visibility="Collapsed" VerticalAlignment="Center" Width="50" TextAlignment="Right" HorizontalAlignment="Right"></TextBlock>
+                <TextBlock x:Name="moudle_name_txb" HorizontalAlignment="Right" Text="气体测量金属膜原子吸收法后进样" TextAlignment="Right" VerticalAlignment="Bottom" DockPanel.Dock="Right" Width="211" Height="17" 
+                           TextWrapping="Wrap" Margin="0,0,8,8" ></TextBlock>
                 <ToolBarTray x:Name="toolBarTray" Height="32" Width="{Binding ActualWidth, ElementName=dockPanel, Mode=OneWay}" DockPanel.Dock="Left" MouseLeftButtonDown="toolBarTray_MouseLeftButtonDown">
                     <ToolBarTray.Background>
                         <SolidColorBrush Color="#FFF0F0F0"/>
