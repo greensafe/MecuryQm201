@@ -301,22 +301,29 @@ namespace SilverTest
             switch (sampletab.SelectedIndex)
             {
                 //新样测试
-                case 0:
+                case 0: 
                     NewTestTarget newitem = new NewTestTarget();
-                    //计算序号
-                    for (int i = 0; i < newTestClt.Count; i++)
+                    try //避免code为空时，异常
                     {
-                        //处理边界情况
-                        if (i == newTestClt.Count - 1)
+                        //计算序号
+                        for (int i = 0; i < newTestClt.Count; i++)
                         {
-                            se = int.Parse(newTestClt[i].Code) + 1;
-                            break;
+                            //处理边界情况
+                            if (i == newTestClt.Count - 1)
+                            {
+                                se = int.Parse(newTestClt[i].Code) + 1;
+                                break;
+                            }
+                            //序号连续情况下，跳过连续号码
+                            if (int.Parse(newTestClt[i].Code) + 1 == int.Parse(newTestClt[i + 1].Code))
+                                continue;
+                            //找到一个可能的空洞
+                            se = int.Parse(newTestClt[i].Code + 1);
                         }
-                        //序号连续情况下，跳过连续号码
-                        if (int.Parse(newTestClt[i].Code) + 1 == int.Parse(newTestClt[i + 1].Code))
-                            continue;
-                        //找到一个可能的空洞
-                        se = int.Parse(newTestClt[i].Code + 1);
+                    }
+                    catch (Exception ex) 
+                    {
+                        ;
                     }
                     //newitem.Code = se.ToString();
                     newitem.GlobalID = GIDMaker.GetMaker().GetNId(out index_out);
@@ -338,17 +345,20 @@ namespace SilverTest
                     //计算序号
                     for (int i = 0; i < standardSampleClt.Count; i++)
                     {
-                        //处理边界情况
-                        if (i == standardSampleClt.Count - 1)
-                        {
-                            se = int.Parse(standardSampleClt[i].Code) + 1;
-                            break;
-                        }
-                        //序号连续情况下，跳过连续号码
-                        if (int.Parse(standardSampleClt[i].Code) + 1 == int.Parse(standardSampleClt[i + 1].Code))
-                            continue;
-                        //找到一个空洞
-                        se = int.Parse(standardSampleClt[i].Code + 1);
+                        try
+                        { //避免code为空时，异常
+                          //处理边界情况
+                            if (i == standardSampleClt.Count - 1)
+                            {
+                                se = int.Parse(standardSampleClt[i].Code) + 1;
+                                break;
+                            }
+                            //序号连续情况下，跳过连续号码
+                            if (int.Parse(standardSampleClt[i].Code) + 1 == int.Parse(standardSampleClt[i + 1].Code))
+                                continue;
+                            //找到一个空洞
+                            se = int.Parse(standardSampleClt[i].Code + 1);
+                        }catch(Exception ex) {; }
                     }
                     //standarditem.Code = se.ToString();
                     standarditem.GlobalID = GIDMaker.GetMaker().GetSId(out index_out);
@@ -393,7 +403,7 @@ namespace SilverTest
                     break;
             }
 
-            threeline();
+            //threeline();
 
         }
 
@@ -1166,6 +1176,8 @@ namespace SilverTest
         //   elapsed_time - 片段测试用时间
         private void PacketReceived_InsertCItem(string gid, int cilptesttime, double temp_r, object elapsedtime)
         {
+            if (!ContinueTestObject.GetInstance().isZeroDataFull())
+                return;
             //获得测试条目信息
             int index = 0;
             for(int i =0; i < newTestClt.Count; i++)
@@ -1177,11 +1189,13 @@ namespace SilverTest
                 }
             }
             //throw new NotImplementedException();
-            newTestClt.Add(new NewTestTarget(
-                newTestClt[index].NewName,"",newTestClt[index].Weight,newTestClt[index].Place,temp_r.ToString(),"","",
-                newTestClt[index].Density, newTestClt[index].LiquidSize, newTestClt[index].AirTotolBulk,
-                newTestClt[index].AirSampleTime, newTestClt[index].AirFluent, newTestClt[index].AirG,gid
-                ));
+            Dispatcher.BeginInvoke(new Action(()=> {
+                newTestClt.Add(new NewTestTarget(
+                    newTestClt[index].NewName, "", newTestClt[index].Weight, newTestClt[index].Place, temp_r.ToString(), "", "",
+                    newTestClt[index].Density, newTestClt[index].LiquidSize, newTestClt[index].AirTotolBulk,
+                    newTestClt[index].AirSampleTime, newTestClt[index].AirFluent, newTestClt[index].AirG, gid
+                    ));
+            }));
         }
 
         private void CorrectedPacketReceived(DataFormater.ADot dot, int sequence)
@@ -3218,7 +3232,12 @@ namespace SilverTest
                 //加载波形
                 if (e.AddedItems.Count == 0)
                     return;
+                //在新样tab中，且含combo的下拉列表，不用切换波形
+                if (sampletab.SelectedIndex == 0 && (e.AddedItems[0] is StandardSample))
+                    return;
+
                 string temp_gid = (e.AddedItems[0] as NewTestTarget).GlobalID;
+                if (temp_gid == null) return;
                 Collection<ADot> wave = TableCache.GetTableCache().FindWave(getTypeOfTestingItem(temp_gid), temp_gid);
                 if (wave == null) return;
                 waveinfo_txt.Text = "样本 " + temp_gid;

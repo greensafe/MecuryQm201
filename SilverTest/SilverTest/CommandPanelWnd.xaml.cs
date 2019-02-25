@@ -1312,7 +1312,7 @@ namespace SilverTest
             data[7] = (byte)crc;
 
 
-            if (!ContinueTestObject.GetInstance().isEmpty())
+            if (!ContinueTestObject.GetInstance().isZeroEmpty())
             {
                 r = MessageBox.Show("将清除上次的测试结果，是否继续?", "", MessageBoxButton.YesNo);
             }

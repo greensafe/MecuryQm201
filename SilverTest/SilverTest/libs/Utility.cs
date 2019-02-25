@@ -919,7 +919,12 @@ namespace SilverTest.libs
             //避免越界
             if (historydatas_index > (historydatas_maxcount - 1))
                 return;
-
+            
+            if(historydatas_index == -1)
+            {
+                Console.WriteLine("未收到0标样波形");
+                return;
+            }
             //0标样未收集完，不予计算
             if (!isZeroDataFull())
             {
@@ -949,9 +954,14 @@ namespace SilverTest.libs
             }
         }
 
-        //获取最近一次片段的响应值,仅再响应值后调用
+        //获取最近一次片段的响应值,仅在响应值包后调用
         public double GetCurrentRes()
         {
+            if(historydatas_index == -1)
+            {
+                Console.WriteLine("未受到0标样波");
+                return 0;
+            }
             if (historydatas_count <= (historydatas_maxcount - 1))
                 return historydatas[historydatas_index].responesevalue;
             else
@@ -997,6 +1007,11 @@ namespace SilverTest.libs
         //@vadot - 副通道点
         public bool InsertDot(ADot madot, ADot vadot)
         {
+            if(historydatas_index == -1)
+            {
+                Console.WriteLine("未收到0标样波");
+                return false;
+            }
             if (historydatas_index > (historydatas_maxcount - 1))
                 return false;  //已满
             if(madot != null)
@@ -1007,15 +1022,14 @@ namespace SilverTest.libs
             return true;
         }
 
-        internal bool isEmpty()
+        //是否有领标样数据
+        internal bool isZeroEmpty()
         {
-            if (ZeroData_index != -1)
+            if (ZeroData_index < 0)
                 return true;
             else
                 return false;
         }
-
-
     }
 
 
