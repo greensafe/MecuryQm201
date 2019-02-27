@@ -766,10 +766,10 @@ namespace SilverTest
                         {
                             switch (result)
                             {
-                                case 0:  //开始
+                                case 1:  //开始
                                     ContinueTestObject.GetInstance().StartZero();
                                     break;
-                                case 1:  //结束
+                                case 2:  //结束
                                     ContinueTestObject.GetInstance().StopZero();
                                     break;
                             }

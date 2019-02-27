@@ -658,10 +658,10 @@ namespace SilverTest
                     {
                         if (MessageBox.Show("将清除上次的测试结果，是否继续?", "", MessageBoxButton.YesNo) == MessageBoxResult.No) return;
                         newTestClt[newcltindex].ResponseValue1 = "";
-                        newTestClt[newcltindex].AirFluent = "";
-                        newTestClt[newcltindex].AirSampleTime = "";
-                        newTestClt[newcltindex].AirTotolBulk = "";
-                        newTestClt[newcltindex].AirG = "";
+                        //newTestClt[newcltindex].AirFluent = "";
+                        //newTestClt[newcltindex].AirSampleTime = "";
+                        //newTestClt[newcltindex].AirTotolBulk = "";
+                        //newTestClt[newcltindex].AirG = "";
                     }
 
                     teststatus = TestingStatus.TESTING;
@@ -1079,8 +1079,8 @@ namespace SilverTest
                             if (test_single_or_continue == TestSorC.CONTINUE)
                             {
                                 //连续测量。(仅仅新样才有，标样没有连续测量)
-                                ContinueTestObject.GetInstance().RPacketRecived_Hdr();
-                                //从连续测量对象中取出响应值，向表格中添加item
+                                ContinueTestObject.GetInstance().RPacketRecived();
+                                //从连续测量对象中取出响应值，向表格中添加item。sequence表示clip测试耗时
                                 PacketReceived_InsertCItem(testing_gid, sequence,
                                     ContinueTestObject.GetInstance().GetCurrentRes(), null);
                             }
@@ -1131,11 +1131,13 @@ namespace SilverTest
                     {
                         switch(ContinueTestObject.GetInstance().isZeroDataFull())
                         {
-                            case true:   //正在收集0样数据
-                                ContinueTestObject.GetInstance().InsertZeroItem((dot as ADot).Rvalue);
+                            case false:   //正在收集0样数据
+                                ContinueTestObject.GetInstance().InsertZeroItem((dot as ADot),null);
+                                Console.WriteLine("zero ...");
                                 break;
-                            case false:  //0样收集完成，正在收集片段clip数据
+                            case true:  //0样收集完成，正在收集片段clip数据
                                 ContinueTestObject.GetInstance().InsertDot((dot as ADot),null);
+                                Console.WriteLine("clip ...");
                                 break;
                         }
                         return;
@@ -1174,7 +1176,7 @@ namespace SilverTest
         //@ gid - global id
         //  temp_r - response value
         //   elapsed_time - 片段测试用时间
-        private void PacketReceived_InsertCItem(string gid, int cilptesttime, double temp_r, object elapsedtime)
+        private void PacketReceived_InsertCItem(string gid, int cilpusetime, double temp_r, object elapsedtime)
         {
             if (!ContinueTestObject.GetInstance().isZeroDataFull())
                 return;
@@ -1191,10 +1193,21 @@ namespace SilverTest
             //throw new NotImplementedException();
             Dispatcher.BeginInvoke(new Action(()=> {
                 newTestClt.Add(new NewTestTarget(
-                    newTestClt[index].NewName, "", newTestClt[index].Weight, newTestClt[index].Place, temp_r.ToString(), "", "",
+                    newTestClt[index].NewName, "", newTestClt[index].Weight, newTestClt[index].Place, temp_r.ToString("0.00"), "", "",
                     newTestClt[index].Density, newTestClt[index].LiquidSize, newTestClt[index].AirTotolBulk,
                     newTestClt[index].AirSampleTime, newTestClt[index].AirFluent, newTestClt[index].AirG, gid
                     ));
+                newTestClt[newTestClt.Count - 1].TestFinishedTime = DateTime.Now.ToString("T");
+                newTestClt[newTestClt.Count - 1].ClipUsedTime = cilpusetime.ToString();
+                newTestClt[newTestClt.Count - 1].AirSampleTime = testing_selected_new.AirSampleTime;
+                newTestClt[newTestClt.Count - 1].AirTotolBulk = testing_selected_new.AirTotolBulk;
+                newTestClt[newTestClt.Count - 1].AirG = testing_selected_new.AirG;
+                newTestClt[newTestClt.Count - 1].AirTotalFluent = testing_selected_new.AirTotalFluent;
+                newTestClt[newTestClt.Count - 1].ThingInSamle = testing_selected_new.ThingInSamle;
+                int idx_out;
+                newTestClt[newTestClt.Count - 1].GlobalID = GIDMaker.GetMaker().GetNId(out idx_out);
+                newTestClt[newTestClt.Count - 1].Code = idx_out.ToString();
+
             }));
         }
 

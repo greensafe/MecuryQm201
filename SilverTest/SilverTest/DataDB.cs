@@ -443,18 +443,33 @@ namespace SilverTest
             }
         }
 
-        //片段测试结束时间，用于连续测量
-        private string clipFinishedTime;
-        public string CipFinishedTime
+        //片段测试耗费时间，用于连续测量。单位毫秒
+        private string clipUsedTime;
+        public string ClipUsedTime
         {
             get
             {
-                return clipFinishedTime;
+                return clipUsedTime;
             }
             set
             {
-                clipFinishedTime = value;
-                NotifyPropertyChanged("CipFinishedTime");
+                clipUsedTime = value;
+                NotifyPropertyChanged("ClipUsedTime");
+            }
+        }
+
+
+        //测试结束时的时间
+        private string testFinishedTime;
+        public string TestFinishedTime {
+            get
+            {
+                return testFinishedTime;
+            }
+            set
+            {
+                testFinishedTime = value;
+                NotifyPropertyChanged("TestFinishedTime");
             }
         }
 
