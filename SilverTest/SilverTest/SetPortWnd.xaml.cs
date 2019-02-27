@@ -27,7 +27,7 @@ namespace SilverTest
 
         private void exitbtn_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            this.Close(); 
         }
 
         private void Window_Initialized(object sender, EventArgs e)
