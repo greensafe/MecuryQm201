@@ -260,6 +260,7 @@ namespace SilverTest
         {
             int dotscount = DotManager.GetDotManger().GetDots().Count;
             Collection<ADot> dots = DotManager.GetDotManger().GetDots();
+            Collection<ADot> vicedots = DotManager.GetDotManger().GetViceDots();
             if (WaveDrawSite.to_pos_index_rel > dotscount - 1)
             {
                 return;
@@ -268,7 +269,12 @@ namespace SilverTest
             for(int i = WaveDrawSite.to_pos_index_rel; i< WaveDrawSite.to_pos_index_rel + todrawcount; i++)
             {
                 //draw dot
-                realCpt.AddPoint(new Point(WaveDrawSite.to_pos_index_rel, dots[WaveDrawSite.to_pos_index_rel].Rvalue));
+                realCpt.AddPoint(new Point(WaveDrawSite.to_pos_index_rel, dots[WaveDrawSite.to_pos_index_rel].Rvalue),null);
+                //绘制副通道值
+                if (WaveDrawSite.to_pos_index_rel < vicedots.Count)
+                {
+                    realCpt.AddPoint(null, new Point(WaveDrawSite.to_pos_index_rel, vicedots[WaveDrawSite.to_pos_index_rel].Rvalue));
+                }
             }
             WaveDrawSite.to_pos_index_rel += todrawcount;
         }
@@ -1112,65 +1118,68 @@ namespace SilverTest
                     }
                     break;
                 case PacketType.DATA_VALUE:
-
-                    double x = currentSecond;
-                    double y = (dot as ADot).Rvalue;
-
-                    if (y > maxResponse)
-                        maxResponse = y;
-
-                    Point point = new Point(x, y);
-                    
-                    currentSecond++;
-                    Console.WriteLine("--- dot " + sequence.ToString() + ": " + (dot as ADot).Rvalue + "\r\n");
-
-                    //如果是连续测量，则将dot插入到连续测量对象中一个条目的波形之中。
-                    //如果波形图中的点值过多，则直接清空
-
-                    if(test_single_or_continue == TestSorC.CONTINUE)//如果是连续测量
                     {
-                        switch(ContinueTestObject.GetInstance().isZeroDataFull())
+                        double x = currentSecond;
+                        double y = (dot as ADot).Rvalue;
+
+                        if (y > maxResponse)
+                            maxResponse = y;
+
+                        Point point = new Point(x, y);
+
+                        currentSecond++;
+                        Console.WriteLine("--- dot " + sequence.ToString() + ": " + (dot as ADot).Rvalue + "\r\n");
+
+                        //如果是连续测量，则将dot插入到连续测量对象中一个条目的波形之中。
+                        //如果波形图中的点值过多，则直接清空
+
+                        if (test_single_or_continue == TestSorC.CONTINUE)//如果是连续测量
                         {
-                            case false:   //正在收集0样数据
-                                ContinueTestObject.GetInstance().InsertZeroItem((dot as ADot),null);
-                                Console.WriteLine("zero ...");
-                                break;
-                            case true:  //0样收集完成，正在收集片段clip数据
-                                ContinueTestObject.GetInstance().InsertDot((dot as ADot),null);
-                                Console.WriteLine("clip ...");
-                                break;
-                        }
-                        return;
-                    }
-
-                    //采样到达一定点数后，自动结束测试，计算并且显示测试结果。
-                    if (sequence% stop_test_position >= (stop_test_position-1))
-                    {
-                        Dispatcher.BeginInvoke(new Action(() =>
-                        { 
-                            switch (sampletab.SelectedIndex)
+                            switch (ContinueTestObject.GetInstance().isZeroDataFull())
                             {
-                                case 0:         //新样测试
-                                    //newcltindex = getNewCltIndex(NewTargetDgd.SelectedIndex);
-                                    newcltindex = getNewCltIndexFromSelected(testing_selected_new);
-                                    if (newcltindex == -1) return;
-                                    newTestClt[newcltindex].ResponseValue1 =
-                                        maxResponse.ToString();
+                                case false:   //正在收集0样数据
+                                    ContinueTestObject.GetInstance().InsertZeroItem((dot as ADot), null);
+                                    Console.WriteLine("zero ...");
                                     break;
-                                case 1:         //标样测试
-                                    if (getStandardCltIndexFromSelected(testing_selected_standard) == -1) return;
-                                    standardSampleClt[getStandardCltIndexFromSelected(testing_selected_standard)].ResponseValue1 =
-                                        maxResponse.ToString();
+                                case true:  //0样收集完成，正在收集片段clip数据
+                                    ContinueTestObject.GetInstance().InsertDot((dot as ADot), null);
+                                    Console.WriteLine("clip ...");
                                     break;
                             }
-                            maxResponse = 0;
-                            //startTestBtn.Content = "开始测试";
-                            //AnimatedColorButton.Visibility = Visibility.Hidden;
-                        }));
+                            return;
+                        }
+
+                        //采样到达一定点数后，自动结束测试，计算并且显示测试结果。
+                        if (sequence % stop_test_position >= (stop_test_position - 1))
+                        {
+                            Dispatcher.BeginInvoke(new Action(() =>
+                            {
+                                switch (sampletab.SelectedIndex)
+                                {
+                                    case 0:         //新样测试
+                                                    //newcltindex = getNewCltIndex(NewTargetDgd.SelectedIndex);
+                                        newcltindex = getNewCltIndexFromSelected(testing_selected_new);
+                                        if (newcltindex == -1) return;
+                                        newTestClt[newcltindex].ResponseValue1 =
+                                            maxResponse.ToString();
+                                        break;
+                                    case 1:         //标样测试
+                                        if (getStandardCltIndexFromSelected(testing_selected_standard) == -1) return;
+                                        standardSampleClt[getStandardCltIndexFromSelected(testing_selected_standard)].ResponseValue1 =
+                                            maxResponse.ToString();
+                                        break;
+                                }
+                                maxResponse = 0;
+                                //startTestBtn.Content = "开始测试";
+                                //AnimatedColorButton.Visibility = Visibility.Hidden;
+                            }));
+                        }
                     }
                     break;
-            }
+                case PacketType.VICE_DATA_VALUE:
 
+                    break;
+            }
         }
         //向新样表格中插入一个连续测量的测量片段
         //@ gid - global id
@@ -1732,7 +1741,7 @@ namespace SilverTest
                 realCpt.ClearData();
                 for (int i = 0; i < wave.Count; i++)
                 {
-                    realCpt.AddPoint(new Point(i, wave[i].Rvalue));
+                    realCpt.AddPoint(new Point(i, wave[i].Rvalue),null);
                 }
             }
         }
@@ -2719,7 +2728,7 @@ namespace SilverTest
             while (!sr.EndOfStream)
             {
                 yscale = int.Parse( sr.ReadLine() );
-                realCpt.AddPoint(new Point(xscale,yscale));
+                realCpt.AddPoint(new Point(xscale,yscale),null);
                 dotscache.Add(new ADot(xscale, yscale, DotStaus.OK));
                 xscale++;
             }
@@ -3259,7 +3268,7 @@ namespace SilverTest
                 realCpt.ClearData();
                 for (int i = 0; i < wave.Count; i++)
                 {
-                    realCpt.AddPoint(new Point(i, wave[i].Rvalue));
+                    realCpt.AddPoint(new Point(i, wave[i].Rvalue),null);
                 }
             }
         }

@@ -2,6 +2,7 @@
 using featurefactory.Basic;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Dynamic;
 using System.Linq;
 using System.Text;
@@ -38,8 +39,11 @@ namespace BasicWaveChart.Feature.integral
         }
     }
 
-    internal class IntegralWorker
+    public class IntegralWorker
     {
+        public delegate double IntegrateAreaDelegate(int dvalues_start, int dvalues_end);
+        public static IntegrateAreaDelegate myIntegrateArea = null;
+
         BasicWaveChartUC ucctl;
         
         Polygon areagon;
@@ -145,17 +149,30 @@ namespace BasicWaveChart.Feature.integral
 
 
         //面积积分方法可以重写
+        //在201g版本中，对 主通道/副通道 序列计算面积积分
         public virtual double IntegrateData(int dvalues_start, int dvalues_end)
         {
-            double total = 0;
-            
-            for(int i = dvalues_start; i <= dvalues_end; i++)
+            if(myIntegrateArea != null)
             {
-                total += hostcontext.dvalues[i].Y;
+                return myIntegrateArea(dvalues_start, dvalues_end);
+            }
+            else
+            {
+                return 0;
+            }
+            /*
+            double total = 0;
+
+            for (int i = dvalues_start; i <= dvalues_end; i++)
+            {
+                total += hostcontext.dvalues[i].Y/hostcontext.vice_dvalues[i].Y;
             }
             total /= (dvalues_end - dvalues_start);
             return total;
+            */
         }
+
+
 
         #region private function
         //make the area polygon
@@ -163,6 +180,7 @@ namespace BasicWaveChart.Feature.integral
         {
             hostcontext.datas_ = hostcontext.optimizeCanvas.GetDatas();
             hostcontext.dvalues = hostcontext.optimizeCanvas.GetDValues();
+            hostcontext.vice_dvalues = hostcontext.optimizeCanvas.GetViceDValues();
 
             areagon.Points.Clear();
 

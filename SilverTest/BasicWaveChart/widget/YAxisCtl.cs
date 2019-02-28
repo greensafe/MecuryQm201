@@ -64,7 +64,7 @@ namespace BasicWaveChart.widget
             BasicWaveChartUC wavechartuc = self.FindName("ControlContainer") as BasicWaveChartUC;
             if (xaxisctl == null || wavechartuc == null) return;
 
-            self.granulity_width = (self.Height - xaxisctl.Height - self.arrowheight - wavechartuc.TopBlankZone) /
+            self.granulity_width = (self.Height - xaxisctl.Height - self.arrowheight - wavechartuc.TopBlankZone) / 
                 (self.YScaleMaxValue - self.YSCaleOStart);
         }
 
@@ -77,7 +77,7 @@ namespace BasicWaveChart.widget
             }
             set
             {
-                SetValue(YSCaleOStartProperty, value);
+                SetValue(YSCaleOStartProperty,value);
             }
         }
 
@@ -90,7 +90,7 @@ namespace BasicWaveChart.widget
             BasicWaveChartUC wavechartuc = self.FindName("ControlContainer") as BasicWaveChartUC;
             if (xaxisctl == null || wavechartuc == null) return;
 
-            self.granulity_width = (self.Height - xaxisctl.Height - self.arrowheight - wavechartuc.TopBlankZone) /
+            self.granulity_width = (self.Height - xaxisctl.Height - self.arrowheight - wavechartuc.TopBlankZone) / 
                 (self.YScaleMaxValue - self.YSCaleOStart);
         }
 
@@ -107,7 +107,8 @@ namespace BasicWaveChart.widget
             }
         }
 
-        public static readonly DependencyProperty YScaleLineNumberProperty = DependencyProperty.Register("YScaleLineNumber", typeof(int), typeof(YAxisCtl));
+        public static readonly DependencyProperty YScaleLineNumberProperty = DependencyProperty.Register("YScaleLineNumber", 
+            typeof(int), typeof(YAxisCtl));
 
         //to comment text after how many YScaleLineNumber
         public int YCommentNumber
@@ -154,8 +155,8 @@ namespace BasicWaveChart.widget
                     this.granulity_width = 1;
                     return new PathGeometry();
                 }
-                this.granulity_width = (this.Height - xaxisctl.Height - this.arrowheight - wavechartuc.TopBlankZone) /
-                    ((int)GetValue(YScaleMaxValueProperty) - (int)GetValue(YSCaleOStartProperty));
+                this.granulity_width = (this.Height - xaxisctl.Height - this.arrowheight  - wavechartuc.TopBlankZone) / 
+                    ((int)GetValue(YScaleMaxValueProperty)-(int)GetValue(YSCaleOStartProperty));
 
                 PathGeometry pg = new PathGeometry();
 
@@ -182,7 +183,7 @@ namespace BasicWaveChart.widget
                     ScaleSeg.Points.Add(new Point(vlinevalue, i * YScaleLineNumber * granulity_width + xaxisctl.Height));
                 }
 
-                ScaleSeg.Points.Add(new Point(vlinevalue, (YScaleMaxValue - YSCaleOStart) * granulity_width + xaxisctl.Height));
+                ScaleSeg.Points.Add(new Point( vlinevalue, (YScaleMaxValue-YSCaleOStart) * granulity_width + xaxisctl.Height));
                 //ScaleSeg.Points.Add(new Point(vlinevalue + 20, YScaleMaxValue * granulity_width + xaxisctl.Height));
                 ScaleSeg.Points.Add(new Point(vlinevalue - 20, (YScaleMaxValue - YSCaleOStart) * granulity_width + xaxisctl.Height));
                 ScaleSeg.Points.Add(new Point(vlinevalue, (YScaleMaxValue - YSCaleOStart) * granulity_width + xaxisctl.Height));
@@ -226,7 +227,7 @@ namespace BasicWaveChart.widget
         // get the drawing value in y axis according to dvalue
         public double GetYY(int dvalue)
         {
-            return (dvalue - YSCaleOStart) * granulity_width;
+            return (dvalue-YSCaleOStart) * granulity_width;
         }
 
         //redraw command
@@ -250,21 +251,20 @@ namespace BasicWaveChart.widget
             {
                 yaxis_text_canvas.Children.Add(new TextBlock());
                 (yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock).Text =
-                    (i * yaxis.YScaleLineNumber * yaxis.YCommentNumber + YSCaleOStart).ToString();
+                    (i * yaxis.YScaleLineNumber * yaxis.YCommentNumber+YSCaleOStart).ToString();
                 (yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock).FontSize = 8;
                 Canvas.SetLeft((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock), 0);
                 Canvas.SetBottom((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock), xaxis.Height + i * yaxis.YScaleLineNumber * yaxis.YCommentNumber * yaxis.GetGranulity());
             }
 
             //the text of last big scale
-            if (loop != 0) {
+            if(loop != 0){
                 yaxis_text_canvas.Children.Add(new TextBlock());
                 (yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock).Text =
                     (loop * yaxis.YScaleLineNumber * yaxis.YCommentNumber + yaxis.YSCaleOStart).ToString();
                 (yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock).FontSize = 8;
                 Canvas.SetLeft((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock), 0);
                 Canvas.SetBottom((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock), xaxis.Height + loop * yaxis.YScaleLineNumber * yaxis.YCommentNumber * yaxis.GetGranulity());
-
             }
 
             //set the max value
@@ -274,8 +274,16 @@ namespace BasicWaveChart.widget
             (yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock).FontSize = 8;
             Canvas.SetLeft((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock), 0);
             //Canvas.SetBottom((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock), xaxis.Height + yaxis.YScaleMaxValue * yaxis.GetGranulity()-20);
-            Canvas.SetBottom((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock),
+            Canvas.SetBottom((yaxis_text_canvas.Children[yaxis_text_canvas.Children.Count - 1] as TextBlock), 
                 xaxis.Height + (yaxis.YScaleMaxValue - yaxis.YSCaleOStart) * yaxis.GetGranulity());
+        }
+
+        //使用简单方法绘制出放大模式下Y轴，min为起始，max为终止，中间分为5个刻度
+        //@ min - 起始值
+        //@ max - 结束值
+        public void enlargeRedraw(int min, int max)
+        {
+
         }
     }
 }

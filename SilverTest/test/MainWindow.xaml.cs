@@ -96,15 +96,15 @@ namespace test
             }
             else
             {
-                PointCollection dvalus = wc.GetDValues();
-                PointCollection datas = wc.GetDatas();
+                //PointCollection dvalus = wc.GetDValues();
+                //PointCollection datas = wc.GetDatas();
                 return;
             }
             Point p = new Point(
                 ticker,
                 int.Parse(data)
                 );
-            wc.AddPoint(p);
+            wc.AddPoint(p,null);
             Console.WriteLine(p.ToString());
         }
 

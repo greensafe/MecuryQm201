@@ -47,6 +47,7 @@ namespace SilverTest.libs
         }
 
         private Collection<ADot> dots = null;
+        private Collection<ADot> vicedots = null;
         PacketReceviedDelegate PacketRecevied_Ev = null;
         PacketCorrectedDelegate PacketCorrected_Ev = null;
         PacketStillErrorDelegate PacketStillError_Ev = null;
@@ -64,6 +65,7 @@ namespace SilverTest.libs
         private DataFormater()
         {
             dots = new Collection<ADot>();
+            vicedots = new Collection<ADot>();
         }
 
         //获取所有点组
@@ -160,6 +162,34 @@ namespace SilverTest.libs
 
                     }
                     break;
+
+                case PacketType.VICE_DATA_VALUE:
+                    if (validateData(packet, PhyCombine.GetPhyCombine().GetMachineInfo().ViceDataPctDStart,
+                        PhyCombine.GetPhyCombine().GetMachineInfo().DataWidth, twoint(packet, PhyCombine.GetPhyCombine().GetMachineInfo().ViceDataPctVStart)) == true)
+                    {
+                        vicedots.Add(new ADot()
+                        {
+                            Rvalue = Utility.ConvertStrToInt_Big(packet, PhyCombine.GetPhyCombine().GetMachineInfo().ViceDataPctDStart,
+                                                        PhyCombine.GetPhyCombine().GetMachineInfo().DataWidth),
+                            Status = DotStaus.OK
+                        });
+                        if (PacketRecevied_Ev != null)
+                        {
+                            //todo: save the vice data
+                            //通知收到一个包
+                            PacketRecevied_Ev(vicedots[vicedots.Count - 1], vicedots.Count - 1, PacketType.VICE_DATA_VALUE);
+                        }
+                    }
+                    else
+                    {
+                        //发生错误
+                        if (PacketCheckError_Ev != null)
+                        {
+                            PacketCheckError_Ev(0, PacketType.VICE_DATA_VALUE);
+                        }
+                    }
+                    break;
+
                 case PacketType.RES_COMPUTE_VALUE:
                     if (validateData(packet, PhyCombine.GetPhyCombine().GetMachineInfo().ResComputePctDStart,
                         PhyCombine.GetPhyCombine().GetMachineInfo().DataWidth, twoint(packet, PhyCombine.GetPhyCombine().GetMachineInfo().ResComputePctVStart)) == true)
@@ -168,7 +198,7 @@ namespace SilverTest.libs
                         {
                             //通知收到一个包
                             PacketRecevied_Ev(null, Utility.ConvertStrToInt_Big(packet, PhyCombine.GetPhyCombine().GetMachineInfo().ResComputePctDStart,
-                                    PhyCombine.GetPhyCombine().GetMachineInfo().DataWidth), PacketType.RES_COMPUTE_VALUE);
+                                    PhyCombine.GetPhyCombine().GetMachineInfo().DataWidth), PacketType.RES_COMPUTE_VALUE);  
                         }
                     }
                     else
@@ -289,8 +319,10 @@ namespace SilverTest.libs
             }
         }
 
-
-
+        internal Collection<ADot> GetViceDots()
+        {
+            return vicedots;
+        }
 
         //校验拼接，将数字高低位拼接成一个完整的数字
         private int twoint(byte[] data,int start)

@@ -92,10 +92,16 @@ namespace SilverTest.libs
             return DataFormater.getDataFormater().GetDots();
         }
 
+        public Collection<ADot> GetViceDots()
+        {
+            return DataFormater.getDataFormater().GetViceDots();
+        }
+
         //清空Dots，rawText所有数据
         public void ReleaseData()
         {
             DataFormater.getDataFormater().GetDots().Clear();
+            DataFormater.getDataFormater().GetViceDots().Clear();
             PhyCombine.GetPhyCombine().Clear();
         }
 
@@ -131,6 +137,9 @@ namespace SilverTest.libs
                     break;
                 case CombineErrorInfo.VALUE_PCT_DATA_FORMAT_ERROR:
                     Console.WriteLine("数据包格式出错");
+                    break;
+                case CombineErrorInfo.VICE_VALUE_PCT_DATA_FORMAT_ERROR:
+                    Console.WriteLine("辅道数据包格式出错");
                     break;
                 case CombineErrorInfo.RES_COMPUTE_VALUE_PCT_DATA_FORMAT_ERROR:
                     Console.WriteLine("回应计算包格式出错");
@@ -169,6 +178,9 @@ namespace SilverTest.libs
             //目前忽略气体包的校验错，仅对数据包进行纠正
             switch (ptype)
             {
+                case PacketType.VICE_DATA_VALUE:
+                    Console.WriteLine("辅道数据包校验出错");
+                    return;
                 case PacketType.AIR_FLUENT:
                     Console.WriteLine("气体流量包校验出错");
                     return;
