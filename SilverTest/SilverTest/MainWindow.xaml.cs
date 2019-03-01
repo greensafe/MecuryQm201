@@ -656,7 +656,7 @@ namespace SilverTest
                         MessageBox.Show("请选择一条样本");
                         return;
                     }
-
+                     
                     newcltindex = getNewCltIndex(NewTargetDgd.SelectedIndex);
                     if (newcltindex == -1) return;
                     if (newTestClt[newcltindex].ResponseValue1 != "" &&
@@ -664,10 +664,13 @@ namespace SilverTest
                     {
                         if (MessageBox.Show("将清除上次的测试结果，是否继续?", "", MessageBoxButton.YesNo) == MessageBoxResult.No) return;
                         newTestClt[newcltindex].ResponseValue1 = "";
+                        newTestClt[newcltindex].AirG = "";  
                         //newTestClt[newcltindex].AirFluent = "";
                         //newTestClt[newcltindex].AirSampleTime = "";
                         //newTestClt[newcltindex].AirTotolBulk = "";
                         //newTestClt[newcltindex].AirG = "";
+                        //保存选中的组名，a,b,r
+                        //new_selected_a = newTestClt[newcltindex].
                     }
 
                     teststatus = TestingStatus.TESTING;
@@ -709,6 +712,8 @@ namespace SilverTest
 
                     NewTargetDgd.DataContext = null;
                     NewTargetDgd.DataContext = newTestClt;
+                    //standardCmb  newjylCol
+                    
 
                     break;
 
@@ -1086,7 +1091,7 @@ namespace SilverTest
                             {
                                 //连续测量。(仅仅新样才有，标样没有连续测量)
                                 ContinueTestObject.GetInstance().RPacketRecived();
-                                //从连续测量对象中取出响应值，向表格中添加item。sequence表示clip测试耗时
+                                //从连续测量对象中取出响应值，向表格中添加item。sequence表示响应值
                                 PacketReceived_InsertCItem(testing_gid, sequence,
                                     ContinueTestObject.GetInstance().GetCurrentRes(), null);
                             }
@@ -1184,7 +1189,7 @@ namespace SilverTest
         //向新样表格中插入一个连续测量的测量片段
         //@ gid - global id
         //  temp_r - response value
-        //   elapsed_time - 片段测试用时间
+        //   elapsed_time - 下纬机
         private void PacketReceived_InsertCItem(string gid, int cilpusetime, double temp_r, object elapsedtime)
         {
             if (!ContinueTestObject.GetInstance().isZeroDataFull())
@@ -1202,7 +1207,7 @@ namespace SilverTest
             //throw new NotImplementedException();
             Dispatcher.BeginInvoke(new Action(()=> {
                 newTestClt.Add(new NewTestTarget(
-                    newTestClt[index].NewName, "", newTestClt[index].Weight, newTestClt[index].Place, temp_r.ToString("0.00"), "", "",
+                    newTestClt[index].NewName, "", newTestClt[index].Weight, newTestClt[index].Place, cilpusetime.ToString("0.00"), "", "",
                     newTestClt[index].Density, newTestClt[index].LiquidSize, newTestClt[index].AirTotolBulk,
                     newTestClt[index].AirSampleTime, newTestClt[index].AirFluent, newTestClt[index].AirG, gid
                     ));
@@ -1216,6 +1221,24 @@ namespace SilverTest
                 int idx_out;
                 newTestClt[newTestClt.Count - 1].GlobalID = GIDMaker.GetMaker().GetNId(out idx_out);
                 newTestClt[newTestClt.Count - 1].Code = idx_out.ToString();
+
+                double a, b;
+                try
+                {
+                    a = double.Parse(aTxb.Text);
+                    b = double.Parse(bTxb.Text);
+                    if (a == 0) return;
+                }
+                catch(Exception ex) {
+                    return;
+                }
+
+                newTestClt[newTestClt.Count - 1].AirTotolBulk =
+                    (Math.Round(double.Parse(testing_selected_new.AirFluent) * double.Parse(testing_selected_new.AirSampleTime),
+                    2)).ToString();
+                //y-b/a
+                newTestClt[newTestClt.Count - 1].AirG =
+                    Math.Round((cilpusetime - b) / a, 2).ToString();
 
             }));
         }

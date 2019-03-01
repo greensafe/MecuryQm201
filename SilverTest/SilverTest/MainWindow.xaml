@@ -259,7 +259,8 @@
                                   CanUserAddRows="False"
                                   ColumnHeaderStyle="{StaticResource MyColumnHeader}"
                                   ItemsSource="{Binding}"  
-                                  Margin="0,0,0,0" AutoGenerateColumns="False" CellEditEnding="NewTargetDgd_CellEditEnding" MouseRightButtonDown="NewTargetDgd_MouseRightButtonDown" LoadingRow="NewTargetDgd_LoadingRow" SelectionChanged="NewTargetDgd_SelectionChanged">
+                                  Margin="0,0,0,0" AutoGenerateColumns="False" CellEditEnding="NewTargetDgd_CellEditEnding" MouseRightButtonDown="NewTargetDgd_MouseRightButtonDown" LoadingRow="NewTargetDgd_LoadingRow" 
+                                  SelectionChanged="NewTargetDgd_SelectionChanged">
                             <DataGrid.Style>
                                 <Style BasedOn="{StaticResource MetroDataGrid}" TargetType="{x:Type DataGrid}">
                                     <Setter Property="AlternatingRowBackground" Value="{DynamicResource GrayBrush7}" />
@@ -286,7 +287,7 @@
                                 <DataGridTextColumn x:Name="newghlCol" Header="汞含量mg" Width="100" Binding="{Binding ThingInSamle,Mode=TwoWay}" Visibility="Collapsed" ></DataGridTextColumn>
                                 <DataGridTextColumn x:Name="newjylCol" Header="进样量ml" Width="80"  Binding="{Binding InSampleQuality,Mode=TwoWay}" Visibility="Collapsed" ></DataGridTextColumn>
 
-                                <DataGridTemplateColumn Header="选择标样" Width="*">
+                                <DataGridTemplateColumn x:Name="selectCol" Header="选择标样" Width="*">
                                     <DataGridTemplateColumn.CellTemplate >
                                         <DataTemplate>
                                             <ComboBox x:Name="standardCmb" 
