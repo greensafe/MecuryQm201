@@ -291,6 +291,19 @@ namespace BasicWaveChart.widget
                     datas_.Add(new Point(x,y));
                 }
             }
+            //绘制副通道
+            vice_datas_.Clear();
+            vice_comparepoint_x = 0;
+            vice_comparepoint_y = 0;
+            foreach (Point vice_dvalue in vice_dvalues)
+            {
+                if (isEffected_vice(vice_dvalue))
+                {
+                    double x = xaxis.GetXX((int)vice_dvalue.X);
+                    double y = yaxis.GetYY((int)vice_dvalue.Y);
+                    vice_datas_.Add(new Point(x, y));
+                }
+            }
         }
         #endregion
 
@@ -399,6 +412,30 @@ namespace BasicWaveChart.widget
             if(y - comparepoint_y > effectiveH)
             {
                 comparepoint_y = y;
+                ybool = true;
+            }
+
+            if (xbool == true || ybool == true)
+                return true;
+            else
+                return false;
+        }
+
+        private bool isEffected_vice(Point dvalue)
+        {
+            bool xbool = false;
+            bool ybool = false;
+
+            double x = xaxis.GetXX((int)dvalue.X);
+            double y = yaxis.GetYY((int)dvalue.Y);
+            if (x - vice_comparepoint_x > effectiveW)
+            {
+                vice_comparepoint_x = x;
+                xbool = true;
+            }
+            if (y - vice_comparepoint_y > effectiveH)
+            {
+                vice_comparepoint_y = y;
                 ybool = true;
             }
 
