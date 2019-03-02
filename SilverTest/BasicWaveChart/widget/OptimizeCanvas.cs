@@ -291,6 +291,17 @@ namespace BasicWaveChart.widget
                     datas_.Add(new Point(x,y));
                 }
             }
+            //绘制副通道
+            vice_datas_.Clear();
+            foreach (Point vice_dvalue in vice_dvalues)
+            {
+                if (isEffected(vice_dvalue))
+                {
+                    double x = xaxis.GetXX((int)vice_dvalue.X);
+                    double y = yaxis.GetYY((int)vice_dvalue.Y);
+                    vice_datas_.Add(new Point(x, y));
+                }
+            }
         }
         #endregion
 
