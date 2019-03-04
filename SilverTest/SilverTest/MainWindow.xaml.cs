@@ -263,7 +263,7 @@ namespace SilverTest
             int vocedotscount = DotManager.GetDotManger().GetViceDots().Count;
             Collection<ADot> dots = DotManager.GetDotManger().GetDots();
             Collection<ADot> vicedots = DotManager.GetDotManger().GetViceDots();
-            //绘制副道值
+            //绘制主道值
             if (WaveDrawSite.to_pos_index_rel <= dotscount - 1)
             {
                 int todrawcount = WaveDrawSite.grain <= (dotscount - WaveDrawSite.to_pos_index_rel) ? WaveDrawSite.grain : (dotscount - WaveDrawSite.to_pos_index_rel);

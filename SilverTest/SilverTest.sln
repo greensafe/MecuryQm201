@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicWaveChart", "BasicWave
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test", "test\test.csproj", "{A18DE1C4-CCAF-4652-9D50-A2EE93EE3A43}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "QingAn208BPackage", "QingAn208BPackage\QingAn208BPackage.vdproj", "{A65A343C-5A79-47BA-BF25-A9291BCFF910}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,8 @@ Global
 		{A18DE1C4-CCAF-4652-9D50-A2EE93EE3A43}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A18DE1C4-CCAF-4652-9D50-A2EE93EE3A43}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A18DE1C4-CCAF-4652-9D50-A2EE93EE3A43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A65A343C-5A79-47BA-BF25-A9291BCFF910}.Debug|Any CPU.ActiveCfg = Debug
+		{A65A343C-5A79-47BA-BF25-A9291BCFF910}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
