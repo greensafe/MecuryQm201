@@ -57,6 +57,7 @@ namespace SilverTest
         public static int grain = 2;
         //dots中待绘制点的位置
         public static int to_pos_index_rel = 0; 
+        public static int vice_to_pos_index_rel = 0;   //副通道待绘制点的位置
     }
 
     //样本类型
@@ -301,24 +302,34 @@ namespace SilverTest
         private void refreshWaveUI()
         {
             int dotscount = DotManager.GetDotManger().GetDots().Count;
+            int vocedotscount = DotManager.GetDotManger().GetViceDots().Count;
             Collection<ADot> dots = DotManager.GetDotManger().GetDots();
             Collection<ADot> vicedots = DotManager.GetDotManger().GetViceDots();
-            if (WaveDrawSite.to_pos_index_rel > dotscount - 1)
+            //绘制主道值
+            if (WaveDrawSite.to_pos_index_rel <= dotscount - 1)
             {
-                return;
-            }
             int todrawcount = WaveDrawSite.grain <= (dotscount  - WaveDrawSite.to_pos_index_rel) ? WaveDrawSite.grain : (dotscount - WaveDrawSite.to_pos_index_rel);
             for(int i = WaveDrawSite.to_pos_index_rel; i< WaveDrawSite.to_pos_index_rel + todrawcount; i++)
             {
                 //draw dot
                 realCpt.AddPoint(new Point(WaveDrawSite.to_pos_index_rel, dots[WaveDrawSite.to_pos_index_rel].Rvalue),null);
-                //绘制副通道值
-                if(WaveDrawSite.to_pos_index_rel < vicedots.Count)
-                {
-                    realCpt.AddPoint(null,new Point(WaveDrawSite.to_pos_index_rel, vicedots[WaveDrawSite.to_pos_index_rel].Rvalue));
                 }
+                WaveDrawSite.to_pos_index_rel += todrawcount;
             }
-            WaveDrawSite.to_pos_index_rel += todrawcount;
+
+
+                //绘制副通道值
+            if (WaveDrawSite.vice_to_pos_index_rel <= vocedotscount - 1)
+                {
+                int todrawcount = WaveDrawSite.grain <= (vocedotscount - WaveDrawSite.vice_to_pos_index_rel) ? WaveDrawSite.grain : (vocedotscount - WaveDrawSite.vice_to_pos_index_rel);
+                for (int i = WaveDrawSite.vice_to_pos_index_rel; i < WaveDrawSite.vice_to_pos_index_rel + todrawcount; i++)
+                {
+                    //draw dot
+                    realCpt.AddPoint(null, new Point(WaveDrawSite.vice_to_pos_index_rel, vicedots[WaveDrawSite.vice_to_pos_index_rel].Rvalue));
+                }
+                WaveDrawSite.vice_to_pos_index_rel += todrawcount;
+            }
+
         }
 
 
@@ -767,11 +778,11 @@ namespace SilverTest
                             //清空图形记录及DotManager中数据
                             DotManager.GetDotManger().ReleaseData();
                             //清理绘波现场
-                            //realCpt.SetScale(100, 2000, 0, 0,50);
-                            realCpt.SetScale(0, 0, 0, 0, 0);
+                            realCpt.SetScale(100, 2000, 0, 0, 50);
                             //realCpt.NumberOfDValue = 200000;
                             realCpt.SetNumberOfDValueP(200000);
                             WaveDrawSite.to_pos_index_rel = 0;
+                            WaveDrawSite.vice_to_pos_index_rel = 0;
                             realCpt.ClearData();
 
                             startTestBtn.Content = "停止测试";
@@ -860,6 +871,7 @@ namespace SilverTest
                             //realCpt.NumberOfDValue = 200000;
                             realCpt.SetNumberOfDValueP(200000);
                             WaveDrawSite.to_pos_index_rel = 0;
+                            WaveDrawSite.vice_to_pos_index_rel = 0;
                             realCpt.ClearData();
 
                             startTestBtn.Content = "停止测试";
@@ -1140,7 +1152,7 @@ namespace SilverTest
         {
             //SerialDriver.GetDriver().OnReceived(Com_DataReceived);
             //realCpt.NumberOfDValue = 200000;
-            ProduceFakeData pfd = new ProduceFakeData("realtestdata_fr3.txt");
+            ProduceFakeData pfd = new ProduceFakeData("realtestdata_fr2.txt");
             pfd.Send(1);
             showconnectedIcon();
         }
