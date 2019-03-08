@@ -406,6 +406,74 @@ namespace SilverTest
             }
         }
 
+        //样品气体总流量
+        private string airTotalFluent;
+        public string AirTotalFluent
+        {
+            get { return airTotalFluent; }
+            set
+            {
+                airTotalFluent = value;
+                NotifyPropertyChanged("AirTotalFluent");
+            }
+        }
+
+
+        //汞含量
+        private string thingInSamle;
+        public string ThingInSamle
+        {
+            get { return thingInSamle; }
+            set
+            {
+                thingInSamle = value;
+                NotifyPropertyChanged("ThingInSamle");
+            }
+        }
+
+        //进样量
+        private string inSampleQuality;
+        public string InSampleQuality
+        {
+            get { return inSampleQuality; }
+            set
+            {
+                inSampleQuality = value;
+                NotifyPropertyChanged("InSampleQuality");
+            }
+        }
+
+        //片段测试耗费时间，用于连续测量。单位毫秒
+        private string clipUsedTime;
+        public string ClipUsedTime
+        {
+            get
+            {
+                return clipUsedTime;
+            }
+            set
+            {
+                clipUsedTime = value;
+                NotifyPropertyChanged("ClipUsedTime");
+            }
+        }
+
+
+        //测试结束时的时间
+        private string testFinishedTime;
+        public string TestFinishedTime {
+            get
+            {
+                return testFinishedTime;
+            }
+            set
+            {
+                testFinishedTime = value;
+                NotifyPropertyChanged("TestFinishedTime");
+            }
+        }
+
+
         //全局唯一id
         private string globalID;
         public string GlobalID

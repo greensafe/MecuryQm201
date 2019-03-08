@@ -268,6 +268,7 @@
                                 <DataGridTextColumn x:Name="newLiquidBulkCol"  Header="样品消化液总体积ml" Width="80" Visibility="Hidden"></DataGridTextColumn>
                                 <DataGridTextColumn x:Name="newtotalbulkCol" Header="样品总体积L" Binding="{Binding AirTotolBulk,Mode=TwoWay}" Width="100"></DataGridTextColumn>
                                 <DataGridTextColumn x:Name="newghltotalCol" Header="样品中汞含量mg/m3" Binding="{Binding AirG,Mode=TwoWay}" Width="150" IsReadOnly="True"></DataGridTextColumn>
+                                <DataGridTextColumn Header="产地" Width="80" Binding="{Binding Place,Mode=TwoWay}"></DataGridTextColumn>
                                 <DataGridTemplateColumn Header="选择标样" Width="*">
                                     <DataGridTemplateColumn.CellTemplate >
                                         <DataTemplate>
@@ -281,7 +282,7 @@
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
-                                <DataGridTextColumn Header="产地" Width="80" Binding="{Binding Place,Mode=TwoWay}"></DataGridTextColumn>
+
                             </DataGrid.Columns>
                         </DataGrid>
                     </StackPanel>

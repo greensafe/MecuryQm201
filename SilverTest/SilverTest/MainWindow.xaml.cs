@@ -68,11 +68,30 @@ namespace SilverTest
         SOLID
     }
 
+    //测试模块
+    public enum TestModule
+    {
+        HOT_AIR_BOX,    //热释气体炉测量
+        AIR_ATOM_IN_AHEAD,  //气体测量原子吸收法前进样
+        AIR_GOLD_ATOM_IN_BACK    ,//气体金属膜原子吸收法后进样
+        AIR_ADJUST_ZERO_ATOM_IN_AHEAD,//自校零原子吸收法前进样
+        LIQUID_MULTI_BULK,//液体多量程测量
+        LIQUID_STANDARD_BULK//标准液体量程测量
+    }
+
+
     public enum TestingStatus
     {
         TESTING,
         STOPPED,
         IDLE
+    }
+
+    //连续测量模式还是单个测量
+    public enum TestSorC
+    {
+        SINGLE,         //单个测量
+        CONTINUE
     }
 
     public partial class MainWindow : Window
@@ -109,7 +128,7 @@ namespace SilverTest
         //正在测试中的条目id号
         string testingitemgid_new = "-1";
         string testingitemgid_std = "-1";
-        string testing_gid = "-1";   //真正测试条目的global id
+        public string testing_gid = "-1";   //真正测试条目的global id
         //点击开始测试后，被选中的表格条目的相对索引号
         NewTestTarget testing_selected_new = null;
         StandardSample testing_selected_standard = null;
@@ -125,6 +144,10 @@ namespace SilverTest
         //check icon
         PackIconMaterial checkicon = new PackIconMaterial();
 
+        //测试模块id
+        public TestModule testmoduleid = TestModule.AIR_GOLD_ATOM_IN_BACK;
+
+
         //模块值
         public ModuleID moudleid = ModuleID.STANDARD;
         public enum ModuleID{
@@ -132,6 +155,11 @@ namespace SilverTest
             ALARM,
             LIQUID
         }
+
+
+
+        //single or continue
+        public TestSorC test_single_or_continue = TestSorC.SINGLE;
 
         public enum TestingTabType
         {
@@ -686,6 +714,113 @@ namespace SilverTest
             ;
         }
 
+        //开始连续测量
+        public void StartCTest()
+        {
+            int newcltindex = 0;
+
+            switch (sampletab.SelectedIndex)
+            {
+
+                case 0:     //新样
+                    if (NewTargetDgd.SelectedIndex == -1)
+                    {
+                        MessageBox.Show("请选择一条样本");
+                        return;
+                    }
+                     
+                    newcltindex = getNewCltIndex(NewTargetDgd.SelectedIndex);
+                    if (newcltindex == -1) return;
+                    if (newTestClt[newcltindex].ResponseValue1 != "" &&
+                        newTestClt[newcltindex].ResponseValue1 != null)
+                    {
+                        if (MessageBox.Show("将清除上次的测试结果，是否继续?", "", MessageBoxButton.YesNo) == MessageBoxResult.No) return;
+                        newTestClt[newcltindex].ResponseValue1 = "";
+                        newTestClt[newcltindex].AirG = "";  
+                        newTestClt[newcltindex].AirFluent = "";
+                        newTestClt[newcltindex].AirSampleTime = "";
+                        //newTestClt[newcltindex].AirTotolBulk = "";
+                        newTestClt[newcltindex].AirG = "";
+                        //保存选中的组名，a,b,r
+                        //new_selected_a = newTestClt[newcltindex].
+                    }
+
+                    teststatus = TestingStatus.TESTING;
+                    testing_gid = newTestClt[newcltindex].GlobalID;
+                    testtabtype = TestingTabType.NEW;
+                    test_single_or_continue = TestSorC.CONTINUE;
+                    testingtype = TestingType.CONTINUE;
+                    waveinfo_txt.Text = "样本 " + testing_gid.ToString();
+
+                    if (SerialDriver.GetDriver().isOpen() == false)
+                    {
+                        SerialDriver.GetDriver().Open(
+                            SerialDriver.GetDriver().portname,
+                            SerialDriver.GetDriver().rate,
+                            SerialDriver.GetDriver().parity,
+                            SerialDriver.GetDriver().databits,
+                            SerialDriver.GetDriver().stopbits);
+                        //
+                    }
+                    if (SerialDriver.GetDriver().isOpen() == false) return;
+
+                    //清空图形记录及DotManager中数据
+                    DotManager.GetDotManger().ReleaseData();
+                    //清理绘波现场
+                    realCpt.SetScale(100, 2000, 0, 0, 50);
+                    //realCpt.NumberOfDValue = 200000;
+                    realCpt.SetNumberOfDValueP(200000);
+                    WaveDrawSite.to_pos_index_rel = 0;
+                    WaveDrawSite.vice_to_pos_index_rel = 0;
+                    realCpt.ClearData();
+
+                    showconnectedIcon();
+                    if (SerialDriver.GetDriver().isOpen() == true)
+                    {
+                        AnimatedColorButton.Visibility = Visibility.Visible;
+                        AnimatedColorButton.Visibility = Visibility.Visible;
+                    }
+
+                    testing_selected_new = NewTargetDgd.SelectedItem as NewTestTarget;
+                    this.testingitemgid_new = newTestClt[getNewCltIndex(NewTargetDgd.SelectedIndex)].GlobalID;
+                    this.testingitemgid_std = "-1";
+
+                    NewTargetDgd.DataContext = null;
+                    NewTargetDgd.DataContext = newTestClt;
+                    //standardCmb  newjylCol
+                    
+
+                    break;
+
+                default:
+
+                    break;
+            }
+        }
+        //停止连续测量
+        public void StopCTest()
+        {
+            AnimatedColorButton.Visibility = Visibility.Hidden;
+            AnimatedColorButton.Visibility = Visibility.Hidden;
+            this.testingitemgid_new = "-1";
+
+            teststatus = TestingStatus.STOPPED;
+            test_single_or_continue = TestSorC.CONTINUE;
+            if (SerialDriver.GetDriver().isOpen() == true)
+            {
+                try
+                {
+                    System.Threading.Thread CloseDown =
+                        new System.Threading.Thread(new System.Threading.ThreadStart(closeSerialAsc));
+                    CloseDown.Start();
+                }
+                catch (Exception ex)
+                {
+                    ;
+                }
+            }
+            showconnectedIcon();
+        }
 
         public bool IsSelected()
         {
@@ -925,6 +1060,8 @@ namespace SilverTest
         }
         private void startTestBtn_Click(object sender, RoutedEventArgs e)
         {
+            test_single_or_continue = TestSorC.SINGLE;
+
             StartTest();
             testingtype = TestingType.SINGLE;
         }
@@ -1037,7 +1174,14 @@ namespace SilverTest
                     switch (testingtype)
                     {
                         case TestingType.CONTINUE:
-
+                            if (test_single_or_continue == TestSorC.CONTINUE)
+                            {
+                                //连续测量。(仅仅新样才有，标样没有连续测量)
+                                ContinueTestObject.GetInstance().RPacketRecived();
+                                //从连续测量对象中取出响应值，向表格中添加item。sequence表示响应值
+                                PacketReceived_InsertCItem(testing_gid, sequence,
+                                    ContinueTestObject.GetInstance().GetCurrentRes(), null);
+                            }
                             break;
                         case TestingType.SINGLE:
                         default:
@@ -1093,6 +1237,25 @@ namespace SilverTest
                     currentSecond++;
                     Console.WriteLine("--- dot " + sequence.ToString() + ": " + (dot as ADot).Rvalue + "\r\n");
 
+
+                    //如果是连续测量，则将dot插入到连续测量对象中一个条目的波形之中。
+                    //如果波形图中的点值过多，则直接清空
+
+                    if (test_single_or_continue == TestSorC.CONTINUE)//如果是连续测量
+                    {
+                        switch (ContinueTestObject.GetInstance().isZeroDataFull())
+                        {
+                            case false:   //正在收集0样数据
+                                ContinueTestObject.GetInstance().InsertZeroItem((dot as ADot), null);
+                                Console.WriteLine("zero ...");
+                                break;
+                            case true:  //0样收集完成，正在收集片段clip数据
+                                ContinueTestObject.GetInstance().InsertDot((dot as ADot), null);
+                                Console.WriteLine("clip ...");
+                                break;
+                        }
+                        return;
+                    }
                     //采样到达一定点数后，自动结束测试，计算并且显示测试结果。
                     //暂时注释掉，以下位机发的FX包作为计算结果
                     /*
@@ -1124,6 +1287,67 @@ namespace SilverTest
                     break;
             }
 
+        }
+
+        //向新样表格中插入一个连续测量的测量片段
+        //@ gid - global id
+        //  temp_r - response value
+        //   elapsed_time - 下纬机
+        private void PacketReceived_InsertCItem(string gid, int cilpusetime, double temp_r, object elapsedtime)
+        {
+            if (!ContinueTestObject.GetInstance().isZeroDataFull())
+                return;
+            //获得测试条目信息
+            int index = 0;
+            for(int i =0; i < newTestClt.Count; i++)
+            {
+                if(newTestClt[i].GlobalID == gid)
+                {
+                    index = i;
+                    break;
+                }
+            }
+            //throw new NotImplementedException();
+            Dispatcher.BeginInvoke(new Action(()=> {
+                newTestClt.Add(new NewTestTarget(
+                    newTestClt[index].NewName, "", newTestClt[index].Weight, newTestClt[index].Place, cilpusetime.ToString("0.00"), "", "",
+                    newTestClt[index].Density, newTestClt[index].LiquidSize, newTestClt[index].AirTotolBulk,
+                    newTestClt[index].AirSampleTime, newTestClt[index].AirFluent, newTestClt[index].AirG, gid
+                    ));
+                newTestClt[newTestClt.Count - 1].TestFinishedTime = DateTime.Now.ToString("T");
+                newTestClt[newTestClt.Count - 1].ClipUsedTime = cilpusetime.ToString();
+                newTestClt[newTestClt.Count - 1].AirSampleTime = testing_selected_new.AirSampleTime;
+                newTestClt[newTestClt.Count - 1].AirTotolBulk = testing_selected_new.AirTotolBulk;
+                newTestClt[newTestClt.Count - 1].AirG = testing_selected_new.AirG;
+                newTestClt[newTestClt.Count - 1].AirTotalFluent = testing_selected_new.AirTotalFluent;
+                newTestClt[newTestClt.Count - 1].ThingInSamle = testing_selected_new.ThingInSamle;
+                int idx_out;
+                newTestClt[newTestClt.Count - 1].GlobalID = GIDMaker.GetMaker().GetNId(out idx_out);
+                newTestClt[newTestClt.Count - 1].Code = idx_out.ToString();
+
+                double a, b;
+                try
+                {
+                    a = double.Parse(aTxb.Text);
+                    b = double.Parse(bTxb.Text);
+                    if (a == 0) return;
+                }
+                catch(Exception ex) {
+                    return;
+                }
+
+                try
+                {
+                    newTestClt[newTestClt.Count - 1].AirTotolBulk =
+                        (Math.Round(double.Parse(testing_selected_new.AirFluent) * double.Parse(testing_selected_new.AirSampleTime),
+                        2)).ToString();
+                    //y-b/a
+                    newTestClt[newTestClt.Count - 1].AirG =
+                        Math.Round((cilpusetime - b) / a, 2).ToString();
+                }
+                catch (Exception ex) {; }
+
+            }));
         }
 
         private void CorrectedPacketReceived(DataFormater.ADot dot, int sequence)
@@ -3003,7 +3227,12 @@ namespace SilverTest
                 //加载波形
                 if (e.AddedItems.Count == 0)
                     return;
+                //在新样tab中，且含combo的下拉列表，不用切换波形
+                if (sampletab.SelectedIndex == 0 && (e.AddedItems[0] is StandardSample))
+                    return;
+
                 string temp_gid = (e.AddedItems[0] as NewTestTarget).GlobalID;
+                if (temp_gid == null) return;
                 Collection<ADot> wave = TableCache.GetTableCache().FindWave(getTypeOfTestingItem(temp_gid), temp_gid);
                 if (wave == null) return;
                 waveinfo_txt.Text = "样本 " + temp_gid;

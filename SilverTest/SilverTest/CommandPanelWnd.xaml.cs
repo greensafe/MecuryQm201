@@ -986,6 +986,22 @@ namespace SilverTest
                             ;
                         }
                         break;
+                    case 0x99:  //连续测量0标样
+                        if ( /*(parentwindow.testmoduleid == TestModule.AIR_ADJUST_ZERO_ATOM_IN_AHEAD ||
+                            parentwindow.testmoduleid == TestModule.AIR_ATOM_IN_AHEAD) && */
+                            parentwindow.test_single_or_continue == TestSorC.CONTINUE)
+                        {
+                            switch (result)
+                            {
+                                case 1:  //开始
+                                    ContinueTestObject.GetInstance().StartZero();
+                                    break;
+                                case 2:  //结束
+                                    ContinueTestObject.GetInstance().StopZero();
+                                    break;
+                            }
+                        }
+                        break;
                     case 0xa1:
                         //快速测量
                         if (result == 0)
@@ -1540,20 +1556,63 @@ namespace SilverTest
 
         private void m21_Click(object sender, RoutedEventArgs e)
         {
+            //连续测量仅仅针对新样
+            /*
+            if (parentwindow.sampletab.SelectedIndex != 0)
+            {
+                return;
+            }
+            */
+            //提示用户选择样品
+            //parentwindow.StartTest();
+            /*
+            if (parentwindow.NewTargetDgd.SelectedIndex == -1)
+            {
+                MessageBox.Show("请选择一条样本");
+                return;
+            }
+            */
+
             //连续测量-开始
             byte[] data = new byte[8] { 0x01, 0x01, 0x03, 0x01, 0x00, 0x00, 0, 0 };
+            MessageBoxResult r = MessageBoxResult.Yes;
 
             ushort crc = Utility.CRC16(data, 6);
 
             data[6] = (byte)(crc >> 8);
             data[7] = (byte)crc;
+            /*
             if (SerialDriver.GetDriver().Send(data))
             {
                 statustxt.Text = "开始连续测量命令已发出";
                 statustxt_2.Content = "开始连续测量命令已发出";
                 comstatus = CommandPanlStatus.LiquidTestReturn_Finished;
-                parentwindow.StartTest();
                 parentwindow.testingtype = MainWindow.TestingType.CONTINUE;
+            }
+            else
+            {
+                MessageBox.Show("端口未打开");
+            };
+
+            if (!ContinueTestObject.GetInstance().isZeroEmpty())
+            {
+                r = MessageBox.Show("将清除上次的测试结果，是否继续?", "", MessageBoxButton.YesNo);
+            }
+            if ((r != MessageBoxResult.OK) && (r != MessageBoxResult.Yes))
+                return;
+            */
+
+            parentwindow.StartCTest();
+
+            if (SerialDriver.GetDriver().Send(data))
+            {
+                statustxt.Text = "开始连续测量命令已发出";
+                statustxt_2.Content = "开始连续测量命令已发出";
+                comstatus = CommandPanlStatus.LiquidTestReturn_Finished;
+                parentwindow.test_single_or_continue = TestSorC.CONTINUE;
+
+                ContinueTestObject.GetInstance().NewContinueTest(
+                    parentwindow.testing_gid);
             }
             else
             {
@@ -1563,7 +1622,7 @@ namespace SilverTest
 
         private void m22_Click(object sender, RoutedEventArgs e)
         {
-            //液体测量-返回上一级菜单
+            //连续测量-停止
             byte[] data = new byte[8] { 0x01, 0x01, 0x03, 0x02, 0x00, 0x00, 0, 0 };
 
             ushort crc = Utility.CRC16(data, 6);
@@ -1575,11 +1634,17 @@ namespace SilverTest
                 statustxt.Text = "停止连续测量命令已发出";
                 statustxt_2.Content = "停止连续测量命令已发出";
                 comstatus = CommandPanlStatus.LiquidTestReturn_Finished;
+                parentwindow.test_single_or_continue = TestSorC.SINGLE;
+                SerialDriver.GetDriver().Close();
+                //显示断开usb连接图标，停止接受数据
+                parentwindow.showconnectedIcon();
             }
             else
             {
-                MessageBox.Show("端口未打开");
+                //MessageBox.Show("端口未打开");
+                Console.WriteLine("端口未打开");
             };
+            parentwindow.StopCTest();
         }
 
         private void maintunckb_Unchecked(object sender, RoutedEventArgs e)
