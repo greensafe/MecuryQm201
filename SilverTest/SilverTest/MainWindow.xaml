@@ -286,7 +286,7 @@
                                 <DataGridTextColumn x:Name="newypqtzllCol" Header="样品气体总流量L/min" Width="120" Binding="{Binding AirTotalFluent,Mode=TwoWay}"  Visibility="Collapsed" ></DataGridTextColumn>
                                 <DataGridTextColumn x:Name="newghlCol" Header="汞含量mg" Width="100" Binding="{Binding ThingInSamle,Mode=TwoWay}" Visibility="Collapsed" ></DataGridTextColumn>
                                 <DataGridTextColumn x:Name="newjylCol" Header="进样量ml" Width="80"  Binding="{Binding InSampleQuality,Mode=TwoWay}" Visibility="Collapsed" ></DataGridTextColumn>
-
+                                <DataGridTextColumn Header="产地" Width="80" Visibility="Collapsed" Binding="{Binding Place,Mode=TwoWay}"></DataGridTextColumn>
                                 <DataGridTemplateColumn x:Name="selectCol" Header="选择标样" Width="*">
                                     <DataGridTemplateColumn.CellTemplate >
                                         <DataTemplate>
@@ -300,7 +300,6 @@
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
-                                <DataGridTextColumn Header="产地" Width="80" Visibility="Collapsed" Binding="{Binding Place,Mode=TwoWay}"></DataGridTextColumn>
                             </DataGrid.Columns>
                         </DataGrid>
                     </StackPanel>
