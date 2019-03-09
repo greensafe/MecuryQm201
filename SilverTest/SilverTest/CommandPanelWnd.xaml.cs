@@ -1616,7 +1616,8 @@ namespace SilverTest
             }
             else
             {
-                MessageBox.Show("端口未打开");
+                //MessageBox.Show("端口未打开");
+                Console.WriteLine("端口未打开");
             };
         }
 
