@@ -1292,7 +1292,7 @@ namespace SilverTest
         //向新样表格中插入一个连续测量的测量片段
         //@ gid - global id
         //  temp_r - response value
-        //   elapsed_time - 下纬机
+        //   elapsed_time - 下位机
         private void PacketReceived_InsertCItem(string gid, int cilpusetime, double temp_r, object elapsedtime)
         {
             if (!ContinueTestObject.GetInstance().isZeroDataFull())
@@ -1338,9 +1338,11 @@ namespace SilverTest
 
                 try
                 {
+                    /*
                     newTestClt[newTestClt.Count - 1].AirTotolBulk =
                         (Math.Round(double.Parse(testing_selected_new.AirFluent) * double.Parse(testing_selected_new.AirSampleTime),
                         2)).ToString();
+                    */
                     //y-b/a
                     newTestClt[newTestClt.Count - 1].AirG =
                         Math.Round((cilpusetime - b) / a, 2).ToString();
@@ -3154,16 +3156,16 @@ namespace SilverTest
                 if (cltindex == -1) return;
                 if (rowNo < 0)
                     return;
-                if (newTestClt[cltindex].ResponseValue1 == "" ||
+                if ((newTestClt[cltindex].ResponseValue1 == "" ||
                     newTestClt[cltindex].ResponseValue1 == null ||
                     ss.A is null ||
                     ss.B is null ||
                     ss.R is null
-                    )
+                    ))
                     return;
 
-                if (newTestClt[cltindex].AirFluent == "" || newTestClt[cltindex].AirFluent is null ||
-                    newTestClt[cltindex].AirSampleTime == "" || newTestClt[cltindex].AirSampleTime is null)
+                if ((newTestClt[cltindex].AirFluent == "" || newTestClt[cltindex].AirFluent is null ||
+                    newTestClt[cltindex].AirSampleTime == "" || newTestClt[cltindex].AirSampleTime is null) && (moudleid != ModuleID.LIQUID))
                 {
                     return;
                 }
@@ -3184,9 +3186,12 @@ namespace SilverTest
             //如果有平均值则计算汞浓度
             try
             {
-                newTestClt[cltindex].AirTotolBulk =
-                    (Math.Round(double.Parse(newTestClt[cltindex].AirFluent) * double.Parse(newTestClt[cltindex].AirSampleTime),
-                        2)).ToString();
+                if (moudleid == ModuleID.STANDARD || moudleid == ModuleID.ALARM)
+                {
+                    newTestClt[cltindex].AirTotolBulk =
+                        (Math.Round(double.Parse(newTestClt[cltindex].AirFluent) * double.Parse(newTestClt[cltindex].AirSampleTime),
+                            2)).ToString();
+                }
                 //y-b/a
                 newTestClt[cltindex].AirG =
                     Math.Round(0.001 * (double.Parse(newTestClt[cltindex].ResponseValue1) - b) / a, 5).ToString();

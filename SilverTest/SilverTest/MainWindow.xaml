@@ -263,7 +263,7 @@
                                 <DataGridTextColumn Header="平均值" Width="80" Binding="{Binding AverageValue,Mode=TwoWay}" Visibility="Hidden" IsReadOnly="True"></DataGridTextColumn>
                                 <DataGridTextColumn x:Name="newAirSampTimeCol" Header="取样时间m" Width="90" Binding="{Binding AirSampleTime,Mode=TwoWay}" IsReadOnly="True"></DataGridTextColumn>
                                 <DataGridTextColumn x:Name="newAirFluentCol" Header="流量L/m" Width="80" Binding="{Binding AirFluent,Mode=TwoWay}" IsReadOnly="True"></DataGridTextColumn>
-                                <DataGridTextColumn x:Name="newgndCol" Header="汞浓度ng/mL" Width="80" Binding="{Binding Density,Mode=TwoWay}" Visibility="Hidden" IsReadOnly="True"></DataGridTextColumn>
+                                <DataGridTextColumn x:Name="newgndCol" Header="汞浓度ng/mL" Width="80" Binding="{Binding Density,Mode=TwoWay}" Visibility="Hidden" IsReadOnly="False"></DataGridTextColumn>
                                 <DataGridTextColumn x:Name="newQualityCol" Header="样品质量" Width="80" Binding="{Binding Weight,Mode=TwoWay}" CopyingCellClipboardContent="NewQualityCol_CopyingCellClipboardContent"></DataGridTextColumn>
                                 <DataGridTextColumn x:Name="newLiquidBulkCol"  Header="样品消化液总体积ml" Width="80" Visibility="Hidden"></DataGridTextColumn>
                                 <DataGridTextColumn x:Name="newtotalbulkCol" Header="样品总体积L" Binding="{Binding AirTotolBulk,Mode=TwoWay}" Width="100"></DataGridTextColumn>
